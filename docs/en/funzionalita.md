@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.242 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.243 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -192,3 +192,9 @@ For symptom-led checks, see [`20_TROUBLESHOOTING.md`](20_TROUBLESHOOTING.md).
 ## Teacher attention intervals
 
 Activity attention pauses default to 1/3–2/3 of the saved duration. Teachers can override either bound in seconds; empty/0 keeps it automatic. See the [complete rules](11_INTEGRITY_AND_FOCUS.md#teacher-attention-intervals), including duration zero and operational limits.
+
+## Interaction-validation policy scope
+
+The same-session setting governs notes/reactions. Historical-age limits are used by notes, bookmarks and
+learner Forum links; reactions do not apply that age window. These existing distinctions are detailed in
+[security and trust boundaries](13_SECURITY_TRUST_BOUNDARIES.md).

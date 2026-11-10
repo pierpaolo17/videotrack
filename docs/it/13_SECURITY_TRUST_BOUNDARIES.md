@@ -87,3 +87,23 @@ controllo completo di un player esterno.
 ## Configurazione degli intervalli di attenzione
 
 Solo la durata salvata dal docente e i limiti dell’attività determinano gli intervalli. I metadati browser/provider non cambiano denominatore o configurazione effettiva server. L’interruttore learner esistente governa il controllo client. Pause e diagnostica opzionale non concedono credito di riproduzione né alterano voto/completamento. La validazione raw rifiuta frazioni, valori fuori intervallo e coppie esplicite invertite; la normalizzazione degli import è difensiva.
+
+## Impostazioni dell’evidenza vista e perimetro effettivo
+
+Sono policy esistenti distinte; questa modifica documentale non le cambia:
+
+- Note e reazioni richiedono un timestamp visto validato dal server. Con `strictsessionvalidation` abilitato,
+  l’evidenza deve appartenere alla sessione di riproduzione corrente. Se disabilitato può essere usato lo storico.
+- Le note passano `validationfallbackdays` alla ricerca storica. Le reazioni chiamano lo stesso validatore
+  senza argomento di età: quell’impostazione non applica un filtro di età allo storico delle reazioni.
+- Segnalibri e collegamenti video del Forum per gli studenti consultano prima il proprio storico validato,
+  con `validationfallbackdays`, anche quando è abilitata la validazione stretta di sessione per note/reazioni.
+- Il filtro di età controlla la creazione del segmento conservato o la modifica dello stato aggregato
+  conservato. Non è una scadenza indipendente di ogni intervallo contenuto in quello stato.
+- Il valore 0 disabilita soltanto questo filtro di età. Retention/cancellazione e controllo della posizione
+  vista restano attivi; l’evidenza eliminata non viene ricreata. L’evidenza della sessione corrente è verificata
+  separatamente per note/reazioni.
+
+Riferimenti: `tracker::has_watched_videotime()` / `has_watched_videotime_any_session()` e chiamanti note,
+reazioni, segnalibri e Forum. Consentire la navigazione seek o il solo avvio playback non autorizza un
+istante non visto. Questa review non introduce scorciatoie di riproduzione live né modifica l’evidenza ammessa.

@@ -1,10 +1,10 @@
 # Targeted language review
 
-Current tree: VideoTrack **1.7.242** (`2026111001`). Review recorded 2026-11-10.
+Current tree: VideoTrack **1.7.243** (`2026111002`). Review recorded 2026-11-10.
 
-## Scope and status
+## First-pass scope (accepted 1.7.242)
 
-This independent roadmap task proceeds while U-020 is deferred. It compares 19 critical keys in EN, IT,
+This independent roadmap task proceeds while U-020 is deferred. The first pass compared 19 critical keys in EN, IT,
 DE, ES, FR, HI, PL and PT: 152 string values. Six keys are corrected in every pack, for 48 changed values.
 The remaining 978 keys per pack are not claimed to have received semantic review. This source-based review
 does not certify native linguistic quality or replace human linguistic review. Structural parity of all
@@ -63,10 +63,73 @@ The candidate contains 412 distributed files and 31 documents per language. Non-
 (345), PHP files (166), named PHP/AMD callables (1101/654), test/feature bodies and the 7-table/151-field schema
 are unchanged. XMLDB remains `2026110601`; ER artefacts update only their current-tree version label.
 All eight packs retain 997 keys in canonical order, with identical placeholder contracts. Existing release
-hygiene, lint, language-contract, PHPUnit, browser and strict gates must run on 1.7.242 itself. Counts of
+hygiene, lint, language-contract, PHPUnit, browser and strict gates must run on 1.7.243 itself. Counts of
 379 tests / 50 scenarios / 1074 steps are expected, not new execution results for this candidate.
 
-Continue semantic review outside these 19 keys and obtain human linguistic review where needed. U-017/U-007
+Continue semantic review outside the cumulative 48 unique keys and obtain human linguistic review where needed. U-017/U-007
 stay closed. U-020 is open/deferred with every M01–M08 observation NOT RUN; retain its
 [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) before the final integrated production
 gate. App evaluation and authenticated-provider implementation remain separate roadmap tasks.
+
+## Second pass: 1.7.243 policy/help review
+
+The actual 1.7.242 baseline is accepted: 412 files match main
+`b6d1afef4af7a1ea7835968586a9f6f7e329bf93`. ZIP SHA-256:
+`e61dfd7547a53306303da9ec91c8cb31b245de3a94fe3238a8f9c301839c2501`.
+Server-report ZIP SHA-256: `ca74efd7b900bdcbd357fec0f719a98e0bfbc941cf547f72b4b2ca9d4fa311f3`.
+Candidate/main runs `42777321912` / `42784475404` pass all six jobs with PHPUnit 379/4076,
+Behat 50/1074 and strict 10/0/0. Both server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076;
+both supplied strict outputs are 10/0/0. Server Behat/manual accessibility were not run by that report.
+
+This pass reviews 31 keys in all eight packs (248 values), revisiting two first-pass acknowledgement keys.
+The cumulative scope is 48 unique keys per pack (384 distinct values); the other 949 keys are not declared
+semantically reviewed. Four keys are corrected per pack (32 values). Existing eight-pack key/placeholder
+parity, 412 files, 31 documents per language, runtime, DB, tests, AMD and CI remain unchanged in structure.
+No native-quality certification or completed U-020 observation is inferred.
+
+| Corrected key | Existing source behaviour reflected by the wording |
+|---|---|
+| `integrity:enable_help` | Recording stores only bounded signal fields; report masking follows actual capabilities/scope, not an unconditional privacy-threshold promise |
+| `integrity:pauseonfocusloss_desc` | `core/player/focus_guard.js` records blur only when indicator recording is enabled; pausing also depends on the strict focus policy |
+| `setting:strictsessionvalidation_desc` | Tracker checks same-session evidence first; strict mode stops its fallback; bookmark/Forum historical lookups remain separate |
+| `setting:validationfallbackdays_desc` | Note/bookmark/Forum callers supply an age; reaction caller does not. Historical lookup may use retained segment or aggregate-state timestamps; deleted data is not restored |
+
+See [interaction-policy scope](13_SECURITY_TRUST_BOUNDARIES.md#watched-evidence-settings-and-their-actual-scope).
+No runtime change is made to unify these different existing policies. A future functional policy change
+would require its own design and tests. Candidate 1.7.243 native CI/server/strict gates remain pending;
+379 PHPUnit tests, 50 Behat scenarios / 1074 steps are expected source counts, not new execution results.
+U-020 remains open/deferred at the maintainer’s request before the final production gate.
+
+### Keys reviewed by the second pass
+
+- `integrity:enable_help`
+- `integrity:pauseonfocusloss_desc`
+- `integrity:methodology`
+- `integrity:reportintro`
+- `integrity:settingsintro`
+- `integrity:studentnotice`
+- `integrity:analytics_recording_disabled_controls`
+- `integrity:randompauseautomatic`
+- `integrity:randompauses_desc`
+- `integrity:preventpip_desc`
+- `setting:strictsessionvalidation`
+- `setting:strictsessionvalidation_desc`
+- `setting:validationfallbackdays`
+- `setting:validationfallbackdays_desc`
+- `setting:validationfallbackdays_privacywarning`
+- `forum:enable_help`
+- `forum:studenthelp`
+- `forum:composerprivacy`
+- `forum:privacyinfo`
+- `error:learnertrackingstaff`
+- `error:playbackpositionnotwatched`
+- `error:playbackrequired`
+- `error:notesratelimit`
+- `error:reactionratelimit`
+- `error:bookmarksratelimit`
+- `acknowledgement:enabled_desc`
+- `acknowledgement:text_help`
+- `acknowledgement:videoendrequired`
+- `acknowledgement:pendingvideoend`
+- `acknowledgement:timing_help`
+- `acknowledgement:privacyhint`

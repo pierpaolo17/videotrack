@@ -85,3 +85,22 @@ permissions, not on assuming complete control of an external player.
 ## Attention interval configuration
 
 Only the saved teacher-controlled duration and activity overrides determine attention bounds. Browser/provider metadata does not change the denominator or effective server configuration. The existing learner switch gates the client control. Attention prompts and their optional diagnostics never grant playback credit or alter grades/completion. Raw form validation rejects fractions, out-of-range values and inverted explicit pairs; import normalisation is defensive.
+
+## Watched-evidence settings and their actual scope
+
+These are separate existing policies; this documentation change does not alter them:
+
+- Notes and reactions require a server-validated watched timestamp. With `strictsessionvalidation` enabled,
+  their evidence must match the current playback session. When disabled, historical evidence may be used.
+- Notes pass `validationfallbackdays` to that historical lookup. Reactions call the same validator without
+  an age argument, so that setting does not impose an age filter on reaction history.
+- Bookmarks and learner Forum video links first use their own historical watched-evidence lookup, with
+  `validationfallbackdays`, even when strict note/reaction session validation is enabled.
+- The age filter checks the creation time of a retained segment or the modification time of retained
+  aggregate state. It is not an independent expiry timestamp for each interval inside that state.
+- A value of 0 disables this age filter only. Retention/deletion and watched-position checks still apply;
+  deleted evidence is not recreated. Same-session evidence is checked separately for notes/reactions.
+
+See `tracker::has_watched_videotime()` / `has_watched_videotime_any_session()` and the note, reaction,
+bookmark and Forum callers. Allowing seek navigation or a playback-start row alone does not authorise an
+unwatched timestamp. This source review does not add a live-playback shortcut or change accepted evidence.

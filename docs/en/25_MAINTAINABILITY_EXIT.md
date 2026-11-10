@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.242** (`2026111001`).
+Current tree: VideoTrack **1.7.243** (`2026111002`).
 
 ## Decision and accepted evidence
 
