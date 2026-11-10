@@ -51,6 +51,10 @@ I test automatici proteggono la struttura ma non sostituiscono percezione e tecn
 **Stato: APERTO / NON ESEGUITO.** L’accettazione automatica U-007 è nell’[audit uscita browser](26_USCITA_BROWSER.md).
 Questo protocollo prepara osservazioni reali: non contiene esiti manuali completati né certificazione accessibilità.
 
+U-020 resta aperto ed è **rinviato su richiesta del maintainer (2026-11-10)**. Questa modifica non
+esegue né approva alcun caso manuale. Il lavoro indipendente sulle lingue può proseguire; il gate finale
+di produzione richiede ancora l’audit manuale e le eventuali correzioni.
+
 ### Registrare l’ambiente provato
 
 Usare un corso dedicato e account di test. Annotare release/versione plugin, SHA-256 pacchetto o commit,

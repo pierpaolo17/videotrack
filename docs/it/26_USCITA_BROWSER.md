@@ -1,12 +1,13 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.241** (`2026110901`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.242** (`2026111001`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
 **U-007 è chiuso sulla baseline 1.7.240 accettata.** La matrice browser/provider/ruoli essenziale ha esecuzione
-reale nei sei job Moodle/PHP/database indicati sotto. La candidata 1.7.241 consolida evidenze e passaggio
-all’audit manuale; cambia solo documentazione e metadati versione. I suoi gate di release restano pendenti.
+reale nei sei job Moodle/PHP/database indicati sotto. La 1.7.241 accettata ha consolidato evidenze e passaggio
+all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. La candidata linguistica
+1.7.242 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
 U-017 resta chiuso. U-020/accessibilità manuale, review semantica lingue e gate produzione integrati sono
 separati e restano aperti. Questo documento non certifica accessibilità o deploy con provider pubblici.
 
@@ -82,3 +83,7 @@ Una regressione adapter/UI comprovata riapre la cella U-007 interessata; un nuov
 propri. Altri motori si provano e registrano quando pertinenti al deploy, senza dedurli dalla milestone Chrome.
 L’audit manuale non genera automaticamente una release: registrare un esito verde; produrre una correzione
 mirata solo per un finding concreto. Non riaprire U-017 strutturale per le metriche consultive.
+
+U-020 resta aperto ed è **rinviato su richiesta del maintainer (2026-11-10)**. Questa modifica non
+esegue né approva alcun caso manuale. Il lavoro indipendente sulle lingue può proseguire; il gate finale
+di produzione richiede ancora l’audit manuale e le eventuali correzioni.

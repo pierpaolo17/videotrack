@@ -185,7 +185,7 @@ Reaction click events
 | `reactionkey` | `char`(100) | NOT NULL |  |
 | `reactionlabel` | `char`(255) | NOT NULL |  |
 | `reactiondesc` | `text` | nullable |  |
-| `notetext` | `text` | nullable | Testo privato per note o etichette segnalibro |
+| `notetext` | `text` | nullable | Testo nota personale o etichetta privata segnalibro; visibilità distinta fra report e proprietario |
 | `notetype` | `char`(20) | NOT NULL | Vuoto=reazione; note=nota studente; bookmark=segnalibro privato |
 | `videotime` | `number`(10) | NOT NULL; default `0.000` |  |
 | `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |

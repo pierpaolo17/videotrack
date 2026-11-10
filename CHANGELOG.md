@@ -1,5 +1,32 @@
 # VideoTrack changelog
 
+## 1.7.242 - 2026-11-10
+
+### Source-grounded language corrections; manual accessibility audit deferred
+
+- Accept the actual 410-file 1.7.241 ZIP, SHA-256
+  `65b04a926559ba782a5ef88a14671911e9566b0725738e66120cd1f99f1b3ebd`,
+  identical to main `2f8bd011471f2ca983c235a4ed35b36d2a5c56b4`.
+  Candidate/main CI pass all six jobs with PHPUnit 379/4076, Behat 50/1074
+  and strict 10/0/0. Moodle 5.0/5.3 server PHPCS/lint, Grunt and PHPUnit
+  pass; both supplied strict outputs are 10/0/0. Server Behat and manual
+  assistive testing are not claimed.
+- Defer U-020 at the maintainer's request without approving any manual case.
+  Preserve its protocol and final production-gate requirement; proceed with
+  the independent semantic language-review phase.
+- Review 19 critical keys in all eight packs. Correct six keys per pack:
+  authoritative duration for viewing Analytics, note/report visibility,
+  bookmark privacy, capability-dependent aggregate masking and heartbeat
+  load wording. Remove the unsupported fixed two-database-query estimate.
+- Add paired review records with the exact scope and remaining limits.
+  Correct guide text conflating note/bookmark access or implying completion
+  of the current manual WCAG audit. Native linguistic quality and semantic
+  review of the remaining 978 keys per pack are not certified.
+- Preserve keys/placeholders, runtime logic, permissions, tracking,
+  completion, retention, attention/focus, services, AMD, tests, fixtures,
+  schema and CI rules. Update documentation and current-tree ER labels;
+  XMLDB stays unchanged. Candidate release gates must still run.
+
 ## 1.7.241 - 2026-11-09
 
 ### U-007 exit evidence and U-020 manual-audit handoff

@@ -51,6 +51,10 @@ Automated tests protect structural contracts but do not replace perception and a
 **Status: OPEN / NOT RUN.** Automated U-007 acceptance is recorded in the [browser exit audit](26_BROWSER_EXIT_AUDIT.md).
 This protocol prepares real observation; it contains no completed manual result or accessibility certification.
 
+U-020 remains open and is **deferred at the maintainer’s request (2026-11-10)**. This change executes
+or approves no manual case. Independent language work may continue; the final production gate still
+requires the manual audit and any resulting fixes.
+
 ### Record the tested environment
 
 Use a dedicated course and test accounts. Record the exact plugin release/version, package SHA-256 or commit,

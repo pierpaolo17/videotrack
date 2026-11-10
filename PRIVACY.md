@@ -11,7 +11,7 @@ VideoTrack may store the following records when the corresponding feature is use
 - **Playback ledger rows:** user, activity/course identifiers, session and idempotency identifiers, provider/video identifier, video start/end, diagnostic client wall-clock start/end, validated playback rate, close reason, server-validation flag and creation time. Zero-length `playstart` rows establish a server-time window and do not count as watched progress.
 - **Aggregated learner state:** teacher-authoritative duration, last position, compact merged watched intervals, exact monotonic unique-viewed seconds, completion state, bounded cumulative server credit counters, the latest handshake/request timestamp in milliseconds and normal record timestamps.
 - **Reactions:** configured reaction key, video time, playback rate, active/deleted state and timestamps.
-- **Personal notes:** owner, private text, watched video time, playback rate, active/deleted state and timestamps.
+- **Personal notes:** owner, personal note text, watched video time, playback rate, active/deleted state and timestamps.
 - **Private bookmarks:** owner, private label, watched video time, playback rate, active/deleted state and timestamps.
 - **Integrity signals:** bounded signal type, approximate video time, session/activity identifiers and creation time. No webcam, microphone, biometric, screenshot, keylogging or other-tab content is collected.
 - **Acknowledgements:** owner, current statement hash/version, confirmation time and, for current records, the unique viewed seconds and percentage captured at confirmation.

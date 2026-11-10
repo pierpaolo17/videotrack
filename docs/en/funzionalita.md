@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.241 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.242 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -80,8 +80,10 @@ types, or a combination. The configured `AND`/`OR` logic applies inside the sing
 
 ## Personal notes and bookmarks
 
-Learners can create timestamped personal notes and named bookmarks when enabled. These records are private to
-their owner except where a separately authorised individual report/export explicitly includes learner data.
+Learners can create timestamped personal notes and named bookmarks when enabled. Personal note text can be
+read in authorised individual learner reports and included in separately authorised individual exports,
+within the permitted learner scope. Bookmark labels and exact timestamps remain private to their owner;
+teacher reports expose bookmark counts only.
 The learner page keeps the composers visible and places saved histories in native collapsible sections.
 
 Bookmarks can be replayed and exported by their owner. Notes and bookmark labels are excluded from aggregate
@@ -165,9 +167,10 @@ See [`18_PRIVACY_RETENTION.md`](18_PRIVACY_RETENTION.md) and the root `PRIVACY.m
 ## Accessibility
 
 The interface uses native controls where practical, visible focus indicators, live status regions, accessible
-names, keyboard operation, responsive layout and forced-colours support. Transcript, completion grouping,
-personal-history sections and player status were manually checked in the current WCAG closure cycle. Public
-provider iframes remain subject to the provider's own accessibility behaviour.
+names, keyboard operation, responsive layout and forced-colours support. The current U-020 keyboard and
+screen-reader audit is deferred and remains unexecuted; follow the [manual protocol](19_ACCESSIBILITY.md)
+before the final production gate. Automated checks do not establish manual accessibility. Public provider
+iframes remain subject to the provider's own accessibility behaviour.
 
 ## Languages and diagnostics
 

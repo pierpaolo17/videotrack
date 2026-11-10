@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.241** (`2026110901`).
+Baseline: VideoTrack **1.7.242** (`2026111001`).
 
 ## Perimetro
 
@@ -34,8 +34,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 - [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) sono chiusi su evidenze
   accettate. ZIP reale/main/server/strict 1.7.240 coincidono; i sei job release/main superano Behat
-  50/1074 e PHPUnit 379/4076. La candidata 1.7.241 consolida solo documentazione/metadati versione.
-  Runtime, test, schema, lingue, AMD e regole CI/analisi restano invariati. U-020 manuale resta aperto.
+  50/1074 e PHPUnit 379/4076. ZIP reale/server/strict e CI release/main della 1.7.241 sono accettati.
+  La candidata 1.7.242 corregge sei chiavi per pacchetto e la documentazione collegata; logica runtime, test,
+  schema, AMD e regole CI/analisi restano invariati. U-020 manuale è rinviato e resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -66,7 +67,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.241 / 2026110901.
+- Marker documentali, README principali e artefatti ER identificano 1.7.242 / 2026111001.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -201,3 +202,10 @@ solo etichette albero: XMLDB resta 2026110601, sette tabelle/151 campi/22 indici
 pacchetti lingua conservano 997 chiavi. Le otto righe manuali U-020 sono NON ESEGUITE; review semantica,
 controlli deploy reale e gate integrato finale restano separati. Serve ancora accettazione CI/pacchetto reale
 1.7.241; nessun esito manuale viene dedotto dall’automazione.
+
+## Review linguistica mirata nella 1.7.242
+
+19 chiavi / 152 valori revisionati; sei chiavi per pacchetto / 48 valori corretti. Chiavi/placeholder e
+logica runtime/test/AMD/schema/regole sono conservati. La candidata ha 412 file distribuiti e 31 documenti
+per lingua. Vedere le [evidenze review](27_REVISIONE_LINGUE.md). U-020 è rinviato; tutte le righe manuali
+restano NON ESEGUITE. I gate runtime della 1.7.242 restano da eseguire.
