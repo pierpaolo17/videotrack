@@ -11,7 +11,7 @@ Quando viene utilizzata la funzione corrispondente, VideoTrack può registrare:
 - **Righe del registro di riproduzione:** utente, attività/corso, identificativi di sessione e idempotenza, provider/video, inizio/fine nel video, wall-clock diagnostico, velocità validata, motivo di chiusura, stato di validazione server e data. Le righe `playstart` a durata zero stabiliscono la finestra temporale server e non producono progresso visto.
 - **Stato aggregato dello studente:** durata autorevole configurata dal docente, ultima posizione, intervalli visti compatti, secondi unici esatti e monotoni, stato di completamento, contatori cumulativi limitati del credito server, timestamp in millisecondi dell’ultimo handshake/richiesta e normali timestamp del record.
 - **Reazioni:** chiave configurata, tempo del video, velocità, stato attivo/eliminato e timestamp.
-- **Note personali:** proprietario, testo privato, tempo già visto, velocità, stato attivo/eliminato e timestamp.
+- **Note personali:** proprietario, testo della nota, tempo già visto, velocità, stato attivo/eliminato e timestamp.
 - **Segnalibri privati:** proprietario, etichetta privata, tempo già visto, velocità, stato attivo/eliminato e timestamp.
 - **Indicatori di integrità:** tipo di segnale limitato, tempo approssimativo, sessione/attività e data. Non vengono acquisiti webcam, microfono, biometria, screenshot, keylogging o contenuti di altre schede.
 - **Prese visione:** proprietario, hash/versione della dichiarazione corrente, data di conferma e, per i record correnti, secondi unici e percentuale fotografati al momento della conferma.

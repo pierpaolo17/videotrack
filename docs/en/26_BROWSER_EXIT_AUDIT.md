@@ -1,12 +1,13 @@
 # U-007 browser automation exit audit
 
-Current tree: VideoTrack **1.7.241** (`2026110901`). Decision recorded 2026-11-09.
+Current tree: VideoTrack **1.7.242** (`2026111001`). Decision recorded 2026-11-09.
 
 ## Decision
 
 **U-007 is closed on the accepted 1.7.240 baseline.** Its essential browser/provider/role matrix has real
-execution on the six Moodle/PHP/database jobs below. Candidate 1.7.241 consolidates that evidence and the
-manual-audit handoff; it changes only documentation and version metadata. Its release gates are still pending.
+execution on the six Moodle/PHP/database jobs below. Accepted 1.7.241 consolidated that evidence and the
+manual-audit handoff; its actual ZIP/server/strict and six-job release/main CI have passed. The 1.7.242
+language candidate is documented separately in the [targeted review](27_LANGUAGE_REVIEW.md).
 U-017 remains closed. U-020 manual accessibility, semantic language review and integrated production gates
 are separate and remain open. This document does not certify accessibility or a live provider deployment.
 
@@ -80,3 +81,7 @@ An evidenced adapter/UI regression reopens its affected U-007 cell; a new provid
 Additional engines are tested and recorded when relevant to the deployment. Do not infer that they passed
 from this Chrome milestone. Manual audit does not automatically generate a release: record a green result;
 create a focused correction only for a concrete finding. Do not reopen structural U-017 for advisory metrics.
+
+U-020 remains open and is **deferred at the maintainer’s request (2026-11-10)**. This change executes
+or approves no manual case. Independent language work may continue; the final production gate still
+requires the manual audit and any resulting fixes.

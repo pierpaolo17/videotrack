@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.241 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.242 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -82,8 +82,10 @@ obbligatori o una combinazione. La logica `AND`/`OR` configurata opera dentro l'
 
 ## Note personali e segnalibri
 
-Quando abilitati, i learner possono creare note personali temporizzate e segnalibri nominati. Questi dati sono
-privati del proprietario, salvo report/export individuali separatamente autorizzati. La pagina mantiene visibili
+Quando abilitati, i learner possono creare note personali temporizzate e segnalibri nominati. Il testo delle
+note personali è leggibile nei report individuali autorizzati ed esportabile con permessi individuali separati,
+entro il perimetro degli studenti consentito. Etichette e timestamp esatti dei segnalibri restano privati del
+proprietario; i report docente espongono solo i conteggi dei segnalibri. La pagina mantiene visibili
 i composer e colloca le cronologie salvate in sezioni native comprimibili.
 
 I segnalibri possono essere riaperti ed esportati dal proprietario. Testi delle note ed etichette dei segnalibri
@@ -167,8 +169,9 @@ Vedere [`18_PRIVACY_RETENTION.md`](18_PRIVACY_RETENTION.md) e `PRIVACY_IT.md` ne
 ## Accessibilità
 
 L'interfaccia usa controlli nativi quando possibile, focus visibile, regioni di stato, nomi accessibili, tastiera,
-layout responsivo e supporto forced-colours. Trascrizione, raggruppamento completion, cronologie personali e stati
-del player sono stati verificati nel ciclo manuale WCAG corrente. Gli iframe dei provider pubblici restano soggetti
+layout responsivo e supporto forced-colours. L’audit U-020 corrente con tastiera e screen reader è rinviato e
+resta non eseguito; seguire il [protocollo manuale](19_ACCESSIBILITY.md) prima del gate finale di produzione.
+I controlli automatici non dimostrano l’accessibilità manuale. Gli iframe dei provider pubblici restano soggetti
 al comportamento di accessibilità del provider.
 
 ## Lingue e diagnostica

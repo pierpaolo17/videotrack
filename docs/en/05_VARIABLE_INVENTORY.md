@@ -185,7 +185,7 @@ Reaction click events
 | `reactionkey` | `char`(100) | NOT NULL |  |
 | `reactionlabel` | `char`(255) | NOT NULL |  |
 | `reactiondesc` | `text` | nullable |  |
-| `notetext` | `text` | nullable | Private text for notes or bookmark labels |
+| `notetext` | `text` | nullable | Personal note text or private bookmark label; report/owner visibility differs |
 | `notetype` | `char`(20) | NOT NULL | Empty=reaction; note=student note; bookmark=private bookmark |
 | `videotime` | `number`(10) | NOT NULL; default `0.000` |  |
 | `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
