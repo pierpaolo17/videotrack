@@ -60,3 +60,11 @@ devono rimuovere o ricalcolare coerentemente le stesse famiglie di dati.
 - lasciare disabilitata la retention illimitata salvo motivazione e conferma;
 - minimizzare campi CSV identificativi e assegnazioni capability individuali;
 - verificare task pianificati, export/cancellazioni Privacy API e backup dopo cambi configurazione.
+
+## Significato di tempi e completamento esportati
+
+I metadati privacy distinguono i tempi diagnostici dei segmenti playback (valori browser limitati), i record
+di avvio con tempo server e il registro autorevole del credito server. Esportare un timestamp di segmento
+non lo certifica come evidenza autorevole del tempo server. `videotrack_state.iscompleted` descrive la regola
+custom VideoTrack, non tutti i requisiti di completamento dell’attività Moodle. Queste descrizioni non
+cambiano payload export, retention/cancellazione o valori salvati.

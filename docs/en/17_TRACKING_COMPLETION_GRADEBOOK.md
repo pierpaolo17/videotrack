@@ -59,3 +59,12 @@ Only rows that cannot resolve a unique context use the DML-only cleanup path.
 - repeated refresh without a transition does not emit duplicate completion events/writes;
 - backup/restore rebuilds derived state and preserves grade/completion consistency.
 - CLI `gradebook_integrity` reports no invalid contexts or duplicate canonical items before uninstall.
+
+## Diagnostic wall-clock fields
+
+For ordinary saved playback segments, `wallclockstart`/`wallclockend` originate in browser parameters and
+are bounded by `save_segment`; they remain diagnostic. The `playstart` handshake instead creates both
+fields from server time. Authoritative credit uses the separate server-time ledger, including
+`serverlastactivity`, rather than trusting those browser values. Export descriptions preserve this
+record-type distinction. The custom `iscompleted` flag is separate from overall Moodle completion; see
+[acknowledgement and AND/OR](12_ACKNOWLEDGEMENT.md).

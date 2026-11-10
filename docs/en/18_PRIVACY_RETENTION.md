@@ -59,3 +59,11 @@ and must all remove or recompute the same data families consistently.
 - keep unlimited retention disabled unless explicitly justified and confirmed;
 - minimise CSV identity fields and individual-report capability assignments;
 - verify scheduled tasks, Privacy API exports/deletions and backup policy after configuration changes.
+
+## Meaning of exported timing and completion
+
+Privacy metadata distinguishes diagnostic playback-segment timestamps (bounded browser values), server-time
+playback-start rows and the authoritative server-credit ledger. Exporting a segment timestamp does not
+certify it as authoritative server-time evidence. The stored `videotrack_state.iscompleted` value describes
+the custom VideoTrack rule, not all Moodle activity-completion requirements. These descriptions change no
+export payload, retention/deletion policy or stored value.

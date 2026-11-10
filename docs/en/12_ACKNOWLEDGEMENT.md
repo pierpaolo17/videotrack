@@ -9,3 +9,12 @@ Confirmation uses a normal POST form with `sesskey`. “Final second” mode is 
 Custom completion can require the current acknowledgement. Per-student reports show status, date and snapshot. Analytics/export show current-version confirmations, distinct students, average progress and legacy-missing count, with separate privacy suppression for counts and progress contributors.
 
 Privacy API, retention, reset and user-data backup/restore cover acknowledgements. The full statement is not duplicated in each user row.
+
+## Acknowledgement, AND/OR and overall Moodle completion
+
+When enabled as a completion condition, the current acknowledgement is one input to the custom VideoTrack
+rule, alongside any enabled percentage and reaction conditions. AND requires every enabled VideoTrack
+condition; OR can be satisfied by any one. Therefore acknowledgement is not an unconditional prerequisite
+when OR has another satisfied condition. The native Moodle activity may have additional requirements.
+`videotrack_state.iscompleted` stores the custom VideoTrack result; it is not the complete Moodle activity
+state. The completion API recomputes the same custom rule when asked. No completion behaviour is changed.

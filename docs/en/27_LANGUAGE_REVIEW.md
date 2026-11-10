@@ -1,6 +1,10 @@
 # Targeted language review
 
-Current tree: VideoTrack **1.7.243** (`2026111002`). Review recorded 2026-11-10.
+Current tree: VideoTrack **1.7.244** (`2026111003`). Review recorded 2026-11-10.
+
+Current cumulative scope: **134 unique keys per pack / 1072 distinct values**. The latest pass covers
+all 88 privacy/completion keys and corrects five keys per pack. The remaining 863 keys are outside the
+claimed semantic review. U-020 remains open/deferred; native linguistic quality is not certified.
 
 ## First-pass scope (accepted 1.7.242)
 
@@ -63,10 +67,10 @@ The candidate contains 412 distributed files and 31 documents per language. Non-
 (345), PHP files (166), named PHP/AMD callables (1101/654), test/feature bodies and the 7-table/151-field schema
 are unchanged. XMLDB remains `2026110601`; ER artefacts update only their current-tree version label.
 All eight packs retain 997 keys in canonical order, with identical placeholder contracts. Existing release
-hygiene, lint, language-contract, PHPUnit, browser and strict gates must run on 1.7.243 itself. Counts of
+hygiene, lint, language-contract, PHPUnit, browser and strict gates must run on 1.7.244 itself. Counts of
 379 tests / 50 scenarios / 1074 steps are expected, not new execution results for this candidate.
 
-Continue semantic review outside the cumulative 48 unique keys and obtain human linguistic review where needed. U-017/U-007
+Continue semantic review outside the cumulative 134 unique keys and obtain human linguistic review where needed. U-017/U-007
 stay closed. U-020 is open/deferred with every M01–M08 observation NOT RUN; retain its
 [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) before the final integrated production
 gate. App evaluation and authenticated-provider implementation remain separate roadmap tasks.
@@ -96,7 +100,7 @@ No native-quality certification or completed U-020 observation is inferred.
 
 See [interaction-policy scope](13_SECURITY_TRUST_BOUNDARIES.md#watched-evidence-settings-and-their-actual-scope).
 No runtime change is made to unify these different existing policies. A future functional policy change
-would require its own design and tests. Candidate 1.7.243 native CI/server/strict gates remain pending;
+would require its own design and tests. Actual 1.7.243 native CI/server/strict gates are accepted; candidate 1.7.244 gates remain pending;
 379 PHPUnit tests, 50 Behat scenarios / 1074 steps are expected source counts, not new execution results.
 U-020 remains open/deferred at the maintainer’s request before the final production gate.
 
@@ -133,3 +137,121 @@ U-020 remains open/deferred at the maintainer’s request before the final produ
 - `acknowledgement:pendingvideoend`
 - `acknowledgement:timing_help`
 - `acknowledgement:privacyhint`
+
+## Third pass: 1.7.244 privacy and completion
+
+Accepted actual 1.7.243 contains 412 files identical to main
+`942bf5965d7209673dfa8da2772928179c952052`. ZIP SHA-256:
+`b42316ad2be7bdef46b9c39ed88c431bd6329426add8ee47a96660107c1e94d3`.
+Server-report ZIP SHA-256: `d89f8965ad236358e9fea2cc3f78105a82e78dfc903ac8a46a190ee253e6916f`.
+Candidate/main CI `42792298746` / `42795878952`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
+strict 10/0/0. Moodle 5.0/5.3 server PHPCS/lint 166, Grunt and PHPUnit 379/4076 pass; both supplied strict
+outputs are 10/0/0. The report does not execute server Behat or manual assistive tests.
+
+This pass reviews every `privacy:` and `completion` key: 88 per pack / 704 values. Two were in earlier passes;
+the cumulative scope becomes 134 unique keys per pack / 1072 distinct values. Five keys per pack are corrected
+(40 values). The other 863 keys per pack are not claimed reviewed; no native linguistic quality is certified.
+
+| Corrected keys | Existing implementation reflected by the wording |
+|---|---|
+| `completionacknowledgement_desc`, `completionlogic` | `tracker::completion_satisfied()` includes acknowledgement in the configured AND/OR rule. `mod_form.php` uses the same selector for percentage, reactions and acknowledgement |
+| `privacy:metadata:videotrack_seg:wallclockstart`, `privacy:metadata:videotrack_seg:wallclockend` | `save_segment` bounds diagnostic browser times; `tracker::begin_playback()` creates server-time playstart rows. Authoritative credit uses a separate server-time ledger |
+| `privacy:metadata:videotrack_state:iscompleted` | Tracker persists the custom-rule result. Moodle consumes one composite custom rule and may impose additional native requirements |
+
+Source behaviour, data values, custom/native completion, gradebook, permission boundaries, export payloads,
+retention and deletion are unchanged. The candidate still has 412 files / 31 documents per language,
+997 keys per pack, 166 PHP files, 1101 PHP/654 AMD callables and XMLDB 7 tables / 151 fields / 22 indexes /
+22 foreign keys. Existing test/feature bodies and CI rules are unchanged. Native candidate gates must still
+run; 379 PHPUnit tests and 50 Behat scenarios / 1074 steps are expected, not new execution results.
+U-020 remains open/deferred before final production acceptance.
+
+### Keys reviewed by the third pass
+
+- `completionacknowledgement`
+- `completionacknowledgement_desc`
+- `completiondetail:acknowledgement`
+- `completiondetail:allreactiontypes`
+- `completiondetail:logicand`
+- `completiondetail:logicor`
+- `completiondetail:minreactions`
+- `completiondetail:percent`
+- `completiondetail:requiredreactions`
+- `completiondetail:videotrackconditions`
+- `completionlogic`
+- `completionpercent`
+- `completionreactionrules`
+- `completionreactionrules_desc`
+- `privacy:bookmarksactivechunk`
+- `privacy:bookmarksdeletedchunk`
+- `privacy:integritychunk`
+- `privacy:intervals_none`
+- `privacy:intervals_unavailable`
+- `privacy:metadata:common:cmid`
+- `privacy:metadata:common:courseid`
+- `privacy:metadata:common:timecreated`
+- `privacy:metadata:common:timemodified`
+- `privacy:metadata:common:videoid`
+- `privacy:metadata:common:videotrackid`
+- `privacy:metadata:external:cookies`
+- `privacy:metadata:external:ipaddress`
+- `privacy:metadata:external:useragent`
+- `privacy:metadata:videotrack_acknowledge`
+- `privacy:metadata:videotrack_acknowledge:instanceversion`
+- `privacy:metadata:videotrack_acknowledge:statementhash`
+- `privacy:metadata:videotrack_acknowledge:timeconfirmed`
+- `privacy:metadata:videotrack_acknowledge:userid`
+- `privacy:metadata:videotrack_acknowledge:viewedpercent`
+- `privacy:metadata:videotrack_acknowledge:viewedseconds`
+- `privacy:metadata:videotrack_integrity`
+- `privacy:metadata:videotrack_integrity:eventtype`
+- `privacy:metadata:videotrack_integrity:sessionid`
+- `privacy:metadata:videotrack_integrity:userid`
+- `privacy:metadata:videotrack_integrity:videotime`
+- `privacy:metadata:videotrack_reactev`
+- `privacy:metadata:videotrack_reactev:isdeleted`
+- `privacy:metadata:videotrack_reactev:notetext`
+- `privacy:metadata:videotrack_reactev:notetype`
+- `privacy:metadata:videotrack_reactev:playbackrate`
+- `privacy:metadata:videotrack_reactev:reactiondesc`
+- `privacy:metadata:videotrack_reactev:reactionid`
+- `privacy:metadata:videotrack_reactev:reactionkey`
+- `privacy:metadata:videotrack_reactev:reactionlabel`
+- `privacy:metadata:videotrack_reactev:sessionid`
+- `privacy:metadata:videotrack_reactev:userid`
+- `privacy:metadata:videotrack_reactev:videotime`
+- `privacy:metadata:videotrack_seg`
+- `privacy:metadata:videotrack_seg:endreason`
+- `privacy:metadata:videotrack_seg:playbackrate`
+- `privacy:metadata:videotrack_seg:requestid`
+- `privacy:metadata:videotrack_seg:servervalidated`
+- `privacy:metadata:videotrack_seg:sessionid`
+- `privacy:metadata:videotrack_seg:userid`
+- `privacy:metadata:videotrack_seg:videotimeend`
+- `privacy:metadata:videotrack_seg:videotimestart`
+- `privacy:metadata:videotrack_seg:wallclockend`
+- `privacy:metadata:videotrack_seg:wallclockstart`
+- `privacy:metadata:videotrack_state`
+- `privacy:metadata:videotrack_state:completionpercent`
+- `privacy:metadata:videotrack_state:durationseconds`
+- `privacy:metadata:videotrack_state:intervaljson`
+- `privacy:metadata:videotrack_state:iscompleted`
+- `privacy:metadata:videotrack_state:lastposition`
+- `privacy:metadata:videotrack_state:serverbudgetseconds`
+- `privacy:metadata:videotrack_state:servercreditedseconds`
+- `privacy:metadata:videotrack_state:serverlastactivity`
+- `privacy:metadata:videotrack_state:serverplaybacksessionid`
+- `privacy:metadata:videotrack_state:uniquecoveredseconds`
+- `privacy:metadata:videotrack_state:userid`
+- `privacy:metadata:vimeo`
+- `privacy:metadata:vimeo:url`
+- `privacy:metadata:vimeo:videoid`
+- `privacy:metadata:youtube`
+- `privacy:metadata:youtube:url`
+- `privacy:metadata:youtube:videoid`
+- `privacy:notesactivechunk`
+- `privacy:notesdeletedchunk`
+- `privacy:reactionsactivechunk`
+- `privacy:reactionsdeletedchunk`
+- `privacy:segmentschunk`
+- `privacy:state`
+- `privacy:videoid_export_note`

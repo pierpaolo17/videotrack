@@ -61,3 +61,12 @@ record che non possono risolvere un contesto univoco passano dalla pulizia DML.
 - refresh ripetuto senza transizione non duplica eventi/scritture completion;
 - backup/restore ricostruisce lo stato e mantiene coerenza voti/completion.
 - `gradebook_integrity` del validatore CLI non segnala contesti invalidi o item canonici duplicati prima dell'uninstall.
+
+## Campi diagnostici dell’orologio
+
+Per i normali segmenti playback salvati, `wallclockstart`/`wallclockend` provengono dai parametri browser e
+sono limitati da `save_segment`; restano diagnostici. L’handshake `playstart` crea invece entrambi i campi
+con il tempo server. Il credito autorevole usa il registro del tempo server separato, incluso
+`serverlastactivity`, senza fidarsi di quei valori browser. Le descrizioni degli export conservano questa
+distinzione tra tipi di record. Il flag custom `iscompleted` è distinto dal completamento Moodle complessivo;
+vedere [presa visione e AND/OR](12_ACKNOWLEDGEMENT.md).
