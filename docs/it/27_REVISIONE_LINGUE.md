@@ -1,10 +1,10 @@
 # Review linguistica mirata
 
-Albero corrente: VideoTrack **1.7.242** (`2026111001`). Review registrata 2026-11-10.
+Albero corrente: VideoTrack **1.7.243** (`2026111002`). Review registrata 2026-11-10.
 
-## Perimetro e stato
+## Perimetro prima tranche (1.7.242 accettata)
 
-Questa attività indipendente della roadmap prosegue mentre U-020 è rinviato. Confronta 19 chiavi critiche in
+Questa attività indipendente della roadmap prosegue mentre U-020 è rinviato. La prima tranche ha confrontato 19 chiavi critiche in
 EN, IT, DE, ES, FR, HI, PL e PT: 152 valori testuali. Sei chiavi sono corrette in ogni pacchetto, per 48 valori
 modificati. Non si dichiara revisionata la semantica delle altre 978 chiavi per pacchetto. Questa review sul
 codice non certifica qualità madrelingua e non sostituisce una review linguistica umana. La parità strutturale
@@ -63,10 +63,73 @@ La candidata contiene 412 file distribuiti e 31 documenti per lingua. Righe inve
 file PHP (166), callable PHP/AMD (1101/654), corpi dei test/feature e schema 7 tabelle/151 campi sono invariati.
 XMLDB resta `2026110601`; gli artefatti ER aggiornano soltanto l’etichetta versione dell’albero corrente.
 Gli otto pacchetti mantengono 997 chiavi nell’ordine canonico e gli stessi contratti placeholder. I gate
-esistenti per igiene release, lint, lingue, PHPUnit, browser e strict devono essere eseguiti sulla 1.7.242.
+esistenti per igiene release, lint, lingue, PHPUnit, browser e strict devono essere eseguiti sulla 1.7.243.
 379 test / 50 scenari / 1074 passi sono conteggi attesi, non nuovi risultati di esecuzione della candidata.
 
-Proseguire la review semantica oltre queste 19 chiavi e acquisire review linguistica umana dove necessario.
+Proseguire la review semantica oltre le 48 chiavi univoche cumulative e acquisire review linguistica umana dove necessario.
 U-017/U-007 restano chiusi. U-020 è aperto/rinviato con tutte le osservazioni M01–M08 NON ESEGUITE; conservare
 il [protocollo manuale](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020) prima del gate finale integrato
 di produzione. Valutazione App e implementazione provider autenticati restano attività distinte della roadmap.
+
+## Seconda tranche: policy e help nella 1.7.243
+
+La baseline reale 1.7.242 è accettata: 412 file coincidono con main
+`b6d1afef4af7a1ea7835968586a9f6f7e329bf93`. SHA-256 ZIP:
+`e61dfd7547a53306303da9ec91c8cb31b245de3a94fe3238a8f9c301839c2501`.
+SHA-256 ZIP report server: `ca74efd7b900bdcbd357fec0f719a98e0bfbc941cf547f72b4b2ca9d4fa311f3`.
+Le CI candidata/main `42777321912` / `42784475404` superano sei job con PHPUnit 379/4076,
+Behat 50/1074 e strict 10/0/0. I report dei due server superano PHPCS/lint 166, Grunt e PHPUnit 379/4076;
+entrambi gli strict forniti sono 10/0/0. Quel report non esegue Behat server né accessibilità manuale.
+
+Questa tranche rivede 31 chiavi negli otto pacchetti (248 valori), riprendendo due chiavi sulla presa visione.
+Il perimetro cumulativo è di 48 chiavi univoche per pacchetto (384 valori distinti); le altre 949 chiavi non
+sono dichiarate revisionate semanticamente. Sono corrette quattro chiavi per pacchetto (32 valori).
+La struttura conserva parità chiavi/placeholder, 412 file, 31 documenti per lingua, runtime, DB, test, AMD e CI.
+Non si deducono qualità madrelingua né osservazioni U-020 completate.
+
+| Chiave corretta | Comportamento già presente descritto dal testo |
+|---|---|
+| `integrity:enable_help` | La registrazione conserva solo campi limitati; la mascheratura dei report segue capability/perimetro, non una promessa incondizionata di soglia privacy |
+| `integrity:pauseonfocusloss_desc` | `core/player/focus_guard.js` registra il blur solo se è abilitata la registrazione; la pausa dipende anche dalla politica focus rigida |
+| `setting:strictsessionvalidation_desc` | Tracker controlla prima l’evidenza nella stessa sessione; la modalità stretta interrompe il fallback; gli storici segnalibri/Forum restano separati |
+| `setting:validationfallbackdays_desc` | I chiamanti note/segnalibri/Forum passano un’età; il chiamante reazioni no. Lo storico può usare la data del segmento o dello stato aggregato conservati; i dati eliminati non tornano |
+
+Vedere il [perimetro delle policy](13_SECURITY_TRUST_BOUNDARIES.md#impostazioni-dellevidenza-vista-e-perimetro-effettivo).
+Nessuna modifica runtime uniforma queste policy esistenti diverse. Un eventuale cambiamento funzionale
+richiederebbe progettazione e test dedicati. I gate nativi CI/server/strict della 1.7.243 restano pendenti;
+379 test PHPUnit, 50 scenari Behat / 1074 passi sono conteggi sorgente attesi, non nuovi esiti di esecuzione.
+U-020 resta aperto/rinviato su richiesta del maintainer prima del gate finale di produzione.
+
+### Chiavi revisionate nella seconda tranche
+
+- `integrity:enable_help`
+- `integrity:pauseonfocusloss_desc`
+- `integrity:methodology`
+- `integrity:reportintro`
+- `integrity:settingsintro`
+- `integrity:studentnotice`
+- `integrity:analytics_recording_disabled_controls`
+- `integrity:randompauseautomatic`
+- `integrity:randompauses_desc`
+- `integrity:preventpip_desc`
+- `setting:strictsessionvalidation`
+- `setting:strictsessionvalidation_desc`
+- `setting:validationfallbackdays`
+- `setting:validationfallbackdays_desc`
+- `setting:validationfallbackdays_privacywarning`
+- `forum:enable_help`
+- `forum:studenthelp`
+- `forum:composerprivacy`
+- `forum:privacyinfo`
+- `error:learnertrackingstaff`
+- `error:playbackpositionnotwatched`
+- `error:playbackrequired`
+- `error:notesratelimit`
+- `error:reactionratelimit`
+- `error:bookmarksratelimit`
+- `acknowledgement:enabled_desc`
+- `acknowledgement:text_help`
+- `acknowledgement:videoendrequired`
+- `acknowledgement:pendingvideoend`
+- `acknowledgement:timing_help`
+- `acknowledgement:privacyhint`

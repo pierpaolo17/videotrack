@@ -62,3 +62,11 @@ Progress callbacks alone do not reset it. Recording integrity signals is indepen
 The provider pause must close server credit normally; resuming must obtain a fresh server handshake. No time
 is awarded for the pause, and seek/rate guards, completion and hidden-tab controls retain their own contracts.
 Pauses are diagnostic prompts and do not prove attention or misconduct.
+
+## Recording and report visibility
+
+The focus guard records a signal only when indicator recording is enabled. Playback controls can still
+operate without recording. A sustained window blur pauses only when the activity enables focus pausing
+and the site chooses strict mode. Report visibility/masking follows actual capabilities and learner/group
+scope: aggregate-only activity viewers retain the privacy threshold; authorised individual-report viewers
+may see exact scoped values. Diagnostic signals remain contextual and are not proof of misconduct.

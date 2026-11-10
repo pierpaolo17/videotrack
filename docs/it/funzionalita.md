@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.242 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.243 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -194,3 +194,9 @@ Per controlli guidati dal sintomo vedere [`20_TROUBLESHOOTING.md`](20_TROUBLESHO
 ## Intervalli di attenzione scelti dal docente
 
 Le pause di attenzione dell’attività usano per default 1/3–2/3 della durata salvata. Il docente può sostituire ciascun limite in secondi; vuoto/0 lo mantiene automatico. Vedere le [regole complete](11_INTEGRITY_AND_FOCUS.md#intervalli-di-attenzione-scelti-dal-docente), inclusi durata zero e limiti operativi.
+
+## Perimetro delle policy di validazione delle interazioni
+
+L’impostazione stessa sessione governa note/reazioni. I limiti di età dello storico sono usati da note,
+segnalibri e collegamenti Forum degli studenti; le reazioni non applicano quella finestra temporale.
+Queste distinzioni già esistenti sono descritte nei [confini di sicurezza](13_SECURITY_TRUST_BOUNDARIES.md).

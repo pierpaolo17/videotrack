@@ -63,3 +63,12 @@ indicatori è indipendente dall’abilitazione della pausa. La pausa del provide
 credito server; la ripresa richiede un nuovo handshake. Nessun tempo viene attribuito alla pausa; seek,
 velocità, completamento e controllo scheda nascosta conservano i propri contratti. Le pause non provano
 direttamente attenzione o comportamento scorretto.
+
+## Registrazione e visibilità dei report
+
+Il controllo focus registra un segnale solo se è abilitata la registrazione degli indicatori. I controlli
+playback possono operare senza registrazione. Un blur prolungato mette in pausa solo se l’attività abilita
+la pausa per focus e il sito sceglie la modalità rigida. Visibilità/mascheratura seguono capability e perimetro
+studenti/gruppi effettivi: chi ha soltanto accesso aggregato conserva la soglia privacy; chi ha accesso ai
+report individuali può vedere valori esatti nel perimetro autorizzato. I segnali restano contestuali e non
+sono prova di comportamento scorretto.

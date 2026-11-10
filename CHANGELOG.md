@@ -1,5 +1,33 @@
 # VideoTrack changelog
 
+## 1.7.243 - 2026-11-10
+
+### Integrity and historical-evidence policy wording
+
+- Accept the actual 412-file 1.7.242 ZIP, SHA-256
+  `e61dfd7547a53306303da9ec91c8cb31b245de3a94fe3238a8f9c301839c2501`,
+  identical to main `b6d1afef4af7a1ea7835968586a9f6f7e329bf93`.
+  Candidate/main CI pass all six jobs with PHPUnit 379/4076, Behat 50/1074
+  and strict 10/0/0. Server PHPCS/lint, Grunt and PHPUnit pass on Moodle
+  5.0/5.3; both supplied strict outputs are 10/0/0. U-020 remains deferred.
+- Review 31 policy/help keys in all eight packs: 248 values. With two keys
+  revisited from the first pass, the cumulative scope is 48 unique keys
+  per pack. Correct four keys per pack (32 values) while preserving every
+  key and placeholder.
+- Explain that integrity report masking follows viewer permissions/scope,
+  and focus-loss recording requires indicator recording to be enabled.
+  Distinguish current-session note/reaction checks from historical checks:
+  the historical-age window is used by notes, bookmarks and learner Forum
+  links; reaction validation does not apply that window. Document the age
+  of retained segment/state evidence, without promising a live-playback
+  shortcut or restoration of deleted data.
+- Preserve all runtime behaviour, permissions, retention, DB schema,
+  services, AMD, tests, fixtures and CI rules. Extend the existing bilingual
+  review record and administrator/security guides; ER changes are only
+  current-tree labels. Candidate 1.7.243 gates remain pending. Semantic
+  review of the other 949 keys per pack and native linguistic quality are
+  not certified; no manual accessibility result is inferred.
+
 ## 1.7.242 - 2026-11-10
 
 ### Source-grounded language corrections; manual accessibility audit deferred
