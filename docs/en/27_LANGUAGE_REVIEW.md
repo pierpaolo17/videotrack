@@ -1,40 +1,41 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.245** (`2026111004`). Review recorded 2026-11-10.
+Current tree: VideoTrack **1.7.246** (`2026111005`). Review recorded 2026-11-10.
 
 ## Current scope and limits
 
-The cumulative review covers **232 unique keys per pack / 1856 distinct values** in DE, EN, ES, FR, HI,
-IT, PL and PT. The other **765 keys per pack are outside the claimed semantic review**. This assisted
+The cumulative review covers **253 unique keys per pack / 2024 distinct values** in DE, EN, ES, FR, HI,
+IT, PL and PT. The other **744 keys per pack are outside the claimed semantic review**. This assisted
 source/language review is not native linguistic sign-off. All 997 keys/placeholders remain structurally
-aligned, but structural parity does not establish semantic or accessibility correctness.
+aligned; structural parity does not establish semantic or accessibility correctness.
 
-U-017/U-007 remain closed. U-020 is open/deferred at the maintainer’s request; every manual observation
-remains NOT RUN. Keep the [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) for the
-final production gate. No browser, screen-reader or live-provider result is inferred from this record.
+U-017/U-007 remain closed. U-020 is open/deferred at the maintainer’s request; all eight manual observations
+remain NOT RUN. Retain the [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) for the
+final production gate. No manual, screen-reader or live-provider result is inferred here.
 
 ## Accepted starting point
 
-- Actual 1.7.244 / `2026111003`: 412 distributed files identical to main
-  `b6963a5beda4871f4239482a0eb0919466c7fcd4`.
-- ZIP SHA-256: `6590b0bc76c447f950b00c0847673af0f2610fde73c171750ebe48f2baa41dae`.
-- Server-report ZIP SHA-256: `103f35fa8efb386e5a5faa4329abb797c62915c2e1e4ba5e026d7308364a4ba1`.
-- Candidate/main CI `42810143144` / `42814365796`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
+- Actual 1.7.245 / `2026111004`: 412 distributed files identical to main
+  `0309db75c57e379828fa9e049928bc2533e0ed6a`.
+- ZIP SHA-256: `31b706f1bf47deb87036939fc1188668b7646490ee0fb2c3c5a53bb54fad9268`.
+- Server-report ZIP SHA-256: `306f0139a21d0bcc15d96068e178466789b8492bc734a25e6244fd69ca476c3e`.
+- Candidate/main CI `42826573352` / `42830814382`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
   strict 10/0/0. Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076; both supplied
-  strict outputs are 10/0/0. AMD hashes before/after Grunt match; the known Browserslist data-age advisory
-  remains. The server report did not run Behat/manual assistive tests.
+  strict outputs are 10/0/0. AMD hashes before/after Grunt match. The known Browserslist data-age advisory
+  remains; the server report did not run Behat/manual assistive checks. Reviewed PHPMD findings and Psalm
+  informative totals remain separate from passing configured analysis gates.
 
 ## Complete cumulative reviewed-key manifest
 
-These three prefix groups are exhaustive in the current source packs, with the additional exact keys below.
+The three prefix groups below are exhaustive in the current packs; the remaining exact keys are listed below.
 
 | Key prefix | Reviewed keys per pack |
 |---|---:|
 | `privacy:` | 74 |
 | `completion` | 14 |
 | `setting:` | 110 |
-| Additional exact keys listed below | 34 |
-| Total unique keys | 232 |
+| Additional exact keys listed below | 55 |
+| Total unique keys | 253 |
 
 - `acknowledgement:enabled_desc`
 - `acknowledgement:pendingvideoend`
@@ -67,83 +68,110 @@ These three prefix groups are exhaustive in the current source packs, with the a
 - `integrity:settingsintro`
 - `integrity:studentnotice`
 - `personalstudytoolsintro`
+- `report:analytics_export_row_reactions`
+- `report:analytics_heatmap_legend_reaction`
+- `report:analytics_method_reactions`
 - `report:analytics_noduration`
+- `report:analytics_noviewingdata_reactions`
+- `report:analytics_privacy_unavailable_reactions`
+- `report:analytics_reaction_events`
+- `report:analytics_reaction_students`
+- `report:analytics_reaction_time`
+- `report:analytics_reaction_type`
+- `report:analytics_reactionclusters`
+- `report:analytics_reactionclusters_caption`
+- `report:analytics_reactionclusters_none`
+- `report:analytics_reactionclusters_title`
+- `report:analytics_reactionlimit`
+- `report:analytics_reactionmarker`
+- `report:analytics_reactions_available`
+- `report:analytics_reactions_cell`
+- `report:analytics_reactions_detected`
+- `report:analytics_reactionsummary`
+- `report:analytics_reactionsummary_suppressed`
+- `report:analytics_showreactions`
 - `report:csvexport_bookmarks_help`
 - `studentnotesenabled_help`
 
-## Current pass and source findings
+## Reaction Analytics pass
 
-This pass covers all 110 `setting:` keys and rechecks eight privacy descriptions: **118 keys / 944 values**.
-It retains accepted evidence for 12 previously reviewed settings where content is unchanged; 98 settings
-are newly examined in every language. The cumulative count deduplicates all previous passes. Earlier
-release findings remain traceable in the root changelog rather than repeated as obsolete candidate narratives.
+This pass reviews **21 existing keys / 168 values**: every `report:analytics_` key containing `reaction`.
+These keys do not overlap the 232 previously accepted keys. The review checks cluster tables, overlay
+controls/markers, counts, privacy suppression and empty-data notices. Existing keys without an active
+rendering call are retained; their review does not imply that they are currently displayed. The rest of
+the report/Analytics key families are not included. Earlier findings remain in the root changelog.
 
-Four policy descriptions are corrected in all eight languages:
+- `report:analytics_export_row_reactions`
+- `report:analytics_heatmap_legend_reaction`
+- `report:analytics_method_reactions`
+- `report:analytics_noviewingdata_reactions`
+- `report:analytics_privacy_unavailable_reactions`
+- `report:analytics_reaction_events`
+- `report:analytics_reaction_students`
+- `report:analytics_reaction_time`
+- `report:analytics_reaction_type`
+- `report:analytics_reactionclusters`
+- `report:analytics_reactionclusters_caption`
+- `report:analytics_reactionclusters_none`
+- `report:analytics_reactionclusters_title`
+- `report:analytics_reactionlimit`
+- `report:analytics_reactionmarker`
+- `report:analytics_reactions_available`
+- `report:analytics_reactions_cell`
+- `report:analytics_reactions_detected`
+- `report:analytics_reactionsummary`
+- `report:analytics_reactionsummary_suppressed`
+- `report:analytics_showreactions`
 
-- `setting:default_completionpercent_desc`
-- `setting:focuslossgraceseconds_desc`
-- `setting:focuslosspolicy_desc`
-- `setting:heading_integrity_desc`
+## Source findings and corrections
 
-- The default percentage is one VideoTrack AND/OR condition. Zero disables that condition only;
-  `tracker::completion_satisfied()` retains the accepted composite rule.
-- `core/player/focus_guard.js` gates signal recording separately from pausing. Strict blur handling depends
-  on activity focus control; the grace/site policy does not itself enable recording or activity controls.
-- `random_pause_policy::activity_bounds()` derives automatic values from saved positive duration, applies
-  teacher overrides and uses site fallback bounds only without a positive duration.
+`report.php` obtains the effective threshold from access to every activity in the selected scope: individual
+report access permits `analytics::EXACT_REPORT_MIN_USERS` (1), while aggregate-only access retains the
+configured `analyticsminusers` threshold. `cluster_reactions()` receives that effective value. The table
+caption now refers to this report’s threshold instead of implying that the site value always applies.
 
-There are 32 policy wording corrections, 59 orthographic corrections in DE/ES/FR/IT/PL/PT privacy and
-note-report text, and seven Hindi retention-notice translations: **98 changed values across 21 existing keys**.
-Latin text restores diacritics; Hindi text preserves the accepted retention meaning, including 0/unlimited,
-730-day example and Privacy API erasure. No new privacy obligation, data collection or retention policy is
-introduced. Numbers/placeholders remain unchanged in these non-policy edits.
+`analytics::append_visible_reaction_cluster()` checks distinct-user eligibility before applying
+`MAX_REACTION_CLUSTERS` (2000). Additional eligible clusters set `truncated`; the retained subset is sorted
+after collection, so it is not promised to be the earliest subset across reaction types. `report.php` raises
+the limit warning on truncation. Disabling the overlay skips cluster collection and rendering; it does not
+recover omitted clusters. The revised warning explains the display cap/omissions and says only that a
+narrower scope may avoid it. It does not promise that narrowing always succeeds or that a complete export
+is available. Existing summary counts, access filters and privacy masking are unchanged.
 
-| Pack | Changed values |
+Source evidence: `report.php` threshold/overlay/warning branches; `classes/local/analytics.php`
+clustering/visibility methods; `classes/local/report_timeline_view.php::reaction_clusters()`;
+`classes/local/report_view.php` methodology/privacy explanations. The existing
+`analytics_test::test_reaction_cluster_limit_is_reported()` covers the cap/truncation flag; its body is
+unchanged and is not claimed newly executed locally. No additional test mirrors these literal-only edits.
+
+## Exact keys changed in the candidate
+
+- `report:analytics_reactionclusters_caption`
+- `report:analytics_reactionlimit`
+
+| Pack | Values changed |
 |---|---:|
-| DE | 13 |
-| EN | 4 |
-| ES | 13 |
-| FR | 15 |
-| HI | 11 |
-| IT | 14 |
-| PL | 14 |
-| PT | 14 |
+| DE | 2 |
+| EN | 2 |
+| ES | 2 |
+| FR | 2 |
+| HI | 2 |
+| IT | 2 |
+| PL | 2 |
+| PT | 2 |
 
-## Exact keys changed in this candidate
-
-This is the union; each pack changes only the keys required by its actual findings.
-
-- `privacy:metadata:common:cmid`
-- `privacy:metadata:common:courseid`
-- `privacy:metadata:common:videoid`
-- `privacy:metadata:common:videotrackid`
-- `privacy:metadata:external:cookies`
-- `privacy:metadata:external:ipaddress`
-- `privacy:metadata:external:useragent`
-- `privacy:metadata:videotrack_reactev:reactionid`
-- `setting:default_completionpercent_desc`
-- `setting:focuslossgraceseconds_desc`
-- `setting:focuslosspolicy_desc`
-- `setting:heading_integrity_desc`
-- `setting:reportnotespagesize`
-- `setting:reportnotespagesize_desc`
-- `setting:retentionperioddays_desc`
-- `setting:retentionprivacynotice`
-- `setting:retentionunlimitedconfirm`
-- `setting:retentionunlimitedconfirm_desc`
-- `setting:retentionunlimitedconfirm_required`
-- `setting:retentionunlimitedwarning_desc`
-- `setting:retentionunlimitedwarning_title`
+Total: **16 changed values across two existing keys**. Keys, placeholder multiplicities and numeric tokens
+are preserved in every pack. No new language key or data field is added.
 
 ## Candidate gates and remaining work
 
-1.7.245 contains 412 distributed files / 31 documents per language, with 166 PHP files, 1101 PHP/654 AMD
-callables and 345 non-documentary inventory rows. Schema remains XMLDB `2026110601`, 7 tables / 151 fields /
-22 indexes / 22 foreign keys; ER changes only current-tree labels. Runtime logic, permissions, services,
-data values, tests, fixtures, AMD and CI rules are unchanged.
+1.7.246 contains 412 distributed files / 31 documents per language, 166 PHP files, 1101 PHP/654 AMD callables
+and 345 non-documentary inventory rows. Schema remains XMLDB `2026110601`: 7 tables / 151 fields / 22 indexes /
+22 foreign keys. ER changes only current-tree version labels. Runtime, access rules, data, services, DB,
+AMD, tests, fixtures and CI/analysis rules are byte-identical to accepted 1.7.245.
 
-Local contract/delta/link checks and exact patch application/reversal are separate from native execution.
-The candidate must still pass its six CI jobs and later actual merged ZIP/server/strict gates. Expected source
-counts remain 379 PHPUnit tests and 50 Behat scenarios / 1074 steps; they are not new candidate test results.
-Continue the remaining semantic review; the final integrated production gate, manual U-020 and later App/
-authenticated-provider roadmap tasks are not closed by this language pass.
+Local contract/delta/link and exact patch apply/reverse checks are separate from native execution. Candidate
+CI still needs all six jobs, followed by actual merged ZIP/server reports/strict. Expected unchanged suite:
+379 PHPUnit tests / 4076 assertions and 50 Behat scenarios / 1074 steps. These are baseline expectations,
+not candidate execution results. Remaining semantic review, manual U-020, the integrated production gate
+and subsequent App/authenticated-provider stages remain open.

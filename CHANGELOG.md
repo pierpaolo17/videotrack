@@ -1,5 +1,30 @@
 # VideoTrack changelog
 
+## 1.7.246 - 2026-11-10
+
+### Reaction Analytics wording and current review evidence
+
+- Accept the actual 412-file 1.7.245 ZIP, SHA-256
+  `31b706f1bf47deb87036939fc1188668b7646490ee0fb2c3c5a53bb54fad9268`,
+  identical to main `0309db75c57e379828fa9e049928bc2533e0ed6a`.
+  Candidate/main CI passes all six jobs, PHPUnit 379/4076, Behat 50/1074
+  and strict 10/0/0; both actual server reports and supplied strict outputs
+  pass. U-020 manual checks remain deferred and NOT RUN.
+- Review the 21 reaction-related Analytics keys in all eight packs
+  (168 values). Cumulative reviewed scope is 253 unique keys per pack /
+  2024 distinct values; the other 744 keys are outside the semantic claim.
+- Correct two existing keys in each pack (16 values): the cluster-limit
+  warning explains omitted eligible clusters without promising a complete
+  view by disabling the overlay, or an earliest-in-time subset; the cluster
+  caption refers to the threshold applicable to this report, which depends
+  on permissions, rather than always the site-configured threshold.
+- Update paired Analytics/review guides and current metadata, consolidate
+  superseded candidate-status notes in the documentation audit, and retain
+  the root changelog history. Runtime, permissions, data, DB, AMD, services,
+  tests and CI rules are byte-identical to 1.7.245. ER changes only version
+  labels. Local contract/applicability checks do not replace the pending
+  native candidate CI and actual merged-package/server/strict gates.
+
 ## 1.7.245 - 2026-11-10
 
 ### Consolidated settings and privacy language review

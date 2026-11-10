@@ -14,3 +14,13 @@ provider identifier, uploaded files use the Moodle content hash, and external me
 HTTPS, lowercases scheme and host, removes HTTP port 80 and HTTPS port 443, preserves other ports, collapses repeated
 path separators, ignores fragments and sorts top-level query keys with RFC 3986 encoding. Authority, path and query
 normalisation are isolated private helpers; callers continue to use the single public normalisation contract.
+
+## Reaction-cluster display limit and effective threshold
+
+The reaction-cluster table uses the distinct-user privacy threshold applicable to the selected report scope.
+Individual-report access to every included activity permits exact aggregates; otherwise the configured
+aggregate-only threshold applies. The display contains at most 2000 eligible clusters. When the limit warning
+appears, additional eligible clusters have been omitted. Narrowing the report scope may avoid the cap; it
+does not guarantee a complete view. Disabling the overlay hides clusters and does not recover omitted ones.
+Neither the earliest subset across reaction types nor a complete export is promised. Summary counts and
+privacy/access filters retain their existing behaviour. These wording corrections change no report logic.

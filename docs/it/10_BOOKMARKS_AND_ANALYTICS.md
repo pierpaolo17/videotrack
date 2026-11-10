@@ -15,3 +15,14 @@ quando lo schema è omesso, rende minuscoli schema e host, elimina la porta 80 p
 altre porte, comprime i separatori ripetuti del percorso, ignora i frammenti e ordina le chiavi query di primo livello
 con codifica RFC 3986. La normalizzazione di authority, percorso e query è isolata in helper privati; i chiamanti
 continuano a usare l'unico contratto pubblico di normalizzazione.
+
+## Limite dei cluster di reazioni e soglia effettiva
+
+La tabella dei cluster usa la soglia privacy per utenti distinti applicabile all’ambito del report selezionato.
+L’accesso ai report individuali di tutte le attività incluse consente aggregati esatti; altrimenti vale la
+soglia configurata per l’accesso solo aggregato. Si visualizzano al massimo 2000 cluster idonei. Se appare
+l’avviso sul limite, ulteriori cluster idonei sono stati omessi. Restringere l’ambito può evitare il limite,
+senza garantire una vista completa. Disabilitare la sovrapposizione nasconde i cluster senza recuperare quelli
+omessi. Non si promettono il primo sottoinsieme cronologico tra tipi di reazione o un export completo.
+Conteggi riepilogativi e filtri privacy/accesso conservano il comportamento esistente. Le correzioni dei
+testi non modificano la logica dei report.
