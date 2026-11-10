@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.244** (`2026111003`).
+Baseline: VideoTrack **1.7.245** (`2026111004`).
 
 ## Perimetro
 
@@ -35,9 +35,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) sono chiusi su evidenze
   accettate. ZIP reale/main/server/strict 1.7.240 coincidono; i sei job release/main superano Behat
   50/1074 e PHPUnit 379/4076. ZIP reale/server/strict e CI release/main della 1.7.241 sono accettati.
-  ZIP reale/server/strict e CI release/main della 1.7.242 e 1.7.243 sono accettati. La candidata 1.7.244
-  corregge cinque chiavi completamento/privacy per pacchetto e le guide; logica runtime, test, schema, AMD
-  e regole CI/analisi sono invariati. U-020 manuale è rinviato e resta aperto.
+  ZIP reale/server/strict e sei job CI release/main della 1.7.244 sono accettati. La candidata 1.7.245 corregge
+  quattro descrizioni di policy negli otto pacchetti e rilievi ortografici/localizzazione (98 valori totali).
+  Logica runtime, test, schema, AMD e regole CI/analisi sono invariati. U-020 manuale è rinviato e aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -68,7 +68,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.244 / 2026111003.
+- Marker documentali, README principali e artefatti ER identificano 1.7.245 / 2026111004.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -224,3 +224,11 @@ Sono riviste tutte le 88 chiavi privacy/completamento per pacchetto (704 valori)
 sono corrette (40 valori). Perimetro cumulativo: 134 chiavi univoche per pacchetto / 1072 valori distinti;
 le altre 863 chiavi restano fuori dalla dichiarazione. Runtime/schema/AMD/test/CI invariati; gate candidata
 nativi pendenti. Vedere le [evidenze review](27_REVISIONE_LINGUE.md). U-020 resta aperto/rinviato.
+
+## Review accorpata impostazioni sito e privacy nella 1.7.245
+
+La tranche copre 110 chiavi di impostazione sito e otto descrizioni privacy (118 chiavi / 944 valori).
+Perimetro semantico cumulativo: 232 chiavi univoche per pacchetto / 1856 valori distinti; 765 chiavi restano
+fuori dalla dichiarazione. Sono corretti 98 valori su 21 chiavi esistenti, con conteggi per lingua nel
+[registro review](27_REVISIONE_LINGUE.md). Runtime/DB/AMD/test/CI invariati. U-020 resta rinviato;
+non si deducono gate nativi candidata o approvazione linguistica madrelingua.

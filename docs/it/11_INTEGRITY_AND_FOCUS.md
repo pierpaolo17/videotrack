@@ -72,3 +72,12 @@ la pausa per focus e il sito sceglie la modalità rigida. Visibilità/mascheratu
 studenti/gruppi effettivi: chi ha soltanto accesso aggregato conserva la soglia privacy; chi ha accesso ai
 report individuali può vedere valori esatti nel perimetro autorizzato. I segnali restano contestuali e non
 sono prova di comportamento scorretto.
+
+## Descrizioni sito e interruttori indipendenti dell’attività
+
+I limiti pausa del sito sono valori di riserva se la durata salvata dell’attività non è positiva. Una durata
+positiva fornisce i limiti automatici, salvo override del docente nell’attività. Le impostazioni focus/
+tolleranza del sito non abilitano controlli o registrazione nell’attività. Il segnale è registrato solo con
+registrazione abilitata; un blur prolungato può mettere in pausa solo con policy rigida e controllo focus
+attivo nell’attività. Anche la pausa per scheda nascosta richiede quel controllo. Le eccezioni focus già
+previste restano valide. I testi sito descrivono questi interruttori esistenti; default e comportamento non cambiano.

@@ -68,3 +68,10 @@ fields from server time. Authoritative credit uses the separate server-time ledg
 `serverlastactivity`, rather than trusting those browser values. Export descriptions preserve this
 record-type distinction. The custom `iscompleted` flag is separate from overall Moodle completion; see
 [acknowledgement and AND/OR](12_ACKNOWLEDGEMENT.md).
+
+## Site default percentage
+
+`default_completionpercent` supplies the percentage threshold for a newly created activity. Zero disables
+only that percentage condition, not every other custom or native Moodle completion requirement. An enabled
+percentage condition participates in the activity’s configured AND/OR combination, and teachers may change
+the threshold per activity. Updating this description does not modify stored defaults or completion code.

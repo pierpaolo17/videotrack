@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.245 - 2026-11-10
+
+### Consolidated settings and privacy language review
+
+- Accept the actual 412-file 1.7.244 ZIP, SHA-256
+  `6590b0bc76c447f950b00c0847673af0f2610fde73c171750ebe48f2baa41dae`,
+  identical to main `b6963a5beda4871f4239482a0eb0919466c7fcd4`.
+  Six candidate/main jobs pass PHPUnit 379/4076, Behat 50/1074 and strict
+  10/0/0. Moodle 5.0/5.3 server PHPCS/lint 166, Grunt and PHPUnit 379/4076
+  pass; both supplied strict outputs are 10/0/0. U-020 remains deferred.
+- Review the 110 site-setting keys and recheck eight privacy descriptions
+  in all eight packs: 118 keys / 944 values, retaining accepted evidence
+  for 12 unchanged settings. Cumulative scope is 232 unique keys per pack /
+  1,856 distinct values; the remaining 765 keys are not claimed reviewed.
+- Correct four policy descriptions in all eight languages: the default
+  percentage is one AND/OR condition, focus recording and pausing have
+  separate gates, and site random-pause bounds are fallbacks for activities
+  without a positive saved duration. Runtime behaviour is unchanged.
+- Consolidate 59 orthographic corrections in DE/ES/FR/IT/PL/PT privacy and
+  note-report text, and translate seven mixed-language Hindi retention
+  notices into Hindi. Total: 98 changed values across 21 existing keys.
+  Preserve their meaning, numbers, keys and placeholders; add no privacy
+  obligation or new collection/retention behaviour.
+- Consolidate the paired language-review record around the current scope,
+  retaining the complete reviewed-key manifest and source evidence. Update
+  administrator/completion guides and current-tree ER labels only.
+  Runtime, DB, services, permissions, AMD, test bodies and CI rules are
+  unchanged. Native candidate gates remain pending; native linguistic
+  quality, the remaining semantic scope and manual accessibility are not
+  certified by this source-based review.
+
 ## 1.7.244 - 2026-11-10
 
 ### Completion and privacy-export wording
