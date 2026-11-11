@@ -82,3 +82,16 @@ diventare una scelta ordinaria dell'utente.
 - verificare probe muti, limitati e distrutti;
 - testare per ogni provider resume, seek indietro, recupero salto bloccato, velocità e pausa terminale;
 - confrontare `amd/src` con build/map e fare smoke pubblico quando cambiano le policy esterne.
+
+## Confini dei testi correnti
+
+Le impostazioni sottotitoli richiedono tracce già presenti sul provider; la disponibilità dipende dal provider.
+Per i media caricati, la lingua è un metadato dell’unica traccia VTT allegata. I file di trascrizione ricercabile
+sono separati. La ripresa server fornisce la posizione salvata oltre 5 secondi quando abilitata; il ritorno
+manuale all’inizio rispetta la policy all’indietro. Il recupero della posizione dal browser nei provider resta
+un percorso esistente separato. L’accesso ai file segue regole Moodle di corso/modulo e permesso view. Il poster
+scompare all’avvio, anche automatico. Queste correzioni testuali non cambiano percorsi runtime.
+
+L’estensione concordata dei sottotitoli VTT multilingua segue lavoro web e decisione App, prima delle
+integrazioni autenticate. Ciclo file, scelta lingua e limiti provider/fullscreen devono essere implementati
+e provati separatamente; i testi correnti non annunciano tale estensione.

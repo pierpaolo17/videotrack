@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.248** (`2026111101`).
+Baseline: VideoTrack **1.7.249** (`2026111102`).
 
 ## Perimetro
 

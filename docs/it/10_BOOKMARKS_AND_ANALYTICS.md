@@ -56,3 +56,11 @@ Le intestazioni italiane del tempo video ora dicono «Tempo del video»; valori/
 Dopo il precedente lavoro web e la decisione App, il manutentore richiede sottotitoli VTT multilingue prima dei
 provider autenticati. Le trascrizioni multilingue esistenti restano distinte. Qui si registra solo l’ordine:
 selettore HTML5/lifecycle file e fattibilità provider esterni saranno implementati/provati nella fase dedicata.
+
+## Review testi attività/player
+
+La [review linguistica](27_REVISIONE_LINGUE.md) copre 789 chiavi univoche per pacchetto, comprese tutte le chiavi
+senza prefisso di attività/player/strumenti di studio e le famiglie controlli/errori form. Le restanti 208 chiavi
+sono fuori dalla dichiarazione. Le reazioni restano disponibili in pausa in un punto già visto secondo i guard
+esistenti; le icone caricate sono richieste per reazioni configurate di tipo file. Il ridimensionamento dipende
+dal buon esito dell’elaborazione immagini sul server. Runtime, permessi e confini dei dati personali non cambiano.

@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.248 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.249 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -200,3 +200,11 @@ Le pause di attenzione dell’attività usano per default 1/3–2/3 della durata
 L’impostazione stessa sessione governa note/reazioni. I limiti di età dello storico sono usati da note,
 segnalibri e collegamenti Forum degli studenti; le reazioni non applicano quella finestra temporale.
 Queste distinzioni già esistenti sono descritte nei [confini di sicurezza](13_SECURITY_TRUST_BOUNDARIES.md).
+
+## Review testi attività/player
+
+La [review linguistica](27_REVISIONE_LINGUE.md) copre 789 chiavi univoche per pacchetto, comprese tutte le chiavi
+senza prefisso di attività/player/strumenti di studio e le famiglie controlli/errori form. Le restanti 208 chiavi
+sono fuori dalla dichiarazione. Le reazioni restano disponibili in pausa in un punto già visto secondo i guard
+esistenti; le icone caricate sono richieste per reazioni configurate di tipo file. Il ridimensionamento dipende
+dal buon esito dell’elaborazione immagini sul server. Runtime, permessi e confini dei dati personali non cambiano.

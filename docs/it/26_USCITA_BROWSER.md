@@ -1,13 +1,13 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.248** (`2026111101`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.249** (`2026111102`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
 **U-007 è chiuso sulla baseline 1.7.240 accettata.** La matrice browser/provider/ruoli essenziale ha esecuzione
 reale nei sei job Moodle/PHP/database indicati sotto. La 1.7.241 accettata ha consolidato evidenze e passaggio
 all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. La candidata linguistica
-1.7.248 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
+1.7.249 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
 U-017 resta chiuso. U-020/accessibilità manuale, review semantica lingue e gate produzione integrati sono
 separati e restano aperti. Questo documento non certifica accessibilità o deploy con provider pubblici.
 
@@ -87,3 +87,9 @@ mirata solo per un finding concreto. Non riaprire U-017 strutturale per le metri
 U-020 resta aperto ed è **rinviato su richiesta del maintainer (2026-11-10)**. Questa modifica non
 esegue né approva alcun caso manuale. Il lavoro indipendente sulle lingue può proseguire; il gate finale
 di produzione richiede ancora l’audit manuale e le eventuali correzioni.
+
+## Ordine successivo concordato
+
+Completare il lavoro web già previsto e la decisione App; poi implementare i sottotitoli VTT multilingua
+concordati prima della base autenticata e di OneDrive/SharePoint, Zoom Cloud Recording e Google Drive.
+La 1.7.249 corregge soltanto testi e documentazione. U-020 resta rinviato, con otto casi NON ESEGUITI.

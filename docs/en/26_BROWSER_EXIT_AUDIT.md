@@ -1,12 +1,12 @@
 # U-007 browser automation exit audit
 
-Current tree: VideoTrack **1.7.248** (`2026111101`). Decision recorded 2026-11-09.
+Current tree: VideoTrack **1.7.249** (`2026111102`). Decision recorded 2026-11-09.
 
 ## Decision
 
 **U-007 is closed on the accepted 1.7.240 baseline.** Its essential browser/provider/role matrix has real
 execution on the six Moodle/PHP/database jobs below. Accepted 1.7.241 consolidated that evidence and the
-manual-audit handoff; its actual ZIP/server/strict and six-job release/main CI have passed. The 1.7.248
+manual-audit handoff; its actual ZIP/server/strict and six-job release/main CI have passed. The 1.7.249
 language candidate is documented separately in the [targeted review](27_LANGUAGE_REVIEW.md).
 U-017 remains closed. U-020 manual accessibility, semantic language review and integrated production gates
 are separate and remain open. This document does not certify accessibility or a live provider deployment.
@@ -74,8 +74,8 @@ is claimed. Seeded UI/resume cases and unseeded earned-viewing cases remain expl
 - Record live provider, cookie/consent and content accessibility results during deployment/content acceptance.
 - Complete semantic review of eight language packs; equal keys/placeholders are not semantic approval.
 - Perform the integrated production/lifecycle/privacy/benchmark gate on one exact release ZIP.
-- Then evaluate Moodle App, common authenticated-provider foundations, OneDrive/SharePoint, Zoom Cloud Recording,
-  Google Drive and cross-provider hardening, in the agreed order.
+- Then evaluate Moodle App, implement the agreed multilingual VTT subtitle phase, and continue with common
+  authenticated-provider foundations, OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and cross-provider hardening.
 
 An evidenced adapter/UI regression reopens its affected U-007 cell; a new provider needs its own contracts.
 Additional engines are tested and recorded when relevant to the deployment. Do not infer that they passed

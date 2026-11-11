@@ -53,3 +53,11 @@ evidence. Italian video-time headings now say “Tempo del video”; CSV values/
 After the earlier web work and App decision, the maintainer has requested multilingual VTT subtitles before
 the authenticated providers. Existing multilingual transcripts remain separate. This is sequencing only;
 HTML5 selection/file lifecycle and external-provider feasibility will be implemented/tested in their own phase.
+
+## Activity/player wording review
+
+The current [language review](27_LANGUAGE_REVIEW.md) covers 789 unique keys per pack, including the complete
+unprefixed activity/player/study-tool labels and control/form-error families. The remaining 208 keys per pack
+are outside the claim. Reactions remain available while paused at an already-watched point under existing
+guards; uploaded reaction icons are required for configured file-icon reactions. Image resizing is conditional
+on successful server image processing. Runtime, permissions and personal-data boundaries are unchanged.
