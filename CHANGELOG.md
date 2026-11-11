@@ -1,5 +1,38 @@
 # VideoTrack changelog
 
+## 1.7.248 - 2026-11-11
+
+### Report/export/dashboard language review and agreed VTT sequencing
+
+- Accept actual 1.7.247, 412 distributed files, ZIP SHA-256
+  `6d120c597c97e2d9b245044daea22a212c3f203f152bb2253c31fcf7cdfa8abd`,
+  matching main `68754eb1ddf76a0566a36e93526cc00d2137e4d2`.
+  Candidate/main six-job CI, both actual server reports and supplied
+  strict outputs pass. Manual U-020 remains deferred and NOT RUN.
+- Review 179 non-Analytics report/course/teacher-dashboard keys in eight
+  packs (1432 values), reusing one unchanged accepted key. Cumulative
+  scope is 530 unique keys / 4240 values; 467 keys per pack remain outside
+  the semantic claim. All report: keys and both dashboard families are
+  now covered; this is not native linguistic or accessibility sign-off.
+- Correct seven descriptions in every pack: capped reports/exports do
+  not promise complete results after narrowing filters; the uncapped
+  claim for the heatmap table is removed; CSV help explains allowed
+  learner scope and private bookmark counts; recalculation uses retained
+  server-validated segments and saved duration, not deleted evidence.
+- Correct targeted dashboard/translation labels. The Italian video-time
+  header/sort label becomes "Tempo del video"; CSV data values, column
+  order, selection and formatting code are unchanged. Total: 71 values
+  across 16 existing keys, with numbers and placeholder counts preserved.
+- Record the maintainer's order: finish existing web work and App decision,
+  then extend multilingual VTT subtitles before authenticated-provider
+  foundation/OneDrive, Zoom and Google Drive. Existing multilingual
+  transcript panels are separate; no VTT runtime feature is implemented
+  here. Scope/provider limitations need their own implementation evidence.
+- Update paired guides/review evidence and current version/ER labels.
+  Runtime, permissions, data, DB, AMD, services, tests and CI rules are
+  byte-identical to accepted 1.7.247. XMLDB remains 2026110601. Candidate
+  native CI and actual merged ZIP/server/strict gates are still required.
+
 ## 1.7.247 - 2026-11-10
 
 ### Complete the Analytics-key language pass

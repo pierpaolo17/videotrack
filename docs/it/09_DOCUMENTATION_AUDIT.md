@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.247** (`2026111006`).
+Baseline: VideoTrack **1.7.248** (`2026111101`).
 
 ## Perimetro
 
@@ -33,9 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) restano chiusi.
-  ZIP reale/server/strict e sei job CI candidata/main della 1.7.246 sono accettati. La candidata 1.7.247 completa
-  la review delle chiavi Analytics e corregge 27 valori su cinque chiavi esistenti. Runtime, test, schema,
-  AMD e regole CI invariati. U-020 resta rinviato. Vedere la [review corrente](27_REVISIONE_LINGUE.md).
+  ZIP reale/server/strict e sei job CI candidata/main della 1.7.247 sono accettati. La candidata 1.7.248 copre
+  le chiavi report residue e le dashboard, correggendo 71 valori su 16 chiavi esistenti. Runtime, test,
+  schema, AMD e CI invariati. U-020 resta rinviato. Vedere la [review corrente](27_REVISIONE_LINGUE.md).
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -66,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.247 / 2026111006.
+- Marker documentali, README principali e artefatti ER identificano 1.7.248 / 2026111101.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -186,17 +186,15 @@ Prima della promozione verificare:
 6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
 7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
 
-## Baseline accettata e candidata linguistica correnti
+## Review corrente e fasi successive concordate
 
-Pacchetto reale/server/strict e sei job CI candidata/main della 1.7.246 sono accettati. La candidata 1.7.247
-conserva 412 file, 31 documenti EN/IT ciascuno, 345 righe inventario e 1101 callable PHP/654 AMD. XMLDB resta
-2026110601 con 7 tabelle/151 campi/22 indici/22 foreign key; ER cambia solo etichette versione. Il changelog
-principale conserva la storia delle release.
+La 1.7.247 reale è accettata. La candidata 1.7.248 verifica 179 chiavi report/dashboard / 1432 valori, riusando
+una chiave e verificandone 178 nuove. Cumulativo: 530 chiavi / 4240 valori; 467 chiavi fuori dalla dichiarazione
+semantica. Tutte le 997 chiavi/placeholder restano allineate. Perimetro/rilievi e correzione intenzionale della
+intestazione CSV italiana sono nel [registro review](27_REVISIONE_LINGUE.md).
 
-Tutte le 121 chiavi Analytics sono coperte (968 valori), con evidenze accettate invariate riusate per 22 chiavi
-e 99 esaminate per la prima volta in ogni pacchetto. Perimetro semantico cumulativo: 352 chiavi / 2816 valori
-distinti; 645 chiavi per pacchetto fuori dalla dichiarazione. La candidata corregge 27 valori su cinque chiavi;
-tutte le 997 chiavi/placeholder restano invariate. Il [registro review](27_REVISIONE_LINGUE.md) riporta manifesto
-e rilievi esatti. Runtime/DB/AMD/test/CI invariati. Restano necessari sei job CI candidata e gate ZIP reale dopo
-merge/server/strict. Le otto osservazioni manuali U-020 restano NON ESEGUITE su richiesta del manutentore;
-approvazione madrelingua e produzione integrata restano distinte.
+L’albero di 412 file conserva 31 documenti EN/IT ciascuno, 166 file PHP, 1101 callable PHP/654 AMD, 345 righe
+inventario e XMLDB 7/151/22/22 invariato. Runtime/DB/AMD/test/CI invariati. Servono ancora CI candidata e gate
+ZIP reale dopo merge/server/strict. U-020 resta rinviato. Completare lavoro precedente/decisione App, poi
+estensione sottotitoli VTT concordata, quindi foundation autenticata e OneDrive/SharePoint → Zoom → Google
+Drive. Questa release testuale non introduce funzioni VTT né esiti manuali.

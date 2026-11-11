@@ -1,42 +1,44 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.247** (`2026111006`). Review registrata 2026-11-10.
+Albero corrente: VideoTrack **1.7.248** (`2026111101`). Review registrata 2026-11-11.
 
 ## Perimetro attuale e limiti
 
-La review cumulativa copre **352 chiavi univoche per pacchetto / 2816 valori distinti** in DE, EN, ES, FR,
-HI, IT, PL e PT. Le altre **645 chiavi per pacchetto sono fuori dalla review semantica dichiarata**.
-Questa verifica assistita di codice e lingue non equivale a un’approvazione madrelingua. Le 997 chiavi e i
-placeholder restano allineati; la parità strutturale non prova correttezza semantica o accessibilità.
+La review cumulativa copre **530 chiavi univoche per pacchetto / 4240 valori distinti** in DE, EN, ES, FR,
+HI, IT, PL e PT. Le altre **467 chiavi per pacchetto sono fuori dalla review semantica dichiarata**. Tutte
+le 997 chiavi e le molteplicità dei placeholder restano allineate. Questa review assistita non equivale
+ad approvazione madrelingua, accessibilità manuale o prova di ogni combinazione browser/provider distribuita.
 
-U-017/U-007 restano chiusi. U-020 è aperto/rinviato su richiesta del manutentore: tutte le otto osservazioni
+U-017/U-007 restano chiusi. U-020 è aperto/rinviato su richiesta del manutentore; tutte le otto osservazioni
 manuali restano NON ESEGUITE. Conservare il [protocollo manuale](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
-per il gate finale produzione. Non si deducono esiti manuali, screen reader o provider dal vivo.
+per il gate finale produzione. Il lavoro linguistico indipendente non cambia tale decisione.
 
 ## Punto di partenza accettato
 
-- Versione reale 1.7.246 / `2026111005`: 412 file distribuiti identici a main
-  `c5527eb68e1d58b78999dc24c8f99e14b5872eb8`.
-- SHA-256 ZIP: `c7c65c1933c370c885f44caf413bee2200c8fd6b1dfa4d6527aa26b8191e83b1`.
-- SHA-256 ZIP report server: `804d98775c7096eff316dad5eec8c66dbacc5e89064f69469553a9626b899169`.
-- CI candidata/main `42840354028` / `42864476627`: tutti i sei job superano PHPUnit 379/4076, Behat 50/1074
-  e strict 10/0/0. Report server Moodle 5.0/5.3: PHPCS/lint 166, Grunt e PHPUnit 379/4076 superati; entrambi
-  gli strict forniti sono 10/0/0. Hash AMD prima/dopo Grunt identici. Resta l’avviso noto sull’età dei dati
-  Browserslist; i report server non eseguono Behat o controlli assistivi manuali. Le 24 segnalazioni PHPMD già
-  revisionate e i totali informativi Psalm 732/760 sono distinti dai gate configurati superati.
+- Versione reale 1.7.247 / `2026111006`, 412 file identici a main `68754eb1ddf76a0566a36e93526cc00d2137e4d2`.
+- SHA-256 ZIP: `6d120c597c97e2d9b245044daea22a212c3f203f152bb2253c31fcf7cdfa8abd`.
+- SHA-256 ZIP report server: `3f3e23dd4c9d065dc1b3c6517100c8f482bd2bdef23deda8c20ae806dcd82b35`.
+- CI candidata/main `42912958780` / `42982684717`: tutti i sei job superano PHPUnit 379/4076, Behat 50/1074
+  e strict 10/0/0. I report server reali Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e PHPUnit 379/4076;
+  entrambi gli strict forniti sono 10/0/0. Hash AMD prima/dopo Grunt identici. Avviso noto Browserslist,
+  24 finding PHPMD revisionati e totali informativi Psalm 732/760 restano invariati. I gate configurati
+  sono superati: non si dichiarano zero segnalazioni consultive. I report server non eseguono Behat o
+  controlli assistivi manuali. Non si dichiara una nuova esecuzione nativa in questo workspace.
 
 ## Manifesto completo delle chiavi revisionate
 
-I quattro gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le restanti chiavi esatte.
+I sei gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le altre chiavi esatte.
 
 | Prefisso chiave | Chiavi revisionate per pacchetto |
 |---|---:|
 | `privacy:` | 74 |
 | `completion` | 14 |
 | `setting:` | 110 |
-| `report:analytics_` | 121 |
-| Chiavi esatte aggiuntive elencate sotto | 33 |
-| Totale chiavi univoche | 352 |
+| `report:` | 260 |
+| `coursereport:` | 25 |
+| `teacherdashboard:` | 15 |
+| Altre chiavi esatte | 32 |
+| Totale chiavi univoche | 530 |
 
 - `acknowledgement:enabled_desc`
 - `acknowledgement:pendingvideoend`
@@ -69,87 +71,93 @@ I quattro gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le 
 - `integrity:settingsintro`
 - `integrity:studentnotice`
 - `personalstudytoolsintro`
-- `report:csvexport_bookmarks_help`
 - `studentnotesenabled_help`
 
-## Tranche completa della famiglia Analytics
+## Tranche corrente report/export/dashboard
 
-La tranche copre tutte le **121 chiavi `report:analytics_` / 968 valori**. Esamina 99 nuove chiavi / 792 valori
-e riusa evidenze accettate invariate per 22 chiavi: `report:analytics_noduration` e le 21 chiavi Analytics delle
-reazioni revisionate nella 1.7.246. Il cumulativo elimina le sovrapposizioni delle tranche precedenti. La famiglia
-di chiavi Analytics è ora interamente coperta; le altre famiglie report, comprese etichette dashboard corso/
-docente, sono fuori da questa tranche salvo inclusione esplicita nel manifesto cumulativo. Le definizioni senza
-riferimento diretto di rendering sono conservate: la review non implica nuovi elementi UI o visualizzazione
-corrente. I rilievi precedenti restano nel changelog principale.
+La tranche verifica **179 chiavi / 1432 valori**: tutte le 139 chiavi `report:` non Analytics, 25 chiavi
+`coursereport:` e 15 `teacherdashboard:`. Sono esaminate 178 nuove chiavi / 1424 valori e riusata una chiave
+accettata invariata: `report:csvexport_bookmarks_help`. Resta accettata la review precedente delle 121 chiavi
+Analytics. Sono ora coperte tutte le 260 chiavi report e le due famiglie dashboard. Chiavi conservate senza
+chiamata diretta di rendering attiva non sono presentate come nuove funzioni visibili; gli avvisi privacy
+dashboard inutilizzati non vengono reintrodotti. L’accesso ai conteggi esatti delle dashboard non cambia.
 
-Sono inclusi snapshot/medie presa visione, identità video e gruppi tra corsi, privacy dei segnalibri, intervalli
-ed export, legende heatmap/retention, oscuramento, fallback dello stato conservato ed etichette dei riepiloghi.
-Riferimenti: `report.php`, `analytics_scope`/`analytics_scope_matcher`, `acknowledgement_analytics`,
-`analytics_timeline`, `analytics`, `report_support`, `analytics_table_export` e i servizi di presentazione,
-riepilogo e timeline dei report in `classes/local`.
+## Rilievi dal codice
 
-## Rilievi dal codice e correzioni
+- `report_support::cluster_reaction_events()` continua a leggere eventi ordinati dopo il limite configurato,
+  scartando nuovi cluster ma potendo aggiungere eventi a cluster già attivi. `report.php` avvisa; in assenza
+  di filtro sul tempo video nasconde la tabella limitata e ferma il CSV cumulativo prima delle righe cluster.
+  Con un filtro presente, righe limitate possono ancora essere mostrate/esportate con avvisi. Restringere
+  l’intervallo non garantisce completezza. Quattro avvisi/help ora spiegano questi confini; il testo heatmap
+  descrive il sottoinsieme conservato senza promettere dati completi nella tabella.
+- Il CSV personalizzato in `report.php` conserva il filtro learner consentito. La modalità complessiva azzera
+  soltanto la selezione del singolo studente, non i permessi. Dettagliata/sintetica conservano le rispettive
+  righe reazioni/note; i bookmark sono conteggi per studente o complessivi, senza etichette/timestamp privati.
+  L’help ora comprende questi fatti. Esempio di concatenazione note e relativi numeri restano invariati.
+- Il ricalcolo passa da `videotrack_recalculate_all_states()` e `tracker::rebuild_state_from_segments()`:
+  segmenti conservati con `servervalidated = 1`, durata salvata autorevole e condizioni completion correnti.
+  Il testo distingue il ricalcolo dal recupero di evidenze eliminate. Questa patch testuale non crea segmenti,
+  credito o budget di sessione; la sincronizzazione completion esistente è preservata.
+- Correzioni mirate riguardano studenti che hanno iniziato, attività/assenza visioni, azione polacca di ricalcolo
+  completion e ambito utenti export hindi. `report:timestamp` e la chiave conservata `report:sorttime` italiana
+  diventano «Tempo del video»: celle e CSV di produzione usano offset video, con date di creazione separate.
+  L’intestazione CSV italiana cambia quindi intenzionalmente; ordine colonne, valori e codice di formattazione
+  non cambiano. Le intestazioni timestamp delle altre lingue sono conservate.
 
-- `report.php` costruisce Analytics da segmenti grezzi e stato conservato. `report_support::analytics_prefers_state_fallback()`
-  sceglie lo stato se conserva più spettatori o copertura unica. La ricostruzione dallo stato fornisce intervalli
-  di visione unica, senza metriche di revisione. La descrizione generale conservata ora spiega entrambe le
-  fonti e il limite; la modifica non aggiunge chiamate di rendering. Avviso e comportamento fallback esistenti
-  non cambiano.
-- `analytics::mask_timeline_bins()` oscura sottogruppi positivi di spettatori/revisione sotto soglia. Gli intervalli
-  a zero possono restare visibili; popolazioni di intervallo oscurate nascondono anche percentuali di retention
-  che potrebbero rivelare il denominatore protetto. La metodologia ora descrive sottogruppi non vuoti, conteggi
-  zero potenzialmente visibili e percentuali protette. `report_view::analytics_methodology()` continua a omettere
-  questo testo per report esatti autorizzati individualmente. Nessuna regola o soglia privacy cambia.
-- `report.php` mostra riepiloghi reazioni/segnalibri/prese visione/integrità prima del ramo senza visioni,
-  mentre la tabella indipendente dei cluster può seguirlo. Prese visione o dati di integrità possono attivare
-  quel ramo senza dati reazioni/segnalibri. L’avviso ora parla di intervalli validi e riepiloghi indipendenti
-  eventualmente disponibili, soggetti a permessi/privacy. Non promette una posizione sotto l’avviso o un
-  riepilogo in assenza della relativa funzione o dei dati.
-- La legenda del colore intenso DE/HI poteva suggerire conteggi superiori al massimo della selezione.
-  La heatmap normalizza rispetto al massimo visibile: le due traduzioni ora esprimono un’intensità relativa.
-  La metodologia visione unica/revisione FR sostituisce l’ambiguo `revision` senza accento con il termine
-  `relecture` già usato nelle etichette. Scala cromatica e metriche non cambiano.
-
-I test esistenti coprono visibilità degli intervalli a zero, oscuramento sottogruppi, sola revisione sotto
-soglia, metodologia esatta, scelta fallback e markup heatmap, inclusi
-`analytics_test::test_privacy_threshold_keeps_zero_intervals_visible()` e
-`report_view_test::test_exact_analytics_methodology_omits_privacy_threshold_text()`.
-Tutti i corpi dei test sono invariati. Gli esiti della baseline accettata non sono nuove esecuzioni locali candidata.
+Evidenze: `report.php`, `report_support`, `csv_export`/`csv_event_writer`/`csv_event_timestamps`,
+`course_analytics`/`teacher_analytics`, `reports_course.php`, `reports_teacher.php`, `lib.php` e `tracker`.
+Test esistenti cluster/export/corso/ricalcolo invariati; gli esiti della baseline non sono riattribuiti alla
+candidata. Nessun nuovo test duplica queste sole correzioni di valori letterali.
 
 ## Chiavi esatte modificate nella candidata
 
-- `report:analytics_description`
-- `report:analytics_heatmap_legend_high`
-- `report:analytics_method_privacy`
-- `report:analytics_method_unique`
-- `report:analytics_noviewingdata_events`
+- `coursereport:col_students_started`
+- `coursereport:intro`
+- `coursereport:nodata`
+- `report:clusterlimitreached`
+- `report:clusterlimitreached_help`
+- `report:clusterlimitrequiresfilters`
+- `report:clusterlimitrequiresfilters_csv`
+- `report:csvexport_format_help`
+- `report:csvexport_scope`
+- `report:heatmap_desc`
+- `report:heatmap_supplementary`
+- `report:noattempts`
+- `report:recalculate`
+- `report:recalculate_description`
+- `report:sorttime`
+- `report:timestamp`
 
-Le tre descrizioni sono corrette in tutti i pacchetti; la legenda intensa soltanto in DE/HI e il termine
-visione unica/revisione soltanto in FR. Ogni pacchetto cambia solo i propri rilievi fondati sul codice.
+Sette descrizioni cambiano in ogni pacchetto; le altre modifiche sono rilievi mirati delle traduzioni.
 
 | Pacchetto | Valori modificati |
 |---|---:|
-| DE | 4 |
-| EN | 3 |
-| ES | 3 |
-| FR | 4 |
-| HI | 4 |
-| IT | 3 |
-| PL | 3 |
-| PT | 3 |
+| DE | 11 |
+| EN | 7 |
+| ES | 8 |
+| FR | 8 |
+| HI | 9 |
+| IT | 11 |
+| PL | 9 |
+| PT | 8 |
 
-Totale: **27 valori modificati su cinque chiavi esistenti**. Chiavi, molteplicità dei placeholder e numeri
-restano invariati in ogni pacchetto. Nessuna nuova chiave lingua o campo dati.
+Totale: **71 valori su 16 chiavi esistenti**. Nessuna chiave aggiunta o rimossa. Placeholder, numeri ed esempi
+originali delle note per lingua sono conservati. I rilievi precedenti restano nel changelog principale.
 
-## Gate candidata e lavoro residuo
+## Gate candidata e sequenza concordata
 
-La 1.7.247 contiene 412 file distribuiti / 31 documenti per lingua, 166 file PHP, 1101 callable PHP/654 AMD
-e 345 righe inventario non documentale. Schema invariato: XMLDB `2026110601`, 7 tabelle / 151 campi / 22 indici /
-22 foreign key. ER cambia soltanto le etichette versione correnti. Runtime, permessi, dati, servizi, DB,
-AMD, test, fixture e regole CI/analisi sono identici byte per byte alla 1.7.246 accettata.
+La candidata conserva 412 file, 31 documenti EN/IT ciascuno, 166 file PHP, 1101 callable PHP/654 AMD e 345 righe
+inventario. XMLDB resta `2026110601`: 7 tabelle / 151 campi / 22 indici / 22 foreign key. ER cambia soltanto
+etichette versione. Logica runtime, permessi, dati salvati, DB, servizi, AMD, test, fixture e regole CI sono
+identici byte per byte alla 1.7.247 accettata. Cambiano soltanto testi, guide e metadati versione.
 
-I controlli locali di contratto/delta/link e applicazione/inversione esatta della patch sono distinti dalle
-esecuzioni native. Servono ancora tutti i sei job CI candidata, poi ZIP reale dopo merge/report server/strict.
-Suite attesa invariata: 379 test PHPUnit / 4076 asserzioni e 50 scenari Behat / 1074 passi. Sono aspettative
-della baseline, non esiti di esecuzione candidata. Restano aperti review semantica residua, U-020 manuale,
-gate integrato produzione e successive fasi App/provider autenticati.
+I controlli locali contratto/delta/link e applicazione/inversione esatta non sostituiscono sei job CI candidata,
+poi ZIP reale dopo merge/report server/strict. Suite attesa invariata: 379 test PHPUnit / 4076 asserzioni,
+50 scenari Behat / 1074 passi. Sono attese, non esiti candidata.
+
+Ordine concordato col manutentore: terminare lavoro web precedente e decisione App, poi aggiungere sottotitoli
+VTT multilingue prima della foundation autenticata e di OneDrive/SharePoint, Zoom Cloud e Google Drive.
+Il pannello di trascrizione multilingue esistente resta distinto dai sottotitoli nel video. Qui non cambia
+il runtime VTT. Controlli HTML5/lifecycle file e fattibilità provider esterni/fullscreen richiedono evidenze
+dedicate; la pubblicazione automatica su account terzi non è inclusa nel piano. U-020 resta rinviato;
+U-017/U-007 non vengono riaperti per metriche cosmetiche.

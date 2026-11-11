@@ -37,3 +37,19 @@ bookmark, acknowledgement and integrity summaries depend on their own data/featu
 rules. Several summaries precede the no-viewing notice, while a reaction-cluster table can follow it. The
 notice therefore does not promise their page position or availability. These are existing behaviours; the
 language patch changes neither source selection nor masking, metrics, exports or report layout.
+
+## Cumulative reports, exports and recalculation wording
+
+Cumulative reaction reports use `reportclusterlimit`, separately from the fixed Analytics cluster cap.
+When capped without a video-time range filter, the table is hidden and cumulative CSV stops before cluster
+rows. A range filter permits capped rows with a warning; narrowing does not guarantee complete data. The
+supplementary heatmap and its table share the same retained subset.
+
+Custom CSV Overall mode includes all permitted learners, regardless of a single learner selection, while
+retaining access filters. Bookmarks remain counts only; private labels/timestamps are absent in every format.
+Recalculation rebuilds from retained server-validated segments and saved duration; it cannot restore deleted
+evidence. Italian video-time headings now say “Tempo del video”; CSV values/column order are unchanged.
+
+After the earlier web work and App decision, the maintainer has requested multilingual VTT subtitles before
+the authenticated providers. Existing multilingual transcripts remain separate. This is sequencing only;
+HTML5 selection/file lifecycle and external-provider feasibility will be implemented/tested in their own phase.

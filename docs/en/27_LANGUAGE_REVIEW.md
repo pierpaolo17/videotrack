@@ -1,42 +1,44 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.247** (`2026111006`). Review recorded 2026-11-10.
+Current tree: VideoTrack **1.7.248** (`2026111101`). Review recorded 2026-11-11.
 
 ## Current scope and limits
 
-The cumulative review covers **352 unique keys per pack / 2816 distinct values** in DE, EN, ES, FR, HI,
-IT, PL and PT. The other **645 keys per pack are outside the claimed semantic review**. This assisted
-source/language review is not native linguistic sign-off. All 997 keys/placeholders remain structurally
-aligned; structural parity does not establish semantic or accessibility correctness.
+The cumulative review covers **530 unique keys per pack / 4240 distinct values** in DE, EN, ES, FR, HI,
+IT, PL and PT. The other **467 keys per pack are outside the claimed semantic review**. All 997 keys and
+placeholder multiplicities remain structurally aligned. This assisted review is not native linguistic
+sign-off, manual accessibility approval or proof of every deployed browser/provider combination.
 
 U-017/U-007 remain closed. U-020 is open/deferred at the maintainer’s request; all eight manual observations
 remain NOT RUN. Retain the [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) for the
-final production gate. No manual, screen-reader or live-provider result is inferred here.
+final production gate. Independent language work does not change that decision.
 
 ## Accepted starting point
 
-- Actual 1.7.246 / `2026111005`: 412 distributed files identical to main
-  `c5527eb68e1d58b78999dc24c8f99e14b5872eb8`.
-- ZIP SHA-256: `c7c65c1933c370c885f44caf413bee2200c8fd6b1dfa4d6527aa26b8191e83b1`.
-- Server-report ZIP SHA-256: `804d98775c7096eff316dad5eec8c66dbacc5e89064f69469553a9626b899169`.
-- Candidate/main CI `42840354028` / `42864476627`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
-  strict 10/0/0. Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076; both supplied
-  strict outputs are 10/0/0. AMD hashes before/after Grunt match. The known Browserslist data-age advisory
-  remains; server reports did not run Behat/manual assistive checks. The 24 reviewed PHPMD findings and
-  Psalm informative totals 732/760 remain separate from passing configured analysis gates.
+- Actual 1.7.247 / `2026111006`, 412 files identical to main `68754eb1ddf76a0566a36e93526cc00d2137e4d2`.
+- ZIP SHA-256: `6d120c597c97e2d9b245044daea22a212c3f203f152bb2253c31fcf7cdfa8abd`.
+- Server-report ZIP SHA-256: `3f3e23dd4c9d065dc1b3c6517100c8f482bd2bdef23deda8c20ae806dcd82b35`.
+- Candidate/main CI `42912958780` / `42982684717`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
+  strict 10/0/0. Actual Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076;
+  both supplied strict outputs are 10/0/0. AMD hashes before/after Grunt match. The known Browserslist
+  data-age notice, 24 reviewed PHPMD findings and Psalm informative totals 732/760 are unchanged.
+  Configured analysis gates pass; this is not a zero-advisory claim. Server reports did not run Behat
+  or manual assistive checks. No new native execution in this workspace is claimed.
 
 ## Complete cumulative reviewed-key manifest
 
-These four prefix groups are exhaustive in the current packs; the remaining exact keys are listed below.
+These six prefix groups are exhaustive in the current packs; additional exact keys follow.
 
 | Key prefix | Reviewed keys per pack |
 |---|---:|
 | `privacy:` | 74 |
 | `completion` | 14 |
 | `setting:` | 110 |
-| `report:analytics_` | 121 |
-| Additional exact keys listed below | 33 |
-| Total unique keys | 352 |
+| `report:` | 260 |
+| `coursereport:` | 25 |
+| `teacherdashboard:` | 15 |
+| Additional exact keys | 32 |
+| Total unique keys | 530 |
 
 - `acknowledgement:enabled_desc`
 - `acknowledgement:pendingvideoend`
@@ -69,87 +71,93 @@ These four prefix groups are exhaustive in the current packs; the remaining exac
 - `integrity:settingsintro`
 - `integrity:studentnotice`
 - `personalstudytoolsintro`
-- `report:csvexport_bookmarks_help`
 - `studentnotesenabled_help`
 
-## Complete Analytics-family pass
+## Current report/export/dashboard pass
 
-This pass covers all **121 `report:analytics_` keys / 968 values**. It newly examines 99 keys / 792 values
-and reuses unchanged accepted evidence for 22 keys: `report:analytics_noduration` and the 21 reaction-related
-Analytics keys reviewed in 1.7.246. The cumulative count deduplicates previous passes. The whole Analytics
-key family is now covered; other report families, including course/teacher dashboard labels, are outside
-this pass unless explicitly included by the cumulative manifest. Definitions without a direct rendering
-reference are retained; their review does not imply a new UI element or current display. Previous findings
-remain in the root changelog.
+This pass reviews **179 keys / 1432 values**: all 139 non-Analytics `report:` keys, 25 `coursereport:` keys
+and 15 `teacherdashboard:` keys. There are 178 newly examined keys / 1424 values, and one reused accepted
+unchanged key: `report:csvexport_bookmarks_help`. The earlier 121-key Analytics review remains accepted.
+All 260 report keys and both dashboard families are now covered. Retained keys without a direct active
+rendering call are not presented as newly displayed functionality; existing unused dashboard privacy
+notices are not reintroduced. Exact-count dashboard access remains unchanged.
 
-The pass covers acknowledgement snapshots/averages, cross-course matching/group scope, bookmark privacy,
-intervals and exports, heatmap/retention legends, suppression, retained-state fallback and highlight labels.
-Source references include `report.php`, `analytics_scope`/`analytics_scope_matcher`,
-`acknowledgement_analytics`, `analytics_timeline`, `analytics`, `report_support`, `analytics_table_export`
-and the report view/summary/timeline services under `classes/local`.
+## Source findings
 
-## Source findings and corrections
+- `report_support::cluster_reaction_events()` continues reading ordered events after its configured cap,
+  skipping new clusters while existing active clusters can still collect events. `report.php` warns; when
+  there is no video-time filter it hides the capped table and stops the cumulative CSV before cluster rows.
+  With a filter present, capped rows can still be shown/exported with warnings. Narrowing a range is not
+  a completeness guarantee. Four warnings/help texts now state those boundaries; the heatmap explanation
+  describes the retained cluster subset instead of promising complete data in its table.
+- Custom CSV in `report.php` retains the permitted learner condition. Overall mode clears only the single
+  learner selection, not the permission scope. Detailed/summary modes preserve their reaction/note rows;
+  bookmarks are counts per learner or overall, with private labels/timestamps excluded. Format help now
+  covers these facts. The note concatenation example and its numeric tokens remain unchanged in every pack.
+- Recalculation routes through `videotrack_recalculate_all_states()` and `tracker::rebuild_state_from_segments()`:
+  retained `servervalidated = 1` segments, saved authoritative duration and current completion conditions.
+  Text now distinguishes this from reconstructing deleted evidence. No new segment, credit or session
+  budget is created by this wording patch; existing completion synchronisation is preserved.
+- Targeted translations correct the started-learner label, activity/no-viewing messages, the Polish
+  completion-recalculation action and the Hindi export-user scope. Italian `report:timestamp` and retained
+  `report:sorttime` become “Tempo del video”: production table/CSV cells hold video offsets, while creation
+  dates have separate columns. Thus the Italian visible CSV header changes deliberately; column order,
+  data values and formatter code do not. Other languages’ timestamp headers are preserved.
 
-- `report.php` builds raw-segment and retained-state Analytics. `report_support::analytics_prefers_state_fallback()`
-  selects state when it retains more viewers or unique coverage. State reconstruction supplies unique-view
-  intervals but no repeat metrics. The retained general description now explains both sources and that
-  limitation; this edit adds no rendering call. The existing fallback notice/behaviour is unchanged.
-- `analytics::mask_timeline_bins()` masks positive viewer/replay subgroups below the threshold. Zero intervals
-  can remain visible; masked interval populations also suppress retention percentages that could expose
-  the protected denominator. Methodology now describes non-empty subgroups, potentially visible zero
-  counts and protected percentages. `report_view::analytics_methodology()` still omits this threshold text
-  for exact individual-authorised reports. No masking rule or threshold is changed.
-- `report.php` renders reaction/bookmark/acknowledgement/integrity summaries before the no-viewing branch,
-  while the independent cluster table can follow it. Acknowledgements or integrity data can trigger that
-  branch without reaction/bookmark data. The notice now refers to valid viewing intervals and independently
-  available event summaries, subject to permissions/privacy. It no longer promises a position below the
-  notice or a summary when its data/feature is absent.
-- The DE/HI high-colour legend could imply viewer counts exceeding the selection maximum. The heatmap
-  normalises against its visible maximum; these two translations now express relative intensity. The FR
-  unique/repeat methodology replaces the ambiguous unaccented `revision` with the existing `relecture`
-  terminology. No colour scale or metric is changed.
-
-Existing tests cover zero-interval visibility, small subgroup masking, replay-only suppression, exact-report
-methodology, fallback selection and heatmap markup, including
-`analytics_test::test_privacy_threshold_keeps_zero_intervals_visible()` and
-`report_view_test::test_exact_analytics_methodology_omits_privacy_threshold_text()`.
-All test bodies remain unchanged. Their accepted baseline results are not new local candidate execution.
+Evidence: `report.php`, `report_support`, `csv_export`/`csv_event_writer`/`csv_event_timestamps`,
+`course_analytics`/`teacher_analytics`, `reports_course.php`, `reports_teacher.php`, `lib.php` and `tracker`.
+Existing cluster/export/course/recalculation tests are unchanged; accepted baseline execution is not
+relabelled as candidate execution. No new tests duplicate these literal-only corrections.
 
 ## Exact keys changed in the candidate
 
-- `report:analytics_description`
-- `report:analytics_heatmap_legend_high`
-- `report:analytics_method_privacy`
-- `report:analytics_method_unique`
-- `report:analytics_noviewingdata_events`
+- `coursereport:col_students_started`
+- `coursereport:intro`
+- `coursereport:nodata`
+- `report:clusterlimitreached`
+- `report:clusterlimitreached_help`
+- `report:clusterlimitrequiresfilters`
+- `report:clusterlimitrequiresfilters_csv`
+- `report:csvexport_format_help`
+- `report:csvexport_scope`
+- `report:heatmap_desc`
+- `report:heatmap_supplementary`
+- `report:noattempts`
+- `report:recalculate`
+- `report:recalculate_description`
+- `report:sorttime`
+- `report:timestamp`
 
-The general viewing description, privacy methodology and no-viewing notice are corrected in every pack;
-the high-intensity legend only in DE/HI and the
-unique/repeat terminology only in FR. Each pack changes only its source-proven findings.
+Seven descriptions change in each pack; other changes are targeted translation findings.
 
 | Pack | Values changed |
 |---|---:|
-| DE | 4 |
-| EN | 3 |
-| ES | 3 |
-| FR | 4 |
-| HI | 4 |
-| IT | 3 |
-| PL | 3 |
-| PT | 3 |
+| DE | 11 |
+| EN | 7 |
+| ES | 8 |
+| FR | 8 |
+| HI | 9 |
+| IT | 11 |
+| PL | 9 |
+| PT | 8 |
 
-Total: **27 changed values across five existing keys**. Keys, placeholder multiplicities and numeric tokens
-are preserved in every pack. No language key or data field is added.
+Total: **71 values across 16 existing keys**. No key is added or removed. Placeholder counts, numeric tokens
+and the original per-language note examples are preserved. Earlier findings remain in the root changelog.
 
-## Candidate gates and remaining work
+## Candidate gates and agreed sequence
 
-1.7.247 contains 412 distributed files / 31 documents per language, 166 PHP files, 1101 PHP/654 AMD callables
-and 345 non-documentary inventory rows. Schema remains XMLDB `2026110601`: 7 tables / 151 fields / 22 indexes /
-22 foreign keys. ER changes only current-tree version labels. Runtime, access rules, data, services, DB,
-AMD, tests, fixtures and CI/analysis rules are byte-identical to accepted 1.7.246.
+The candidate retains 412 files, 31 EN/IT documents each, 166 PHP files, 1101 PHP/654 AMD callables and 345
+inventory rows. XMLDB stays `2026110601`: 7 tables / 151 fields / 22 indexes / 22 foreign keys. ER changes
+only version labels. Runtime logic, access rules, stored data, DB, services, AMD, tests, fixtures and CI
+rules are byte-identical to accepted 1.7.247. Only wording, guides and version metadata differ.
 
-Local contract/delta/link and exact patch apply/reverse checks are separate from native execution. Candidate
-CI still needs all six jobs, followed by actual merged ZIP/server reports/strict. Expected unchanged suite:
-379 PHPUnit tests / 4076 assertions and 50 Behat scenarios / 1074 steps. These are baseline expectations,
-not candidate execution results. Remaining semantic review, manual U-020, the integrated production gate
-and subsequent App/authenticated-provider stages remain open.
+Local contract/delta/link and exact apply/reverse checks do not replace six candidate CI jobs and then
+actual merged ZIP/server reports/strict. Expected unchanged suite: 379 PHPUnit tests / 4076 assertions,
+50 Behat scenarios / 1074 steps. These are expectations, not candidate results.
+
+The maintainer’s agreed order is: finish the existing web work and App decision, then add multilingual VTT
+subtitles before authenticated-provider foundation and OneDrive/SharePoint, Zoom Cloud and Google Drive.
+The existing multilingual transcript panel remains distinct from subtitles over the video. No VTT runtime
+change is included here. HTML5 controls/file lifecycle and external-provider/fullscreen feasibility need
+their own evidence; automatic publication to third-party accounts is not included by this plan. U-020
+remains deferred. U-017/U-007 are not reopened for cosmetic metrics.
