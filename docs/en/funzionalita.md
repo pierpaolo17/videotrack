@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.248 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.249 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -198,3 +198,11 @@ Activity attention pauses default to 1/3–2/3 of the saved duration. Teachers c
 The same-session setting governs notes/reactions. Historical-age limits are used by notes, bookmarks and
 learner Forum links; reactions do not apply that age window. These existing distinctions are detailed in
 [security and trust boundaries](13_SECURITY_TRUST_BOUNDARIES.md).
+
+## Activity/player wording review
+
+The current [language review](27_LANGUAGE_REVIEW.md) covers 789 unique keys per pack, including the complete
+unprefixed activity/player/study-tool labels and control/form-error families. The remaining 208 keys per pack
+are outside the claim. Reactions remain available while paused at an already-watched point under existing
+guards; uploaded reaction icons are required for configured file-icon reactions. Image resizing is conditional
+on successful server image processing. Runtime, permissions and personal-data boundaries are unchanged.

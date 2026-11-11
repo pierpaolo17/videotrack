@@ -1,44 +1,57 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.248** (`2026111101`). Review registrata 2026-11-11.
+Albero corrente: VideoTrack **1.7.249** (`2026111102`). Review registrata 2026-11-11.
 
-## Perimetro attuale e limiti
+## Perimetro e limiti
 
-La review cumulativa copre **530 chiavi univoche per pacchetto / 4240 valori distinti** in DE, EN, ES, FR,
-HI, IT, PL e PT. Le altre **467 chiavi per pacchetto sono fuori dalla review semantica dichiarata**. Tutte
-le 997 chiavi e le molteplicità dei placeholder restano allineate. Questa review assistita non equivale
-ad approvazione madrelingua, accessibilità manuale o prova di ogni combinazione browser/provider distribuita.
+La review cumulativa copre **789 chiavi univoche per pacchetto / 6312 valori** in DE, EN, ES, FR, HI, IT, PL e PT.
+Le altre **208 chiavi per pacchetto restano fuori dalla review semantica dichiarata**. Tutte le 997 chiavi e le
+molteplicità dei placeholder sono allineate strutturalmente. Questa review assistita sul codice non equivale
+ad approvazione madrelingua, accessibilità manuale o certificazione di ogni combinazione browser/provider.
 
-U-017/U-007 restano chiusi. U-020 è aperto/rinviato su richiesta del manutentore; tutte le otto osservazioni
-manuali restano NON ESEGUITE. Conservare il [protocollo manuale](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
-per il gate finale produzione. Il lavoro linguistico indipendente non cambia tale decisione.
+U-017 e U-007 restano chiusi. U-020 resta aperto e rinviato su richiesta del manutentore; tutte le otto
+osservazioni manuali sono NON ESEGUITE. Il [protocollo manuale](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
+resta parte del gate finale produzione. Il lavoro linguistico indipendente non approva tali osservazioni.
 
 ## Punto di partenza accettato
 
-- Versione reale 1.7.247 / `2026111006`, 412 file identici a main `68754eb1ddf76a0566a36e93526cc00d2137e4d2`.
-- SHA-256 ZIP: `6d120c597c97e2d9b245044daea22a212c3f203f152bb2253c31fcf7cdfa8abd`.
-- SHA-256 ZIP report server: `3f3e23dd4c9d065dc1b3c6517100c8f482bd2bdef23deda8c20ae806dcd82b35`.
-- CI candidata/main `42912958780` / `42982684717`: tutti i sei job superano PHPUnit 379/4076, Behat 50/1074
-  e strict 10/0/0. I report server reali Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e PHPUnit 379/4076;
-  entrambi gli strict forniti sono 10/0/0. Hash AMD prima/dopo Grunt identici. Avviso noto Browserslist,
-  24 finding PHPMD revisionati e totali informativi Psalm 732/760 restano invariati. I gate configurati
-  sono superati: non si dichiarano zero segnalazioni consultive. I report server non eseguono Behat o
-  controlli assistivi manuali. Non si dichiara una nuova esecuzione nativa in questo workspace.
+- Versione reale 1.7.248 / `2026111101`, 412 file identici a main `9e53a6f1eb042b57612aca0bae7e1b263f5771e6`.
+- SHA-256 ZIP: `05f0c797dca4fef7cd629300b20bc00d501ea6d58e23fa67d39415e6715b6daa`.
+- SHA-256 ZIP report server: `43144759d020f0eedac37dbf2a30cfe05cc0a89fff4d695a82a1bc896302669d`.
+- CI candidata `42995227950`: sei job superano PHPUnit 379/4076, Behat 50/1074 e strict 10/0/0 al primo
+  tentativo degli scenari. CI dopo merge `42999353066`: tutti i sei job terminano con successo; cinque
+  superano Behat al primo tentativo. Moodle 5.1 fallisce inizialmente un’asserzione sulla visibilità della
+  reazione dopo rollback Vimeo: l’etichetta è presente ma non visibile. La riesecuzione completa supera
+  1 scenario / 43 passi. Resta invariata la policy di riesecuzione dello strumento. La causa esatta non è
+  provata: conservare l’osservazione intermittente per eventuali ricorrenze, senza dichiarare sei primi
+  tentativi puliti o una regressione funzionale dimostrata.
+- I report server reali Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e PHPUnit 379/4076. Entrambi gli strict
+  forniti sono 10/0/0; gli hash AMD prima/dopo Grunt coincidono. I report server non eseguono Behat o controlli
+  assistivi manuali. Restano registrati l’avviso noto Browserslist, 24 finding PHPMD revisionati e i totali
+  informativi Psalm 732/760. I gate configurati passano: non si dichiarano zero segnalazioni consultive
+  né una nuova esecuzione nativa nel workspace.
 
-## Manifesto completo delle chiavi revisionate
+## Manifesto completo delle chiavi cumulative
 
-I sei gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le altre chiavi esatte.
+I selettori seguenti sono esaustivi e disgiunti. “Senza due punti” include completion e le chiavi senza
+prefisso di metadati, attività, player, strumenti di studio e ciclo di vita. Le chiavi conservate senza
+rendering attivo sono revisionate come testo conservato: non si introducono o certificano nuove funzioni.
 
-| Prefisso chiave | Chiavi revisionate per pacchetto |
+| Selettore | Chiavi revisionate per pacchetto |
 |---|---:|
 | `privacy:` | 74 |
-| `completion` | 14 |
 | `setting:` | 110 |
 | `report:` | 260 |
 | `coursereport:` | 25 |
 | `teacherdashboard:` | 15 |
-| Altre chiavi esatte | 32 |
-| Totale chiavi univoche | 530 |
+| `ctrl:` | 12 |
+| `html5:` | 12 |
+| `source:` | 3 |
+| `err:` | 14 |
+| `completiondetail:` | 8 |
+| Tutte le chiavi senza due punti | 228 |
+| Altre chiavi esatte elencate sotto | 28 |
+| Totale chiavi univoche | 789 |
 
 - `acknowledgement:enabled_desc`
 - `acknowledgement:pendingvideoend`
@@ -46,8 +59,6 @@ I sei gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le altr
 - `acknowledgement:text_help`
 - `acknowledgement:timing_help`
 - `acknowledgement:videoendrequired`
-- `bookmarks_private_notice`
-- `durationseconds_help`
 - `error:bookmarksratelimit`
 - `error:learnertrackingstaff`
 - `error:notesratelimit`
@@ -70,94 +81,95 @@ I sei gruppi per prefisso sono esaustivi nei pacchetti correnti; seguono le altr
 - `integrity:reportintro`
 - `integrity:settingsintro`
 - `integrity:studentnotice`
-- `personalstudytoolsintro`
-- `studentnotesenabled_help`
 
-## Tranche corrente report/export/dashboard
+## Tranche corrente attività/player/strumenti di studio
 
-La tranche verifica **179 chiavi / 1432 valori**: tutte le 139 chiavi `report:` non Analytics, 25 chiavi
-`coursereport:` e 15 `teacherdashboard:`. Sono esaminate 178 nuove chiavi / 1424 valori e riusata una chiave
-accettata invariata: `report:csvexport_bookmarks_help`. Resta accettata la review precedente delle 121 chiavi
-Analytics. Sono ora coperte tutte le 260 chiavi report e le due famiglie dashboard. Chiavi conservate senza
-chiamata diretta di rendering attiva non sono presentate come nuove funzioni visibili; gli avvisi privacy
-dashboard inutilizzati non vengono reintrodotti. L’accesso ai conteggi esatti delle dashboard non cambia.
+Questa tranche esamina **259 nuove chiavi / 2072 valori**, senza riusare chiavi accettate: le restanti 218
+chiavi senza prefisso e tutte le 41 chiavi `ctrl:`, `html5:`, `source:` e `err:`. Resta accettata la precedente
+evidenza su 530 chiavi. Il cumulativo è 789; ne restano 208. I rilievi precedenti sono conservati nel changelog.
 
-## Rilievi dal codice
+### Rilievi basati sui percorsi effettivi del codice
 
-- `report_support::cluster_reaction_events()` continua a leggere eventi ordinati dopo il limite configurato,
-  scartando nuovi cluster ma potendo aggiungere eventi a cluster già attivi. `report.php` avvisa; in assenza
-  di filtro sul tempo video nasconde la tabella limitata e ferma il CSV cumulativo prima delle righe cluster.
-  Con un filtro presente, righe limitate possono ancora essere mostrate/esportate con avvisi. Restringere
-  l’intervallo non garantisce completezza. Quattro avvisi/help ora spiegano questi confini; il testo heatmap
-  descrive il sottoinsieme conservato senza promettere dati completi nella tabella.
-- Il CSV personalizzato in `report.php` conserva il filtro learner consentito. La modalità complessiva azzera
-  soltanto la selezione del singolo studente, non i permessi. Dettagliata/sintetica conservano le rispettive
-  righe reazioni/note; i bookmark sono conteggi per studente o complessivi, senza etichette/timestamp privati.
-  L’help ora comprende questi fatti. Esempio di concatenazione note e relativi numeri restano invariati.
-- Il ricalcolo passa da `videotrack_recalculate_all_states()` e `tracker::rebuild_state_from_segments()`:
-  segmenti conservati con `servervalidated = 1`, durata salvata autorevole e condizioni completion correnti.
-  Il testo distingue il ricalcolo dal recupero di evidenze eliminate. Questa patch testuale non crea segmenti,
-  credito o budget di sessione; la sincronizzazione completion esistente è preservata.
-- Correzioni mirate riguardano studenti che hanno iniziato, attività/assenza visioni, azione polacca di ricalcolo
-  completion e ambito utenti export hindi. `report:timestamp` e la chiave conservata `report:sorttime` italiana
-  diventano «Tempo del video»: celle e CSV di produzione usano offset video, con date di creazione separate.
-  L’intestazione CSV italiana cambia quindi intenzionalmente; ordine colonne, valori e codice di formattazione
-  non cambiano. Le intestazioni timestamp delle altre lingue sono conservate.
+- Sottotitoli: YouTube riceve flag di preferenza; Vimeo richiede una traccia esistente corrispondente e gestisce
+  l’assenza della traccia. Nessuno dei due crea tracce sul provider. HTML5 allega un singolo `<track>` VTT e usa
+  la lingua come `srclang`/etichetta. Gli help distinguono disponibilità, metadati e file separati di trascrizione.
+  Non si introducono sottotitoli nativi multipli o un overlay Moodle sopra gli iframe esterni.
+- Le reazioni si possono salvare in pausa in un punto già visto, secondo le regole esistenti di partecipazione,
+  feature, sessione e validazione. L’avviso di storico vuoto non implica più che il video debba essere in corso.
+  Le etichette mirate distinguono il minimo di tipi distinti da un requisito generico sulle reazioni.
+- `view.php` fornisce la posizione salvata sul server soltanto se la ripresa è abilitata e supera 5 secondi.
+  Il ritorno manuale all’indietro rispetta comunque la policy. Il recupero della posizione dal browser nei singoli
+  provider è un percorso esistente separato: il testo non promette che la soglia governi ogni cache degli adapter
+  o che disabilitare la ripresa server la cancelli. Nessun percorso di ripresa cambia o viene ricertificato qui.
+- `videotrack_pluginfile()` applica accesso Moodle a corso/modulo e `mod/videotrack:view`, più controlli su area
+  e contenuto. L’avviso non dice più “solo studenti iscritti”: esistono anche staff e altri accessi consentiti.
+- `reaction_file_icon_errors()` accetta icone nuove o esistenti e ne richiede una per una reazione configurata
+  abilitata di tipo file. L’help non la definisce facoltativa in quel caso. `videotrack_resize_reaction_icon()`
+  conserva l’originale se l’elaborazione non è disponibile o fallisce: l’avviso 64×64 ora indica tale fallback.
+- Il poster scompare all’avvio, anche automatico: il clic su Play non è l’unico trigger. Lo slider HTML5 riceve
+  un’etichetta sulla posizione video invece di traduzioni che significano “Cerca”. Gli avvisi capitoli/trascrizione
+  DE/PT usano termini di avanzamento e riavvolgimento; la ricerca testuale conserva le proprie etichette.
+- Allineati unità/media/larghezza e istruzione autoplay polacchi. Gli avvisi restore recuperano diacritici e
+  scrittura hindi senza cambiare placeholder, mapping o reazione segnaposto.
 
-Evidenze: `report.php`, `report_support`, `csv_export`/`csv_event_writer`/`csv_event_timestamps`,
-`course_analytics`/`teacher_analytics`, `reports_course.php`, `reports_teacher.php`, `lib.php` e `tracker`.
-Test esistenti cluster/export/corso/ricalcolo invariati; gli esiti della baseline non sono riattribuiti alla
-candidata. Nessun nuovo test duplica queste sole correzioni di valori letterali.
+Fonti: `view.php`, i tre adapter, `core/player/timed_text` e helper poster, `form_definition`, `mod_form.php`,
+`lib.php`, `reaction_form_validation` e test esistenti media/interazioni/timed-text/restore. Le esecuzioni
+accettate precedenti non sono presentate come test della candidata.
 
 ## Chiavi esatte modificate nella candidata
 
-- `coursereport:col_students_started`
-- `coursereport:intro`
-- `coursereport:nodata`
-- `report:clusterlimitreached`
-- `report:clusterlimitreached_help`
-- `report:clusterlimitrequiresfilters`
-- `report:clusterlimitrequiresfilters_csv`
-- `report:csvexport_format_help`
-- `report:csvexport_scope`
-- `report:heatmap_desc`
-- `report:heatmap_supplementary`
-- `report:noattempts`
-- `report:recalculate`
-- `report:recalculate_description`
-- `report:sorttime`
-- `report:timestamp`
+- `allowdownload`
+- `autoblockedlabel`
+- `captions_help`
+- `captionslang_help`
+- `chapterfile_notice`
+- `fastforwardstep`
+- `html5:seek`
+- `noreactionsyet`
+- `playerwidth`
+- `posterimage_help`
+- `reactioniconfile_help`
+- `reactioniconfile_notice`
+- `reactionsrequired`
+- `restore_missing_reaction_mapping`
+- `restore_placeholder_reaction`
+- `resumeplayback_desc`
+- `resumeplayback_help`
+- `rewindstep`
+- `showtranscript_help`
+- `timedtext_seek_blocked`
+- `videofile`
+- `videofile_notice`
 
-Sette descrizioni cambiano in ogni pacchetto; le altre modifiche sono rilievi mirati delle traduzioni.
+Nove stringhe cambiano in ogni pacchetto; le altre modifiche risolvono rilievi mirati di traduzione.
 
 | Pacchetto | Valori modificati |
 |---|---:|
-| DE | 11 |
-| EN | 7 |
-| ES | 8 |
-| FR | 8 |
-| HI | 9 |
-| IT | 11 |
-| PL | 9 |
-| PT | 8 |
+| DE | 14 |
+| EN | 9 |
+| ES | 12 |
+| FR | 12 |
+| HI | 11 |
+| IT | 9 |
+| PL | 19 |
+| PT | 14 |
 
-Totale: **71 valori su 16 chiavi esistenti**. Nessuna chiave aggiunta o rimossa. Placeholder, numeri ed esempi
-originali delle note per lingua sono conservati. I rilievi precedenti restano nel changelog principale.
+Totale: **100 valori su 22 chiavi esistenti**. Nessuna chiave aggiunta o rimossa. Conservati molteplicità dei
+placeholder, token numerici, identificatori tecnici, intestazioni CSV e logica di formattazione. Cambia
+intenzionalmente il nome accessibile dello slider HTML5. Non si aggiungono test che duplicano solo i testi.
 
 ## Gate candidata e sequenza concordata
 
-La candidata conserva 412 file, 31 documenti EN/IT ciascuno, 166 file PHP, 1101 callable PHP/654 AMD e 345 righe
-inventario. XMLDB resta `2026110601`: 7 tabelle / 151 campi / 22 indici / 22 foreign key. ER cambia soltanto
-etichette versione. Logica runtime, permessi, dati salvati, DB, servizi, AMD, test, fixture e regole CI sono
-identici byte per byte alla 1.7.247 accettata. Cambiano soltanto testi, guide e metadati versione.
+L’albero conserva 412 file, 31 documenti per guida EN/IT, 166 file PHP, 1101 callable PHP/654 AMD e 345 righe
+d’inventario. XMLDB resta `2026110601`: 7 tabelle / 151 campi / 22 indici / 22 chiavi esterne. Gli ER cambiano
+solo etichetta di versione. Logica runtime, permessi, dati, DB, servizi, AMD, test, fixture e regole CI/analisi
+statica sono identici byte per byte alla 1.7.248 reale accettata.
 
-I controlli locali contratto/delta/link e applicazione/inversione esatta non sostituiscono sei job CI candidata,
-poi ZIP reale dopo merge/report server/strict. Suite attesa invariata: 379 test PHPUnit / 4076 asserzioni,
-50 scenari Behat / 1074 passi. Sono attese, non esiti candidata.
+I controlli locali su contratti/delta/link e applicazione/inversione non sostituiscono CI candidata su sei job,
+CI dopo merge e ZIP/report server/strict reali. Suite attesa invariata: 379 test PHPUnit / 4076 asserzioni e
+50 scenari Behat / 1074 passi. Sono attese, non risultati della candidata.
 
-Ordine concordato col manutentore: terminare lavoro web precedente e decisione App, poi aggiungere sottotitoli
-VTT multilingue prima della foundation autenticata e di OneDrive/SharePoint, Zoom Cloud e Google Drive.
-Il pannello di trascrizione multilingue esistente resta distinto dai sottotitoli nel video. Qui non cambia
-il runtime VTT. Controlli HTML5/lifecycle file e fattibilità provider esterni/fullscreen richiedono evidenze
-dedicate; la pubblicazione automatica su account terzi non è inclusa nel piano. U-020 resta rinviato;
-U-017/U-007 non vengono riaperti per metriche cosmetiche.
+Completare lavoro web e decisione App, poi la fase concordata sui sottotitoli VTT multilingua prima della base
+autenticata, OneDrive/SharePoint, Zoom Cloud e Google Drive. Il pannello trascrizione resta distinto. Controlli
+HTML5/ciclo file e fattibilità provider esterni/fullscreen richiedono evidenze proprie. Non è selezionata la
+pubblicazione automatica sugli account provider. U-020 resta rinviato.

@@ -79,3 +79,16 @@ ordinary learner choice.
 - ensure probes are muted, bounded and destroyed;
 - test resume, backward seek, blocked-forward recovery, rate policy and terminal pause separately per provider;
 - compare `amd/src` with generated build/map and run a public-provider smoke test when external policy changes.
+
+## Current wording boundaries
+
+Caption settings request provider tracks that already exist; availability remains provider-dependent.
+For uploaded media, the language is metadata on the single attached VTT subtitle track. Searchable transcript
+files are separate. Server resume supplies the saved position beyond 5 seconds when enabled; manual return
+to the beginning still follows backward-seek policy. Provider browser-position recovery remains a separate
+existing path. Uploaded file access follows Moodle course/module rules and view permission. Posters disappear
+when playback starts, including autoplay. These wording corrections change no runtime path.
+
+The agreed multilingual VTT subtitle extension follows existing web work and the App decision, before
+authenticated provider integrations. Its file lifecycle, language selection and provider/fullscreen limits
+must be implemented and tested separately; the current wording does not announce that extension.

@@ -1,5 +1,43 @@
 # VideoTrack changelog
 
+## 1.7.249 - 2026-11-11
+
+### Activity/player/study-tool wording and remaining semantic review
+
+- Accept actual 1.7.248 / 2026111101, 412 files identical to main
+  `9e53a6f1eb042b57612aca0bae7e1b263f5771e6`, ZIP SHA-256
+  `05f0c797dca4fef7cd629300b20bc00d501ea6d58e23fa67d39415e6715b6daa`.
+  Both server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076;
+  both supplied strict outputs are 10/0/0. All six post-merge CI jobs
+  finish successfully, with one initial Moodle 5.1 Behat visibility
+  failure followed by a complete successful 43-step scenario rerun.
+  Record that observation without claiming six clean first attempts
+  or a proven timing root cause. Existing retry policy is unchanged.
+- Review 259 additional keys / 2072 values across all eight packs:
+  remaining unprefixed activity, media, study-tool and lifecycle labels,
+  plus all ctrl:, html5:, source: and err: keys. Cumulative scope is
+  789 unique keys / 6312 values; 208 keys per pack remain outside the
+  semantic claim. This is assisted source review, not native sign-off.
+- Correct nine existing strings in every pack: provider-dependent
+  captions and language metadata, paused reactions, server resume and
+  seek restrictions, actual Moodle file-access rules, required uploaded
+  reaction icons, conditional image resizing, autoplay poster removal
+  and the video-position slider label. Runtime behaviour is unchanged.
+- Correct targeted minimum-distinct-reaction labels, seek/search
+  mistranslations, Polish units/media labels and restore diacritics/
+  Hindi script. Total: 100 values across 22 existing keys, preserving
+  all 997 keys, placeholder multiplicities and numeric tokens.
+- Update paired guides and current version/ER labels. XMLDB stays
+  2026110601 with 7 tables / 151 fields / 22 indexes / 22 foreign keys.
+  All runtime logic, services, permissions, DB, AMD, tests and CI rules
+  are byte-identical to accepted 1.7.248. Native candidate CI and actual
+  merged ZIP/server/strict gates remain pending.
+- U-017/U-007 remain closed; U-020 manual observations remain deferred
+  and NOT RUN. Complete existing web work and the App decision, then
+  implement agreed multilingual VTT subtitles before authenticated
+  foundation, OneDrive/SharePoint, Zoom and Google Drive. No new VTT
+  capability or provider-account publication is implemented here.
+
 ## 1.7.248 - 2026-11-11
 
 ### Report/export/dashboard language review and agreed VTT sequencing
