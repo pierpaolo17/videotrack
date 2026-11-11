@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.249** (`2026111102`).
+Baseline: VideoTrack **1.7.250** (`2026111103`).
 
 ## Perimetro
 
@@ -32,25 +32,11 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) restano chiusi.
-  ZIP reale/server/strict e sei job CI candidata/main della 1.7.247 sono accettati. La candidata 1.7.248 copre
-  le chiavi report residue e le dashboard, correggendo 71 valori su 16 chiavi esistenti. Runtime, test,
-  schema, AMD e CI invariati. U-020 resta rinviato. Vedere la [review corrente](27_REVISIONE_LINGUE.md).
+- U-017/U-007 restano chiusi. ZIP/server/strict reali 1.7.249 e CI candidata/main su sei job sono accettati.
+  La candidata 1.7.250 aggiunge il guard gestione reset mancante e due scenari browser reali, completa la review
+  assistita delle 997 chiavi e registra otto PASS manuali nello scope Moodle 5.0 dichiarato. Restano copertura
+  manuale 5.3 e gate nativi candidata. Vedere la [review corrente](27_REVISIONE_LINGUE.md).
 
-- I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
-  la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
-  direttamente dalla classe integrità.
-- I campi CSV del form usano il contesto effettivo modulo/corso e le API esistenti per i permessi di identità;
-  ereditarietà del delimitatore, nomi dei checkbox, ordine ed etichette non disponibili restano espliciti.
-- I gruppi controlli HTML5 e velocità usano la capability di override nel contesto corso originale, le scelte
-  consentite dal sito, nomi/valori checkbox piatti e ordine canonico. Visibilità per upload e gruppi congelati
-  restano espliciti; scelte ammesse vuote omettono i gruppi e configurazioni assenti usano i default delle API.
-- Il comportamento del player conserva default booleani sito, ereditarietà numerica con zero, valori salvati
-  modificabili, download visibile per upload e blocco dei sette campi per corso. L'associazione alla descrizione
-  della larghezza dipende ancora dal permesso di modifica. Default booleani assenti/vuoti restano zero.
-- I sottotitoli conservano default booleani/lingua del sito, incluso il valore lingua letterale "0", dipendenze
-  VTT per upload e avvisi Vimeo. Trascrizioni/capitoli restano indipendenti dal provider con opzioni file canoniche,
-  tra i campi sottotitoli e l'avviso Vimeo; il blocco per corso riguarda solo sottotitoli/lingua.
 - `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
   seguiti dalle regole di visibilità delle icone. Il form mantiene conteggio, limiti, registrazione filtro upload
   e pulsante Aggiungi senza invio, poi delega i blocchi completamento con il conteggio effettivo. Il permesso di
@@ -195,6 +181,6 @@ intestazione CSV italiana sono nel [registro review](27_REVISIONE_LINGUE.md).
 
 L’albero di 412 file conserva 31 documenti EN/IT ciascuno, 166 file PHP, 1101 callable PHP/654 AMD, 345 righe
 inventario e XMLDB 7/151/22/22 invariato. Runtime/DB/AMD/test/CI invariati. Servono ancora CI candidata e gate
-ZIP reale dopo merge/server/strict. U-020 resta rinviato. Completare lavoro precedente/decisione App, poi
+ZIP reale dopo merge/server/strict. U-020 registra PASS nello scope Moodle 5.0; la copertura Moodle 5.3 non è registrata. Completare lavoro precedente/decisione App, poi
 estensione sottotitoli VTT concordata, quindi foundation autenticata e OneDrive/SharePoint → Zoom → Google
 Drive. Questa release testuale non introduce funzioni VTT né esiti manuali.

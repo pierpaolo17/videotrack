@@ -1,175 +1,118 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.249** (`2026111102`). Review registrata 2026-11-11.
+Albero corrente: VideoTrack **1.7.250** (`2026111103`). Review assistita registrata 2026-11-11.
 
-## Perimetro e limiti
+## Perimetro semantico completato e limiti
 
-La review cumulativa copre **789 chiavi univoche per pacchetto / 6312 valori** in DE, EN, ES, FR, HI, IT, PL e PT.
-Le altre **208 chiavi per pacchetto restano fuori dalla review semantica dichiarata**. Tutte le 997 chiavi e le
-molteplicità dei placeholder sono allineate strutturalmente. Questa review assistita sul codice non equivale
-ad approvazione madrelingua, accessibilità manuale o certificazione di ogni combinazione browser/provider.
+La review assistita cumulativa copre **tutte le 997 chiavi per pacchetto / 7976 valori** in DE, EN, ES, FR,
+HI, IT, PL e PT. Questa tranche aggiunge le ultime **208 chiavi / 1664 valori**, senza riusare chiavi già
+accettate. Il precedente perimetro accettato comprende 789 chiavi / 6312 valori. Non restano chiavi correnti
+fuori dalla review dichiarata. Non equivale ad approvazione madrelingua, certificazione WCAG o prova di ogni deploy.
 
-U-017 e U-007 restano chiusi. U-020 resta aperto e rinviato su richiesta del manutentore; tutte le otto
-osservazioni manuali sono NON ESEGUITE. Il [protocollo manuale](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
-resta parte del gate finale produzione. Il lavoro linguistico indipendente non approva tali osservazioni.
+Il manifesto completo è l’insieme ordinato delle chiavi del [pacchetto canonico](../../lang/en/videotrack.php),
+identico negli otto pacchetti. SHA-256 dei 997 nomi UTF-8 separati da newline, con newline finale:
+`06d08c38e974996779f5ce9f6e05fce742c322b33c880c4f4091cc9f27983903`.
+Restano conservati chiavi, ordine, molteplicità dei placeholder Moodle, token dei template Forum e numeri.
+Le stringhe conservate senza rendering attivo non sono presentate come nuove funzioni.
 
-## Punto di partenza accettato
+## Baseline reale accettata
 
-- Versione reale 1.7.248 / `2026111101`, 412 file identici a main `9e53a6f1eb042b57612aca0bae7e1b263f5771e6`.
-- SHA-256 ZIP: `05f0c797dca4fef7cd629300b20bc00d501ea6d58e23fa67d39415e6715b6daa`.
-- SHA-256 ZIP report server: `43144759d020f0eedac37dbf2a30cfe05cc0a89fff4d695a82a1bc896302669d`.
-- CI candidata `42995227950`: sei job superano PHPUnit 379/4076, Behat 50/1074 e strict 10/0/0 al primo
-  tentativo degli scenari. CI dopo merge `42999353066`: tutti i sei job terminano con successo; cinque
-  superano Behat al primo tentativo. Moodle 5.1 fallisce inizialmente un’asserzione sulla visibilità della
-  reazione dopo rollback Vimeo: l’etichetta è presente ma non visibile. La riesecuzione completa supera
-  1 scenario / 43 passi. Resta invariata la policy di riesecuzione dello strumento. La causa esatta non è
-  provata: conservare l’osservazione intermittente per eventuali ricorrenze, senza dichiarare sei primi
-  tentativi puliti o una regressione funzionale dimostrata.
-- I report server reali Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e PHPUnit 379/4076. Entrambi gli strict
-  forniti sono 10/0/0; gli hash AMD prima/dopo Grunt coincidono. I report server non eseguono Behat o controlli
-  assistivi manuali. Restano registrati l’avviso noto Browserslist, 24 finding PHPMD revisionati e i totali
-  informativi Psalm 732/760. I gate configurati passano: non si dichiarano zero segnalazioni consultive
-  né una nuova esecuzione nativa nel workspace.
+- 1.7.249 / `2026111102`, 412 file identici a main `667e678b52eaa6fe04e93a717c4bfed9efda535d`.
+- SHA-256 ZIP: `d71f3c7e7b4c895cbd7fbbfbd1456f31bca2643f40f881263e4795edd223ae8c`.
+- SHA-256 report server: `1210838cb96ad931452ac616ce2bc2aee8b1db67fdd4d367f918f4def0aa0789`.
+- CI candidata/main `43014227736` / `43017694467`: sei job ciascuna superano al primo tentativo Behat 50/1074,
+  PHPUnit 379/4076, Grunt e strict 10/0/0. I report reali Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e
+  PHPUnit 379/4076; entrambi gli strict forniti sono 10/0/0. Hash AMD prima/dopo Grunt identici. Restano
+  registrati avviso noto Browserslist, 24 finding PHPMD revisionati, deprecazioni alias Moodle e totali
+  informativi Psalm 732/760. I gate configurati passano: non si dichiarano zero segnalazioni consultive.
 
-## Manifesto completo delle chiavi cumulative
+## Rilievi correnti dal codice
 
-I selettori seguenti sono esaustivi e disgiunti. “Senza due punti” include completion e le chiavi senza
-prefisso di metadati, attività, player, strumenti di studio e ciclo di vita. Le chiavi conservate senza
-rendering attivo sono revisionate come testo conservato: non si introducono o certificano nuove funzioni.
+- `report.php` mostrava il reset solo con accesso completo e `mod/videotrack:managereactions`, ma il POST
+  diretto verificava soltanto il gate storico del report completo. La candidata aggiunge il controllo gestione
+  prima di visibilità e cancellazione, conservando POST, sesskey e scope learner. Chiave capability e grant
+  dei ruoli non cambiano. Il testo del permesso dal nome tecnico storico ora spiega il suo uso effettivo nel
+  reset; modificare le definizioni delle reazioni segue il distinto permesso Moodle di modifica dell’attività.
+- `tracker::update_state()` conserva segmenti rifiutati come righe di audit `servervalidated = 0` per sessioni
+  non attive, intervalli avanti non consentiti o credito server insufficiente; anche il replay di una richiesta
+  rifiutata ritorna `-1`. `save_segment` associa tutti questi casi a `suspicioussegment`. L’avviso ora indica
+  che il tempo non è conteggiato, senza promettere assenza dal DB o attribuire ogni rifiuto alla sola finestra.
+- `core/api::call()` restituisce null prima del trasporto con differimento offline: non crea da solo una coda
+  automatica. Il log dice “non inviata”. Il retry ritenta la richiesta, non l’errore. Il testo gruppo eccezione
+  conserva pausa a documento nascosto quando abilitata e validazione server invariata. Le descrizioni già
+  salvate nei gruppi Moodle restano conservate: la modifica linguistica non le migra.
+- Le correzioni mirate distinguono percentuale vista da completamento nell’outline polacco, spostamento video
+  da ricerca testuale nell’override spagnolo e presa visione da ricezione/accettazione in ES/HI. L’help della
+  chiave preset polacca non inventa il vincolo sulle sole minuscole. Allineati etichette, diacritici italiani
+  e testi hindi. I permessi di valutazione parlano di progressi di visione, non consegne di compiti; il percorso
+  reale di assegnazione voto dal report resta invariato.
 
-| Selettore | Chiavi revisionate per pacchetto |
-|---|---:|
-| `privacy:` | 74 |
-| `setting:` | 110 |
-| `report:` | 260 |
-| `coursereport:` | 25 |
-| `teacherdashboard:` | 15 |
-| `ctrl:` | 12 |
-| `html5:` | 12 |
-| `source:` | 3 |
-| `err:` | 14 |
-| `completiondetail:` | 8 |
-| Tutte le chiavi senza due punti | 228 |
-| Altre chiavi esatte elencate sotto | 28 |
-| Totale chiavi univoche | 789 |
+Fonti: `report.php`, `report_access`, `learner_scope`, `save_segment`, `tracker`, `focus_policy`, `core/api`,
+`presets.php`, `locallib.php`, integrazione voto e test Behat/report/interazioni correnti. Il guard reset è una
+modifica intenzionale della logica di produzione: questa candidata non è definita soltanto testuale.
 
-- `acknowledgement:enabled_desc`
-- `acknowledgement:pendingvideoend`
-- `acknowledgement:privacyhint`
-- `acknowledgement:text_help`
-- `acknowledgement:timing_help`
-- `acknowledgement:videoendrequired`
-- `error:bookmarksratelimit`
-- `error:learnertrackingstaff`
-- `error:notesratelimit`
-- `error:playbackpositionnotwatched`
-- `error:playbackrequired`
-- `error:reactionratelimit`
-- `forum:composerprivacy`
-- `forum:enable_help`
-- `forum:privacyinfo`
-- `forum:studenthelp`
-- `integrity:analytics_recording_disabled_controls`
-- `integrity:enable_help`
-- `integrity:methodology`
-- `integrity:pauseonfocusloss_desc`
-- `integrity:preventpip_desc`
-- `integrity:randompauseautomatic`
-- `integrity:randompauseinvalid`
-- `integrity:randompauseorder`
-- `integrity:randompauses_desc`
-- `integrity:reportintro`
-- `integrity:settingsintro`
-- `integrity:studentnotice`
+## Chiavi e valori modificati
 
-## Tranche corrente attività/player/strumenti di studio
-
-Questa tranche esamina **259 nuove chiavi / 2072 valori**, senza riusare chiavi accettate: le restanti 218
-chiavi senza prefisso e tutte le 41 chiavi `ctrl:`, `html5:`, `source:` e `err:`. Resta accettata la precedente
-evidenza su 530 chiavi. Il cumulativo è 789; ne restano 208. I rilievi precedenti sono conservati nel changelog.
-
-### Rilievi basati sui percorsi effettivi del codice
-
-- Sottotitoli: YouTube riceve flag di preferenza; Vimeo richiede una traccia esistente corrispondente e gestisce
-  l’assenza della traccia. Nessuno dei due crea tracce sul provider. HTML5 allega un singolo `<track>` VTT e usa
-  la lingua come `srclang`/etichetta. Gli help distinguono disponibilità, metadati e file separati di trascrizione.
-  Non si introducono sottotitoli nativi multipli o un overlay Moodle sopra gli iframe esterni.
-- Le reazioni si possono salvare in pausa in un punto già visto, secondo le regole esistenti di partecipazione,
-  feature, sessione e validazione. L’avviso di storico vuoto non implica più che il video debba essere in corso.
-  Le etichette mirate distinguono il minimo di tipi distinti da un requisito generico sulle reazioni.
-- `view.php` fornisce la posizione salvata sul server soltanto se la ripresa è abilitata e supera 5 secondi.
-  Il ritorno manuale all’indietro rispetta comunque la policy. Il recupero della posizione dal browser nei singoli
-  provider è un percorso esistente separato: il testo non promette che la soglia governi ogni cache degli adapter
-  o che disabilitare la ripresa server la cancelli. Nessun percorso di ripresa cambia o viene ricertificato qui.
-- `videotrack_pluginfile()` applica accesso Moodle a corso/modulo e `mod/videotrack:view`, più controlli su area
-  e contenuto. L’avviso non dice più “solo studenti iscritti”: esistono anche staff e altri accessi consentiti.
-- `reaction_file_icon_errors()` accetta icone nuove o esistenti e ne richiede una per una reazione configurata
-  abilitata di tipo file. L’help non la definisce facoltativa in quel caso. `videotrack_resize_reaction_icon()`
-  conserva l’originale se l’elaborazione non è disponibile o fallisce: l’avviso 64×64 ora indica tale fallback.
-- Il poster scompare all’avvio, anche automatico: il clic su Play non è l’unico trigger. Lo slider HTML5 riceve
-  un’etichetta sulla posizione video invece di traduzioni che significano “Cerca”. Gli avvisi capitoli/trascrizione
-  DE/PT usano termini di avanzamento e riavvolgimento; la ricerca testuale conserva le proprie etichette.
-- Allineati unità/media/larghezza e istruzione autoplay polacchi. Gli avvisi restore recuperano diacritici e
-  scrittura hindi senza cambiare placeholder, mapping o reazione segnaposto.
-
-Fonti: `view.php`, i tre adapter, `core/player/timed_text` e helper poster, `form_definition`, `mod_form.php`,
-`lib.php`, `reaction_form_validation` e test esistenti media/interazioni/timed-text/restore. Le esecuzioni
-accettate precedenti non sono presentate come test della candidata.
-
-## Chiavi esatte modificate nella candidata
-
-- `allowdownload`
-- `autoblockedlabel`
-- `captions_help`
-- `captionslang_help`
-- `chapterfile_notice`
-- `fastforwardstep`
-- `html5:seek`
-- `noreactionsyet`
-- `playerwidth`
-- `posterimage_help`
-- `reactioniconfile_help`
-- `reactioniconfile_notice`
-- `reactionsrequired`
-- `restore_missing_reaction_mapping`
-- `restore_placeholder_reaction`
-- `resumeplayback_desc`
-- `resumeplayback_help`
-- `rewindstep`
-- `showtranscript_help`
-- `timedtext_seek_blocked`
-- `videofile`
-- `videofile_notice`
-
-Nove stringhe cambiano in ogni pacchetto; le altre modifiche risolvono rilievi mirati di traduzione.
+- `acknowledgement:checkboxlabel`
+- `debug:ajaxdeferredoffline`
+- `debug:ajaxretry`
+- `debug:timedtexttimefailed`
+- `focus:exceptiongroupdescription`
+- `integrity:settingsheader`
+- `outline:nodata`
+- `outline:percent`
+- `presets:key_help`
+- `presets:reactions_help`
+- `reactioniconcategory:activity`
+- `reactionpreset:none`
+- `videotrack:grade`
+- `videotrack:managereactions`
+- `videotrack:managereactions_desc`
+- `videotrack:overrideplayersettings_desc`
+- `warning:notetruncated`
+- `warning:suspicioussegment`
 
 | Pacchetto | Valori modificati |
 |---|---:|
-| DE | 14 |
-| EN | 9 |
-| ES | 12 |
-| FR | 12 |
+| DE | 8 |
+| EN | 7 |
+| ES | 10 |
+| FR | 8 |
 | HI | 11 |
 | IT | 9 |
-| PL | 19 |
-| PT | 14 |
+| PL | 12 |
+| PT | 8 |
 
-Totale: **100 valori su 22 chiavi esistenti**. Nessuna chiave aggiunta o rimossa. Conservati molteplicità dei
-placeholder, token numerici, identificatori tecnici, intestazioni CSV e logica di formattazione. Cambia
-intenzionalmente il nome accessibile dello slider HTML5. Non si aggiungono test che duplicano solo i testi.
+Totale: **73 valori su 18 chiavi esistenti**. Sei stringhe cambiano in ogni pacchetto; le altre sono mirate.
+Restano conservati nomi AJAX pubblici, codici warning, chiavi capability, campi DB, intestazioni CSV e dati salvati.
 
-## Gate candidata e sequenza concordata
+## Evidenze manuali accessibilità
 
-L’albero conserva 412 file, 31 documenti per guida EN/IT, 166 file PHP, 1101 callable PHP/654 AMD e 345 righe
-d’inventario. XMLDB resta `2026110601`: 7 tabelle / 151 campi / 22 indici / 22 chiavi esterne. Gli ER cambiano
-solo etichetta di versione. Logica runtime, permessi, dati, DB, servizi, AMD, test, fixture e regole CI/analisi
-statica sono identici byte per byte alla 1.7.248 reale accettata.
+Il manutentore ha fornito M01–M08 con esito PASS sulla **1.7.248 / Moodle 5.0 / Academi / Windows 11 / Chrome /
+NVDA**. Sono osservazioni dichiarate eseguite, non più NON ESEGUITE. Report ricevuto 2026-11-11; versioni esatte
+browser/tema/NVDA e data di esecuzione non sono state fornite. La copertura manuale Moodle 5.3 non è registrata.
+Vedere il [verbale circoscritto](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020). Non dedurre esecuzioni
+manuali su 249/250 dal DOM invariato o dai test automatici; i testi successivi hanno un delta proprio.
+U-020 è coperto parzialmente; U-017 e la milestone essenziale U-007 restano chiusi.
 
-I controlli locali su contratti/delta/link e applicazione/inversione non sostituiscono CI candidata su sei job,
-CI dopo merge e ZIP/report server/strict reali. Suite attesa invariata: 379 test PHPUnit / 4076 asserzioni e
-50 scenari Behat / 1074 passi. Sono attese, non risultati della candidata.
+## Gate candidata e roadmap
 
-Completare lavoro web e decisione App, poi la fase concordata sui sottotitoli VTT multilingua prima della base
-autenticata, OneDrive/SharePoint, Zoom Cloud e Google Drive. Il pannello trascrizione resta distinto. Controlli
-HTML5/ciclo file e fattibilità provider esterni/fullscreen richiedono evidenze proprie. Non è selezionata la
-pubblicazione automatica sugli account provider. U-020 resta rinviato.
+Restano 412 file, 166 file PHP, 31 documenti per guida EN/IT, 345 righe inventario e 654 callable AMD. I callable
+PHP diventano 1103 per due helper solo test. XMLDB resta `2026110601`, con 7 tabelle / 151 campi / 22 indici /
+22 chiavi esterne. Gli ER cambiano solo versione. AMD, implementazioni backup/privacy, nove servizi, grant
+dei ruoli esistenti e regole CI/analisi statica non cambiano.
+
+Due nuovi scenari browser inviano POST reali nella stessa sessione con sesskey valido. Un lettore del report
+completo senza permesso gestione deve ricevere solo il rifiuto nopermissions pertinente, con snapshot plugin,
+voti/completion nativi e altri utenti invariati. Un utente autorizzato deve resettare solo il target, cancellando
+voto/completion e conservando gli altri studenti. Visione/completion sono ottenute dal browser; il voto in punti
+è una fixture esplicita creata con la normale API Moodle. La pagina negata è verificata e ripristinata nello
+step, senza disabilitare gli hook automatici sugli errori.
+
+Suite attesa: **379 test PHPUnit / 4076 asserzioni; 52 scenari Behat / 1154 passi**. Sono attese, non esecuzioni
+nel workspace. Servono ancora CI candidata su sei job, CI dopo merge e ZIP/report server/strict reali. Controlli
+locali su contratti/applicazione e sintassi degli script test non li sostituiscono.
+
+Completare gate integrato web/ciclo vita/privacy/benchmark ed evidenze manuali residue, quindi decisione App e
+fase concordata sottotitoli VTT multilingua prima di base autenticata, OneDrive/SharePoint, Zoom Cloud Recording
+e Google Drive. Questa candidata non implementa l’estensione VTT runtime.

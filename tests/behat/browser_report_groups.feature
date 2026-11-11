@@ -36,8 +36,8 @@ Feature: Separate-group reports expose only browser-earned evidence in the viewe
       | A | reviewer1 |
       | B | student2 |
     And the following "activities" exist:
-      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | autoplay | resumeplayback | loopenabled | randomfocuspauses | pauseonfocusloss | allowseekforward | allowseekbackward | allowplaybackratechange | maxplaybackrate | blockedseekplaybackrate | playbackspeed_1 | completion | completionview | completionpercent | acknowledgementenabled | completionacknowledgement | groupmode |
-      | videotrack | C1 | Grouped viewing | 1 |  | 60 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 100 | 100 | 1 | 2 | 0 | 5 | 0 | 0 | 1 |
+      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | grade | autoplay | resumeplayback | loopenabled | randomfocuspauses | pauseonfocusloss | allowseekforward | allowseekbackward | allowplaybackratechange | maxplaybackrate | blockedseekplaybackrate | playbackspeed_1 | completion | completionview | completionpercent | acknowledgementenabled | completionacknowledgement | groupmode |
+      | videotrack | C1 | Grouped viewing | 1 |  | 60 | 100 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 100 | 100 | 1 | 2 | 0 | 5 | 0 | 0 | 1 |
     And I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "Grouped viewing" "link"
@@ -98,3 +98,21 @@ Feature: Separate-group reports expose only browser-earned evidence in the viewe
     When I open the VideoTrack report for "Grouped viewing" and learner "student2"
     Then the VideoTrack report learner choices are "student1,student2"
     And the VideoTrack report shows only learner "student2"
+
+  Scenario: A report viewer cannot bypass the reset management permission with a direct POST
+    Given I log in as "reviewer1"
+    When I open the VideoTrack report for "Grouped viewing" and learner "student1"
+    Then I should not see "Reset VideoTrack data"
+    When I submit a VideoTrack reset for "student1" in "Grouped viewing" expecting "denied"
+    Then the VideoTrack report shows only learner "student1"
+    And Moodle completion for "student1" in "Grouped viewing" is "complete"
+    And Moodle completion for "student2" in "Grouped viewing" is "complete"
+
+  Scenario: An authorised reset clears only the selected learner and its native grade and completion
+    Given I log in as "reviewer3"
+    When I open the VideoTrack report for "Grouped viewing" and learner "student1"
+    Then I should see "Reset VideoTrack data"
+    When I submit a VideoTrack reset for "student1" in "Grouped viewing" expecting "accepted"
+    Then no validated playback exists for "student1" in "Grouped viewing"
+    And Moodle completion for "student1" in "Grouped viewing" is "incomplete"
+    And Moodle completion for "student2" in "Grouped viewing" is "complete"

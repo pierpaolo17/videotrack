@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.249. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1101. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1103. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1424,6 +1424,8 @@ Generato dall’albero sorgente VideoTrack 1.7.249. Le voci PHP includono funzio
 | `tests/behat/behat_mod_videotrack.php:1392` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
 | `tests/behat/behat_mod_videotrack.php:1415` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
 | `tests/behat/behat_mod_videotrack.php:1489` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:1542` | `i_submit_a_videotrack_reset_expecting` | Invia un POST reset autenticato reale; verifica rifiuto per permesso e conservazione oppure reset del solo target, poi ripristina una pagina normale senza disabilitare hook errori. |
+| `tests/behat/behat_mod_videotrack.php:1671` | `videotrack_reset_snapshot` | Legge record plugin/voto/completion nativa del target e degli altri utenti per confronti reset senza normalizzare mutazioni. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |

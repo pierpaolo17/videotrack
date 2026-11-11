@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.249 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.250 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1101. **Named AMD callables:** 654.
+**PHP functions/methods:** 1103. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1424,6 +1424,8 @@ Generated from the VideoTrack 1.7.249 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:1392` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
 | `tests/behat/behat_mod_videotrack.php:1415` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
 | `tests/behat/behat_mod_videotrack.php:1489` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
+| `tests/behat/behat_mod_videotrack.php:1542` | `i_submit_a_videotrack_reset_expecting` | Submits a real authenticated report-reset POST; verifies exact permission denial/preservation or target-only reset and restores a normal page without disabling error hooks. |
+| `tests/behat/behat_mod_videotrack.php:1671` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |

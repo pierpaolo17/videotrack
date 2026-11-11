@@ -101,3 +101,12 @@ procedura basata su backup; non reinstallare sopra un modulo rimosso parzialment
 XMLDB `2026110601` aggiunge due campi interi NOT NULL con default `0` a `videotrack`. L’upgrade protetto aggiunge soltanto i campi mancanti e conserva i record. Zero seleziona la nuova policy proporzionale alla durata, senza congelare il precedente intervallo di sito. Il backup include entrambi i valori grezzi; il restore li normalizza e assegna default automatici ai vecchi backup. Una nuova prova candidata copre la duplicazione Moodle reale. Non vengono introdotti dati utente, indici o relazioni.
 
 La regressione di duplicazione usa `core_courseformat\formatactions::cm()->duplicate()` quando esiste `cmactions::duplicate()`; Moodle 5.0/5.1 mantengono l’helper supportato `duplicate_module()`. Entrambi eseguono backup/restore reale con le stesse asserzioni sulle impostazioni; nessuna deprecazione viene soppressa.
+
+## Autorizzazione reset del singolo studente nel report
+
+Il POST reset richiede accesso completo al report, `mod/videotrack:managereactions`, sesskey valido e studente
+nello scope del lettore prima di cancellare. Corrisponde al gate già usato dal pulsante. Il solo permesso di
+lettura non autorizza il reset. Chiave capability e grant restano invariati; le definizioni delle reazioni
+seguono il distinto permesso Moodle di modifica attività. Report in lettura, voti, ownership, gruppi e altre
+mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato attendono CI nativa:
+vedere la [review corrente](27_REVISIONE_LINGUE.md).

@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.249** (`2026111102`),
+This is the authoritative English documentation for VideoTrack **1.7.250** (`2026111103`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -40,7 +40,7 @@ root `CHANGELOG.md` and in the source tag for the relevant version.
 
 28. [`26_BROWSER_EXIT_AUDIT.md`](26_BROWSER_EXIT_AUDIT.md) — U-007 exit evidence, coverage scope and handoff to manual U-020.
 
-29. [`27_LANGUAGE_REVIEW.md`](27_LANGUAGE_REVIEW.md) — targeted semantic findings, corrected keys and deferred U-020.
+29. [`27_LANGUAGE_REVIEW.md`](27_LANGUAGE_REVIEW.md) — complete assisted semantic scope, reset authorisation findings and scoped manual evidence.
 
 ## Database and ER artefacts
 

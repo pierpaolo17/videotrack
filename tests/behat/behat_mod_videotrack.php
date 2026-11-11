@@ -1530,4 +1530,181 @@ JS
             );
         }
     }
+
+    /**
+     * Submit a real authenticated reset POST and verify its effects independently from the UI button.
+     *
+     * @When /^I submit a VideoTrack reset for "([^"]+)" in "([^"]+)" expecting "(denied|accepted)"$/
+     * @param string $username Learner whose existing data is targeted.
+     * @param string $activityname VideoTrack activity name.
+     * @param string $outcome Expected permission decision.
+     */
+    public function i_submit_a_videotrack_reset_expecting(string $username, string $activityname, string $outcome): void {
+        global $DB, $CFG;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', (int)$activity->id, (int)$activity->course, false, MUST_EXIST);
+        if ((int)$activity->grade !== 100) {
+            throw new ExpectationException('The reset scenario requires its explicit points-grade fixture.', $this->getSession());
+        }
+
+        // Supply an ordinary Moodle grade fixture as well as the browser-earned playback/completion evidence.
+        require_once($CFG->libdir . '/gradelib.php');
+        $gradestatus = grade_update(
+            'mod/videotrack',
+            (int)$activity->course,
+            'mod',
+            'videotrack',
+            (int)$activity->id,
+            0,
+            (object)['userid' => (int)$user->id, 'rawgrade' => 50]
+        );
+        if ($gradestatus !== GRADE_UPDATE_OK) {
+            throw new ExpectationException('The native grade fixture could not be saved.', $this->getSession());
+        }
+        $before = $this->videotrack_reset_snapshot($activity, $user, (int)$cm->id);
+        if (
+            empty($before['target']['tables']['videotrack_seg'])
+            || empty($before['target']['tables']['videotrack_state'])
+            || empty($before['target']['completion']->completionstate)
+            || empty($before['target']['grades'])
+        ) {
+            throw new ExpectationException('The reset scenario lacks persisted learner evidence.', $this->getSession());
+        }
+        $url = new moodle_url('/mod/videotrack/report.php', ['id' => (int)$cm->id]);
+        $params = json_encode([
+            'action' => $this->locate_path($url->out_as_local_url(false)),
+            'id' => (int)$cm->id,
+            'userid' => (int)$user->id,
+        ], JSON_THROW_ON_ERROR);
+        $script = <<<'JS'
+(function(parameters) {
+    if (!window.M || !M.cfg || !M.cfg.sesskey) {
+        throw new Error('The real report page has no session key');
+    }
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = parameters.action;
+    var fields = {
+        id: parameters.id,
+        mode: 'student',
+        resetaction: 'resetstudent',
+        resetuserid: parameters.userid,
+        sesskey: M.cfg.sesskey
+    };
+    Object.keys(fields).forEach(function(name) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = fields[name];
+        form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+})(PARAMETERS);
+JS;
+        $this->getSession()->executeScript(str_replace('PARAMETERS', $params, $script));
+        $success = get_string('report:studentreset', 'mod_videotrack');
+        $ready = $this->getSession()->wait(
+            15000,
+            'document.readyState === "complete" && ('
+                . 'document.querySelector("[data-rel=\"fatalerror\"]") !== null || '
+                . '(document.body && document.body.textContent.indexOf(' . json_encode($success) . ') !== -1))'
+        );
+        if (!$ready) {
+            throw new ExpectationException('The reset POST did not reach a decision page.', $this->getSession());
+        }
+        $page = $this->getSession()->getPage();
+        $fatal = $page->findAll('css', '[data-rel="fatalerror"]');
+        if ($outcome === 'denied') {
+            $link = $page->find('css', '.errorcode a[href]');
+            $path = $link ? parse_url($link->getAttribute('href'), PHP_URL_PATH) : '';
+            $message = get_string('nopermissions', 'error', get_string('videotrack:managereactions', 'mod_videotrack'));
+            if (
+                count($fatal) !== 1 || strpos($fatal[0]->getText(), $message) === false
+                || !is_string($path) || preg_match('~/nopermissions/?$~', $path) !== 1
+                || $page->find('css', '[data-rel="debugging"], [data-rel="phpdebugmessage"]') !== null
+            ) {
+                throw new ExpectationException('Expected only the management-permission denial.', $this->getSession());
+            }
+        } else if (count($fatal) !== 0 || strpos($page->getText(), $success) === false) {
+            throw new ExpectationException('The authorised reset did not report success.', $this->getSession());
+        }
+        $after = $this->videotrack_reset_snapshot($activity, $user, (int)$cm->id);
+        if ($outcome === 'denied' && json_encode($before) !== json_encode($after)) {
+            throw new ExpectationException('The denied reset changed learner data or native grade/completion.', $this->getSession());
+        }
+        if ($outcome === 'accepted') {
+            foreach ($after['target']['tables'] as $records) {
+                if (!empty($records)) {
+                    throw new ExpectationException(
+                        'The authorised reset retained plugin-owned learner data.',
+                        $this->getSession()
+                    );
+                }
+            }
+            foreach ($after['target']['grades'] as $grade) {
+                if ($grade->rawgrade !== null || $grade->finalgrade !== null) {
+                    throw new ExpectationException('The authorised reset retained the native grade.', $this->getSession());
+                }
+            }
+            if (
+                !empty($after['target']['completion']->completionstate)
+                || json_encode($before['others']) !== json_encode($after['others'])
+            ) {
+                throw new ExpectationException('The reset retained completion or changed another learner.', $this->getSession());
+            }
+        }
+        // Restore a normal report before Moodle's automatic exception hook runs; no error hook is disabled.
+        $this->i_open_the_videotrack_report_for_learner($activityname, $username);
+    }
+
+    /**
+     * Read target and other-learner snapshots across plugin data, native grades and native completion.
+     *
+     * @param stdClass $activity Existing VideoTrack activity.
+     * @param stdClass $user Target learner.
+     * @param int $cmid Activity course-module id.
+     * @return array Persisted records, without normalising away any mutation.
+     */
+    private function videotrack_reset_snapshot(stdClass $activity, stdClass $user, int $cmid): array {
+        global $DB;
+
+        $snapshot = ['target' => ['tables' => []], 'others' => ['tables' => []]];
+        $tables = ['videotrack_seg', 'videotrack_state', 'videotrack_reactev', 'videotrack_integrity', 'videotrack_acknowledge'];
+        foreach ($tables as $table) {
+            $snapshot['target']['tables'][$table] = $DB->get_records($table, [
+                'videotrackid' => (int)$activity->id, 'userid' => (int)$user->id,
+            ], 'id ASC');
+            $snapshot['others']['tables'][$table] = $DB->get_records_select(
+                $table,
+                'videotrackid = :activityid AND userid <> :userid',
+                ['activityid' => (int)$activity->id, 'userid' => (int)$user->id],
+                'id ASC'
+            );
+        }
+        $snapshot['target']['completion'] = $DB->get_record('course_modules_completion', [
+            'coursemoduleid' => $cmid, 'userid' => (int)$user->id,
+        ]);
+        $snapshot['others']['completion'] = $DB->get_records_select(
+            'course_modules_completion',
+            'coursemoduleid = :cmid AND userid <> :userid',
+            ['cmid' => $cmid, 'userid' => (int)$user->id],
+            'id ASC'
+        );
+        $itemid = (int)$DB->get_field('grade_items', 'id', [
+            'itemtype' => 'mod', 'itemmodule' => 'videotrack', 'iteminstance' => (int)$activity->id, 'itemnumber' => 0,
+        ], MUST_EXIST);
+        $snapshot['target']['grades'] = $DB->get_records('grade_grades', [
+            'itemid' => $itemid, 'userid' => (int)$user->id,
+        ], 'id ASC');
+        $snapshot['others']['grades'] = $DB->get_records_select(
+            'grade_grades',
+            'itemid = :itemid AND userid <> :userid',
+            ['itemid' => $itemid, 'userid' => (int)$user->id],
+            'id ASC'
+        );
+        return $snapshot;
+    }
 }

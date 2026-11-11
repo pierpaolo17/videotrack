@@ -1,15 +1,15 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.249** (`2026111102`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.250** (`2026111103`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
 **U-007 è chiuso sulla baseline 1.7.240 accettata.** La matrice browser/provider/ruoli essenziale ha esecuzione
 reale nei sei job Moodle/PHP/database indicati sotto. La 1.7.241 accettata ha consolidato evidenze e passaggio
-all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. La candidata linguistica
-1.7.249 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
-U-017 resta chiuso. U-020/accessibilità manuale, review semantica lingue e gate produzione integrati sono
-separati e restano aperti. Questo documento non certifica accessibilità o deploy con provider pubblici.
+all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. La candidata reset/lingue
+1.7.250 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
+U-017 resta chiuso. U-020/accessibilità manuale e gate produzione restano separati. La review semantica assistita è completa
+nella candidata 1.7.250, i cui gate nativi restano pendenti. Questo documento non certifica accessibilità o deploy con provider pubblici.
 
 ## Baseline accettata esatta
 
@@ -84,12 +84,11 @@ propri. Altri motori si provano e registrano quando pertinenti al deploy, senza 
 L’audit manuale non genera automaticamente una release: registrare un esito verde; produrre una correzione
 mirata solo per un finding concreto. Non riaprire U-017 strutturale per le metriche consultive.
 
-U-020 resta aperto ed è **rinviato su richiesta del maintainer (2026-11-10)**. Questa modifica non
-esegue né approva alcun caso manuale. Il lavoro indipendente sulle lingue può proseguire; il gate finale
-di produzione richiede ancora l’audit manuale e le eventuali correzioni.
+## Scope corrente reset e review
 
-## Ordine successivo concordato
-
-Completare il lavoro web già previsto e la decisione App; poi implementare i sottotitoli VTT multilingua
-concordati prima della base autenticata e di OneDrive/SharePoint, Zoom Cloud Recording e Google Drive.
-La 1.7.249 corregge soltanto testi e documentazione. U-020 resta rinviato, con otto casi NON ESEGUITI.
+Il reset del singolo studente ora verifica il permesso gestione anche sul server, oltre che nell’interfaccia:
+vedere i [permessi](16_ROLES_CAPABILITIES.md#autorizzazione-reset-del-singolo-studente-nel-report). La review
+assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad approvazione madrelingua.
+Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
+Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
+VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.

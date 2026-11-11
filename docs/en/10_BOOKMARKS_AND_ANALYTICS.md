@@ -54,10 +54,11 @@ After the earlier web work and App decision, the maintainer has requested multil
 the authenticated providers. Existing multilingual transcripts remain separate. This is sequencing only;
 HTML5 selection/file lifecycle and external-provider feasibility will be implemented/tested in their own phase.
 
-## Activity/player wording review
+## Current reset and review scope
 
-The current [language review](27_LANGUAGE_REVIEW.md) covers 789 unique keys per pack, including the complete
-unprefixed activity/player/study-tool labels and control/form-error families. The remaining 208 keys per pack
-are outside the claim. Reactions remain available while paused at an already-watched point under existing
-guards; uploaded reaction icons are required for configured file-icon reactions. Image resizing is conditional
-on successful server image processing. Runtime, permissions and personal-data boundaries are unchanged.
+Per-student reset now enforces the management capability on the server as well as in the UI; see
+[permissions](16_ROLES_CAPABILITIES.md#per-student-report-reset-authorisation). The assisted language review
+covers all 997 keys in eight packs; it is not native sign-off. Eight manual PASS are reported for
+1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 manual coverage remains unrecorded. Candidate gates
+are pending, with expected PHPUnit 379/4076 and Behat 52/1154. Existing web/App work precedes the agreed
+multilingual VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
