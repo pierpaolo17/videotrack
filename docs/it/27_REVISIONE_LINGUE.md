@@ -109,9 +109,21 @@ voto/completion e conservando gli altri studenti. Visione/completion sono ottenu
 è una fixture esplicita creata con la normale API Moodle. La pagina negata è verificata e ripristinata nello
 step, senza disabilitare gli hook automatici sugli errori.
 
-Suite attesa: **379 test PHPUnit / 4076 asserzioni; 52 scenari Behat / 1154 passi**. Sono attese, non esecuzioni
-nel workspace. Servono ancora CI candidata su sei job, CI dopo merge e ZIP/report server/strict reali. Controlli
-locali su contratti/applicazione e sintassi degli script test non li sostituiscono.
+I sei artifact CI caricati corrispondono al commit `d75af28e890d12c7dab4edd507c404ac3f3f1ad9` del run
+`43075665485`, tentativo 2. Ogni report fornito supera **379 test PHPUnit / 4076 asserzioni**,
+**52 scenari Behat / 1154 passi** e strict **10/0/0**; nei report non compaiono riesecuzioni di scenari Behat.
+Grunt termina nei sei ambienti. Sono evidenze CI reali, non esecuzioni native in questo workspace.
+
+La CI complessiva resta bloccata da un warning PHPCS: la nuova asserzione sul reset negato ha 133 caratteri
+alla riga 1636 dell'helper, oltre il limite di 132. La correzione della stessa versione spezza solo tale
+espressione e aggiorna le posizioni degli helper nei due inventari callable. Asserzioni, runtime, traduzioni,
+XMLDB, AMD, versione e regole CI restano invariati. Prima del merge serve un nuovo run su sei job riuscito,
+poi CI dopo merge e accettazione di ZIP/report server/strict reali della versione unita.
+
+PHPStan e gli ambiti Psalm configurati passano. Psalm riporta 733/761 segnalazioni consultive, contro 732/760
+della 249 accettata: una segnalazione aggiuntiva per ramo Moodle analizzato. I report forniti non ne mostrano
+il dettaglio, quindi non se ne deduce la causa. Le 24 segnalazioni PHPMD sono identiche byte per byte alla 249
+accettata. Non si dichiarano zero segnalazioni o totali consultivi invariati.
 
 Completare gate integrato web/ciclo vita/privacy/benchmark ed evidenze manuali residue, quindi decisione App e
 fase concordata sottotitoli VTT multilingua prima di base autenticata, OneDrive/SharePoint, Zoom Cloud Recording

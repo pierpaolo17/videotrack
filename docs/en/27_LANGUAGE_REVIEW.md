@@ -109,9 +109,21 @@ only the selected learner, clearing its grade/completion while preserving other 
 completion evidence is browser-earned; the points grade is an explicit ordinary Moodle grade fixture.
 The denied page is checked and restored inside the step, retaining Moodle's automatic exception hooks.
 
-Expected suite: **379 PHPUnit tests / 4076 assertions; 52 Behat scenarios / 1154 steps**. These are candidate
-expectations, not executions in this workspace. Native six-job candidate CI, post-merge CI and actual merged
-ZIP/server/strict are still required. Local contract/apply checks and test-script syntax checks do not replace them.
+The six uploaded CI artifacts match commit `d75af28e890d12c7dab4edd507c404ac3f3f1ad9` in run
+`43075665485`, attempt 2. Every supplied report passes **379 PHPUnit tests / 4076 assertions**,
+**52 Behat scenarios / 1154 steps** and strict **10/0/0**; no Behat scenario rerun is present in those reports.
+Grunt completes in all six environments. This is real CI evidence, not a native execution in this workspace.
+
+Overall CI remains blocked by one PHPCS warning: the new denied-reset assertion has 133 characters at
+helper line 1636, beyond the 132-character limit. The same-version correction wraps that expression only
+and updates the helper locations in both callable inventories. Assertions, runtime, translations, XMLDB,
+AMD, version and CI rules are unchanged. The corrected candidate needs a new successful six-job run before
+merge, followed by post-merge CI and actual merged ZIP/server/strict acceptance.
+
+PHPStan and the configured Psalm scopes pass. Psalm reports 733/761 advisory issues, versus 732/760 for
+accepted 249: one additional advisory per analysed Moodle branch. Its detail is not displayed in the supplied
+reports, so its cause is not inferred. The 24 PHPMD findings are byte-identical to accepted 249. No claim of
+zero findings or unchanged advisory totals is made.
 
 Finish the integrated web/lifecycle/privacy/benchmark gate and remaining scoped manual evidence; complete
 the App decision, then implement agreed multilingual VTT subtitles before authenticated foundation,

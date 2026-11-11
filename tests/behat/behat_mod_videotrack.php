@@ -1633,7 +1633,10 @@ JS;
         }
         $after = $this->videotrack_reset_snapshot($activity, $user, (int)$cm->id);
         if ($outcome === 'denied' && json_encode($before) !== json_encode($after)) {
-            throw new ExpectationException('The denied reset changed learner data or native grade/completion.', $this->getSession());
+            throw new ExpectationException(
+                'The denied reset changed learner data or native grade/completion.',
+                $this->getSession()
+            );
         }
         if ($outcome === 'accepted') {
             foreach ($after['target']['tables'] as $records) {

@@ -19,8 +19,13 @@
 - Add real-browser direct-POST tests for denied-reset preservation and
   authorised target-only reset. Check persisted plugin tables, native
   completion, an explicit ordinary grade fixture and other learners.
-  Expected Behat suite becomes 52 scenarios / 1154 steps; native
-  candidate execution remains pending. PHPUnit stays 379/4076.
+  All six supplied candidate CI reports pass Behat 52 scenarios /
+  1154 steps, PHPUnit 379/4076 and strict 10/0/0 on commit d75af28.
+- Correct a 133-character line in the new Behat helper to satisfy
+  PHPCS's 132-character limit, without changing assertions or runtime
+  behaviour. Update both callable inventories. The initial candidate
+  CI is blocked by this warning; the corrected candidate still needs
+  a complete successful CI run before merge.
 - Review the last 208 keys / 1664 values: cumulative assisted scope is
   all 997 keys / 7976 values in eight packs. Correct 73 values across
   18 existing keys. In particular, offline deferral does not promise
