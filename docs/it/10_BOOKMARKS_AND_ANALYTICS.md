@@ -40,3 +40,19 @@ Riepiloghi reazioni, segnalibri, prese visione e integrità dipendono dai propri
 regole privacy. Diversi riepiloghi precedono l’avviso senza visioni; una tabella cluster può seguirlo. Il
 testo non promette quindi posizione o disponibilità. Sono comportamenti esistenti: la patch linguistica
 non cambia scelta delle fonti, oscuramento, metriche, export o disposizione del report.
+
+## Testi dei report cumulativi, export e ricalcolo
+
+I report cumulativi delle reazioni usano `reportclusterlimit`, distinto dal limite fisso dei cluster Analytics.
+Se raggiunto senza filtro sul tempo video, tabella nascosta e CSV cumulativo fermato prima delle righe cluster.
+Un filtro permette righe limitate con avviso: restringere non garantisce dati completi. Heatmap supplementare
+e tabella condividono il sottoinsieme conservato.
+
+La modalità CSV complessiva include tutti gli studenti consentiti indipendentemente dal singolo selezionato,
+conservando i filtri di accesso. I bookmark restano conteggi, senza etichette/timestamp privati in ogni formato.
+Il ricalcolo usa segmenti conservati validati dal server e durata salvata; non ripristina evidenze eliminate.
+Le intestazioni italiane del tempo video ora dicono «Tempo del video»; valori/ordine colonne CSV invariati.
+
+Dopo il precedente lavoro web e la decisione App, il manutentore richiede sottotitoli VTT multilingue prima dei
+provider autenticati. Le trascrizioni multilingue esistenti restano distinte. Qui si registra solo l’ordine:
+selettore HTML5/lifecycle file e fattibilità provider esterni saranno implementati/provati nella fase dedicata.

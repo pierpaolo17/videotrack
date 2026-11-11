@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.247** (`2026111006`).
+Current tree: VideoTrack **1.7.248** (`2026111101`).
 
 ## Decision and accepted evidence
 
@@ -94,3 +94,10 @@ alone does not trigger a functional release; concrete findings do. Candidate 1.7
 and protocol with its own CI/package gates pending. Moodle App evaluation and authenticated-provider
 foundation follow the web gates, then OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and hardening.
 See also [analysis policy](24_STATIC_ANALYSIS.md) and [release gates](07_BUILD_TEST_RELEASE.md).
+
+## Maintainer roadmap update, 2026-11-11
+
+U-017 remains closed. After completion of the earlier web gates and App decision, implement the agreed
+multilingual VTT subtitle extension before authenticated-provider foundation/OneDrive, Zoom and Google
+Drive. Existing transcript language choice is separate. The current language candidate adds no VTT runtime
+behaviour and does not close the deferred manual U-020 gate.

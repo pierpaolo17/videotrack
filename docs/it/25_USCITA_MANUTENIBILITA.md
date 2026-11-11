@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.247** (`2026111006`).
+Albero corrente: VideoTrack **1.7.248** (`2026111101`).
 
 ## Decisione ed evidenze accettate
 
@@ -96,3 +96,10 @@ non attiva una release funzionale; un finding concreto sì. La candidata 1.7.241
 protocollo con i propri gate CI/pacchetto pendenti. Valutazione Moodle App e base provider autenticati
 seguono i gate web, poi OneDrive/SharePoint, Zoom Cloud Recording, Google Drive e consolidamento.
 Vedere anche [policy analisi](24_ANALISI_STATICA.md) e [gate release](07_BUILD_TEST_RELEASE.md).
+
+## Aggiornamento roadmap del manutentore, 2026-11-11
+
+U-017 resta chiuso. Dopo il precedente lavoro web e la decisione App, implementare l’estensione concordata
+dei sottotitoli VTT multilingue prima della foundation autenticata/OneDrive, Zoom e Google Drive. La scelta
+lingua delle trascrizioni esistenti resta distinta. La candidata linguistica non aggiunge runtime VTT e
+non chiude U-020 manuale rinviato.
