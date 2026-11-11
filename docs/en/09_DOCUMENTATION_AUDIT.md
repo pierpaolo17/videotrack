@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.246** (`2026111005`).
+Baseline: VideoTrack **1.7.247** (`2026111006`).
 
 ## Scope
 
@@ -33,9 +33,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) remain closed.
-  Actual 1.7.245 ZIP/server/strict and six-job candidate/main CI are accepted. Candidate 1.7.246 corrects
-  two reaction Analytics texts per pack (16 values); runtime, tests, schema, AMD and CI rules are unchanged.
-  U-020 manual checks remain open/deferred. See the [current review](27_LANGUAGE_REVIEW.md) for exact scope.
+  Actual 1.7.246 ZIP/server/strict and six-job candidate/main CI are accepted. Candidate 1.7.247 completes
+  the Analytics-key language pass and corrects 27 values across five existing keys. Runtime, tests, schema,
+  AMD and CI rules are unchanged. U-020 remains deferred. See the [current review](27_LANGUAGE_REVIEW.md).
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -66,7 +66,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.246 / 2026111005.
+- Documentation markers, root README files and ER artefacts identify 1.7.247 / 2026111006.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -186,15 +186,14 @@ Before promotion, verify:
 
 ## Current accepted baseline and language candidate
 
-The actual 1.7.245 package/server/strict and six-job candidate/main CI are accepted. The current 1.7.246
-candidate preserves the 412-file package, 31 EN/IT documents each, 345 non-documentary inventory rows and
-1101 PHP/654 AMD callables. XMLDB remains 2026110601 with 7 tables/151 fields/22 indexes/22 foreign keys;
-ER changes only the current release labels. The root changelog retains release history.
+The actual 1.7.246 package/server/strict and six-job candidate/main CI are accepted. Candidate 1.7.247 retains
+412 files, 31 EN/IT documents each, 345 inventory rows and 1101 PHP/654 AMD callables. XMLDB remains 2026110601
+with 7 tables/151 fields/22 indexes/22 foreign keys; ER changes only version labels. Root changelog history is retained.
 
-The reaction Analytics pass reviews 21 keys / 168 values, correcting two keys in each pack (16 values).
-Cumulative semantic scope is 253 unique keys per pack / 2024 distinct values; 744 keys remain outside the
-claim. All 997 keys/placeholders per pack are preserved. The [review record](27_LANGUAGE_REVIEW.md) gives
-the exact manifest and source findings. Local contract/applicability checks do not imply candidate native
-execution: six CI jobs and subsequent actual merged ZIP/server/strict gates remain required. U-020’s eight
-manual observations remain NOT RUN at the maintainer’s request; integrated production and native linguistic
-sign-off remain separate.
+All 121 Analytics keys are covered (968 values), with accepted unchanged evidence reused for 22 keys and 99
+newly examined in each pack. Cumulative semantic scope: 352 keys / 2816 distinct values; 645 keys per pack remain
+outside the claim. The candidate corrects 27 values across five keys; all 997 keys/placeholders are preserved.
+See the [review record](27_LANGUAGE_REVIEW.md) for the exact manifest/findings. Runtime/DB/AMD/tests/CI are
+unchanged. Six candidate CI jobs and the actual merged ZIP/server/strict gates remain required. All eight
+U-020 manual observations remain NOT RUN at the maintainer’s request; native linguistic and integrated
+production approval remain separate.

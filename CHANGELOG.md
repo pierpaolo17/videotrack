@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.247 - 2026-11-10
+
+### Complete the Analytics-key language pass
+
+- Accept the actual 412-file 1.7.246 ZIP, SHA-256
+  `c7c65c1933c370c885f44caf413bee2200c8fd6b1dfa4d6527aa26b8191e83b1`,
+  identical to main `c5527eb68e1d58b78999dc24c8f99e14b5872eb8`.
+  Six-job candidate/main CI, both server reports and supplied strict
+  outputs pass; U-020 manual checks remain deferred and NOT RUN.
+- Review all 121 Analytics keys in all eight packs (968 values), reusing
+  accepted unchanged evidence for 22 keys and examining 99 new keys per
+  pack. Cumulative semantic scope: 352 unique keys / 2816 distinct values;
+  the other 645 keys per pack remain outside the claim. This completes
+  the report:analytics_ family, not all reports or all language packs.
+- Correct three existing descriptions in all eight packs: the general
+  viewing description includes retained-state fallback and unavailable
+  replay metrics; privacy methodology distinguishes non-empty subgroups
+  from zero counts and covers protected retention percentages; the
+  no-viewing notice covers independent event summaries without assuming
+  their page position or availability beyond permissions/privacy gates.
+- Correct the DE/HI high-intensity heatmap legend to describe relative
+  intensity without implying viewer counts greater than the selection
+  maximum; align the FR repeat-viewing term with its existing labels.
+  Total: 27 values across five existing keys, with keys, numeric tokens
+  and placeholder multiplicities preserved.
+- Update paired current guides/review evidence and version labels only.
+  Runtime, data, permissions, DB, AMD, services, tests and CI remain
+  byte-identical to accepted 1.7.246. XMLDB remains 2026110601; ER changes
+  only current-tree labels. Native candidate CI and subsequent actual
+  merged ZIP/server/strict gates remain required.
+
 ## 1.7.246 - 2026-11-10
 
 ### Reaction Analytics wording and current review evidence

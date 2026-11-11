@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.246** (`2026111005`).
+Albero corrente: VideoTrack **1.7.247** (`2026111006`).
 
 ## Decisione ed evidenze accettate
 

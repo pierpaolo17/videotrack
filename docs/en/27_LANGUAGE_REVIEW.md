@@ -1,11 +1,11 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.246** (`2026111005`). Review recorded 2026-11-10.
+Current tree: VideoTrack **1.7.247** (`2026111006`). Review recorded 2026-11-10.
 
 ## Current scope and limits
 
-The cumulative review covers **253 unique keys per pack / 2024 distinct values** in DE, EN, ES, FR, HI,
-IT, PL and PT. The other **744 keys per pack are outside the claimed semantic review**. This assisted
+The cumulative review covers **352 unique keys per pack / 2816 distinct values** in DE, EN, ES, FR, HI,
+IT, PL and PT. The other **645 keys per pack are outside the claimed semantic review**. This assisted
 source/language review is not native linguistic sign-off. All 997 keys/placeholders remain structurally
 aligned; structural parity does not establish semantic or accessibility correctness.
 
@@ -15,27 +15,28 @@ final production gate. No manual, screen-reader or live-provider result is infer
 
 ## Accepted starting point
 
-- Actual 1.7.245 / `2026111004`: 412 distributed files identical to main
-  `0309db75c57e379828fa9e049928bc2533e0ed6a`.
-- ZIP SHA-256: `31b706f1bf47deb87036939fc1188668b7646490ee0fb2c3c5a53bb54fad9268`.
-- Server-report ZIP SHA-256: `306f0139a21d0bcc15d96068e178466789b8492bc734a25e6244fd69ca476c3e`.
-- Candidate/main CI `42826573352` / `42830814382`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
+- Actual 1.7.246 / `2026111005`: 412 distributed files identical to main
+  `c5527eb68e1d58b78999dc24c8f99e14b5872eb8`.
+- ZIP SHA-256: `c7c65c1933c370c885f44caf413bee2200c8fd6b1dfa4d6527aa26b8191e83b1`.
+- Server-report ZIP SHA-256: `804d98775c7096eff316dad5eec8c66dbacc5e89064f69469553a9626b899169`.
+- Candidate/main CI `42840354028` / `42864476627`: all six jobs pass PHPUnit 379/4076, Behat 50/1074 and
   strict 10/0/0. Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076; both supplied
   strict outputs are 10/0/0. AMD hashes before/after Grunt match. The known Browserslist data-age advisory
-  remains; the server report did not run Behat/manual assistive checks. Reviewed PHPMD findings and Psalm
-  informative totals remain separate from passing configured analysis gates.
+  remains; server reports did not run Behat/manual assistive checks. The 24 reviewed PHPMD findings and
+  Psalm informative totals 732/760 remain separate from passing configured analysis gates.
 
 ## Complete cumulative reviewed-key manifest
 
-The three prefix groups below are exhaustive in the current packs; the remaining exact keys are listed below.
+These four prefix groups are exhaustive in the current packs; the remaining exact keys are listed below.
 
 | Key prefix | Reviewed keys per pack |
 |---|---:|
 | `privacy:` | 74 |
 | `completion` | 14 |
 | `setting:` | 110 |
-| Additional exact keys listed below | 55 |
-| Total unique keys | 253 |
+| `report:analytics_` | 121 |
+| Additional exact keys listed below | 33 |
+| Total unique keys | 352 |
 
 - `acknowledgement:enabled_desc`
 - `acknowledgement:pendingvideoend`
@@ -68,107 +69,84 @@ The three prefix groups below are exhaustive in the current packs; the remaining
 - `integrity:settingsintro`
 - `integrity:studentnotice`
 - `personalstudytoolsintro`
-- `report:analytics_export_row_reactions`
-- `report:analytics_heatmap_legend_reaction`
-- `report:analytics_method_reactions`
-- `report:analytics_noduration`
-- `report:analytics_noviewingdata_reactions`
-- `report:analytics_privacy_unavailable_reactions`
-- `report:analytics_reaction_events`
-- `report:analytics_reaction_students`
-- `report:analytics_reaction_time`
-- `report:analytics_reaction_type`
-- `report:analytics_reactionclusters`
-- `report:analytics_reactionclusters_caption`
-- `report:analytics_reactionclusters_none`
-- `report:analytics_reactionclusters_title`
-- `report:analytics_reactionlimit`
-- `report:analytics_reactionmarker`
-- `report:analytics_reactions_available`
-- `report:analytics_reactions_cell`
-- `report:analytics_reactions_detected`
-- `report:analytics_reactionsummary`
-- `report:analytics_reactionsummary_suppressed`
-- `report:analytics_showreactions`
 - `report:csvexport_bookmarks_help`
 - `studentnotesenabled_help`
 
-## Reaction Analytics pass
+## Complete Analytics-family pass
 
-This pass reviews **21 existing keys / 168 values**: every `report:analytics_` key containing `reaction`.
-These keys do not overlap the 232 previously accepted keys. The review checks cluster tables, overlay
-controls/markers, counts, privacy suppression and empty-data notices. Existing keys without an active
-rendering call are retained; their review does not imply that they are currently displayed. The rest of
-the report/Analytics key families are not included. Earlier findings remain in the root changelog.
+This pass covers all **121 `report:analytics_` keys / 968 values**. It newly examines 99 keys / 792 values
+and reuses unchanged accepted evidence for 22 keys: `report:analytics_noduration` and the 21 reaction-related
+Analytics keys reviewed in 1.7.246. The cumulative count deduplicates previous passes. The whole Analytics
+key family is now covered; other report families, including course/teacher dashboard labels, are outside
+this pass unless explicitly included by the cumulative manifest. Definitions without a direct rendering
+reference are retained; their review does not imply a new UI element or current display. Previous findings
+remain in the root changelog.
 
-- `report:analytics_export_row_reactions`
-- `report:analytics_heatmap_legend_reaction`
-- `report:analytics_method_reactions`
-- `report:analytics_noviewingdata_reactions`
-- `report:analytics_privacy_unavailable_reactions`
-- `report:analytics_reaction_events`
-- `report:analytics_reaction_students`
-- `report:analytics_reaction_time`
-- `report:analytics_reaction_type`
-- `report:analytics_reactionclusters`
-- `report:analytics_reactionclusters_caption`
-- `report:analytics_reactionclusters_none`
-- `report:analytics_reactionclusters_title`
-- `report:analytics_reactionlimit`
-- `report:analytics_reactionmarker`
-- `report:analytics_reactions_available`
-- `report:analytics_reactions_cell`
-- `report:analytics_reactions_detected`
-- `report:analytics_reactionsummary`
-- `report:analytics_reactionsummary_suppressed`
-- `report:analytics_showreactions`
+The pass covers acknowledgement snapshots/averages, cross-course matching/group scope, bookmark privacy,
+intervals and exports, heatmap/retention legends, suppression, retained-state fallback and highlight labels.
+Source references include `report.php`, `analytics_scope`/`analytics_scope_matcher`,
+`acknowledgement_analytics`, `analytics_timeline`, `analytics`, `report_support`, `analytics_table_export`
+and the report view/summary/timeline services under `classes/local`.
 
 ## Source findings and corrections
 
-`report.php` obtains the effective threshold from access to every activity in the selected scope: individual
-report access permits `analytics::EXACT_REPORT_MIN_USERS` (1), while aggregate-only access retains the
-configured `analyticsminusers` threshold. `cluster_reactions()` receives that effective value. The table
-caption now refers to this report’s threshold instead of implying that the site value always applies.
+- `report.php` builds raw-segment and retained-state Analytics. `report_support::analytics_prefers_state_fallback()`
+  selects state when it retains more viewers or unique coverage. State reconstruction supplies unique-view
+  intervals but no repeat metrics. The retained general description now explains both sources and that
+  limitation; this edit adds no rendering call. The existing fallback notice/behaviour is unchanged.
+- `analytics::mask_timeline_bins()` masks positive viewer/replay subgroups below the threshold. Zero intervals
+  can remain visible; masked interval populations also suppress retention percentages that could expose
+  the protected denominator. Methodology now describes non-empty subgroups, potentially visible zero
+  counts and protected percentages. `report_view::analytics_methodology()` still omits this threshold text
+  for exact individual-authorised reports. No masking rule or threshold is changed.
+- `report.php` renders reaction/bookmark/acknowledgement/integrity summaries before the no-viewing branch,
+  while the independent cluster table can follow it. Acknowledgements or integrity data can trigger that
+  branch without reaction/bookmark data. The notice now refers to valid viewing intervals and independently
+  available event summaries, subject to permissions/privacy. It no longer promises a position below the
+  notice or a summary when its data/feature is absent.
+- The DE/HI high-colour legend could imply viewer counts exceeding the selection maximum. The heatmap
+  normalises against its visible maximum; these two translations now express relative intensity. The FR
+  unique/repeat methodology replaces the ambiguous unaccented `revision` with the existing `relecture`
+  terminology. No colour scale or metric is changed.
 
-`analytics::append_visible_reaction_cluster()` checks distinct-user eligibility before applying
-`MAX_REACTION_CLUSTERS` (2000). Additional eligible clusters set `truncated`; the retained subset is sorted
-after collection, so it is not promised to be the earliest subset across reaction types. `report.php` raises
-the limit warning on truncation. Disabling the overlay skips cluster collection and rendering; it does not
-recover omitted clusters. The revised warning explains the display cap/omissions and says only that a
-narrower scope may avoid it. It does not promise that narrowing always succeeds or that a complete export
-is available. Existing summary counts, access filters and privacy masking are unchanged.
-
-Source evidence: `report.php` threshold/overlay/warning branches; `classes/local/analytics.php`
-clustering/visibility methods; `classes/local/report_timeline_view.php::reaction_clusters()`;
-`classes/local/report_view.php` methodology/privacy explanations. The existing
-`analytics_test::test_reaction_cluster_limit_is_reported()` covers the cap/truncation flag; its body is
-unchanged and is not claimed newly executed locally. No additional test mirrors these literal-only edits.
+Existing tests cover zero-interval visibility, small subgroup masking, replay-only suppression, exact-report
+methodology, fallback selection and heatmap markup, including
+`analytics_test::test_privacy_threshold_keeps_zero_intervals_visible()` and
+`report_view_test::test_exact_analytics_methodology_omits_privacy_threshold_text()`.
+All test bodies remain unchanged. Their accepted baseline results are not new local candidate execution.
 
 ## Exact keys changed in the candidate
 
-- `report:analytics_reactionclusters_caption`
-- `report:analytics_reactionlimit`
+- `report:analytics_description`
+- `report:analytics_heatmap_legend_high`
+- `report:analytics_method_privacy`
+- `report:analytics_method_unique`
+- `report:analytics_noviewingdata_events`
+
+The general viewing description, privacy methodology and no-viewing notice are corrected in every pack;
+the high-intensity legend only in DE/HI and the
+unique/repeat terminology only in FR. Each pack changes only its source-proven findings.
 
 | Pack | Values changed |
 |---|---:|
-| DE | 2 |
-| EN | 2 |
-| ES | 2 |
-| FR | 2 |
-| HI | 2 |
-| IT | 2 |
-| PL | 2 |
-| PT | 2 |
+| DE | 4 |
+| EN | 3 |
+| ES | 3 |
+| FR | 4 |
+| HI | 4 |
+| IT | 3 |
+| PL | 3 |
+| PT | 3 |
 
-Total: **16 changed values across two existing keys**. Keys, placeholder multiplicities and numeric tokens
-are preserved in every pack. No new language key or data field is added.
+Total: **27 changed values across five existing keys**. Keys, placeholder multiplicities and numeric tokens
+are preserved in every pack. No language key or data field is added.
 
 ## Candidate gates and remaining work
 
-1.7.246 contains 412 distributed files / 31 documents per language, 166 PHP files, 1101 PHP/654 AMD callables
+1.7.247 contains 412 distributed files / 31 documents per language, 166 PHP files, 1101 PHP/654 AMD callables
 and 345 non-documentary inventory rows. Schema remains XMLDB `2026110601`: 7 tables / 151 fields / 22 indexes /
 22 foreign keys. ER changes only current-tree version labels. Runtime, access rules, data, services, DB,
-AMD, tests, fixtures and CI/analysis rules are byte-identical to accepted 1.7.245.
+AMD, tests, fixtures and CI/analysis rules are byte-identical to accepted 1.7.246.
 
 Local contract/delta/link and exact patch apply/reverse checks are separate from native execution. Candidate
 CI still needs all six jobs, followed by actual merged ZIP/server reports/strict. Expected unchanged suite:
