@@ -67,3 +67,9 @@ playback-start rows and the authoritative server-credit ledger. Exporting a segm
 certify it as authoritative server-time evidence. The stored `videotrack_state.iscompleted` value describes
 the custom VideoTrack rule, not all Moodle activity-completion requirements. These descriptions change no
 export payload, retention/deletion policy or stored value.
+
+## Post-restore task regression
+
+The candidate invokes the registered Moodle cleanup task after restoring learner data, changes the site
+retention window and repeats cleanup. It checks retained validated credit, removed empty states and
+preserved activity files/core grade rows. See [scope and pending CI](28_PRODUCTION_EXIT_AUDIT.md); cron timing is not tested.

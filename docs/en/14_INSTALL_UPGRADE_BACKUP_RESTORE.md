@@ -122,3 +122,9 @@ callback and delegates to the retained `videotrack_reset_course_userdata()` impl
 course and retains activity configuration, reactions and shared files. Moodle separately controls native
 completion reset. The core reset page enforces `moodle/course:reset`; report-reset management permission
 is a separate route and is unchanged. See the [integration evidence](28_PRODUCTION_EXIT_AUDIT.md).
+
+## Registered retention task after restore
+
+The candidate adds a real registered-task integration covering unlimited/finite policy, full input expiry,
+repeated execution and preserved shared files/configuration/core grades after restore. Native CI is pending.
+See [the evidence and limits](28_PRODUCTION_EXIT_AUDIT.md).

@@ -68,3 +68,9 @@ di avvio con tempo server e il registro autorevole del credito server. Esportare
 non lo certifica come evidenza autorevole del tempo server. `videotrack_state.iscompleted` descrive la regola
 custom VideoTrack, non tutti i requisiti di completamento dell’attività Moodle. Queste descrizioni non
 cambiano payload export, retention/cancellazione o valori salvati.
+
+## Regressione del task dopo il ripristino
+
+La candidata invoca il task Moodle registrato dopo il restore dei dati studente, cambia la finestra retention
+di sito e ripete la pulizia. Verifica credito validato residuo, rimozione stati vuoti e conservazione di file
+attività/voti core. Vedere [perimetro e CI in attesa](28_USCITA_PRODUZIONE.md); non prova gli orari cron.

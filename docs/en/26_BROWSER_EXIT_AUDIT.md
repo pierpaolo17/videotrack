@@ -1,6 +1,6 @@
 # U-007 browser automation exit audit
 
-Current tree: VideoTrack **1.7.252** (`2026111202`). Decision recorded 2026-11-09.
+Current tree: VideoTrack **1.7.253** (`2026111203`). Decision recorded 2026-11-09.
 
 ## Decision
 
