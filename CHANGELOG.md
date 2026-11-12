@@ -24,9 +24,19 @@
   otherwise, without deprecation suppression. Existing backup cases keep
   their default fixture behaviour; an optional existing course enables the
   new same-course isolation case.
+- All six initial candidate artifacts on df3fe608 pass PHPUnit 383/4350,
+  Behat 52/1154 and strict 10/0/0. Run 43233266763, attempt 2, remains blocked
+  by two PHPCS errors on line 185 of lifecycle_integration_test.php: three
+  arguments share one line inside a multiline get_records call. Put one
+  argument on each line and update both callable inventories. This same-version
+  incremental correction changes whitespace only in the test; executable code,
+  literals, production files and CI rules remain identical. Corrected native
+  CI is pending before merge. PHPMD retains 24 semantic findings; Psalm reports
+  732/760 advisories, one fewer per branch than 251, without an inferred cause.
 - Update paired guides, callback/security notes, inventories and version/ER
-  labels. Expected 383 PHPUnit methods, assertions to be measured; Behat 52/1154
-  unchanged. No schema/language/AMD/service/role/CI-rule change. XMLDB remains
+  labels. Expected corrected suite: 383 PHPUnit tests / 4350 assertions and
+  Behat 52/1154, based on the initial native execution. No schema/language/AMD/
+  service/role/CI-rule change. XMLDB remains
   2026110601 and 7/151/22/22; eight 997-key packs and 48 AMD sets remain intact.
   U-017/U-007 stay closed; manual 5.3 and full production/App gates stay explicit.
   Native candidate/merged CI and actual ZIP/server/strict are required before acceptance.

@@ -182,7 +182,9 @@ final class lifecycle_integration_test extends \advanced_testcase {
             }
             $this->assertEquals($snapshots[$activityid]['activity'], $DB->get_record('videotrack', ['id' => $activityid]));
             $this->assertEquals($snapshots[$activityid]['definitions'], $DB->get_records(
-                'videotrack_react', ['videotrackid' => $activityid], 'id'
+                'videotrack_react',
+                ['videotrackid' => $activityid],
+                'id'
             ));
             $this->assertEquals($snapshots[$activityid]['files'], $DB->get_records('files', [
                 'contextid' => $fixture['context']->id, 'component' => 'mod_videotrack',

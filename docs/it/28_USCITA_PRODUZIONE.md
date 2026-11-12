@@ -35,14 +35,37 @@ impostazioni, definizioni reazioni e file condivisi. La completion nativa resta 
 opzione Moodle di reset completion: il caso positivo la seleziona esplicitamente. Il reset globale gradebook
 resta disattivato, così il test esercita proprio il percorso di reset voti del plugin.
 
+## CI candidata iniziale e correzione di formato nella stessa versione
+
+I sei artifact caricati coincidono con i digest ufficiali del commit
+`df3fe608eabe24d4a8c1b1e650dc73ee3e73c79e`, run **43233266763**, tentativo **2**.
+Ciascuno supera **383 test PHPUnit / 4350 asserzioni**, **52 scenari Behat / 1154 passi**,
+strict **10/0/0** e Grunt. Il lint PHP copre 167 file; PHPDoc è pulito.
+La run complessiva ha cinque job riusciti e un job Moodle 5.0/MariaDB fallito:
+PHPCS segnala **due errori alla riga 185** di `tests/lifecycle_integration_test.php`.
+Riguardano più argomenti sulla stessa riga in una chiamata multilinea a `get_records()`.
+
+La correzione incrementale si applica a quell'albero 252 già committato, conserva
+release/versione e dispone gli argomenti su righe separate. Token eseguibili e
+letterali del test sono identici; i file operativi sono identici byte per byte.
+Entrambi gli inventari callable riflettono le due righe aggiunte. Controllare gli
+argomenti delle chiamate oltre agli header di controllo multilinea: il precedente
+controllo sugli header non copriva questa regola PHPCS. Nessuna regola CI è indebolita.
+PHPCS nativo e matrice corretta completa di sei job restano da eseguire prima del
+merge; i PASS funzionali iniziali non rendono accettabile il gate qualità fallito.
+
+I 24 rilievi PHPMD coincidono semanticamente con quelli accettati sulla 251, ignorando
+lo spostamento delle righe. I gate configurati Psalm passano con **732/760 consultivi**,
+uno in meno per ramo rispetto alla 251; non si deduce una causa non osservata.
+
 ## Casi reali di integrazione
 
 | Caso | Evidenza e perimetro |
 |---|---|
 | Backup/restore senza studenti | Accettato sulla 251: controller corso reali, configurazione condivisa, mapping Forum/reazioni/file, grade item canonico; dati studente/voti/completion esclusi e record plugin di origine conservati. |
 | Backup/restore con studenti e privacy dopo il ripristino | Accettato sulla 251: la retention di destinazione esclude gli input scaduti; segmenti non validati e aggregate/completion obsolete non restituiscono credito; verificati export utente approvato, cancellazione utente/contesto e conservazione altri studenti/origine/file/voti di competenza core. |
-| Reset corso standard con opzione disattivata/attivata | Nuovo nella 252, in attesa di CI nativa. Invoca la vera funzione reset Moodle: prima VideoTrack disattivato, poi attivato su due attività nello stesso corso. Verifica stato modulo, configurazione/definizioni/file conservati, dati studente/voti azzerati e nessuna completion completa quando è selezionato il reset completion core. Un secondo corso conserva esattamente i record studente plugin. |
-| Cancellazione sincrona attività | Nuovo nella 252, in attesa di CI nativa. Invoca l'API pubblica Moodle: verifica rimozione attività, sei tabelle figlie plugin, completion nativa, file/contesto e grade item/voti propri. Restano il Forum collegato e l'attività vicina nello stesso corso, con dati studente/configurazione/file. |
+| Reset corso standard con opzione disattivata/attivata | Superato sulla 252 iniziale nei sei ambienti CI; CI corretta da eseguire. Invoca la vera funzione reset Moodle: prima VideoTrack disattivato, poi attivato su due attività nello stesso corso. Verifica stato modulo, configurazione/definizioni/file conservati, dati studente/voti azzerati e nessuna completion completa quando è selezionato il reset completion core. Un secondo corso conserva esattamente i record studente plugin. |
+| Cancellazione sincrona attività | Superata sulla 252 iniziale nei sei ambienti CI; CI corretta da eseguire. Invoca l'API pubblica Moodle: verifica rimozione attività, sei tabelle figlie plugin, completion nativa, file/contesto e grade item/voti propri. Restano il Forum collegato e l'attività vicina nello stesso corso, con dati studente/configurazione/file. |
 
 Il test cancellazione usa `core_courseformat\formatactions::cm()->delete()` quando esiste l'implementazione
 `cmactions::delete()`; sui rami precedenti usa `course_delete_module()`. Moodle 5.2+ depreca l'helper globale:
@@ -51,10 +74,11 @@ l'helper accetta un corso esistente opzionale solo per le nuove prove di isolame
 
 Sono vere integrazioni framework/DB, senza dichiarare che il browser abbia prodotto i record della fixture.
 I test backup usano `MODE_IMPORT`, con XML/file reali e senza compressione. Non certificano download/estrazione
-MBZ, migrazione tra siti o compatibilità backup storici. I nuovi test reset/delete devono passare la CI nativa;
-contratti e applicazione patch locali non ne dimostrano l'esecuzione nativa.
+MBZ, migrazione tra siti o compatibilità backup storici. I nuovi test reset/delete hanno superato la matrice
+nativa iniziale; la candidata corretta deve superare una nuova run completa. Contratti e applicazione patch
+locali non sostituiscono tale esecuzione.
 
-Suite candidata attesa: **383 metodi test PHPUnit**; il totale asserzioni va misurato nella CI nativa.
+Suite corretta attesa: **383 test PHPUnit / 4350 asserzioni**, misurati nella CI nativa iniziale.
 Behat resta a **52 scenari / 1154 passi**. L'albero conserva **415 file**, **167 PHP**, **32 documenti per
 lingua**, **346 righe inventario file** e **654 callable AMD**. I callable PHP nominati diventano **1113**:
 un callback standard e due metodi test. XMLDB resta `2026110601`, **7/151/22/22** per tabelle, campi, indici e

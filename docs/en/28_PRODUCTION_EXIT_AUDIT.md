@@ -35,14 +35,37 @@ activity settings, reaction definitions and shared files. Native completion rese
 Moodle's separate completion-reset option; the positive integration case explicitly selects it. Global
 gradebook reset is left off so the test exercises VideoTrack's own grade reset path.
 
+## Initial candidate CI and same-version formatting correction
+
+All six uploaded artifacts match the official digests for commit
+`df3fe608eabe24d4a8c1b1e650dc73ee3e73c79e`, run **43233266763**, attempt **2**.
+Each passes **383 PHPUnit tests / 4350 assertions**, **52 Behat scenarios / 1154 steps**,
+strict **10/0/0** and Grunt. PHP lint covers 167 files; PHPDoc is clean.
+The overall run has five successful jobs and one failed Moodle 5.0/MariaDB job:
+PHPCS reports **two errors on line 185** of `tests/lifecycle_integration_test.php`.
+They concern multiple arguments on one line in a multiline `get_records()` call.
+
+The incremental correction applies to that already committed 252 tree, keeps
+release/version unchanged and places those arguments on separate lines. Test
+executable tokens and literals are identical; production files are byte-identical.
+Both callable inventories reflect the two added lines. Check function-call argument
+layout as well as multiline control headers: the earlier control-header guard did
+not cover this PHPCS rule. No CI rule is weakened. Native PHPCS and the complete
+corrected six-job matrix remain pending before merge; initial functional passes
+do not make the failed quality gate acceptable.
+
+PHPMD's 24 findings match the accepted 251 findings semantically, ignoring shifted
+line positions. Psalm's configured scopes pass and report **732/760 advisories**,
+one fewer per branch than 251; no unobserved cause is inferred.
+
 ## Real integration cases
 
 | Case | Evidence and scope |
 |---|---|
 | Backup/restore without learners | Accepted on 251: real course controllers, shared configuration, Forum/reaction/file mappings, canonical grade item; learner rows/grades/completion excluded and original plugin rows preserved. |
 | Backup/restore with learners and post-restore privacy | Accepted on 251: destination retention excludes expired inputs; unvalidated segments and stale aggregate/native completion cannot restore credit; approved-user export, user/context erasure and preservation of other learners/source/files/core grade ownership are checked. |
-| Standard course reset, option off/on | New in 252, pending native CI. Call Moodle's actual reset function, first with VideoTrack off, then on across two activities in one course. Check the module status, preserved configuration/definitions/files, cleared learner families/grades and no completed native rows when core completion reset is selected. A second course's plugin learner records remain identical. |
-| Synchronous activity deletion | New in 252, pending native CI. Call Moodle's public activity-deletion API; assert removal of the target activity, six plugin-owned child tables, native completion, files/context and grade item/rows. The linked Forum and neighbouring activity in the same course, including its learner records/configuration/files, survive. |
+| Standard course reset, option off/on | Passed on initial 252 in all six CI environments; corrected CI pending. Call Moodle's actual reset function, first with VideoTrack off, then on across two activities in one course. Check the module status, preserved configuration/definitions/files, cleared learner families/grades and no completed native rows when core completion reset is selected. A second course's plugin learner records remain identical. |
+| Synchronous activity deletion | Passed on initial 252 in all six CI environments; corrected CI pending. Call Moodle's public activity-deletion API; assert removal of the target activity, six plugin-owned child tables, native completion, files/context and grade item/rows. The linked Forum and neighbouring activity in the same course, including its learner records/configuration/files, survive. |
 
 The deletion test uses `core_courseformat\formatactions::cm()->delete()` when its `cmactions::delete()`
 implementation exists; older branches use `course_delete_module()`. Moodle 5.2+ deprecates the global helper,
@@ -52,9 +75,10 @@ accepts an optional existing course only for the new same-course isolation cases
 These are actual framework/DB integration tests, not a claim that a browser generated the fixture records.
 Backup tests use `MODE_IMPORT` to retain real XML/files without archive compression. They do not certify
 download/extraction of MBZ files, cross-site migration or historical-backup compatibility. New reset/deletion
-tests must pass native CI; local contracts and patch checks do not establish their native execution result.
+tests passed the initial native matrix; the corrected candidate must pass a complete new run.
+Local contracts and patch checks do not substitute for that execution.
 
-Expected candidate suite: **383 PHPUnit test methods**; assertion totals must be measured by native CI.
+Expected corrected suite: **383 PHPUnit tests / 4350 assertions**, measured in the initial native CI.
 Behat stays **52 scenarios / 1154 steps**. The tree retains **415 files**, **167 PHP files**, **32 documents
 per language**, **346 file-inventory rows** and **654 AMD callables**. Named PHP callables become **1113**:
 one standard reset callback and two test methods. XMLDB remains `2026110601`, **7/151/22/22** for tables,

@@ -1566,14 +1566,14 @@ Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzio
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | Callable PHP `test_caption_normalisation_preserves_provider_timed_text_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifica che il filtro dei record attività conservi le colonne reali e scarti i valori riservati al form. |
 | `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Invoca il reset Moodle reale con opzione disattivata/attivata su due attività, verificando dati, voti, completion e altro corso. |
-| `tests/lifecycle_integration_test.php:211` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Esegue la cancellazione sincrona Moodle reale e controlla righe/file/voti/contesto propri, conservando l’attività vicina. |
+| `tests/lifecycle_integration_test.php:213` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Esegue la cancellazione sincrona Moodle reale e controlla righe/file/voti/contesto propri, conservando l’attività vicina. |
 | `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Esegue un ripristino reale senza utenti e verifica configurazione, file, assenza di dati studente e isolamento origine. |
 | `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Esegue un ripristino con utenti e retention destinazione, poi verifica stato ricostruito, export e cancellazione circoscritta. |
-| `tests/lifecycle_integration_test.php:265` | `create_fixture` | Prepara fixture popolate in un corso nuovo o esistente, con configurazione/file condivisi e due studenti. |
-| `tests/lifecycle_integration_test.php:349` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
-| `tests/lifecycle_integration_test.php:409` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
-| `tests/lifecycle_integration_test.php:458` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
-| `tests/lifecycle_integration_test.php:521` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
+| `tests/lifecycle_integration_test.php:267` | `create_fixture` | Prepara fixture popolate in un corso nuovo o esistente, con configurazione/file condivisi e due studenti. |
+| `tests/lifecycle_integration_test.php:351` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
+| `tests/lifecycle_integration_test.php:411` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
+| `tests/lifecycle_integration_test.php:460` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
+| `tests/lifecycle_integration_test.php:523` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
 | `tests/locallib_test.php:62` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
