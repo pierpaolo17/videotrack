@@ -1,6 +1,6 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.250** (`2026111103`). Review assistita registrata 2026-11-11.
+Albero corrente: VideoTrack **1.7.251** (`2026111201`). Review assistita registrata 2026-11-11.
 
 ## Perimetro semantico completato e limiti
 
@@ -95,7 +95,15 @@ Vedere il [verbale circoscritto](19_ACCESSIBILITY.md#protocollo-evidenze-manuali
 manuali su 249/250 dal DOM invariato o dai test automatici; i testi successivi hanno un delta proprio.
 U-020 è coperto parzialmente; U-017 e la milestone essenziale U-007 restano chiusi.
 
-## Gate candidata e roadmap
+## Aggiornamento accettazione e candidata corrente
+
+Review assistita completa e guard reset sono stati accettati sulla 250 reale/main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`,
+con CI candidata/dopo merge, due report server e strict 10/0/0. Le osservazioni sotto conservano la storia
+della candidata 250 iniziale. CI corretta e nuovo job 5.3/MariaDB dopo merge sono passati; questo non prova
+la causa dell'arresto iniziale del server di test. Nessun valore lingua cambia nella 251. I due nuovi test
+sul ciclo di vita attendono la CI nativa; vedere [le evidenze correnti](28_USCITA_PRODUZIONE.md).
+
+## Storia candidata 1.7.250 e roadmap
 
 Restano 412 file, 166 file PHP, 31 documenti per guida EN/IT, 345 righe inventario e 654 callable AMD. I callable
 PHP diventano 1103 per due helper solo test. XMLDB resta `2026110601`, con 7 tabelle / 151 campi / 22 indici /

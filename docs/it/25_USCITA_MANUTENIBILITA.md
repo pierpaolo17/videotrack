@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.250** (`2026111103`).
+Albero corrente: VideoTrack **1.7.251** (`2026111201`).
 
 ## Decisione ed evidenze accettate
 
@@ -106,9 +106,9 @@ non chiude U-020 manuale rinviato.
 
 ## Scope corrente reset e review
 
-Il reset del singolo studente ora verifica il permesso gestione anche sul server, oltre che nell’interfaccia:
-vedere i [permessi](16_ROLES_CAPABILITIES.md#autorizzazione-reset-del-singolo-studente-nel-report). La review
-assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad approvazione madrelingua.
-Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
-Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
-VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.
+Reset per studente e review assistita completa di 997 chiavi / 7976 valori sono accettati sulla 250 reale.
+Otto PASS manuali sono dichiarati sulla 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 non è registrato.
+La candidata 251 aggiunge test reali backup/restore/privacy tra corsi: attesi 381 metodi PHPUnit (asserzioni
+da misurare), Behat 52/1154 invariato; restano in attesa CI nativa e gate pacchetto reale della candidata.
+Vedere le [evidenze integrate sul ciclo di vita](28_USCITA_PRODUZIONE.md). U-017/U-007 restano chiusi. Completare web/App
+prima dei VTT concordati, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.

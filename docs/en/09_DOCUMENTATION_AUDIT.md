@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.250** (`2026111103`).
+Baseline: VideoTrack **1.7.251** (`2026111201`).
 
 ## Scope
 
@@ -170,7 +170,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 412 legitimate plugin files only.
+  canonical release archive must therefore contain the 415 legitimate plugin files only.
 
 ## Release checks
 
@@ -186,13 +186,18 @@ Before promotion, verify:
 
 ## Current review and agreed next stages
 
-Actual 1.7.247 is accepted. Candidate 1.7.248 reviews 179 report/dashboard keys / 1432 values, reusing one
-accepted key and examining 178 new keys. Cumulative scope: 530 keys / 4240 values; 467 keys remain outside
-the semantic claim. All 997 keys/placeholders stay aligned. Exact scope/source findings and the intentional
-Italian CSV header correction are in the [review record](27_LANGUAGE_REVIEW.md).
+Actual 1.7.250 is accepted against main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`, the real ZIP,
+both server reports and both supplied strict 10/0/0 outputs. Complete assisted semantic review covers
+997 keys / 7976 values; it is not native linguistic sign-off. U-017 and essential U-007 remain closed.
 
-The 412-file tree retains 31 EN/IT documents each, 166 PHP files, 1101 PHP/654 AMD callables, 345 inventory rows
-and unchanged XMLDB 7/151/22/22. Runtime/DB/AMD/tests/CI are unchanged. Native candidate CI and actual merged
-ZIP/server/strict gates remain required. U-020 now has scoped Moodle 5.0 PASS evidence; Moodle 5.3 remains unrecorded. Complete earlier work/App decision, then the
-agreed VTT subtitle extension, then authenticated-provider foundation and OneDrive/SharePoint → Zoom → Google
-Drive. No VTT feature or manual pass is introduced by this wording release.
+Candidate 1.7.251 adds two real course backup/restore/privacy integration tests. The current tree contains
+415 files, 167 PHP files, 1110 PHP/654 AMD callables, 346 file-inventory rows and 32 documents per language.
+Expected PHPUnit methods: 381; assertion totals await native CI. Behat stays 52/1154. Production logic,
+DB schema, eight language packs and AMD are unchanged. XMLDB remains 7/151/22/22. The install guide's stale
+149-field count is corrected to 151. Both inventories include the new test file/methods at their actual lines.
+
+Candidate CI, merged CI and actual ZIP/server/strict acceptance remain required. Scoped manual PASS on
+248/Moodle 5.0 is retained; Moodle 5.3 manual coverage is unrecorded. The [integrated evidence record](28_PRODUCTION_EXIT_AUDIT.md)
+keeps historical upgrade/uninstall, benchmark and App decisions distinct from ordinary unit/CI results.
+Finish earlier work/App decision, then agreed VTT subtitles, authenticated foundation and
+OneDrive/SharePoint → Zoom → Google Drive. No new manual pass or VTT runtime is introduced here.

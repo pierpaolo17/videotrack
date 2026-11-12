@@ -8,7 +8,7 @@ Installare l'unica directory `videotrack/` sotto `mod/` oppure usare l'installer
 Dopo l'installazione:
 
 1. dalla root Moodle eseguire `php mod/videotrack/cli/validate.php --json`;
-2. confermare 7 tabelle, 149 campi, 22 indici espliciti, 22 foreign key/indici generati, 9 servizi AJAX,
+2. confermare 7 tabelle, 151 campi, 22 indici espliciti, 22 foreign key/indici generati, 9 servizi AJAX,
    8 lingue e 48 sorgenti AMD;
 3. verificare impostazioni retention, privacy, prestazioni, player, focus ed export;
 4. svuotare le cache e creare un'attività di prova per ogni sorgente usata dal sito.
@@ -108,5 +108,11 @@ Il POST reset richiede accesso completo al report, `mod/videotrack:managereactio
 nello scope del lettore prima di cancellare. Corrisponde al gate già usato dal pulsante. Il solo permesso di
 lettura non autorizza il reset. Chiave capability e grant restano invariati; le definizioni delle reazioni
 seguono il distinto permesso Moodle di modifica attività. Report in lettura, voti, ownership, gruppi e altre
-mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato attendono CI nativa:
+mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato hanno superato la CI sulla 250:
 vedere la [review corrente](27_REVISIONE_LINGUE.md).
+
+## Regressione integrata sul ciclo di vita
+
+La candidata 251 aggiunge backup/restore reali tra corsi con e senza utenti, mapping file/Forum/reazioni,
+retention di destinazione ed export/cancellazione Privacy API circoscritti. I risultati nativi sono in attesa.
+Vedere [il registro evidenze](28_USCITA_PRODUZIONE.md) per asserzioni esatte e gate di produzione residui.

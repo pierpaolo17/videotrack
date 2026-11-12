@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.250 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1103. **Named AMD callables:** 654.
+**PHP functions/methods:** 1110. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1564,6 +1564,13 @@ Generated from the VideoTrack 1.7.250 source tree. PHP entries include named fun
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
+| `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
+| `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
+| `tests/lifecycle_integration_test.php:137` | `create_fixture` | Creates a course, linked Forum, uploaded-media fixture, historical reaction, shared files and two learners. |
+| `tests/lifecycle_integration_test.php:219` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
+| `tests/lifecycle_integration_test.php:277` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
+| `tests/lifecycle_integration_test.php:326` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
+| `tests/lifecycle_integration_test.php:387` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |

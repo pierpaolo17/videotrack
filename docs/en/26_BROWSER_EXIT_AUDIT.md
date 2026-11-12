@@ -1,15 +1,16 @@
 # U-007 browser automation exit audit
 
-Current tree: VideoTrack **1.7.250** (`2026111103`). Decision recorded 2026-11-09.
+Current tree: VideoTrack **1.7.251** (`2026111201`). Decision recorded 2026-11-09.
 
 ## Decision
 
 **U-007 is closed on the accepted 1.7.240 baseline.** Its essential browser/provider/role matrix has real
 execution on the six Moodle/PHP/database jobs below. Accepted 1.7.241 consolidated that evidence and the
-manual-audit handoff; its actual ZIP/server/strict and six-job release/main CI have passed. The 1.7.250
-reset/language candidate is documented separately in the [targeted review](27_LANGUAGE_REVIEW.md).
-U-017 remains closed. U-020 manual accessibility and integrated production gates remain separate. Assisted semantic review
-is complete in the 1.7.250 candidate, whose native gates remain pending. This document does not certify accessibility or a live provider deployment.
+manual-audit handoff; its actual ZIP/server/strict and six-job release/main CI have passed. Reset and complete
+assisted language review are accepted on actual 1.7.250; see the [targeted review](27_LANGUAGE_REVIEW.md).
+U-017 remains closed. U-020 manual accessibility and integrated production gates remain separate.
+Candidate 251 adds lifecycle integration tests awaiting native CI. This document does not certify
+accessibility or a live provider deployment.
 
 ## Exact accepted baseline
 
@@ -70,9 +71,9 @@ is claimed. Seeded UI/resume cases and unseeded earned-viewing cases remain expl
 
 ## Remaining work and reopening rules
 
-- Run the [U-020 manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) in the actual theme/browser/assistive setup.
+- Complete unrecorded Moodle 5.3 [manual observations](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020) when available; retain the eight scoped Moodle 5.0 PASS already reported.
 - Record live provider, cookie/consent and content accessibility results during deployment/content acceptance.
-- Complete semantic review of eight language packs; equal keys/placeholders are not semantic approval.
+- Retain completed assisted review of eight packs on accepted 250; native linguistic sign-off is a separate claim.
 - Perform the integrated production/lifecycle/privacy/benchmark gate on one exact release ZIP.
 - Then evaluate Moodle App, implement the agreed multilingual VTT subtitle phase, and continue with common
   authenticated-provider foundations, OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and cross-provider hardening.
@@ -84,9 +85,9 @@ create a focused correction only for a concrete finding. Do not reopen structura
 
 ## Current reset and review scope
 
-Per-student reset now enforces the management capability on the server as well as in the UI; see
-[permissions](16_ROLES_CAPABILITIES.md#per-student-report-reset-authorisation). The assisted language review
-covers all 997 keys in eight packs; it is not native sign-off. Eight manual PASS are reported for
-1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 manual coverage remains unrecorded. Candidate gates
-are pending, with expected PHPUnit 379/4076 and Behat 52/1154. Existing web/App work precedes the agreed
-multilingual VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
+Per-student reset and complete assisted review of 997 keys / 7976 values are accepted on actual 250.
+Eight manual PASS are reported on 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 remains unrecorded.
+Candidate 251 adds real course backup/restore/privacy tests: expected 381 PHPUnit methods (assertions to
+measure), Behat 52/1154 unchanged; its native CI and actual-package gates remain pending.
+See the [integrated lifecycle evidence](28_PRODUCTION_EXIT_AUDIT.md). U-017/U-007 remain closed. Finish web/App work before
+the agreed VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
