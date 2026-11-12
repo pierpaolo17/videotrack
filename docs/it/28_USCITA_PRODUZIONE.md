@@ -17,6 +17,42 @@ totale e conservazione configurazione/file condivisi/voti core. Restano accettat
 restore/privacy, reset corso standard e cancellazione sincrona attività. Restano 24 rilievi PHPMD rivisti
 e conteggi Psalm 732/760 consultivi; i gate configurati passano.
 
+## Evidenze della candidata iniziale e correzione nella stessa versione
+
+I sei artifact coincidono col commit `22466b7cb7c56decb27ba9154e1f7b158e5daebf`,
+run **43297863869**, tentativo **1**. Tutti superano PHPUnit **384/4516**, Behat **52/1154**,
+strict **10/0/0** e Grunt. PHPCS/lint coprono 167 file puliti. La run complessiva ha quattro
+job riusciti e due step lifecycle falliti, su Moodle 5.0/MariaDB e 5.3/MariaDB.
+
+Entrambi i job selezionati installano realmente la 237, popolano la fixture, aggiornano alla 254 e superano
+strict. L’upgrade ripetuto conserva l’hash completo della fotografia canonica in ciascun job. L’uninstall
+completo rimuove tabelle plugin, righe modulo/course module/contesto, metadata file e voti attivi, poi il
+gate fallisce su **`course_modules_completion`**. I controlli successivi e i percorsi partial/previous
+non sono stati eseguiti e non vengono dichiarati superati.
+
+L’uninstall completo Moodle invoca l’hook plugin prima di `core\plugininfo\mod::uninstall_cleanup()`.
+Nei due rami ispezionati quella pulizia elimina direttamente course module e contesti senza cancellarne
+la completion nativa, diversamente dalla cancellazione sincrona di un’attività. L’hook anticipato VideoTrack
+aggiunge quindi la pulizia circoscritta della completion dopo il gradebook e anche nell’uscita senza voti.
+L’helper richiede un identificatore modulo registrato positivo e cancella solo righe collegate a course
+module ancora appartenenti a VideoTrack. Non indovina lo scope senza registro modulo, non ripara orfani
+storici non attribuibili e non modifica la completion di altri moduli.
+
+Una nuova regressione dell’hook usa due VideoTrack in due corsi e un Forum vicino. Verifica percorsi con e
+senza voti, ripetizione, conservazione della completion estranea e guardia con identificatore zero. Restano
+intatti algoritmo di riparazione voti e fallback sui voti malformati. La correzione conserva release254 e
+versione interna; non cambia schema, lingue, AMD, tracking/player, ruoli o regole CI.
+
+La fotografia iniziale confronta **14 righe metadata file**, di cui sette file regolari, ma il ciclo sui
+contenuti passava `false` come area. Moodle lo tratta come valore di area, non come selezione di tutte le
+aree: il ciclo non visitava file. Non attribuire alla run iniziale letture dei contenuti. L’helper corretto
+enumera le sette aree della fixture, richiede un file regolare per area e legge ogni contenuto per verificarne
+l’hash. Chiude una verifica vacua senza indebolire alcuna asserzione sui residui.
+
+La candidata corretta deve superare una nuova run completa di sei job e tutti i tre percorsi nei due job
+selezionati. Suite PHPUnit corretta attesa: **385 metodi**, asserzioni da misurare; Behat resta **52/1154**.
+Il risultato iniziale384/4516 appartiene solo al codice iniziale, non alla candidata corretta.
+
 ## Nuovo gate CI: storia installazione reale e uninstall completo
 
 Dopo PHPUnit e Behat riusciti, i job Moodle 5.0/MariaDB e 5.3/MariaDB riusano il proprio database standard
@@ -61,14 +97,15 @@ o dal precedente test unitario dell'hook uninstall. I sei job normali devono ess
 selezionati devono concludere `Historical upgrade and populated uninstall`. Analizzare `lifecycle.txt` e le
 tre serie prima/upgrade/ripetizione/uninstall sotto `lifecycle/` nei rispettivi artifact.
 
-Restano PHPUnit **384 test / 4516 asserzioni** e Behat **52/1154**; le nuove asserzioni CLI sono separate.
-Restano **415 file distribuiti**, **167 PHP distribuiti**, **1114 callable PHP distribuiti**, **654 callable AMD**
-e **32 documenti per lingua**. Due helper solo repository aggiungono sei funzioni PHP: **1120** callable PHP
+Attesi **385 metodi PHPUnit**, asserzioni da misurare; Behat resta **52/1154**. Le asserzioni CLI sono separate.
+Restano **415 file distribuiti**, **167 PHP distribuiti**, **1116 callable PHP distribuiti**, **654 callable AMD**
+e **32 documenti per lingua**. Due helper solo repository aggiungono sei funzioni PHP: **1122** callable PHP
 nominati complessivi e **348** righe inventario file, compresi cinque file documentati solo repository.
 Il repository completo conta 439 file; `.github/**` resta escluso dagli archivi. XMLDB resta `2026110601`,
-**7/151/22/22**; nove AJAX, otto pacchetti da 997 chiavi e 48 terne AMD restano invariati. Implementazioni
-operative, test esistenti, schema, lingue, AMD e grant sono identici byte per byte alla 253; cambiano solo
-marcatore release, helper/workflow CI del repository, documentazione/inventari ed etichetta ER.
+**7/151/22/22**; nove AJAX, otto pacchetti da 997 chiavi e 48 terne AMD restano invariati. L’unica correzione
+operativa rispetto alla254 iniziale è la pulizia circoscritta della completion nativa nell’hook uninstall.
+Restano test precedenti e schema/lingue/AMD/grant/regole CI; si aggiungono una regressione dell’hook e i
+controlli non vacui dei contenuti file. La versione resta1.7.254/2026111204.
 
 ## Gate di produzione residuo e roadmap
 

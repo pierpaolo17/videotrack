@@ -2,36 +2,36 @@
 
 ## 1.7.254 - 2026-11-12
 
-### Real historical upgrade and populated full-uninstall CI gates
+### Real historical upgrade/full uninstall and native-completion cleanup
 
-- Accept actual1.7.253/main5112341: all415 ZIP files match the approved tree;
-  SHA-256 b7a1643ba5502424af714302bba9d99d61dc29b3820cbcc751b84ac16187522d.
-  Candidate/main six-job CI and both server gates pass384/4516 PHPUnit,
-  52/1154 Behat and strict10/0/0. Grunt hashes stay identical;167 distributed
-  PHP files are PHPCS/lint clean. Registered-task post-restore retention is accepted.
-- Add repository-only lifecycle helpers and a blocking post-Behat step on
-  Moodle5.0/MariaDB and5.3/MariaDB. Install real pinned237/253 source, populate
-  all plugin families/files/grades/completion, upgrade through Moodle CLI,
-  compare snapshots/defaults, repeat upgrade, perform complete populated core
-  uninstall and check operational residues plus preserved neighbouring data.
-  A third237 path constructs the first field of a partial DDL step while
-  keeping its real installed version; it is not a killed-process test.
-- Restrict the destructive harness to the disposable Actions standard site,
-  separate from PHPUnit/Behat. Check initial emptiness, fixed workspace roots,
-  database identity and file hashes; stop on preservation failure. Restore
-  target code at exit, without claiming database rollback. Existing six
-  artifacts include lifecycle logs/proofs. CI history checkout is complete;
-  contents:read, existing gates and always-upload behaviour are preserved.
-- Exclude only the new repository-only lifecycle helper directory from the
-  production PHPMD directory filter; previous production coverage and rules
-  remain unchanged. The helper is PHP-linted before its functional CI execution.
-- Native candidate lifecycle execution is pending; existing suites remain
-  PHPUnit384/4516 and Behat52/1154. Production logic, all existing tests,
-  schema, AMD, languages and grants are unchanged. Paired guides, inventories
-  and release/ER markers are updated:415 distributed files,167 PHP,
-  1114 distributed plus6 repository-only PHP functions,348 file-inventory rows.
-  Core audit/history/blob-retention policy, untested histories, benchmarks,
-  manual5.3 and production/App gates remain explicit.
+- Accept actual253/main5112341:415 package files match, both server reports
+  pass384/4516 Unit and strict10/0/0; candidate/main six-job CI passes52/1154
+  Behat. Package SHA-256 b7a1643ba5502424af714302bba9d99d61dc29b3820cbcc751b84ac16187522d.
+- Add repository-only disposable-site lifecycle gates after successful Behat
+  on50/53MariaDB: actual237 historical source, constructed partial237 DDL
+  and actual253 previous source; upgrade, strict, snapshot comparison,
+  repeated upgrade and full populated core uninstall with residue checks.
+- Initial254 commit22466b7/run43297863869 passes ordinary384/4516 Unit,
+  52/1154 Behat, strict10/0/0 and Grunt in all six jobs;167PHP quality clean.
+  Both selected jobs pass actual237 upgrade/repeat but fail at native
+  course_modules_completion residue after full uninstall. Checks beyond
+  that assertion and partial/previous paths are unexecuted, not passed.
+- Correct within the same254/version1204. Core full uninstall removes course
+  modules directly without native completion cleanup. Add a positive-module-id
+  helper scoped by still-existing VideoTrack course modules; invoke after
+  grade cleanup and on the no-grade return. Preserve grade-repair/fallback
+  logic, missing-identity no-op and foreign modules. Add one regression for
+  two courses, grades/no grades, repetition and neighbouring Forum completion.
+- Initial snapshots preserve14 file metadata rows, but false filearea caused
+  the physical-content loop to visit no files. Enumerate seven named areas,
+  require exactly one regular file in each and verify actual content hashes.
+  Keep every lifecycle failure assertion and CI rule; do not relax the gate.
+- Corrected native CI is pending:385 Unit methods, assertion total to measure;
+  Behat52/1154 and all three lifecycle paths on both jobs are required before
+  merge. Version/schema/AMD/languages/roles remain unchanged from initial254.
+  Inventories:415 distributed files,167PHP,1116 distributed plus6 repository
+  PHP functions,348 file rows. Core history/blob retention and bounded-history,
+  manual5.3/benchmark/App limits remain explicit.
 
 ## 1.7.253 - 2026-11-12
 

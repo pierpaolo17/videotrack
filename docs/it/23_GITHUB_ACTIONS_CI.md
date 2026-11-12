@@ -119,3 +119,7 @@ Vedere [scope, confronti dati e limiti residui](28_USCITA_PRODUZIONE.md). I sei 
 
 Solo la nuova directory degli helper CI è esclusa dalla scansione PHPMD di produzione; perimetro operativo
 e regole precedenti sono conservati, con lint PHP autonomo prima dell’esecuzione dell’helper.
+
+La run254 iniziale43297863869 supera i test ordinari, ma i due job lifecycle si fermano al residuo di
+completion nativa dell’uninstall storico. Partial/previous ineseguiti. La254 corretta pulisce lo scope
+nell’hook ed enumera aree file esplicite con asserzioni di presenza/hash; nessun controllo fallito è attenuato.

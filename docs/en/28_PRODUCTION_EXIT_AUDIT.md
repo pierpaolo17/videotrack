@@ -17,6 +17,42 @@ policy, repeated cleanup, complete input expiry and preserved shared configurati
 Backup/restore/privacy, standard course reset and synchronous activity-deletion integration remain accepted.
 PHPMD's 24 reviewed findings and Psalm's 732/760 advisory counts remain unchanged; configured scopes pass.
 
+## Initial candidate evidence and same-version correction
+
+All six artifacts match commit `22466b7cb7c56decb27ba9154e1f7b158e5daebf`,
+run **43297863869**, attempt **1**. All six pass PHPUnit **384/4516**, Behat **52/1154**,
+strict **10/0/0** and Grunt. PHPCS/lint cover 167 clean files. The overall run has four
+successful jobs and two failed lifecycle steps, on Moodle 5.0/MariaDB and 5.3/MariaDB.
+
+Both selected jobs really install 237, populate the fixture, upgrade to 254 and pass strict.
+The repeated upgrade preserves the complete canonical snapshot hash in each job. The full uninstall
+removes plugin tables, module/course-module/context rows, file metadata and active grades, then the
+gate fails on **`course_modules_completion`**. Checks after that assertion, and the partial/previous
+lineages, have not run. Those remaining checks are not declared passed.
+
+The normal full Moodle uninstall calls the plugin hook before `core\plugininfo\mod::uninstall_cleanup()`.
+On both inspected branches, that cleanup directly removes course modules and contexts without clearing
+their native completion rows. This differs from synchronous activity deletion. Add scoped completion
+cleanup to VideoTrack's early uninstall hook, after grade cleanup and also on its no-grade early return.
+The dedicated helper requires a positive registered module id and deletes only completion rows whose
+course module still belongs to VideoTrack. It does not guess ownership after a missing module registry,
+repair unattributed historical orphans, or touch another module's completion.
+
+A new hook regression uses two VideoTrack activities in two courses and a neighbouring Forum. It checks
+graded and no-grade paths, repeated execution, unchanged foreign completion and the zero-identity guard.
+The pre-existing grade-repair and malformed-grade fallback code stays intact. No schema, version code,
+language, AMD, tracking/player, role or CI-rule change is made in this same-254 correction.
+
+The initial snapshot compares **14 file metadata rows**, including seven regular files, but its content
+loop passed `false` as the file area. Moodle treats that as an area value, not an all-areas selector;
+the loop visited no files. Do not describe the initial run as having read their contents. Correct the
+helper to enumerate all seven named fixture areas, require exactly one regular file per area and read
+each file to verify its hash. This closes a vacuous-check gap without weakening any residue assertion.
+
+The corrected candidate must pass a new complete six-job run and all three lineages in both selected jobs.
+Expected corrected PHPUnit suite: **385 methods**, assertion total to be measured; Behat remains **52/1154**.
+The initial 384/4516 result belongs only to the initial code, not to the corrected candidate.
+
 ## New CI gate: actual installation lineage and full uninstall
 
 After successful PHPUnit and Behat, the Moodle 5.0/MariaDB and 5.3/MariaDB jobs reuse their disposable
@@ -61,14 +97,15 @@ patch checks or the previous unit uninstall-hook test. The six normal CI jobs mu
 selected jobs must finish `Historical upgrade and populated uninstall` successfully. Inspect `lifecycle.txt`
 and the three before/upgrade/repeat/uninstall sets under `lifecycle/` in each selected artifact.
 
-Existing PHPUnit remains **384 tests / 4516 assertions** and Behat **52/1154**; the new CLI assertions are
-separate. The release keeps **415 distributed files**, **167 distributed PHP files**, **1114 distributed
+Corrected PHPUnit expects **385 methods**, assertions to be measured; Behat remains **52/1154**. CLI assertions
+are separate from PHPUnit. The release keeps **415 distributed files**, **167 distributed PHP files**, **1116 distributed
 PHP callables**, **654 AMD callables** and **32 documents per language**. Two repository-only helpers add
-six PHP functions: **1120** named PHP callables overall and **348** file-inventory rows, including five
+six PHP functions: **1122** named PHP callables overall and **348** file-inventory rows, including five
 documented repository-only files. The full repository has 439 files; `.github/**` remains export-ignored.
 XMLDB stays `2026110601`, **7/151/22/22**; nine AJAX services, eight packs of 997 keys and 48 AMD sets remain.
-Production implementations, all existing tests, schema, language, AMD and grants are byte-identical to 253;
-only the release marker, repository CI helpers/workflow, documentation/inventories and ER label change.
+The only production correction since the initial 254 is scoped native-completion cleanup in the uninstall
+hook. Pre-existing unit tests and schema/language/AMD/grants/CI rules are retained; one hook test and the
+nonvacuous physical-file checks are added. Version remains 1.7.254 / 2026111204.
 
 ## Remaining production gate and roadmap
 

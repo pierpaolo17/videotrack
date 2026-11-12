@@ -188,6 +188,11 @@ Before promotion, verify:
 Actual 253/main `511234197069f8f83e23f0da9444fa1d6a5f8030` is accepted: 415-file ZIP, both server reports,
 384/4516 PHPUnit, 52/1154 Behat, strict10/0/0 and stable Grunt outputs. Candidate254 adds repository-only
 historical/partial/previous install-upgrade-uninstall gates in two existing CI jobs; execution is pending.
-Production implementations and existing tests are unchanged. There are 1114 distributed PHP callables plus
-6 CI helper functions, 1120 overall; file inventory348 contains343 distributed and5 repository-only entries.
+Corrected254 adds scoped uninstall completion cleanup and one new regression; all previous tests remain. There are 1116 distributed PHP callables plus
+6 CI helper functions, 1122 overall; file inventory348 contains343 distributed and5 repository-only entries.
 See [production evidence](28_PRODUCTION_EXIT_AUDIT.md) for exact histories, limits and remaining manual/benchmark/App gates.
+
+Initial254 CI passes384/4516 Unit and52/1154 Behat in all six jobs; both lifecycle jobs fail on native
+completion after full uninstall. Corrected254 expects385 Unit methods, assertions to be measured, plus
+all three lifecycle paths on both selected jobs. File metadata passed initially; physical-content checks
+were vacuous and now require one actual regular file in each named fixture area.

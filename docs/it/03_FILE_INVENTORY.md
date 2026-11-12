@@ -252,7 +252,7 @@ Voci: **348** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `db/repairlib.php` | File corrente di supporto database/installazione/upgrade distribuito con il plugin. |
 | `db/services.php` | Dichiarazioni delle funzioni esterne AJAX. |
 | `db/tasks.php` | Dichiarazione del task pianificato. |
-| `db/uninstall.php` | Hook anticipato che elimina i dati gradebook VideoTrack prima che Moodle rimuova i contesti modulo. |
+| `db/uninstall.php` | Hook uninstall anticipato: conserva la pulizia Grade API ed elimina solo la completion nativa propria prima che il core perda lo scope. |
 | `db/upgrade.php` | Upgrade XMLDB incrementali e savepoint. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
@@ -316,7 +316,7 @@ Voci: **348** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
 | `tests/generator/lib.php` | Generator del modulo Moodle usato dalle fixture PHPUnit e Behat. |
 | `tests/generator_test.php` | Copertura PHPUnit del generator del modulo VideoTrack. |
-| `tests/gradebook_restore_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
+| `tests/gradebook_restore_contract_test.php` | Regressioni riparazione gradebook, pulizia voti uninstall e completion nativa circoscritta con e senza grade item. |
 | `tests/integrity_test.php` | Copertura PHPUnit per integrity test. |
 | `tests/learner_scope_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/lib_test.php` | Copertura PHPUnit per lib test. |

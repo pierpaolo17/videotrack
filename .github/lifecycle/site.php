@@ -93,8 +93,12 @@ function videotrack_ci_snapshot(array $proof): array {
             'videotrackid' => $proof['activityid'],
         ]);
     }
-    foreach (get_file_storage()->get_area_files($proof['contextid'], 'mod_videotrack', false, false, 'id', false) as $file) {
-        videotrack_ci_check(sha1($file->get_content()) === $file->get_contenthash(), 'Shared file content matches its hash');
+    foreach (['videocontent', 'intro', 'subtitles', 'transcripts', 'chapters', 'posterimage', 'reactionicon'] as $area) {
+        $files = get_file_storage()->get_area_files($proof['contextid'], 'mod_videotrack', $area, false, 'id', false);
+        videotrack_ci_check(count($files) === 1, 'Fixture has one shared file in ' . $area);
+        foreach ($files as $file) {
+            videotrack_ci_check(sha1($file->get_content()) === $file->get_contenthash(), 'Shared file content matches in ' . $area);
+        }
     }
     return [
         'tables' => $tables,

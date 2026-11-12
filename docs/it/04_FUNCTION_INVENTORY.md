@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1120 (1114 distribuiti e 6 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1122 (1116 distribuiti e 6 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -10,8 +10,8 @@ Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzio
 | `.github/lifecycle/site.php:56` | `videotrack_ci_rows` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
 | `.github/lifecycle/site.php:73` | `videotrack_ci_related` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
 | `.github/lifecycle/site.php:89` | `videotrack_ci_snapshot` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:120` | `videotrack_ci_seed` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:248` | `videotrack_ci_residue` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:124` | `videotrack_ci_seed` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:252` | `videotrack_ci_residue` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
 | `amd/src/completion_requirements.js:38` | `normaliseText` | Normalizza il testo dei requisiti per confronti esatti e sicuri rispetto agli spazi introdotti dal tema. |
 | `amd/src/completion_requirements.js:48` | `directListItems` | Restituisce le voci figlie dirette di un elenco nativo o ARIA. |
 | `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Rimuove il prefisso composito dagli attributi accessibili opzionali dopo il raggruppamento visivo. |
@@ -1189,8 +1189,9 @@ Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzio
 | `db/repairlib.php:336` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:357` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:398` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
-| `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
+| `db/uninstall.php:89` | `videotrack_uninstall_delete_completion` | Elimina la completion nativa solo dei course module appartenenti al modulo VideoTrack registrato; senza identità non cancella. |
+| `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Pulizia uninstall prima del core: grade item canonici/malformati e completion nativa circoscritta, anche senza grade item. |
+| `db/uninstall.php:110` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:1474` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
 | `lib.php:38` | `videotrack_supports` | Callable PHP `videotrack_supports`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1545,6 +1546,7 @@ Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzio
 | `tests/generator_test.php:98` | `test_generator_creates_youtube_provider_fixture` | Verifica identificatore riservato e durata del fixture YouTube deterministico. |
 | `tests/generator_test.php:118` | `test_generator_creates_vimeo_provider_fixture` | Verifica identificatore riservato e durata del fixture Vimeo deterministico. |
 | `tests/generator_test.php:138` | `test_generator_links_named_forum_fixture` | Verifica che il generator risolva per nome un Forum dello stesso corso per fixture browser deterministiche. |
+| `tests/gradebook_restore_contract_test.php:232` | `test_uninstall_hook_scopes_completion_with_and_without_grades` | Verifica pulizia completion nell’hook uninstall su due corsi con voti, senza voti e in ripetizione, conservando il Forum vicino. |
 | `tests/gradebook_restore_contract_test.php:35` | `test_restore_step_does_not_create_grade_item_before_core_grade_restore` | Funzione/metodo PHP nominato `test_restore_step_does_not_create_grade_item_before_core_grade_restore`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/gradebook_restore_contract_test.php:49` | `test_gradebook_repair_keeps_one_item_and_moves_user_grades` | Funzione/metodo PHP nominato `test_gradebook_repair_keeps_one_item_and_moves_user_grades`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/gradebook_restore_contract_test.php:113` | `test_gradebook_repair_removes_missing_course_module_context` | Verifica la rimozione upgrade-safe di un grade item la cui attività non ha più un contesto course module. |

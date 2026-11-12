@@ -176,6 +176,11 @@ Prima della promozione verificare:
 La 253 reale/main `511234197069f8f83e23f0da9444fa1d6a5f8030` è accettata: ZIP415 file, due report server,
 PHPUnit384/4516, Behat52/1154, strict10/0/0 e build Grunt stabili. La candidata254 aggiunge gate solo
 repository installazione-upgrade-uninstall da storia precedente/parziale/immediata in due job CI esistenti.
-Esecuzione in attesa; implementazioni operative e test esistenti invariati. I callable PHP distribuiti sono1114
-più6 helper CI, totale1120; l’inventario file348 comprende343 voci distribuite e5 solo repository.
+Esecuzione corretta in attesa; aggiunti pulizia completion uninstall e una regressione, test precedenti conservati. I callable PHP distribuiti sono1116
+più6 helper CI, totale1122; l’inventario file348 comprende343 voci distribuite e5 solo repository.
 Vedere [evidenze produzione](28_USCITA_PRODUZIONE.md) per storie esatte, limiti e gate manuali/benchmark/App residui.
+
+La CI254 iniziale supera Unit384/4516 e Behat52/1154 nei sei job; i due lifecycle falliscono sulla completion
+nativa dopo uninstall completo. La254 corretta attende385 metodi Unit, asserzioni da misurare e tutti i tre
+percorsi nei due job. I metadata file erano confrontati; le verifiche vacue dei contenuti richiedono ora
+un vero file regolare in ciascuna area esplicita della fixture.

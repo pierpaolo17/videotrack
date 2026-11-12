@@ -119,3 +119,7 @@ See [scope, data comparisons and residue limits](28_PRODUCTION_EXIT_AUDIT.md). T
 
 Only the newly added repository-only helper directory is excluded from production PHPMD scanning;
 existing production coverage/rules are preserved and the helper has its own PHP lint before execution.
+
+The initial254 run43297863869 passed all ordinary tests but both lifecycle jobs stopped at the historical
+uninstall's native-completion residue. Partial/previous paths were not run. Corrected254 adds scoped
+hook cleanup and enumerates named file areas with presence/hash assertions; no failed check is relaxed.

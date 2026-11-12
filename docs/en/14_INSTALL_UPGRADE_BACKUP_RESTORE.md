@@ -134,3 +134,10 @@ See [the evidence and limits](28_PRODUCTION_EXIT_AUDIT.md).
 The candidate adds a disposable CI gate for real 237/253 installs, a constructed partial-field state,
 normal and repeated upgrades, populated full uninstall and operational residue checks. The gate is
 pending native execution. See [the exact histories and limits](28_PRODUCTION_EXIT_AUDIT.md).
+
+## Full-uninstall native-completion ownership
+
+The uninstall hook clears native completion after its gradebook work and also when there are no grade items,
+while VideoTrack course modules still exist. The positive registered module id scopes the delete; missing
+identity is a no-op, and foreign modules are untouched. The initial 254 CI demonstrated the orphan-completion
+residue in the full core uninstall on both branches. The failed check stays in place; corrected native CI is pending.

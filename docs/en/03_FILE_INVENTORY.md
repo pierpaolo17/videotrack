@@ -252,7 +252,7 @@ Entries: **348** — 343 distributed files and five repository-only files exclud
 | `db/repairlib.php` | Current database/install/upgrade support file distributed with the plugin. |
 | `db/services.php` | AJAX external-function declarations. |
 | `db/tasks.php` | Scheduled task declaration. |
-| `db/uninstall.php` | Early uninstall hook that removes VideoTrack gradebook data before Moodle deletes module contexts. |
+| `db/uninstall.php` | Early uninstall hook preserving Grade API cleanup and deleting only owned native completion before core loses course-module ownership. |
 | `db/upgrade.php` | Incremental XMLDB upgrades and savepoints. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
@@ -316,7 +316,7 @@ Entries: **348** — 343 distributed files and five repository-only files exclud
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
 | `tests/generator_test.php` | PHPUnit coverage for the VideoTrack module generator. |
-| `tests/gradebook_restore_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/gradebook_restore_contract_test.php` | Regression tests for gradebook repair, uninstall grade cleanup and scoped native-completion deletion with or without grade items. |
 | `tests/integrity_test.php` | PHPUnit coverage for integrity test. |
 | `tests/learner_scope_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
