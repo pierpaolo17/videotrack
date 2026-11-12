@@ -125,3 +125,9 @@ che delega all'implementazione `videotrack_reset_course_userdata()` conservata. 
 conservando configurazione attività, reazioni e file condivisi. Moodle controlla separatamente il reset della
 completion nativa. La pagina core richiede `moodle/course:reset`; il permesso di gestione per il reset dal
 report appartiene a un altro percorso e non cambia. Vedere [le evidenze integrate](28_USCITA_PRODUZIONE.md).
+
+## Task retention registrato dopo il ripristino
+
+La candidata aggiunge un’integrazione reale del task registrato: policy illimitata/finita, scadenza totale,
+ripetizione e conservazione di file/configurazione/voti core dopo il restore. La CI nativa è in attesa.
+Vedere [evidenze e limiti](28_USCITA_PRODUZIONE.md).

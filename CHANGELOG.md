@@ -1,5 +1,29 @@
 # VideoTrack changelog
 
+## 1.7.253 - 2026-11-12
+
+### Registered retention-task integration after real restore
+
+- Accept actual 1.7.252 / main 3f9e62a: all 415 package files match the approved
+  tree. Package SHA-256 659f60d7e48de2d198ab070a71b6ca3ee98506553545d09d29e712443fde61f9.
+  Corrected candidate/main six-job CI and both server reports pass PHPUnit
+  383/4350; Behat 52/1154 and strict 10/0/0 pass. PHPCS/lint cover 167 clean
+  files and Grunt preserves AMD hashes. Retain the two initial PHPCS argument-
+  layout errors corrected before merge; no all-first-attempt claim.
+- Add one real lifecycle test obtaining the registered Moodle cleanup task
+  after restore with learner data. Exercise unlimited retention, a finite
+  window, repeated cleanup, full expiry and another repeated cleanup. Check
+  both source and restored activities because retention is site-wide, only
+  validated retained viewing credit, native completion, empty-state removal,
+  task output and unchanged shared configuration/files/core grade rows.
+- No production logic, task registration, schema, AMD, language, capability,
+  backup/privacy implementation or CI-rule change. New native CI is pending:
+  expected 384 PHPUnit methods, assertions to be measured; Behat remains 52/1154.
+  Paired guides, exact inventories and version/ER labels are updated. 415 files,
+  167 PHP, 1114 PHP callables and XMLDB 7/151/22/22 remain explicit. Real cron
+  timing, failure/contention, full historical upgrade/uninstall, benchmarks,
+  manual 5.3 and the production/App gate are not closed by this new test.
+
 ## 1.7.252 - 2026-11-12
 
 ### Connect Moodle course reset to the existing VideoTrack implementation

@@ -22,7 +22,7 @@ use mod_videotrack\privacy\provider;
 use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
- * Exercises real course backup/restore and privacy erasure on the restored records.
+ * Exercises real backup/restore, privacy, retention, course reset and activity deletion.
  *
  * @package    mod_videotrack
  * @category   test
@@ -256,6 +256,125 @@ final class lifecycle_integration_test extends \advanced_testcase {
         $this->assertEquals($otherfiles, $DB->get_records('files', [
             'contextid' => $other['context']->id, 'component' => 'mod_videotrack',
         ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'));
+    }
+
+    /**
+     * The registered retention task handles restored data, policy changes and repeated execution.
+     */
+    public function test_registered_retention_task_cleans_restored_data_and_is_repeatable(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $fixture = $this->create_fixture();
+        $courseid = $this->restore_course($fixture['course'], true, 0);
+        $copy = $this->assert_restored_configuration($fixture, $courseid);
+        $task = \core\task\manager::get_scheduled_task(\mod_videotrack\task\cleanup_task::class);
+        $this->assertInstanceOf(\mod_videotrack\task\cleanup_task::class, $task);
+        $this->assertSame('mod_videotrack', $task->get_component());
+        $activities = [$fixture['activity'], $copy];
+        $snapshots = [];
+        foreach ($activities as $activity) {
+            $activityid = (int)$activity->id;
+            $cm = get_coursemodule_from_instance('videotrack', $activityid, $activity->course, false, MUST_EXIST);
+            $context = \core\context\module::instance($cm->id);
+            $item = $DB->get_record('grade_items', [
+                'courseid' => $activity->course, 'itemmodule' => 'videotrack',
+                'iteminstance' => $activityid, 'itemnumber' => 0,
+            ], '*', MUST_EXIST);
+            $snapshots[$activityid] = [
+                'records' => $this->snapshot($activityid),
+                'activity' => $DB->get_record('videotrack', ['id' => $activityid], '*', MUST_EXIST),
+                'definitions' => $DB->get_records('videotrack_react', ['videotrackid' => $activityid], 'id'),
+                'contextid' => (int)$context->id,
+                'cmid' => (int)$cm->id,
+                'itemid' => (int)$item->id,
+                'grades' => $DB->get_records('grade_grades', ['itemid' => $item->id], 'id'),
+                'files' => $DB->get_records('files', [
+                    'contextid' => $context->id, 'component' => 'mod_videotrack',
+                ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'),
+            ];
+            $this->assertCount(2, $snapshots[$activityid]['grades']);
+            $this->assertNotEmpty($snapshots[$activityid]['files']);
+            foreach ($fixture['users'] as $user) {
+                $conditions = ['videotrackid' => $activityid, 'userid' => $user->id];
+                $this->assertSame(3, $DB->count_records('videotrack_seg', $conditions));
+                $this->assertSame(4, $DB->count_records('videotrack_reactev', $conditions));
+                $this->assertSame(2, $DB->count_records('videotrack_integrity', $conditions));
+                $this->assertSame(2, $DB->count_records('videotrack_acknowledge', $conditions));
+            }
+        }
+        $empty = [
+            'segments' => 0, 'events' => 0, 'integrity' => 0, 'acknowledgements' => 0,
+            'statesrebuilt' => 0, 'statesdeleted' => 0, 'processed' => 0,
+        ];
+        $partial = [
+            'segments' => 4, 'events' => 4, 'integrity' => 4, 'acknowledgements' => 4,
+            'statesrebuilt' => 4, 'statesdeleted' => 0, 'processed' => 4,
+        ];
+        $expired = [
+            'segments' => 8, 'events' => 12, 'integrity' => 4, 'acknowledgements' => 4,
+            'statesrebuilt' => 0, 'statesdeleted' => 4, 'processed' => 4,
+        ];
+        $this->expectOutputString(
+            get_string('privacy_cleanup_unlimited', 'mod_videotrack') . "\n" .
+            get_string('privacy_cleanup_deleted', 'mod_videotrack', (object)$partial) . "\n" .
+            get_string('privacy_cleanup_deleted', 'mod_videotrack', (object)$empty) . "\n" .
+            get_string('privacy_cleanup_deleted', 'mod_videotrack', (object)$expired) . "\n" .
+            get_string('privacy_cleanup_deleted', 'mod_videotrack', (object)$empty) . "\n"
+        );
+        $task->execute();
+        foreach ($snapshots as $activityid => $snapshot) {
+            $this->assertEquals($snapshot['records'], $this->snapshot($activityid));
+        }
+        set_config('retentionperioddays', 10, 'mod_videotrack');
+        $task->execute();
+        $retained = [];
+        foreach ($snapshots as $activityid => $snapshot) {
+            foreach ($fixture['users'] as $index => $user) {
+                $conditions = ['videotrackid' => $activityid, 'userid' => $user->id];
+                $this->assertSame(2, $DB->count_records('videotrack_seg', $conditions));
+                $this->assertSame(3, $DB->count_records('videotrack_reactev', $conditions));
+                $this->assertSame(1, $DB->count_records('videotrack_integrity', $conditions));
+                $this->assertSame(1, $DB->count_records('videotrack_acknowledge', $conditions));
+                $state = $DB->get_record('videotrack_state', $conditions, '*', MUST_EXIST);
+                $this->assertEqualsWithDelta(20 + ($index * 10), (float)$state->uniquecoveredseconds, 0.001);
+                $this->assertSame(0, (int)$state->iscompleted);
+                $completion = $DB->get_record('course_modules_completion', [
+                    'coursemoduleid' => $snapshot['cmid'], 'userid' => $user->id,
+                ], '*', MUST_EXIST);
+                $this->assertSame(COMPLETION_INCOMPLETE, (int)$completion->completionstate);
+            }
+            $retained[$activityid] = $this->snapshot($activityid);
+        }
+        $task->execute();
+        foreach ($retained as $activityid => $records) {
+            $this->assertEquals($records, $this->snapshot($activityid));
+        }
+        set_config('retentionperioddays', 1, 'mod_videotrack');
+        $task->execute();
+        $task->execute();
+        foreach ($snapshots as $activityid => $snapshot) {
+            foreach (array_keys($snapshot['records']) as $table) {
+                $this->assertFalse($DB->record_exists($table, ['videotrackid' => $activityid]), $table);
+            }
+            $this->assertEquals($snapshot['activity'], $DB->get_record('videotrack', ['id' => $activityid]));
+            $this->assertEquals($snapshot['definitions'], $DB->get_records(
+                'videotrack_react',
+                ['videotrackid' => $activityid],
+                'id'
+            ));
+            $this->assertEquals($snapshot['grades'], $DB->get_records('grade_grades', ['itemid' => $snapshot['itemid']], 'id'));
+            $this->assertFalse($DB->record_exists_select(
+                'course_modules_completion',
+                'coursemoduleid = :cmid AND completionstate <> :incomplete',
+                ['cmid' => $snapshot['cmid'], 'incomplete' => COMPLETION_INCOMPLETE]
+            ));
+            $this->assertEquals($snapshot['files'], $DB->get_records('files', [
+                'contextid' => $snapshot['contextid'], 'component' => 'mod_videotrack',
+            ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'));
+        }
+        $this->assert_restored_configuration($fixture, $courseid);
     }
 
     /**

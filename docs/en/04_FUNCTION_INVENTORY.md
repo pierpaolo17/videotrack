@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.250 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.253 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1113. **Named AMD callables:** 654.
+**PHP functions/methods:** 1114. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1565,15 +1565,16 @@ Generated from the VideoTrack 1.7.250 source tree. PHP entries include named fun
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
+| `tests/lifecycle_integration_test.php:264` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Runs the registered cleanup task after real restore: unlimited/finite policy, validated progress, full expiry and repeated execution with shared configuration/files/grades preserved. |
 | `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
 | `tests/lifecycle_integration_test.php:213` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
 | `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
 | `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
-| `tests/lifecycle_integration_test.php:267` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
-| `tests/lifecycle_integration_test.php:351` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
-| `tests/lifecycle_integration_test.php:411` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
-| `tests/lifecycle_integration_test.php:460` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
-| `tests/lifecycle_integration_test.php:523` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
+| `tests/lifecycle_integration_test.php:386` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
+| `tests/lifecycle_integration_test.php:470` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
+| `tests/lifecycle_integration_test.php:530` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
+| `tests/lifecycle_integration_test.php:579` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
+| `tests/lifecycle_integration_test.php:642` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |

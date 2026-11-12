@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.252** (`2026111202`).
+Baseline: VideoTrack **1.7.253** (`2026111203`).
 
 ## Scope
 
@@ -32,10 +32,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- U-017/U-007 remain closed. Actual 1.7.249 ZIP/server/strict and six-job candidate/main CI are accepted.
-  Candidate 1.7.250 adds the missing server reset-management guard and two real-browser reset scenarios,
-  completes assisted review of all 997 keys and records eight manual PASS on the declared Moodle 5.0 setup.
-  Moodle 5.3 manual coverage and native candidate gates remain pending. See the [current review](27_LANGUAGE_REVIEW.md).
+- U-017/U-007 remain closed. Actual 1.7.252 ZIP/server/strict and six-job candidate/main CI are accepted.
+  All 997 language keys are reviewed; eight scoped Moodle 5.0 manual PASS remain recorded. Candidate 253
+  adds registered-task retention after restore; its native CI and Moodle 5.3 manual observations remain pending.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -66,7 +65,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.248 / 2026111101.
+- Documentation markers, root README files and ER artefacts identify 1.7.253 / 2026111203.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -186,17 +185,11 @@ Before promotion, verify:
 
 ## Current review and agreed next stages
 
-Actual 251/main `823a6ac458c5cc8a2ed5a5fbea729dabfdac6330` is accepted with the exact415-file ZIP,
-both server reports and supplied strict 10/0/0. Native suite 381/4296 and Behat 52/1154 pass. Assisted language
-review of 997 keys / 7976 values is complete; U-017/U-007 remain closed and scoped manual evidence is retained.
-
-Candidate 252 adds the canonical Moodle reset callback while retaining the existing reset body and flags.
-Two real reset/deletion integration cases are pending. Expected 383 PHPUnit methods; assertion count must
-be measured. Behat 52/1154, 415 files/167 PHP/32 documents per language/346 file rows/654 AMD callables remain.
-PHP callables become 1113 and both inventories use actual positions. XMLDB 7/151/22/22, nine AJAX services,
-997 language keys per pack, AMD, role grants and CI rules are unchanged. ER changes only its version label.
-
-See [the production evidence](28_PRODUCTION_EXIT_AUDIT.md) for callback discovery, ownership checks, source findings and
-remaining historical upgrade/uninstall, benchmark and manual evidence. Native candidate/merged CI and actual
-ZIP/server/strict are required; this does not close the full production/App gate. Keep App decision and VTT
-before authenticated OneDrive/SharePoint → Zoom → Google Drive as agreed.
+Actual 252/main `3f9e62ab6485f36e4088b1c76b79aa644bc49fa3` is accepted with exact 415-file ZIP,
+both server reports and supplied strict 10/0/0. Native suite 383/4350 and Behat 52/1154 pass.
+Candidate 253 adds one registered-task retention integration after real restore; production logic is unchanged.
+Expected 384 PHPUnit methods, assertion count to be measured; 1114 named PHP callables. Behat 52/1154,
+415 files/167 PHP/32 documents per language/346 file rows/654 AMD callables remain unchanged.
+See [production evidence](28_PRODUCTION_EXIT_AUDIT.md) for current scope and remaining upgrade/uninstall,
+benchmark/manual/cron evidence. Complete the production gate and App decision before agreed VTT and
+authenticated OneDrive/SharePoint → Zoom → Google Drive work. Native CI and actual ZIP/server/strict remain required.

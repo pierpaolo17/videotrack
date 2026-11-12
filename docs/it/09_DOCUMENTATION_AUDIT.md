@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.252** (`2026111202`).
+Baseline: VideoTrack **1.7.253** (`2026111203`).
 
 ## Perimetro
 
@@ -32,10 +32,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- U-017/U-007 restano chiusi. ZIP/server/strict reali 1.7.249 e CI candidata/main su sei job sono accettati.
-  La candidata 1.7.250 aggiunge il guard gestione reset mancante e due scenari browser reali, completa la review
-  assistita delle 997 chiavi e registra otto PASS manuali nello scope Moodle 5.0 dichiarato. Restano copertura
-  manuale 5.3 e gate nativi candidata. Vedere la [review corrente](27_REVISIONE_LINGUE.md).
+- U-017/U-007 restano chiusi. ZIP/report server/strict reali 1.7.252 e CI candidata/main nei sei ambienti accettati.
+  Revisionate le 997 chiavi lingua; conservati otto PASS manuali circoscritti su Moodle 5.0. La candidata 253
+  aggiunge retention tramite task registrato dopo il restore; CI nativa e prove manuali Moodle 5.3 restano in attesa.
 
 - `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
   seguiti dalle regole di visibilità delle icone. Il form mantiene conteggio, limiti, registrazione filtro upload
@@ -52,7 +51,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.248 / 2026111101.
+- Marker documentali, README principali e artefatti ER identificano 1.7.253 / 2026111203.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -174,17 +173,11 @@ Prima della promozione verificare:
 
 ## Review corrente e fasi successive concordate
 
-La 251 reale/main `823a6ac458c5cc8a2ed5a5fbea729dabfdac6330` è accettata con ZIP esatto415 file,
-due report server e strict 10/0/0 forniti. Suite nativa381/4296 e Behat 52/1154 superati. La review assistita
-997 chiavi / 7976 valori è completa; U-017/U-007 restano chiusi e le evidenze manuali circoscritte sono conservate.
-
-La candidata 252 aggiunge il callback canonico di reset Moodle, conservando corpo e flag dell'implementazione.
-Due test reali reset/delete sono in attesa. Attesi 383 metodi PHPUnit; asserzioni da misurare. Restano Behat 52/1154,
-415 file/167 PHP/32 documenti per lingua/346 righe file/654 callable AMD. I callable PHP diventano 1113; entrambi gli
-inventari usano le righe effettive. XMLDB 7/151/22/22, nove AJAX, 997 chiavi per lingua, AMD, grant e regole CI
-restano invariati. L'ER cambia solo etichetta versione.
-
-Vedere [le evidenze di produzione](28_USCITA_PRODUZIONE.md) per scoperta callback, ownership, rilievi sorgente ed evidenze
-residue su upgrade storico/uninstall, benchmark e manuale. Servono CI candidata/dopo merge e ZIP/server/strict
-reali; il gate completo produzione/App resta aperto. Decisione App e VTT precedono i provider autenticati
-OneDrive/SharePoint → Zoom → Google Drive come concordato.
+La 252 reale/main `3f9e62ab6485f36e4088b1c76b79aa644bc49fa3` è accettata con ZIP esatto di 415 file,
+due report server e strict 10/0/0 forniti. Suite nativa 383/4350 e Behat 52/1154 superati.
+La candidata 253 aggiunge un'integrazione retention del task registrato dopo il restore reale; logica operativa invariata.
+Attesi 384 metodi PHPUnit, asserzioni da misurare; 1114 callable PHP nominati. Restano Behat 52/1154,
+415 file/167 PHP/32 documenti per lingua/346 righe file/654 callable AMD.
+Vedere [evidenze di produzione](28_USCITA_PRODUZIONE.md) per scope corrente e prove upgrade/uninstall,
+benchmark/manuali/cron residue. Completare il gate produzione e la decisione App prima di VTT concordati e
+provider autenticati OneDrive/SharePoint → Zoom → Google Drive. Restano necessari CI nativa e ZIP reale/report server/strict.
