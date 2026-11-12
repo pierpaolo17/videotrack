@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.251** (`2026111201`),
+This is the authoritative English documentation for VideoTrack **1.7.252** (`2026111202`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -42,7 +42,7 @@ root `CHANGELOG.md` and in the source tag for the relevant version.
 
 29. [`27_LANGUAGE_REVIEW.md`](27_LANGUAGE_REVIEW.md) — complete assisted semantic scope, reset authorisation findings and scoped manual evidence.
 
-30. [`28_PRODUCTION_EXIT_AUDIT.md`](28_PRODUCTION_EXIT_AUDIT.md) — real backup/restore/privacy integration scope and remaining production evidence.
+30. [`28_PRODUCTION_EXIT_AUDIT.md`](28_PRODUCTION_EXIT_AUDIT.md) — integrated lifecycle tests, standard reset discovery and remaining production evidence.
 
 ## Database and ER artefacts
 

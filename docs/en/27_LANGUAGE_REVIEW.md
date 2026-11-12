@@ -1,6 +1,6 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.251** (`2026111201`). Assisted review recorded 2026-11-11.
+Current tree: VideoTrack **1.7.252** (`2026111202`). Assisted review recorded 2026-11-11.
 
 ## Completed semantic scope and its limits
 
@@ -136,3 +136,8 @@ zero findings or unchanged advisory totals is made.
 Finish the integrated web/lifecycle/privacy/benchmark gate and remaining scoped manual evidence; complete
 the App decision, then implement agreed multilingual VTT subtitles before authenticated foundation,
 OneDrive/SharePoint, Zoom Cloud Recording and Google Drive. No VTT runtime extension is included here.
+
+## Current lifecycle acceptance
+
+Actual 251 also accepts the real backup/restore/privacy cases. Candidate 252 adds standard reset callback discovery
+and native reset/deletion cases; no language value changes. See [the current evidence](28_PRODUCTION_EXIT_AUDIT.md).

@@ -113,6 +113,15 @@ vedere la [review corrente](27_REVISIONE_LINGUE.md).
 
 ## Regressione integrata sul ciclo di vita
 
-La candidata 251 aggiunge backup/restore reali tra corsi con e senza utenti, mapping file/Forum/reazioni,
-retention di destinazione ed export/cancellazione Privacy API circoscritti. I risultati nativi sono in attesa.
+La 251 accettata verifica backup/restore reali tra corsi con e senza utenti, mapping file/Forum/reazioni,
+retention di destinazione ed export/cancellazione Privacy API circoscritti. La 252 aggiunge reset/delete standard.
 Vedere [il registro evidenze](28_USCITA_PRODUZIONE.md) per asserzioni esatte e gate di produzione residui.
+
+## Reset corso standard Moodle
+
+La selezione del reset dati studente VideoTrack entra ora nel callback canonico `videotrack_reset_userdata()`,
+che delega all'implementazione `videotrack_reset_course_userdata()` conservata. L'opzione
+`reset_videotrack_userdata` resta disattivata per default. Cancella dati studente/valori voto nel corso scelto,
+conservando configurazione attività, reazioni e file condivisi. Moodle controlla separatamente il reset della
+completion nativa. La pagina core richiede `moodle/course:reset`; il permesso di gestione per il reset dal
+report appartiene a un altro percorso e non cambia. Vedere [le evidenze integrate](28_USCITA_PRODUZIONE.md).

@@ -1,5 +1,46 @@
 # VideoTrack changelog
 
+## 1.7.252 - 2026-11-12
+
+### Connect Moodle course reset to the existing VideoTrack implementation
+
+- Moodle discovers activity resets as modname_reset_userdata. The previous
+  VideoTrack helper was named videotrack_reset_course_userdata, so selecting
+  the existing reset option could leave its learner data untouched. Add the
+  standard videotrack_reset_userdata callback and delegate to the retained
+  helper. Preserve its executable body, opt-in flag/default, course scope,
+  grade reset, statuses and historical direct callers. No new endpoint or
+  capability is introduced; the core reset page retains its authorisation.
+- Accept actual 1.7.251 / main 823a6ac: 415 files match the approved tree, package
+  SHA-256 4954f75e11f146814e2d410c59bc2457e75f81eea93cfa26208311826717bbab.
+  Both server reports pass PHPCS/lint on 167 files, Grunt, PHPUnit 381/4296 and supplied
+  strict 10/0/0; corrected candidate/main CI passes Behat 52/1154. Preserve the
+  initial nine PSR12 errors corrected before merge; no all-first-attempt claim.
+- Add real Moodle course-reset off/on tests across two activities and an
+  unaffected course, plus real synchronous activity-deletion tests preserving
+  a neighbouring activity and linked Forum. Check plugin learner families,
+  grades/completion, configuration, definitions, files, contexts and scope.
+  Use the modern deletion API when available and the supported legacy helper
+  otherwise, without deprecation suppression. Existing backup cases keep
+  their default fixture behaviour; an optional existing course enables the
+  new same-course isolation case.
+- All six initial candidate artifacts on df3fe608 pass PHPUnit 383/4350,
+  Behat 52/1154 and strict 10/0/0. Run 43233266763, attempt 2, remains blocked
+  by two PHPCS errors on line 185 of lifecycle_integration_test.php: three
+  arguments share one line inside a multiline get_records call. Put one
+  argument on each line and update both callable inventories. This same-version
+  incremental correction changes whitespace only in the test; executable code,
+  literals, production files and CI rules remain identical. Corrected native
+  CI is pending before merge. PHPMD retains 24 semantic findings; Psalm reports
+  732/760 advisories, one fewer per branch than 251, without an inferred cause.
+- Update paired guides, callback/security notes, inventories and version/ER
+  labels. Expected corrected suite: 383 PHPUnit tests / 4350 assertions and
+  Behat 52/1154, based on the initial native execution. No schema/language/AMD/
+  service/role/CI-rule change. XMLDB remains
+  2026110601 and 7/151/22/22; eight 997-key packs and 48 AMD sets remain intact.
+  U-017/U-007 stay closed; manual 5.3 and full production/App gates stay explicit.
+  Native candidate/merged CI and actual ZIP/server/strict are required before acceptance.
+
 ## 1.7.251 - 2026-11-12
 
 ### Real backup/restore and post-restore privacy integration gates

@@ -1463,10 +1463,23 @@ function videotrack_update_completion_for_user(stdClass $videotrack, cm_info $cm
 }
 
 /**
- * Returns the items that can be reset in a course reset.
- * Called by Moodle when building the course reset form.
+ * Resets selected learner data through Moodle's standard activity callback.
+ *
+ * Moodle populates courseid before discovering and calling this function.
+ * Keep the existing implementation available for historical direct callers.
+ *
+ * @param stdClass $data Course reset options populated by Moodle.
+ * @return array Reset status entries.
+ */
+function videotrack_reset_userdata(stdClass $data): array {
+    return videotrack_reset_course_userdata($data);
+}
+
+/**
+ * Implements the existing VideoTrack course reset for direct and framework callers.
  *
  * @param stdClass $data Course reset settings.
+ * @return array Reset status entries.
  */
 function videotrack_reset_course_userdata($data) {
     global $DB, $CFG;

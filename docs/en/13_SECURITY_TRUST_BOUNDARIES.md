@@ -113,3 +113,12 @@ does not authorise reset. The technical capability/role grants remain unchanged;
 continues to use Moodle's separate activity-editing permission. Read-only reports, grades, ownership, group
 scope and all other mutation paths retain their existing rules. The direct-POST denial and authorised reset
 scenarios are candidate regressions awaiting native CI; see the [current review](27_LANGUAGE_REVIEW.md).
+
+## Standard Moodle course reset
+
+Selecting VideoTrack learner-data reset now enters through the canonical `videotrack_reset_userdata()`
+callback and delegates to the retained `videotrack_reset_course_userdata()` implementation. The option
+`reset_videotrack_userdata` remains off by default. It clears learner records/grade values in the selected
+course and retains activity configuration, reactions and shared files. Moodle separately controls native
+completion reset. The core reset page enforces `moodle/course:reset`; report-reset management permission
+is a separate route and is unchanged. See the [integration evidence](28_PRODUCTION_EXIT_AUDIT.md).

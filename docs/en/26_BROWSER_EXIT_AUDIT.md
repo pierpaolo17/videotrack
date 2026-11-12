@@ -1,6 +1,6 @@
 # U-007 browser automation exit audit
 
-Current tree: VideoTrack **1.7.251** (`2026111201`). Decision recorded 2026-11-09.
+Current tree: VideoTrack **1.7.252** (`2026111202`). Decision recorded 2026-11-09.
 
 ## Decision
 
@@ -85,9 +85,11 @@ create a focused correction only for a concrete finding. Do not reopen structura
 
 ## Current reset and review scope
 
-Per-student reset and complete assisted review of 997 keys / 7976 values are accepted on actual 250.
-Eight manual PASS are reported on 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 remains unrecorded.
-Candidate 251 adds real course backup/restore/privacy tests: expected 381 PHPUnit methods (assertions to
-measure), Behat 52/1154 unchanged; its native CI and actual-package gates remain pending.
-See the [integrated lifecycle evidence](28_PRODUCTION_EXIT_AUDIT.md). U-017/U-007 remain closed. Finish web/App work before
-the agreed VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
+Assisted review of 997 keys / 7976 values remains complete. Actual 251 accepts the two real course
+backup/restore/privacy cases with native PHPUnit 381/4296, Behat 52/1154 and strict 10/0/0. Candidate 252
+connects Moodle's standard reset callback to the unchanged legacy implementation and adds real course-reset/
+activity-deletion tests; expected 383 PHPUnit methods, assertions to measure, Behat 52/1154 unchanged. Its
+native and actual-package gates remain pending. Eight manual PASS on 248 / Moodle 5.0 / Academi / Windows 11 / Chrome /
+NVDA remain scoped; 5.3 manual observations are unrecorded. See the [integrated record](28_PRODUCTION_EXIT_AUDIT.md).
+U-017/U-007 remain closed; finish earlier web/App work, then agreed VTT subtitles, authenticated foundation,
+OneDrive/SharePoint → Zoom → Google Drive and hardening.

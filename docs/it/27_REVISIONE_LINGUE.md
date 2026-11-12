@@ -1,6 +1,6 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.251** (`2026111201`). Review assistita registrata 2026-11-11.
+Albero corrente: VideoTrack **1.7.252** (`2026111202`). Review assistita registrata 2026-11-11.
 
 ## Perimetro semantico completato e limiti
 
@@ -136,3 +136,8 @@ accettata. Non si dichiarano zero segnalazioni o totali consultivi invariati.
 Completare gate integrato web/ciclo vita/privacy/benchmark ed evidenze manuali residue, quindi decisione App e
 fase concordata sottotitoli VTT multilingua prima di base autenticata, OneDrive/SharePoint, Zoom Cloud Recording
 e Google Drive. Questa candidata non implementa l’estensione VTT runtime.
+
+## Accettazione corrente sul ciclo di vita
+
+La 251 reale accetta anche i casi backup/restore/privacy. La 252 aggiunge la scoperta del callback standard di reset
+e casi nativi reset/delete; nessun valore lingua cambia. Vedere [le evidenze correnti](28_USCITA_PRODUZIONE.md).

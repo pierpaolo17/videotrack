@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1110. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1113. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1186,6 +1186,7 @@ Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzio
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
 | `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1474` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
 | `lib.php:38` | `videotrack_supports` | Callable PHP `videotrack_supports`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:64` | `videotrack_whitelist_record` | Callable PHP `videotrack_whitelist_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:87` | `videotrack_add_instance` | Callable PHP `videotrack_add_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1230,18 +1231,18 @@ Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzio
 | `lib.php:1385` | `videotrack_get_completion_state` | Funzione/metodo PHP nominato `videotrack_get_completion_state`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `lib.php:1423` | `videotrack_get_completion_active_rule_descriptions` | Callable PHP `videotrack_get_completion_active_rule_descriptions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:1455` | `videotrack_update_completion_for_user` | Callable PHP `videotrack_update_completion_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1471` | `videotrack_reset_course_userdata` | Callable PHP `videotrack_reset_course_userdata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1520` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1540` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1556` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1646` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
-| `lib.php:1668` | `videotrack_pluginfile_timed_text_available` | Controlla le impostazioni di trascrizioni e capitoli prima di servire i file. |
-| `lib.php:1692` | `videotrack_pluginfile_find_file` | Risolve il file dopo i controlli di accesso, rifiutando percorsi mancanti e directory. |
-| `lib.php:1714` | `videotrack_pluginfile_content_allowed` | Valida estensioni, MIME delle immagini e MIME, dimensioni e contenuto WebVTT. |
-| `lib.php:1757` | `videotrack_pluginfile_send_media` | Applica regole di download e cache al file verificato. |
-| `lib.php:1784` | `videotrack_pluginfile` | Callable PHP `videotrack_pluginfile`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1830` | `videotrack_recalculation_userids` | Individua i learner con dati di tracciamento nelle stesse quattro tabelle di attività. |
-| `lib.php:1872` | `videotrack_recalculate_all_states` | Callable PHP `videotrack_recalculate_all_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1484` | `videotrack_reset_course_userdata` | Implementazione reset corso conservata per callback canonico e chiamanti diretti; rispetta flag esplicito e scope corso esistenti. |
+| `lib.php:1533` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1553` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1569` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1659` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
+| `lib.php:1681` | `videotrack_pluginfile_timed_text_available` | Controlla le impostazioni di trascrizioni e capitoli prima di servire i file. |
+| `lib.php:1705` | `videotrack_pluginfile_find_file` | Risolve il file dopo i controlli di accesso, rifiutando percorsi mancanti e directory. |
+| `lib.php:1727` | `videotrack_pluginfile_content_allowed` | Valida estensioni, MIME delle immagini e MIME, dimensioni e contenuto WebVTT. |
+| `lib.php:1770` | `videotrack_pluginfile_send_media` | Applica regole di download e cache al file verificato. |
+| `lib.php:1797` | `videotrack_pluginfile` | Callable PHP `videotrack_pluginfile`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1843` | `videotrack_recalculation_userids` | Individua i learner con dati di tracciamento nelle stesse quattro tabelle di attività. |
+| `lib.php:1885` | `videotrack_recalculate_all_states` | Callable PHP `videotrack_recalculate_all_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:40` | `videotrack_get_config_int` | Callable PHP `videotrack_get_config_int`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:64` | `videotrack_parse_https_media_url` | Normalizza un URL multimediale HTTPS assoluto prima della validazione specifica di host e percorso del provider. |
 | `locallib.php:92` | `videotrack_normalise_youtube_video_id` | Accetta soltanto un identificatore YouTube scalare di 11 caratteri con l'alfabeto del provider. |
@@ -1564,13 +1565,15 @@ Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzio
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | Callable PHP `test_player_behavior_fields_normalise_bookmark_setting`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | Callable PHP `test_caption_normalisation_preserves_provider_timed_text_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifica che il filtro dei record attività conservi le colonne reali e scarti i valori riservati al form. |
+| `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Invoca il reset Moodle reale con opzione disattivata/attivata su due attività, verificando dati, voti, completion e altro corso. |
+| `tests/lifecycle_integration_test.php:213` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Esegue la cancellazione sincrona Moodle reale e controlla righe/file/voti/contesto propri, conservando l’attività vicina. |
 | `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Esegue un ripristino reale senza utenti e verifica configurazione, file, assenza di dati studente e isolamento origine. |
 | `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Esegue un ripristino con utenti e retention destinazione, poi verifica stato ricostruito, export e cancellazione circoscritta. |
-| `tests/lifecycle_integration_test.php:137` | `create_fixture` | Crea corso, Forum collegato, fixture video caricato, reazione storica, file condivisi e due studenti. |
-| `tests/lifecycle_integration_test.php:221` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
-| `tests/lifecycle_integration_test.php:281` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
-| `tests/lifecycle_integration_test.php:330` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
-| `tests/lifecycle_integration_test.php:393` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
+| `tests/lifecycle_integration_test.php:267` | `create_fixture` | Prepara fixture popolate in un corso nuovo o esistente, con configurazione/file condivisi e due studenti. |
+| `tests/lifecycle_integration_test.php:351` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
+| `tests/lifecycle_integration_test.php:411` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
+| `tests/lifecycle_integration_test.php:460` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
+| `tests/lifecycle_integration_test.php:523` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
 | `tests/locallib_test.php:62` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
