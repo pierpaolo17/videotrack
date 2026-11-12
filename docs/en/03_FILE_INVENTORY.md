@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.253 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.254 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **346** — 343 distributed files and three repository-only files excluded from release archives.
+Entries: **348** — 343 distributed files and five repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -12,6 +12,8 @@ Entries: **346** — 343 distributed files and three repository-only files exclu
 | `.gitattributes` | Repository text/binary attributes. |
 | `.moodleignore` | Files excluded by Moodle packaging, including generated CI/server evidence. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
+| `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
+| `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
 | `phpmd.xml` | Reviewed PHPMD production ruleset; Moodle naming remains governed by PHPCS. |
 | `phpcs.xml.dist` | Canonical PHPCS release-gate configuration using the full Moodle Extra ruleset with no VideoTrack-specific exclusions. |
@@ -250,7 +252,7 @@ Entries: **346** — 343 distributed files and three repository-only files exclu
 | `db/repairlib.php` | Current database/install/upgrade support file distributed with the plugin. |
 | `db/services.php` | AJAX external-function declarations. |
 | `db/tasks.php` | Scheduled task declaration. |
-| `db/uninstall.php` | Early uninstall hook that removes VideoTrack gradebook data before Moodle deletes module contexts. |
+| `db/uninstall.php` | Early uninstall hook preserving Grade API cleanup and deleting only owned native completion before core loses course-module ownership. |
 | `db/upgrade.php` | Incremental XMLDB upgrades and savepoints. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
@@ -314,7 +316,7 @@ Entries: **346** — 343 distributed files and three repository-only files exclu
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
 | `tests/generator_test.php` | PHPUnit coverage for the VideoTrack module generator. |
-| `tests/gradebook_restore_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/gradebook_restore_contract_test.php` | Regression tests for gradebook repair, uninstall grade cleanup and scoped native-completion deletion with or without grade items. |
 | `tests/integrity_test.php` | PHPUnit coverage for integrity test. |
 | `tests/learner_scope_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |

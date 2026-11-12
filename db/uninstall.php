@@ -23,13 +23,15 @@
  */
 
 /**
- * Remove VideoTrack gradebook data before core deletes module contexts.
+ * Remove VideoTrack grades and native completion before core deletes module contexts.
  *
  * Moodle invokes this hook before mod plugin cleanup removes course_modules,
  * module contexts and the modules registry row. Grade items with one valid
  * activity context therefore use the Grade API, preserving its normal file,
  * history and regrade behaviour. Already malformed rows cannot safely resolve
  * a module context and are removed through the existing DML-only repair helper.
+ * Core's full module uninstall bypasses per-activity completion cleanup, so remove
+ * only rows whose course module still belongs to the registered VideoTrack module.
  *
  * @return bool Always true after successful cleanup.
  */
@@ -39,17 +41,18 @@ function xmldb_videotrack_uninstall(): bool {
     require_once($CFG->libdir . '/gradelib.php');
     require_once(__DIR__ . '/repairlib.php');
 
+    $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
     $gradeitems = $DB->get_records('grade_items', [
         'itemtype' => 'mod',
         'itemmodule' => 'videotrack',
     ], 'id ASC');
     if (!$gradeitems) {
+        videotrack_uninstall_delete_completion($moduleid);
         return true;
     }
 
     $dbman = $DB->get_manager();
     $hasactivitytable = $dbman->table_exists('videotrack');
-    $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
     $fallbackids = [];
     $fallbackcourses = [];
 
@@ -74,7 +77,26 @@ function xmldb_videotrack_uninstall(): bool {
         }
     }
 
+    videotrack_uninstall_delete_completion($moduleid);
     return true;
+}
+
+/**
+ * Delete native completion only while its VideoTrack course-module ownership is resolvable.
+ *
+ * @param int $moduleid Registered VideoTrack module id, or zero when missing.
+ */
+function videotrack_uninstall_delete_completion(int $moduleid): void {
+    global $DB;
+
+    if ($moduleid <= 0) {
+        return;
+    }
+    $DB->delete_records_select(
+        'course_modules_completion',
+        'coursemoduleid IN (SELECT id FROM {course_modules} WHERE module = :moduleid)',
+        ['moduleid' => $moduleid]
+    );
 }
 
 /**

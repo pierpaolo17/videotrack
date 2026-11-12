@@ -60,6 +60,7 @@ jobs:
             database: mariadb
             quality: true
             static: true
+            lifecycle: true
           - id: moodle50-pgsql
             moodle: "5.0"
             moodle-branch: MOODLE_500_STABLE
@@ -85,6 +86,7 @@ jobs:
             database: mariadb
             quality: false
             static: true
+            lifecycle: true
           - id: moodle53-pgsql
             moodle: "5.3"
             moodle-branch: MOODLE_503_STABLE
@@ -98,6 +100,7 @@ jobs:
         with:
           path: plugin
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Create report directory
         run: mkdir -p ci-reports
@@ -187,7 +190,7 @@ jobs:
             "$VIDEOTRACK_ROOT" \
             text \
             "$GITHUB_WORKSPACE/plugin/phpmd.xml" \
-            --exclude '*/tests/*,*/lang/*,*/docs/*,*/tools/*' \
+            --exclude '*/tests/*,*/lang/*,*/docs/*,*/tools/*,*/.github/lifecycle/*' \
             2>&1 | tee ci-reports/phpmd.txt
           phpmdstatus=${PIPESTATUS[0]}
           set -e
@@ -348,6 +351,12 @@ jobs:
         run: |
           set -o pipefail
           moodle-plugin-ci behat --profile chrome --scss-deprecations 2>&1 | tee ci-reports/behat.txt
+
+      - name: Historical upgrade and populated uninstall
+        if: ${{ success() && matrix.lifecycle }}
+        run: |
+          set -o pipefail
+          bash "$GITHUB_WORKSPACE/plugin/.github/lifecycle/run.sh" 2>&1 | tee ci-reports/lifecycle.txt
 
       - name: Upload CI reports
         if: ${{ always() }}

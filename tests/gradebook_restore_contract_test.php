@@ -225,4 +225,78 @@ final class gradebook_restore_contract_test extends advanced_testcase {
         $this->assertTrue($DB->record_exists('course_modules', ['id' => (int)$videotrack->cmid]));
         $this->assertTrue($DB->record_exists('modules', ['name' => 'videotrack']));
     }
+
+    /**
+     * Uninstall clears only its own completion, including the path without grade items.
+     */
+    public function test_uninstall_hook_scopes_completion_with_and_without_grades(): void {
+        global $CFG, $DB;
+
+        $this->resetAfterTest(true);
+        $this->setAdminUser();
+        require_once($CFG->libdir . '/gradelib.php');
+        require_once($CFG->dirroot . '/mod/videotrack/db/uninstall.php');
+        set_config('enablecompletion', 1);
+        $CFG->enablecompletion = 1;
+        $generator = $this->getDataGenerator();
+        $student = $generator->create_user();
+        $courses = [
+            $generator->create_course(['enablecompletion' => 1]),
+            $generator->create_course(['enablecompletion' => 1]),
+        ];
+        $targets = [];
+        foreach ($courses as $course) {
+            $generator->enrol_user($student->id, $course->id, 'student');
+            $target = $generator->create_module('videotrack', [
+                'course' => $course->id, 'grade' => 100, 'completion' => COMPLETION_TRACKING_MANUAL,
+            ]);
+            $result = \grade_update(
+                'mod/videotrack',
+                $course->id,
+                'mod',
+                'videotrack',
+                $target->id,
+                0,
+                (object)['userid' => $student->id, 'rawgrade' => 80]
+            );
+            $this->assertSame(GRADE_UPDATE_OK, $result);
+            $targets[] = $target;
+        }
+        $neighbour = $generator->create_module('forum', [
+            'course' => $courses[1]->id, 'completion' => COMPLETION_TRACKING_MANUAL,
+        ]);
+        $DB->insert_record('course_modules_completion', (object)[
+            'coursemoduleid' => $neighbour->cmid, 'userid' => $student->id,
+            'completionstate' => COMPLETION_COMPLETE, 'timemodified' => time(),
+        ]);
+        $other = $DB->get_records('course_modules_completion', ['coursemoduleid' => $neighbour->cmid], 'id');
+        $cmids = array_map(static fn($target) => (int)$target->cmid, $targets);
+        for ($attempt = 0; $attempt < 2; $attempt++) {
+            $this->assertSame($attempt === 0 ? 2 : 0, $DB->count_records('grade_items', ['itemmodule' => 'videotrack']));
+            foreach ($targets as $target) {
+                $DB->insert_record('course_modules_completion', (object)[
+                    'coursemoduleid' => $target->cmid, 'userid' => $student->id,
+                    'completionstate' => COMPLETION_COMPLETE, 'timemodified' => time(),
+                ]);
+            }
+            \videotrack_uninstall_delete_completion(0);
+            $this->assertCount(2, $DB->get_records_list('course_modules_completion', 'coursemoduleid', $cmids, 'id'));
+            $this->assertTrue(\xmldb_videotrack_uninstall());
+            $this->assertSame([], $DB->get_records_list('course_modules_completion', 'coursemoduleid', $cmids, 'id'));
+            $this->assertFalse($DB->record_exists('grade_items', ['itemmodule' => 'videotrack']));
+            $this->assertEquals(
+                $other,
+                $DB->get_records('course_modules_completion', ['coursemoduleid' => $neighbour->cmid], 'id')
+            );
+            foreach ($targets as $target) {
+                $this->assertTrue($DB->record_exists('videotrack', ['id' => $target->id]));
+                $this->assertTrue($DB->record_exists('course_modules', ['id' => $target->cmid]));
+            }
+        }
+        $this->assertTrue(\xmldb_videotrack_uninstall());
+        $this->assertEquals(
+            $other,
+            $DB->get_records('course_modules_completion', ['coursemoduleid' => $neighbour->cmid], 'id')
+        );
+    }
 }

@@ -1,6 +1,6 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.253** (`2026111203`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.254** (`2026111204`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
