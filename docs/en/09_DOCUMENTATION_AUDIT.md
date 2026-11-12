@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.251** (`2026111201`).
+Baseline: VideoTrack **1.7.252** (`2026111202`).
 
 ## Scope
 
@@ -186,18 +186,17 @@ Before promotion, verify:
 
 ## Current review and agreed next stages
 
-Actual 1.7.250 is accepted against main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`, the real ZIP,
-both server reports and both supplied strict 10/0/0 outputs. Complete assisted semantic review covers
-997 keys / 7976 values; it is not native linguistic sign-off. U-017 and essential U-007 remain closed.
+Actual 251/main `823a6ac458c5cc8a2ed5a5fbea729dabfdac6330` is accepted with the exact415-file ZIP,
+both server reports and supplied strict 10/0/0. Native suite 381/4296 and Behat 52/1154 pass. Assisted language
+review of 997 keys / 7976 values is complete; U-017/U-007 remain closed and scoped manual evidence is retained.
 
-Candidate 1.7.251 adds two real course backup/restore/privacy integration tests. The current tree contains
-415 files, 167 PHP files, 1110 PHP/654 AMD callables, 346 file-inventory rows and 32 documents per language.
-Expected PHPUnit methods: 381; assertion totals await native CI. Behat stays 52/1154. Production logic,
-DB schema, eight language packs and AMD are unchanged. XMLDB remains 7/151/22/22. The install guide's stale
-149-field count is corrected to 151. Both inventories include the new test file/methods at their actual lines.
+Candidate 252 adds the canonical Moodle reset callback while retaining the existing reset body and flags.
+Two real reset/deletion integration cases are pending. Expected 383 PHPUnit methods; assertion count must
+be measured. Behat 52/1154, 415 files/167 PHP/32 documents per language/346 file rows/654 AMD callables remain.
+PHP callables become 1113 and both inventories use actual positions. XMLDB 7/151/22/22, nine AJAX services,
+997 language keys per pack, AMD, role grants and CI rules are unchanged. ER changes only its version label.
 
-Candidate CI, merged CI and actual ZIP/server/strict acceptance remain required. Scoped manual PASS on
-248/Moodle 5.0 is retained; Moodle 5.3 manual coverage is unrecorded. The [integrated evidence record](28_PRODUCTION_EXIT_AUDIT.md)
-keeps historical upgrade/uninstall, benchmark and App decisions distinct from ordinary unit/CI results.
-Finish earlier work/App decision, then agreed VTT subtitles, authenticated foundation and
-OneDrive/SharePoint → Zoom → Google Drive. No new manual pass or VTT runtime is introduced here.
+See [the production evidence](28_PRODUCTION_EXIT_AUDIT.md) for callback discovery, ownership checks, source findings and
+remaining historical upgrade/uninstall, benchmark and manual evidence. Native candidate/merged CI and actual
+ZIP/server/strict are required; this does not close the full production/App gate. Keep App decision and VTT
+before authenticated OneDrive/SharePoint → Zoom → Google Drive as agreed.

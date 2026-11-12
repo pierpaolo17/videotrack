@@ -1,6 +1,6 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.251** (`2026111201`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.252** (`2026111202`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
@@ -87,9 +87,10 @@ mirata solo per un finding concreto. Non riaprire U-017 strutturale per le metri
 
 ## Scope corrente reset e review
 
-Reset per studente e review assistita completa di 997 chiavi / 7976 valori sono accettati sulla 250 reale.
-Otto PASS manuali sono dichiarati sulla 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 non è registrato.
-La candidata 251 aggiunge test reali backup/restore/privacy tra corsi: attesi 381 metodi PHPUnit (asserzioni
-da misurare), Behat 52/1154 invariato; restano in attesa CI nativa e gate pacchetto reale della candidata.
-Vedere le [evidenze integrate sul ciclo di vita](28_USCITA_PRODUZIONE.md). U-017/U-007 restano chiusi. Completare web/App
-prima dei VTT concordati, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.
+La review assistita di 997 chiavi / 7976 valori resta completa. La 251 reale accetta i due casi backup/
+restore/privacy tra corsi con PHPUnit 381/4296, Behat 52/1154 e strict 10/0/0 nativi. La 252 collega il callback
+standard di reset Moodle all'implementazione legacy invariata e aggiunge test reali reset corso/cancellazione
+attività; attesi 383 metodi PHPUnit, asserzioni da misurare, Behat 52/1154 invariato. Gate nativi e pacchetto reale
+sono in attesa. Restano otto PASS manuali sulla 248 / Moodle 5.0 / Academi / Windows 11 / Chrome / NVDA nel loro scope;
+5.3 manuale non è registrato. Vedere [il registro integrato](28_USCITA_PRODUZIONE.md). U-017/U-007 restano chiusi;
+completare web/App, poi VTT concordati, base autenticata, OneDrive/SharePoint → Zoom → Google Drive e consolidamento.

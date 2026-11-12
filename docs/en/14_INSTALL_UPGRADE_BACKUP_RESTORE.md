@@ -110,6 +110,15 @@ scenarios passed native CI on accepted 250; see the [current review](27_LANGUAGE
 
 ## Integrated lifecycle regression
 
-The 251 candidate adds real cross-course backup/restore with and without user data, shared-file/Forum/reaction
-mappings, destination retention and scoped Privacy API export/erasure. Native results remain pending. See
+Accepted 251 tests exercise real cross-course backup/restore with and without user data, shared-file/Forum/reaction
+mappings, destination retention and scoped Privacy API export/erasure. Candidate 252 adds standard reset/deletion cases. See
 [the evidence record](28_PRODUCTION_EXIT_AUDIT.md) for the exact assertions and remaining production gates.
+
+## Standard Moodle course reset
+
+Selecting VideoTrack learner-data reset now enters through the canonical `videotrack_reset_userdata()`
+callback and delegates to the retained `videotrack_reset_course_userdata()` implementation. The option
+`reset_videotrack_userdata` remains off by default. It clears learner records/grade values in the selected
+course and retains activity configuration, reactions and shared files. Moodle separately controls native
+completion reset. The core reset page enforces `moodle/course:reset`; report-reset management permission
+is a separate route and is unchanged. See the [integration evidence](28_PRODUCTION_EXIT_AUDIT.md).

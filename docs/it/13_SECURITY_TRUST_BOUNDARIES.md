@@ -116,3 +116,12 @@ lettura non autorizza il reset. Chiave capability e grant restano invariati; le 
 seguono il distinto permesso Moodle di modifica attività. Report in lettura, voti, ownership, gruppi e altre
 mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato attendono CI nativa:
 vedere la [review corrente](27_REVISIONE_LINGUE.md).
+
+## Reset corso standard Moodle
+
+La selezione del reset dati studente VideoTrack entra ora nel callback canonico `videotrack_reset_userdata()`,
+che delega all'implementazione `videotrack_reset_course_userdata()` conservata. L'opzione
+`reset_videotrack_userdata` resta disattivata per default. Cancella dati studente/valori voto nel corso scelto,
+conservando configurazione attività, reazioni e file condivisi. Moodle controlla separatamente il reset della
+completion nativa. La pagina core richiede `moodle/course:reset`; il permesso di gestione per il reset dal
+report appartiene a un altro percorso e non cambia. Vedere [le evidenze integrate](28_USCITA_PRODUZIONE.md).

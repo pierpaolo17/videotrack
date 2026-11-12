@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.251** (`2026111201`).
+Baseline: VideoTrack **1.7.252** (`2026111202`).
 
 ## Perimetro
 
@@ -174,19 +174,17 @@ Prima della promozione verificare:
 
 ## Review corrente e fasi successive concordate
 
-La 1.7.250 reale è accettata contro main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`, ZIP reale,
-due report server e i due strict forniti 10/0/0. La revisione semantica assistita completa copre 997 chiavi /
-7976 valori; non è approvazione linguistica madrelingua. U-017 e U-007 essenziale restano chiusi.
+La 251 reale/main `823a6ac458c5cc8a2ed5a5fbea729dabfdac6330` è accettata con ZIP esatto415 file,
+due report server e strict 10/0/0 forniti. Suite nativa381/4296 e Behat 52/1154 superati. La review assistita
+997 chiavi / 7976 valori è completa; U-017/U-007 restano chiusi e le evidenze manuali circoscritte sono conservate.
 
-La candidata 1.7.251 aggiunge due test reali di integrazione backup/restore/privacy tra corsi. L'albero corrente
-contiene 415 file, 167 PHP, 1110 callable PHP/654 AMD, 346 righe inventario file e 32 documenti per lingua.
-Metodi test PHPUnit attesi: 381; il totale asserzioni attende la CI nativa. Behat resta 52/1154. Logica di
-produzione, schema DB, otto lingue e AMD sono invariati. XMLDB resta 7/151/22/22. La guida installazione
-corregge da 149 a 151 il conteggio campi obsoleto. Entrambi gli inventari includono nuovo file/metodi test
-alle righe effettive.
+La candidata 252 aggiunge il callback canonico di reset Moodle, conservando corpo e flag dell'implementazione.
+Due test reali reset/delete sono in attesa. Attesi 383 metodi PHPUnit; asserzioni da misurare. Restano Behat 52/1154,
+415 file/167 PHP/32 documenti per lingua/346 righe file/654 callable AMD. I callable PHP diventano 1113; entrambi gli
+inventari usano le righe effettive. XMLDB 7/151/22/22, nove AJAX, 997 chiavi per lingua, AMD, grant e regole CI
+restano invariati. L'ER cambia solo etichetta versione.
 
-Restano necessari CI candidata, CI dopo merge e accettazione ZIP/server/strict reali. Restano i PASS manuali
-circoscritti sulla 248/Moodle 5.0; Moodle 5.3 non è registrato. Il [registro delle evidenze integrate](28_USCITA_PRODUZIONE.md)
-distingue upgrade storico/uninstall, benchmark e decisione App dai normali risultati unit/CI. Completare
-lavoro precedente/decisione App, poi VTT concordati, base autenticata e OneDrive/SharePoint → Zoom → Google
-Drive. Qui non si introducono nuovi PASS manuali o VTT runtime.
+Vedere [le evidenze di produzione](28_USCITA_PRODUZIONE.md) per scoperta callback, ownership, rilievi sorgente ed evidenze
+residue su upgrade storico/uninstall, benchmark e manuale. Servono CI candidata/dopo merge e ZIP/server/strict
+reali; il gate completo produzione/App resta aperto. Decisione App e VTT precedono i provider autenticati
+OneDrive/SharePoint → Zoom → Google Drive come concordato.

@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.250 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1110. **Named AMD callables:** 654.
+**PHP functions/methods:** 1113. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1186,6 +1186,7 @@ Generated from the VideoTrack 1.7.250 source tree. PHP entries include named fun
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
 | `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Checks the original activity and course-module references before deleting a grade item through the Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1474` | `videotrack_reset_userdata` | Canonical Moodle course-reset callback delegating to the retained implementation without changing its opt-in flag or data scope. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:64` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:87` | `videotrack_add_instance` | PHP callable `videotrack_add_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1230,18 +1231,18 @@ Generated from the VideoTrack 1.7.250 source tree. PHP entries include named fun
 | `lib.php:1385` | `videotrack_get_completion_state` | Named PHP function/method `videotrack_get_completion_state`; see source DocBlock and callers for the current contract. |
 | `lib.php:1423` | `videotrack_get_completion_active_rule_descriptions` | PHP callable `videotrack_get_completion_active_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:1455` | `videotrack_update_completion_for_user` | PHP callable `videotrack_update_completion_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1471` | `videotrack_reset_course_userdata` | PHP callable `videotrack_reset_course_userdata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1520` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1540` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1556` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1646` | `videotrack_pluginfile_area_available` | Checks the current activity source and timed-text settings before file lookup. |
-| `lib.php:1668` | `videotrack_pluginfile_timed_text_available` | Checks transcript and chapter settings before serving their files. |
-| `lib.php:1692` | `videotrack_pluginfile_find_file` | Resolves a stored file after access checks, rejecting missing paths and directories. |
-| `lib.php:1714` | `videotrack_pluginfile_content_allowed` | Validates extension, image MIME and WebVTT MIME, size and contents. |
-| `lib.php:1757` | `videotrack_pluginfile_send_media` | Applies download and cache rules to the validated upload. |
-| `lib.php:1784` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1830` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
-| `lib.php:1872` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1484` | `videotrack_reset_course_userdata` | Retained course-reset implementation for the canonical callback and historical direct callers; honours the existing opt-in flag and course scope. |
+| `lib.php:1533` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1553` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1569` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1659` | `videotrack_pluginfile_area_available` | Checks the current activity source and timed-text settings before file lookup. |
+| `lib.php:1681` | `videotrack_pluginfile_timed_text_available` | Checks transcript and chapter settings before serving their files. |
+| `lib.php:1705` | `videotrack_pluginfile_find_file` | Resolves a stored file after access checks, rejecting missing paths and directories. |
+| `lib.php:1727` | `videotrack_pluginfile_content_allowed` | Validates extension, image MIME and WebVTT MIME, size and contents. |
+| `lib.php:1770` | `videotrack_pluginfile_send_media` | Applies download and cache rules to the validated upload. |
+| `lib.php:1797` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1843` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
+| `lib.php:1885` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:40` | `videotrack_get_config_int` | PHP callable `videotrack_get_config_int`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:64` | `videotrack_parse_https_media_url` | Normalises an absolute HTTPS media URL before provider-specific host and path validation. |
 | `locallib.php:92` | `videotrack_normalise_youtube_video_id` | Accepts only a scalar 11-character YouTube identifier with the provider alphabet. |
@@ -1564,13 +1565,15 @@ Generated from the VideoTrack 1.7.250 source tree. PHP entries include named fun
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
+| `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
+| `tests/lifecycle_integration_test.php:211` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
 | `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
 | `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
-| `tests/lifecycle_integration_test.php:137` | `create_fixture` | Creates a course, linked Forum, uploaded-media fixture, historical reaction, shared files and two learners. |
-| `tests/lifecycle_integration_test.php:221` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
-| `tests/lifecycle_integration_test.php:281` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
-| `tests/lifecycle_integration_test.php:330` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
-| `tests/lifecycle_integration_test.php:393` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
+| `tests/lifecycle_integration_test.php:265` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
+| `tests/lifecycle_integration_test.php:349` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
+| `tests/lifecycle_integration_test.php:409` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
+| `tests/lifecycle_integration_test.php:458` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
+| `tests/lifecycle_integration_test.php:521` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |

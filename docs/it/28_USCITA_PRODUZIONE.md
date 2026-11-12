@@ -1,86 +1,84 @@
 # Evidenze integrate sul ciclo di vita e sul gate di produzione
 
-Candidata corrente: VideoTrack **1.7.251** (`2026111201`). Audit registrato 2026-11-12.
+Candidata corrente: VideoTrack **1.7.252** (`2026111202`). Audit registrato 2026-11-12.
 
-## Baseline accettata e obiettivo
+## Baseline accettata
 
-La **1.7.250 / 2026111103** reale è accettata: 412 file dello ZIP coincidono con main
-`7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`. SHA-256 del pacchetto:
-`69820512260e51382a463d3b0986e9dd89154a6d1774776483908b9ba63666e8`.
+La **1.7.251 / 2026111201** reale è accettata: 415 file coincidono con main
+`823a6ac458c5cc8a2ed5a5fbea729dabfdac6330`. SHA-256 del pacchetto:
+`4954f75e11f146814e2d410c59bc2457e75f81eea93cfa26208311826717bbab`.
 Il report server di 10 file ha SHA-256
-`34688bc88280d367e475f86e9a8345959939be4bb84460ff54884e474f0a80f2`.
-Entrambi i report Moodle 5.0/5.3 superano PHPCS/lint 166, Grunt e PHPUnit 379/4076; i due strict forniti
-superano 10/0/0. Gli hash AMD prima e dopo Grunt sono identici. Sono osservazioni del manutentore/server e
-della CI; in questo workspace non sono state eseguite prove Moodle native.
+`c87760ceadc01bfbc24b47cabc78f2e512acedc3132313c04cbf3123b5bdf7e2`.
+CI candidata/main e i due report Moodle 5.0/5.3 reali superano PHPUnit **381/4296**. I sei report browser
+selezionati superano **52 scenari / 1154 passi**, senza riesecuzioni di scenari. PHPCS/lint puliti su 167 file;
+Grunt e strict forniti superati, con strict **10/0/0** su entrambi i siti e hash build AMD invariati. Conservare
+la storia dei nove errori di formato PSR12 corretti prima del merge. Nel workspace non sono state eseguite
+prove Moodle native. PHPMD conserva 24 rilievi rivisti e Psalm 733/761 consultivi; i gate configurati passano.
 
-La candidata corretta e la CI dopo merge superano 52 scenari Behat / 1154 passi in ogni report riuscito
-selezionato. Il primo job Moodle 5.3/MariaDB dopo merge ha perso il server web locale ed è fallito; un nuovo
-job ha superato le prove sullo stesso codice. Conservare questa storia e la precedente correzione PHPCS.
-Non dichiarare sei prime esecuzioni pulite o una causa accertata dell'arresto del server di test. I gate statici
-configurati passano; PHPMD conserva 24 rilievi rivisti e Psalm 733/761 segnalazioni consultive, invariate dalla
-250 corretta e una in più rispetto alla 249 per ramo analizzato.
+## Rilievo sul callback di reset corso e correzione mirata
 
-La 251 aggiunge due prove di integrazione utili. La duplicazione reale verifica già le impostazioni delle
-pause; i nuovi casi collegano backup/restore reali del corso a evidenze studente, file condivisi e Privacy API.
-Logica di produzione, grant, servizi, lingue, DB e asset AMD restano identici byte per byte alla 250.
+Su Moodle 5.0 e 5.3 `reset_course_userdata()` cerca la funzione attività `$modname . '_reset_userdata'`,
+dopo avere impostato `courseid` dall'`id` del corso inviato. La 251 definisce solo
+`videotrack_reset_course_userdata()`: opzione e cancellazione esistono, ma il framework non può trovare
+l'implementazione attraverso il nome atteso. È evidenza sul sorgente; non si dichiara un reset fallito
+riprodotto sull'istanza reale del manutentore.
 
-## Nuovi casi e limiti della prova
+La 252 aggiunge **`videotrack_reset_userdata(stdClass $data): array`**, delegando direttamente all'helper
+conservato. Corpo eseguibile dell'helper, flag `reset_videotrack_userdata`, default disattivato, filtri tabelle,
+reset voti e stato restituito non cambiano. I chiamanti diretti possono continuare a usare il vecchio helper.
+Login, controlli sessione/form e `moodle/course:reset` restano nella pagina Moodle di reset corso. Non si
+introducono servizi AJAX o endpoint web diretti. Il reset per studente dal report conserva gli specifici
+controlli report completo/gestione/sesskey/scope.
 
-`tests/lifecycle_integration_test.php` usa controller Moodle reali di backup/restore e un nuovo corso di
-destinazione. Segue il modello sincrono dei test backup di Moodle sui rami 500/503. `MODE_IMPORT` conserva
-la vera struttura XML/file temporanea evitando la compressione: non è una certificazione indipendente di
-download/estrazione MBZ, importazione tra siti o compatibilità con backup storici.
+L'opzione VideoTrack cancella le cinque famiglie di dati studente e i valori voto del modulo, conservando
+impostazioni, definizioni reazioni e file condivisi. La completion nativa resta controllata dalla separata
+opzione Moodle di reset completion: il caso positivo la seleziona esplicitamente. Il reset globale gradebook
+resta disattivato, così il test esercita proprio il percorso di reset voti del plugin.
 
-| Caso | Confini persistiti verificati |
+## Casi reali di integrazione
+
+| Caso | Evidenza e perimetro |
 |---|---|
-| Senza dati utente | Override pause/durata, mapping Forum collegato, reazione soft-deleted e relativo file icona, un solo grade item canonico, sette aree file condivise con due lingue di trascrizione; nessun dato studente plugin, voto o completion copiato; record studente plugin di origine invariati. |
-| Con dati utente | Il backup include righe vecchie e recenti con retention illimitata; la policy viene ristretta prima del restore. Le righe scadute sono escluse, quelle non validate non gonfiano lo stato, aggregate/completion obsolete sono ricostruite, i record puntano al nuovo corso/modulo, Privacy API esporta solo lo studente approvato, la cancellazione utente conserva l'altro studente, quella di contesto elimina il resto, configurazione/file condivisi e voti di competenza core restano, i record studente plugin di origine sono invariati. |
+| Backup/restore senza studenti | Accettato sulla 251: controller corso reali, configurazione condivisa, mapping Forum/reazioni/file, grade item canonico; dati studente/voti/completion esclusi e record plugin di origine conservati. |
+| Backup/restore con studenti e privacy dopo il ripristino | Accettato sulla 251: la retention di destinazione esclude gli input scaduti; segmenti non validati e aggregate/completion obsolete non restituiscono credito; verificati export utente approvato, cancellazione utente/contesto e conservazione altri studenti/origine/file/voti di competenza core. |
+| Reset corso standard con opzione disattivata/attivata | Nuovo nella 252, in attesa di CI nativa. Invoca la vera funzione reset Moodle: prima VideoTrack disattivato, poi attivato su due attività nello stesso corso. Verifica stato modulo, configurazione/definizioni/file conservati, dati studente/voti azzerati e nessuna completion completa quando è selezionato il reset completion core. Un secondo corso conserva esattamente i record studente plugin. |
+| Cancellazione sincrona attività | Nuovo nella 252, in attesa di CI nativa. Invoca l'API pubblica Moodle: verifica rimozione attività, sei tabelle figlie plugin, completion nativa, file/contesto e grade item/voti propri. Restano il Forum collegato e l'attività vicina nello stesso corso, con dati studente/configurazione/file. |
 
-La fixture contiene deliberatamente stato/completion completi ma obsoleti, segmenti validati conservati e
-segmenti non validati, reazioni/note/segnalibri, eventi integrità e versioni della presa visione. Sono input di
-test: non si dichiara che li abbia prodotti un browser. Le evidenze browser reali restano nella suite U-007
-accettata. Entrambi i nuovi casi sono passati nei sei report della candidata iniziale.
+Il test cancellazione usa `core_courseformat\formatactions::cm()->delete()` quando esiste l'implementazione
+`cmactions::delete()`; sui rami precedenti usa `course_delete_module()`. Moodle 5.2+ depreca l'helper globale:
+nessuna deprecazione viene soppressa. I casi backup esistenti conservano il percorso fixture predefinito;
+l'helper accetta un corso esistente opzionale solo per le nuove prove di isolamento nello stesso corso.
 
-Suite iniziale misurata: **381 test PHPUnit / 4296 asserzioni**, **52 scenari Behat / 1154 passi** e strict
-**10/0/0** in ogni artifact fornito. Gli hash corrispondono al commit
-`4edd6f3b7829e9a2db6eb8800ece2bd53508bf24`, run `43204216972`, tentativo 1. La CI complessiva è bloccata
-da nove errori PSR12 in tre intestazioni `foreach` multilinea del nuovo test. La correzione della stessa
-versione cambia soltanto spaziatura e posizioni nei callable; nessuna asserzione, logica di produzione o
-regola CI cambia. La CI completa della candidata corretta è in attesa. Totali attesi invariati:
-**381/4296** e **52/1154**. L'albero corrente contiene **415 file**, **167 file PHP**,
-**1110 callable PHP nominati**, **654 callable AMD**, **346 righe inventario file** e **32 documenti per
-lingua**. XMLDB resta `2026110601`, 7 tabelle / 151 campi / 22 indici / 22 chiavi esterne; nove servizi AJAX,
-otto pacchetti da 997 chiavi e 48 terne sorgente/build/map AMD sono invariati. L'ER cambia solo etichetta versione.
+Sono vere integrazioni framework/DB, senza dichiarare che il browser abbia prodotto i record della fixture.
+I test backup usano `MODE_IMPORT`, con XML/file reali e senza compressione. Non certificano download/estrazione
+MBZ, migrazione tra siti o compatibilità backup storici. I nuovi test reset/delete devono passare la CI nativa;
+contratti e applicazione patch locali non ne dimostrano l'esecuzione nativa.
 
-## Stato del gate di produzione
+Suite candidata attesa: **383 metodi test PHPUnit**; il totale asserzioni va misurato nella CI nativa.
+Behat resta a **52 scenari / 1154 passi**. L'albero conserva **415 file**, **167 PHP**, **32 documenti per
+lingua**, **346 righe inventario file** e **654 callable AMD**. I callable PHP nominati diventano **1113**:
+un callback standard e due metodi test. XMLDB resta `2026110601`, **7/151/22/22** per tabelle, campi, indici e
+chiavi esterne. Nove servizi AJAX, otto lingue da 997 chiavi e 48 terne sorgente/build/map AMD restano invariati;
+l'ER cambia solo etichetta versione. Nessun valore lingua, grant, policy tracking/player, implementazione
+privacy/backup/restore, aggregazione SQL o regola CI cambia.
 
-| Area | Evidenza e limite residuo |
-|---|---|
-| Pacchetto esatto, schema, servizi, contratti lingue/build | La 250 reale è accettata. Per la 251 servono ancora CI candidata, CI dopo merge e accettazione pacchetto/server/strict reali. |
-| Installazione nuova e matrice Moodle supportata | Coperte dalla normale installazione/validazione CI su 5.0–5.3; non dedurne un upgrade storico eseguito. |
-| Upgrade storico/interrotto e uninstall completo | Restano contratti sorgente e test mirati esistenti. Upgrade storico/uninstall su sito eliminabile, con verifica zero residui, restano osservazioni di produzione distinte. |
-| Backup/restore e privacy dopo il ripristino | Duplicazione impostazioni e test privacy circoscritti superati sulla 250. I due nuovi casi tra corsi sono in attesa sulla 251. |
-| Reset corso/studente, ruoli/gruppi, completion nativa | Restano i contratti unit/browser accettati, compresi i due casi POST reali di reset della 250. |
-| Retention | Restano i test cancellazione/ricostruzione; qui si aggiunge l'integrazione con policy di destinazione. Non si dichiarano prove sui tempi scheduler o fault injection. |
-| Analytics e benchmark | SQL/indici/scope/aggregazioni invariati. Nessun nuovo benchmark eseguito o dedotto dal numero dei test/query. Le osservazioni su dataset ampio, più attività/gruppi e periodi 7/30/90 giorni vanno registrate con versioni e condizioni dati/cache dove richiesto dal gate finale di deployment. |
-| Accessibilità manuale U-020 | Restano otto PASS dichiarati sulla 248 / Moodle 5.0 / Academi / Windows 11 / Chrome / NVDA entro quello scope. Le osservazioni Moodle 5.3 non sono registrate; nessuna nuova esecuzione manuale o certificazione WCAG è dedotta. |
-| Moodle App | Non è dichiarato supporto dedicato (`db/mobile.php` conserva la lista addon vuota). La decisione su perimetro/supporto segue il gate web residuo; nessuna parità WebView/nativa/offline è dichiarata. |
+## Gate di produzione residuo e roadmap
 
-U-017 e U-007 essenziale restano chiusi. Questa release avanza le evidenze integrate sul ciclo di vita;
-non chiude con la sola documentazione l'intero gate, le osservazioni manuali rinviate o la decisione App.
-Non aggiungere refactoring cosmetici o release artificiali per simulare il completamento di un gate.
+- Nuove installazioni e matrice Moodle supportata usano la normale CI; non ne deriva un upgrade storico eseguito.
+- Upgrade storici/interrotti e uninstall completo con dati e verifica zero residui restano evidenze distinte;
+  i test upgrade/uninstall mirati non certificano ogni storia di deployment.
+- I test retention esistenti restano accettati; nessuna nuova prova scheduler o fault injection è dichiarata.
+- SQL/indici/scope Analytics sono invariati. Nessun benchmark eseguito o dedotto da test/query; le osservazioni
+  richieste su dataset ampio/più attività/gruppi/7/30/90 giorni vanno registrate con versioni e condizioni dati/cache.
+- Restano otto PASS manuali dichiarati sulla 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA nel loro scope;
+  Moodle 5.3 non è registrato. Non si deducono nuovi PASS manuali o certificazioni WCAG.
+- Il supporto Moodle App dedicato non è dichiarato (`db/mobile.php` ha addon vuoti); nessuna parità nativa/WebView/offline è promessa.
 
-## Release e ordine della roadmap
+U-017 e U-007 essenziale restano chiusi. Completare il precedente lavoro integrato web/ciclo vita/privacy/
+benchmark/manuale e la decisione App esplicita, poi VTT multilingua concordati, base autenticata per provider,
+OneDrive/SharePoint → Zoom Cloud Recording → Google Drive e consolidamento tra provider. La release avanza
+specifiche evidenze sul ciclo di vita, senza chiudere l'intero gate con la documentazione.
 
-Usare la CI candidata e i normali controlli server PHPCS/lint/Grunt/PHPUnit: includono i nuovi test.
-Mantenere la stessa release per le correzioni della candidata. Accettare una baseline solo dal relativo ZIP
-reale dopo merge, report e strict. Upgrade storico/uninstall, benchmark e osservazioni manuali di deployment
-restano evidenze esplicite, senza compilare risultati attesi come se fossero prove eseguite.
-
-Completare il precedente lavoro web/ciclo vita/privacy/benchmark/manuale e la decisione App esplicita; poi
-implementare i sottotitoli VTT multilingua concordati. Proseguire con base autenticata per provider,
-OneDrive/SharePoint → Zoom Cloud Recording → Google Drive e consolidamento tra provider.
-
-Vedere [ciclo di vita](14_INSTALL_UPGRADE_BACKUP_RESTORE.md), [privacy](18_PRIVACY_RETENTION.md),
-[CLI/benchmark](21_CLI_DIAGNOSTICS.md), [evidenze manuali](19_ACCESSIBILITY.md),
-[revisione lingue](27_REVISIONE_LINGUE.md) e [uscita browser](26_USCITA_BROWSER.md).
+Vedere [ciclo di vita](14_INSTALL_UPGRADE_BACKUP_RESTORE.md), [permessi](13_SECURITY_TRUST_BOUNDARIES.md),
+[privacy](18_PRIVACY_RETENTION.md), [CLI/benchmark](21_CLI_DIAGNOSTICS.md), [evidenze manuali](19_ACCESSIBILITY.md)
+e [revisione lingue](27_REVISIONE_LINGUE.md).

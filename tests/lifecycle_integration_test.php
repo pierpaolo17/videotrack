@@ -130,17 +130,145 @@ final class lifecycle_integration_test extends \advanced_testcase {
     }
 
     /**
+     * Moodle's actual course-reset entry point discovers the callback and honours its opt-in flag.
+     */
+    public function test_standard_course_reset_honours_selection_and_preserves_other_courses(): void {
+        global $CFG, $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        require_once($CFG->dirroot . '/course/lib.php');
+        $first = $this->create_fixture();
+        $second = $this->create_fixture($first['course']);
+        $other = $this->create_fixture();
+        $targets = [$first, $second];
+        $otherrecords = $this->snapshot((int)$other['activity']->id);
+        $snapshots = [];
+        foreach ($targets as $fixture) {
+            $activityid = (int)$fixture['activity']->id;
+            $snapshots[$activityid] = [
+                'records' => $this->snapshot($activityid),
+                'activity' => $DB->get_record('videotrack', ['id' => $activityid], '*', MUST_EXIST),
+                'definitions' => $DB->get_records('videotrack_react', ['videotrackid' => $activityid], 'id'),
+                'files' => $DB->get_records('files', [
+                    'contextid' => $fixture['context']->id, 'component' => 'mod_videotrack',
+                ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'),
+            ];
+            $this->assertTrue($DB->record_exists('course_modules_completion', [
+                'coursemoduleid' => $fixture['activity']->cmid, 'completionstate' => COMPLETION_COMPLETE,
+            ]));
+        }
+        $courseid = (int)$first['course']->id;
+        $status = \reset_course_userdata((object)[
+            'id' => $courseid, 'reset_videotrack_userdata' => 0, 'reset_completion' => 0,
+        ]);
+        $component = get_string('modulename', 'mod_videotrack');
+        $this->assertSame([], array_values(array_filter($status, static fn($row) => $row['component'] === $component)));
+        foreach ($targets as $fixture) {
+            $activityid = (int)$fixture['activity']->id;
+            $this->assertEquals($snapshots[$activityid]['records'], $this->snapshot($activityid));
+        }
+        $status = \reset_course_userdata((object)[
+            'id' => $courseid, 'reset_videotrack_userdata' => 1, 'reset_completion' => 1,
+            'reset_gradebook_items' => 0, 'reset_gradebook_grades' => 0,
+        ]);
+        $this->assertContains([
+            'component' => $component, 'item' => get_string('reset:userdata', 'mod_videotrack'), 'error' => false,
+        ], $status);
+        foreach ($targets as $fixture) {
+            $activityid = (int)$fixture['activity']->id;
+            foreach (array_keys($snapshots[$activityid]['records']) as $table) {
+                $this->assertFalse($DB->record_exists($table, ['videotrackid' => $activityid]), $table);
+            }
+            $this->assertEquals($snapshots[$activityid]['activity'], $DB->get_record('videotrack', ['id' => $activityid]));
+            $this->assertEquals($snapshots[$activityid]['definitions'], $DB->get_records(
+                'videotrack_react', ['videotrackid' => $activityid], 'id'
+            ));
+            $this->assertEquals($snapshots[$activityid]['files'], $DB->get_records('files', [
+                'contextid' => $fixture['context']->id, 'component' => 'mod_videotrack',
+            ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'));
+            $this->assertFalse($DB->record_exists_select(
+                'course_modules_completion',
+                'coursemoduleid = :cmid AND completionstate <> :incomplete',
+                ['cmid' => $fixture['activity']->cmid, 'incomplete' => COMPLETION_INCOMPLETE]
+            ));
+            $item = $DB->get_record('grade_items', [
+                'courseid' => $courseid, 'itemmodule' => 'videotrack',
+                'iteminstance' => $activityid, 'itemnumber' => 0,
+            ], '*', MUST_EXIST);
+            $this->assertFalse($DB->record_exists_select(
+                'grade_grades',
+                'itemid = :itemid AND (rawgrade IS NOT NULL OR finalgrade IS NOT NULL)',
+                ['itemid' => $item->id]
+            ));
+        }
+        $this->assertEquals($otherrecords, $this->snapshot((int)$other['activity']->id));
+    }
+
+    /**
+     * Actual Moodle activity deletion removes its owned records and leaves a neighbouring activity intact.
+     */
+    public function test_activity_deletion_removes_owned_records_without_touching_its_neighbour(): void {
+        global $CFG, $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        require_once($CFG->dirroot . '/course/lib.php');
+        $fixture = $this->create_fixture();
+        $other = $this->create_fixture($fixture['course']);
+        $activityid = (int)$fixture['activity']->id;
+        $otherid = (int)$other['activity']->id;
+        $otherrecords = $this->snapshot($otherid);
+        $otheractivity = $DB->get_record('videotrack', ['id' => $otherid], '*', MUST_EXIST);
+        $otherfiles = $DB->get_records('files', [
+            'contextid' => $other['context']->id, 'component' => 'mod_videotrack',
+        ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash');
+        $itemid = (int)$DB->get_field('grade_items', 'id', [
+            'courseid' => $fixture['course']->id, 'itemmodule' => 'videotrack',
+            'iteminstance' => $activityid, 'itemnumber' => 0,
+        ], MUST_EXIST);
+        $tables = array_keys($this->snapshot($activityid));
+        $tables[] = 'videotrack_react';
+        if (method_exists(\core_courseformat\local\cmactions::class, 'delete')) {
+            \core_courseformat\formatactions::cm((int)$fixture['course']->id)->delete((int)$fixture['activity']->cmid, false);
+        } else {
+            \course_delete_module((int)$fixture['activity']->cmid, false);
+        }
+        foreach ($tables as $table) {
+            $this->assertFalse($DB->record_exists($table, ['videotrackid' => $activityid]), $table);
+        }
+        $this->assertFalse($DB->record_exists('videotrack', ['id' => $activityid]));
+        $this->assertFalse($DB->record_exists('course_modules', ['id' => $fixture['activity']->cmid]));
+        $this->assertFalse($DB->record_exists('course_modules_completion', ['coursemoduleid' => $fixture['activity']->cmid]));
+        $this->assertFalse($DB->record_exists('context', ['id' => $fixture['context']->id]));
+        $this->assertFalse($DB->record_exists('files', [
+            'contextid' => $fixture['context']->id, 'component' => 'mod_videotrack',
+        ]));
+        $this->assertFalse($DB->record_exists('grade_items', ['id' => $itemid]));
+        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => $itemid]));
+        $this->assertTrue($DB->record_exists('forum', [
+            'id' => $fixture['activity']->linkedforumid, 'course' => $fixture['course']->id,
+        ]));
+        $this->assertEquals($otherrecords, $this->snapshot($otherid));
+        $this->assertEquals($otheractivity, $DB->get_record('videotrack', ['id' => $otherid]));
+        $this->assertEquals($otherfiles, $DB->get_records('files', [
+            'contextid' => $other['context']->id, 'component' => 'mod_videotrack',
+        ], 'id', 'id, contextid, filearea, itemid, filepath, filename, contenthash'));
+    }
+
+    /**
      * Build a populated course with both shared configuration and independent learner evidence.
      *
+     * @param \stdClass|null $course Existing course, or null to create an independent course.
      * @return array Course, activity, reaction id, files and users.
      */
-    private function create_fixture(): array {
+    private function create_fixture(?\stdClass $course = null): array {
         global $CFG, $DB;
 
         require_once($CFG->libdir . '/gradelib.php');
         set_config('retentionperioddays', 0, 'mod_videotrack');
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['enablecompletion' => 1]);
+        $course = $course ?? $generator->create_course(['enablecompletion' => 1]);
         $forum = $generator->create_module('forum', ['course' => $course->id, 'name' => 'Lifecycle Forum']);
         $module = $generator->create_module('videotrack', [
             'course' => $course->id, 'name' => 'Lifecycle VideoTrack', 'behathtml5fixture' => 1,
