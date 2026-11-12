@@ -162,15 +162,17 @@ final class lifecycle_integration_test extends \advanced_testcase {
         ]);
         $vtt = "WEBVTT\n\n00:00.000 --> 00:01.000\nLifecycle\n";
         $image = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jrS8AAAAASUVORK5CYII=');
-        foreach ([
-            ['intro', 0, 'shared.txt', 'Shared introduction'],
-            ['subtitles', 0, 'captions_it.vtt', $vtt],
-            ['transcripts', 0, 'transcript_it.vtt', $vtt],
-            ['transcripts', 0, 'transcript_en.vtt', str_replace('Lifecycle', 'English lifecycle', $vtt)],
-            ['chapters', 0, 'chapters_it.vtt', $vtt],
-            ['posterimage', 0, 'poster.png', $image],
-            ['reactionicon', $reactionid, 'reaction.png', $image],
-        ] as [$area, $itemid, $filename, $content]) {
+        foreach (
+            [
+                ['intro', 0, 'shared.txt', 'Shared introduction'],
+                ['subtitles', 0, 'captions_it.vtt', $vtt],
+                ['transcripts', 0, 'transcript_it.vtt', $vtt],
+                ['transcripts', 0, 'transcript_en.vtt', str_replace('Lifecycle', 'English lifecycle', $vtt)],
+                ['chapters', 0, 'chapters_it.vtt', $vtt],
+                ['posterimage', 0, 'poster.png', $image],
+                ['reactionicon', $reactionid, 'reaction.png', $image],
+            ] as [$area, $itemid, $filename, $content]
+        ) {
             get_file_storage()->create_file_from_string([
                 'contextid' => $context->id, 'component' => 'mod_videotrack', 'filearea' => $area,
                 'itemid' => $itemid, 'filepath' => '/', 'filename' => $filename,
@@ -242,10 +244,12 @@ final class lifecycle_integration_test extends \advanced_testcase {
             'uniquecoveredseconds' => 100, 'completionpercent' => 100, 'intervaljson' => '[[0,100]]',
             'iscompleted' => 1, 'timecreated' => $old, 'timemodified' => $recent,
         ]));
-        foreach ([
-            ['reaction', $reactionid, $recent], ['note', 0, $recent],
-            ['bookmark', 0, $recent], ['note', 0, $old],
-        ] as [$type, $definition, $timestamp]) {
+        foreach (
+            [
+                ['reaction', $reactionid, $recent], ['note', 0, $recent],
+                ['bookmark', 0, $recent], ['note', 0, $old],
+            ] as [$type, $definition, $timestamp]
+        ) {
             $DB->insert_record('videotrack_reactev', (object)($common + [
                 'sessionid' => 'lifecycle' . $userid, 'reactionid' => $definition,
                 'reactionkey' => $definition ? 'lifecycle' : '', 'reactionlabel' => $definition ? 'Historical reaction' : '',
@@ -347,9 +351,11 @@ final class lifecycle_integration_test extends \advanced_testcase {
         ], '*', MUST_EXIST);
         $this->assertNotSame($fixture['reactionid'], (int)$reaction->id);
         $this->assertSame(1, (int)$reaction->isdeleted);
-        foreach ($DB->get_records('videotrack_reactev', [
-            'videotrackid' => $copy->id, 'reactionkey' => 'lifecycle',
-        ]) as $event) {
+        foreach (
+            $DB->get_records('videotrack_reactev', [
+                'videotrackid' => $copy->id, 'reactionkey' => 'lifecycle',
+            ]) as $event
+        ) {
             $this->assertSame((int)$reaction->id, (int)$event->reactionid);
         }
         $cm = get_coursemodule_from_instance('videotrack', $copy->id, $courseid, false, MUST_EXIST);

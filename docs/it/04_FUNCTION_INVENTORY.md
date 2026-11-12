@@ -1567,10 +1567,10 @@ Generato dall’albero sorgente VideoTrack 1.7.250. Le voci PHP includono funzio
 | `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Esegue un ripristino reale senza utenti e verifica configurazione, file, assenza di dati studente e isolamento origine. |
 | `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Esegue un ripristino con utenti e retention destinazione, poi verifica stato ricostruito, export e cancellazione circoscritta. |
 | `tests/lifecycle_integration_test.php:137` | `create_fixture` | Crea corso, Forum collegato, fixture video caricato, reazione storica, file condivisi e due studenti. |
-| `tests/lifecycle_integration_test.php:219` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
-| `tests/lifecycle_integration_test.php:277` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
-| `tests/lifecycle_integration_test.php:326` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
-| `tests/lifecycle_integration_test.php:387` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
+| `tests/lifecycle_integration_test.php:221` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
+| `tests/lifecycle_integration_test.php:281` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
+| `tests/lifecycle_integration_test.php:330` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
+| `tests/lifecycle_integration_test.php:393` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
 | `tests/locallib_test.php:62` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

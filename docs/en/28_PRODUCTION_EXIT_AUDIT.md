@@ -38,10 +38,14 @@ MBZ-download/extract, cross-site import or historical-backup compatibility certi
 The fixture deliberately contains stale complete state and completion rows, retained validated segments,
 unvalidated segments, reaction/note/bookmark events, integrity events and acknowledgement versions. These
 records are test inputs, not a claim that a browser generated them. Real browser tracking evidence remains
-the accepted U-007 suite. The two new cases require native candidate CI before their results can be accepted.
+the accepted U-007 suite. Both new cases passed in all six initial candidate reports.
 
-Expected candidate suite: **381 PHPUnit test methods**; assertion totals must be measured by native CI.
-Behat remains **52 scenarios / 1154 steps**. The current tree contains **415 files**, **167 PHP files**,
+Initial measured suite: **381 PHPUnit tests / 4296 assertions**, **52 Behat scenarios / 1154 steps** and
+strict **10/0/0** in each supplied artifact. Their hashes match commit
+`4edd6f3b7829e9a2db6eb8800ece2bd53508bf24`, run `43204216972` attempt 1. Overall CI is blocked by nine
+PSR12 errors in three multiline `foreach` headers in this test file. The same-version correction changes
+only their whitespace and callable locations; no assertion, production logic or CI rule changes. Complete
+corrected-candidate CI remains pending. Expected test totals stay **381/4296** and **52/1154**. The current tree contains **415 files**, **167 PHP files**,
 **1110 named PHP callables**, **654 AMD callables**, **346 file-inventory rows** and **32 documents per
 language**. XMLDB remains `2026110601`, 7 tables / 151 fields / 22 indexes / 22 foreign keys; nine AJAX
 services, eight packs of 997 keys and 48 AMD source/build/map sets are unchanged. ER changes only its version label.

@@ -27,8 +27,14 @@
   scoped; Moodle 5.3 manual observations and final deployment gates stay
   explicit. U-017/U-007 remain closed; finish earlier web/App work before
   agreed VTT subtitles and authenticated OneDrive/SharePoint, Zoom, Drive.
-- Expected candidate suite: 381 PHPUnit methods, assertion count to be
-  measured by native CI; Behat 52/1154 unchanged. All production logic,
+- All six initial candidate reports on `4edd6f3` pass PHPUnit 381/4296,
+  Behat 52/1154 and strict 10/0/0. The overall CI is blocked by nine PSR12
+  formatting errors in three multiline foreach headers in the new test.
+  Correct their whitespace only and update both callable inventories.
+  Assertions, production logic and CI rules are unchanged; a complete
+  successful run of the corrected candidate is required before merge.
+- Expected corrected suite: 381 PHPUnit tests / 4296 assertions and
+  Behat 52/1154, based on the actual initial execution. All production logic,
   language values, role grants, XMLDB 7/151/22/22, nine services, AMD and
   CI rules are unchanged. ER changes only its version label. Native
   candidate/merged CI and actual ZIP/server/strict acceptance remain required.

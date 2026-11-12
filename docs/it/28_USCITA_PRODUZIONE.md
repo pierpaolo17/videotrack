@@ -39,10 +39,15 @@ download/estrazione MBZ, importazione tra siti o compatibilità con backup stori
 La fixture contiene deliberatamente stato/completion completi ma obsoleti, segmenti validati conservati e
 segmenti non validati, reazioni/note/segnalibri, eventi integrità e versioni della presa visione. Sono input di
 test: non si dichiara che li abbia prodotti un browser. Le evidenze browser reali restano nella suite U-007
-accettata. Prima di accettare i risultati dei due nuovi casi serve la CI nativa della candidata.
+accettata. Entrambi i nuovi casi sono passati nei sei report della candidata iniziale.
 
-Suite candidata attesa: **381 metodi test PHPUnit**; il totale asserzioni va misurato nella CI nativa.
-Behat resta a **52 scenari / 1154 passi**. L'albero corrente contiene **415 file**, **167 file PHP**,
+Suite iniziale misurata: **381 test PHPUnit / 4296 asserzioni**, **52 scenari Behat / 1154 passi** e strict
+**10/0/0** in ogni artifact fornito. Gli hash corrispondono al commit
+`4edd6f3b7829e9a2db6eb8800ece2bd53508bf24`, run `43204216972`, tentativo 1. La CI complessiva è bloccata
+da nove errori PSR12 in tre intestazioni `foreach` multilinea del nuovo test. La correzione della stessa
+versione cambia soltanto spaziatura e posizioni nei callable; nessuna asserzione, logica di produzione o
+regola CI cambia. La CI completa della candidata corretta è in attesa. Totali attesi invariati:
+**381/4296** e **52/1154**. L'albero corrente contiene **415 file**, **167 file PHP**,
 **1110 callable PHP nominati**, **654 callable AMD**, **346 righe inventario file** e **32 documenti per
 lingua**. XMLDB resta `2026110601`, 7 tabelle / 151 campi / 22 indici / 22 chiavi esterne; nove servizi AJAX,
 otto pacchetti da 997 chiavi e 48 terne sorgente/build/map AMD sono invariati. L'ER cambia solo etichetta versione.
