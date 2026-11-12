@@ -98,3 +98,12 @@ do not reinstall over a partially removed module without first measuring the res
 XMLDB `2026110601` adds two NOT NULL integer fields with default `0` to `videotrack`. The guarded upgrade adds only missing fields and keeps existing rows. Zero selects the new duration-derived policy; it does not freeze the previous site interval. Backup includes both raw overrides; restore normalises them and assigns automatic defaults to older backups. Actual Moodle duplication is covered by a new candidate test. No new user data, index or relationship is introduced.
 
 The duplication regression uses `core_courseformat\formatactions::cm()->duplicate()` when `cmactions::duplicate()` exists; Moodle 5.0/5.1 retain the supported `duplicate_module()` helper. Both paths perform actual backup/restore and retain the same setting assertions; no deprecation suppression is introduced.
+
+## Per-student report reset authorisation
+
+The reset POST requires full report access, `mod/videotrack:managereactions`, a valid sesskey and a learner
+inside the viewer's scope before deletion. This matches the existing button gate. Viewing permission alone
+does not authorise reset. The technical capability/role grants remain unchanged; activity reaction editing
+continues to use Moodle's separate activity-editing permission. Read-only reports, grades, ownership, group
+scope and all other mutation paths retain their existing rules. The direct-POST denial and authorised reset
+scenarios are candidate regressions awaiting native CI; see the [current review](27_LANGUAGE_REVIEW.md).

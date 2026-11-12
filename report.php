@@ -1938,6 +1938,7 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_sesskey();
     $resetuserid = required_param('resetuserid', PARAM_INT);
     require_capability('mod/videotrack:viewreport', $context);
+    require_capability('mod/videotrack:managereactions', $context);
     if (
         $resetuserid <= 0
         || !\mod_videotrack\local\learner_scope::user_is_visible(

@@ -17,7 +17,7 @@ Moodle nel contesto corretto e uno stesso utente può avere legittimamente perme
 | `mod/videotrack:exportaggregatereport` | Modulo | Esportare dati aggregati. |
 | `mod/videotrack:exportindividualreport` | Modulo | Esportare dati personali learner. |
 | `mod/videotrack:viewcoursereport` | Corso | Aprire la dashboard VideoTrack del corso. |
-| `mod/videotrack:managereactions` | Modulo | Gestire definizioni reazioni. |
+| `mod/videotrack:managereactions` | Modulo | Reimpostare dal report completo i dati attività di uno studente visibile; chiave tecnica storica conservata. |
 | `mod/videotrack:grade` | Modulo | Gestire voti VideoTrack. |
 | `mod/videotrack:overrideplayersettings` | Corso | Superare i default player imposti dal sito. |
 | `mod/videotrack:overridecompletionsettings` | Corso | Superare i default completion VideoTrack del sito. |
@@ -45,3 +45,12 @@ bypassa scheda nascosta, credito playback, completion o report.
 - revocare le capability override quando la policy deve essere centralizzata;
 - testare ruoli personalizzati e doppi dopo modifiche ai permessi;
 - verificare scope gruppo/cohort prima di interpretare o esportare dati.
+
+## Autorizzazione reset del singolo studente nel report
+
+Il POST reset richiede accesso completo al report, `mod/videotrack:managereactions`, sesskey valido e studente
+nello scope del lettore prima di cancellare. Corrisponde al gate già usato dal pulsante. Il solo permesso di
+lettura non autorizza il reset. Chiave capability e grant restano invariati; le definizioni delle reazioni
+seguono il distinto permesso Moodle di modifica attività. Report in lettura, voti, ownership, gruppi e altre
+mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato attendono CI nativa:
+vedere la [review corrente](27_REVISIONE_LINGUE.md).

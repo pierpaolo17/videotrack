@@ -48,12 +48,15 @@ I test automatici proteggono la struttura ma non sostituiscono percezione e tecn
 
 ## Protocollo evidenze manuali U-020
 
-**Stato: APERTO / NON ESEGUITO.** L’accettazione automatica U-007 è nell’[audit uscita browser](26_USCITA_BROWSER.md).
-Questo protocollo prepara osservazioni reali: non contiene esiti manuali completati né certificazione accessibilità.
+**Stato: COPERTURA PARZIALE.** Il manutentore dichiara M01–M08 PASS su VideoTrack 1.7.248,
+Moodle 5.0, Academi, Windows 11, Chrome e NVDA. Non è registrata copertura manuale su Moodle 5.3.
+L’accettazione automatica U-007 è nell’[audit uscita browser](26_USCITA_BROWSER.md).
 
-U-020 resta aperto ed è **rinviato su richiesta del maintainer (2026-11-10)**. Questa modifica non
-esegue né approva alcun caso manuale. Il lavoro indipendente sulle lingue può proseguire; il gate finale
-di produzione richiede ancora l’audit manuale e le eventuali correzioni.
+Evidenza ricevuta 2026-11-11: checklist compilata con SHA-256
+`5048bbc2b19b2c36c44a7b4b091a76f5c55bd2d834a0c5e3444047b4a9562444`, con ambiente comunicato
+dal manutentore nei messaggi successivi. Versioni esatte browser/tema/NVDA e data prova non sono state fornite.
+Si registrano le osservazioni per tale ambiente, senza certificare WCAG o esecuzioni manuali su 249/250.
+Non sono stati segnalati fallimenti manuali da correggere. Il problema distinto sui permessi reset emerge dal codice.
 
 ### Registrare l’ambiente provato
 
@@ -70,18 +73,18 @@ provate finché non registrate; non dedurle dai sei ambienti CI Chrome.
 ### Matrice di osservazione
 
 Ripetere le righe applicabili per ogni ambiente registrato. Usare PASS, FAIL, BLOCCATO o N/A con motivo ed
-evidenza. Lo stato iniziale di tutte le righe sotto è **NON ESEGUITO**.
+evidenza. Le righe sotto registrano i risultati dichiarati dal manutentore per l’ambiente Moodle 5.0 indicato.
 
-| Id | Azione su VideoTrack | Osservazione attesa | Stato iniziale |
+| Id | Azione su VideoTrack | Osservazione attesa | Esito dichiarato, Moodle 5.0 |
 |---|---|---|---|
-| M01 | Percorrere player, timed text, interazioni e report con Tab/Shift+Tab; attivare con Invio/Spazio | Ordine logico, nomi significativi, una sola azione prevista e nessuna trappola tastiera | NON ESEGUITO |
-| M02 | Aggiungere/rimuovere nota o bookmark, aprire/chiudere storici ed entrare/uscire dal composer Forum | Focus identificabile e ritorno a un controllo sensato; stato salvato ed errori reperibili | NON ESEGUITO |
-| M03 | Ascoltare screen reader su play/pausa, completamento, errori form e avvisi transitori/persistenti | Nomi, ruoli e stati coerenti; cambi di stato pertinenti annunciati senza forzare il focus | NON ESEGUITO |
-| M04 | Verificare contenuti ordinari a zoom 100%/400% e larghezza 320 pixel CSS | Testo/form a capo senza controlli persi o normale scrolling su due assi; tabelle realmente bidimensionali possono avere area di scroll propria usabile | NON ESEGUITO |
-| M05 | Attivare alto contrasto/colori forzati del sistema operativo | Focus, bordi, stati pulsanti e testo distinguibili e usabili | NON ESEGUITO |
-| M06 | Usare controlli HTML5 e iframe pubblici YouTube/Vimeo configurati, sottotitoli, trascrizione e capitoli | Entrata/uscita da tastiera; testi forniti coerenti col contenuto; descrizioni contenuto mancanti e restrizioni provider annotate separatamente | NON ESEGUITO |
-| M07 | Provare presa visione libera/solo fine e intervallo attenzione abilitato 60–60 secondi | Stati disabilitati/disponibili e motivi comprensibili; messaggio pausa percepibile e ripresa manuale operabile | NON ESEGUITO |
-| M08 | Confrontare studente, solo docente e doppio ruolo; usare report gruppo consentito e selettore studente | Stati di sola lettura/abilitati e selezione/dati comprensibili con tastiera e screen reader | NON ESEGUITO |
+| M01 | Percorrere player, timed text, interazioni e report con Tab/Shift+Tab; attivare con Invio/Spazio | Ordine logico, nomi significativi, una sola azione prevista e nessuna trappola tastiera | PASS (dichiarato) |
+| M02 | Aggiungere/rimuovere nota o bookmark, aprire/chiudere storici ed entrare/uscire dal composer Forum | Focus identificabile e ritorno a un controllo sensato; stato salvato ed errori reperibili | PASS (dichiarato) |
+| M03 | Ascoltare screen reader su play/pausa, completamento, errori form e avvisi transitori/persistenti | Nomi, ruoli e stati coerenti; cambi di stato pertinenti annunciati senza forzare il focus | PASS (dichiarato) |
+| M04 | Verificare contenuti ordinari a zoom 100%/400% e larghezza 320 pixel CSS | Testo/form a capo senza controlli persi o normale scrolling su due assi; tabelle realmente bidimensionali possono avere area di scroll propria usabile | PASS (dichiarato) |
+| M05 | Attivare alto contrasto/colori forzati del sistema operativo | Focus, bordi, stati pulsanti e testo distinguibili e usabili | PASS (dichiarato) |
+| M06 | Usare controlli HTML5 e iframe pubblici YouTube/Vimeo configurati, sottotitoli, trascrizione e capitoli | Entrata/uscita da tastiera; testi forniti coerenti col contenuto; descrizioni contenuto mancanti e restrizioni provider annotate separatamente | PASS (dichiarato) |
+| M07 | Provare presa visione libera/solo fine e intervallo attenzione abilitato 60–60 secondi | Stati disabilitati/disponibili e motivi comprensibili; messaggio pausa percepibile e ripresa manuale operabile | PASS (dichiarato) |
+| M08 | Confrontare studente, solo docente e doppio ruolo; usare report gruppo consentito e selettore studente | Stati di sola lettura/abilitati e selezione/dati comprensibili con tastiera e screen reader | PASS (dichiarato) |
 
 Per M07 impostare i due campi attenzione facoltativi dell’attività a 60 secondi, abilitare l’interruttore
 esistente ed evitare interazioni riconosciute durante l’intero minuto di riproduzione. Usare durata/velocità
@@ -101,7 +104,7 @@ Copiare una riga per ciascun risultato osservato:
 
 | Pacchetto/commit | Moodle/tema | OS/browser/screen reader | Provider/ruolo | Caso | Esito | Osservazione reale / passi riproducibili | Riferimento evidenza |
 |---|---|---|---|---|---|---|---|
-| Da registrare | Da registrare | Da registrare | Da registrare | M01–M08 | NON ESEGUITO | Da registrare | Da registrare |
+| 1.7.248 (dichiarata) | Moodle 5.0 / Academi | Windows 11 / Chrome / NVDA | Scope casi M01–M08 | M01–M08 | PASS (dichiarato) | Checklist manutentore; configurazioni dettagliate non fornite | SHA-256 sopra |
 
 Per un finding annotare comportamento atteso/effettivo, impatto, configurazione esatta e riproduzione minima.
 Indicare se appartiene al plugin, Moodle/tema, contenuto o provider esterno; conservare i confini non risolti.
@@ -109,3 +112,5 @@ L’audit resta APERTO se una riga applicabile è NON ESEGUITA/BLOCCATA o resta 
 Motivare scope/N/A e conclusione dell’esecutore. Chiudere U-020 solo da osservazioni reali revisionate.
 Un audit interamente verde richiede il verbale, non una release funzionale automatica. Un finding concreto
 richiede correzione mirata e relativi nuovi controlli statici/build/browser/manuali.
+
+Moodle 5.3 e gli ambienti non elencati restano fuori dallo scope manuale registrato. Per un nuovo ambiente copiare il protocollo e registrare esiti propri, senza trasferire automaticamente i PASS.

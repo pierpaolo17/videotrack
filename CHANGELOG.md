@@ -1,5 +1,49 @@
 # VideoTrack changelog
 
+## 1.7.250 - 2026-11-11
+
+### Reset authorisation, complete assisted language review and scoped manual evidence
+
+- Accept actual 1.7.249 / 2026111102, 412 files identical to main
+  `667e678b52eaa6fe04e93a717c4bfed9efda535d`, ZIP SHA-256
+  `d71f3c7e7b4c895cbd7fbbfbd1456f31bca2643f40f881263e4795edd223ae8c`.
+  Six-job candidate/main CI passes first-attempt Behat 50/1074,
+  PHPUnit 379/4076 and strict 10/0/0. Actual Moodle 5.0/5.3 server
+  PHPCS/lint, Grunt, PHPUnit and supplied strict outputs are accepted.
+- Require the existing mod/videotrack:managereactions capability for
+  the real per-student report-reset POST, in addition to full-report
+  access, sesskey and learner scope. This matches the existing reset
+  button gate; legacy report viewing alone no longer permits a direct
+  destructive request. Technical capability keys and role grants stay
+  unchanged; translated labels now explain their actual reset use.
+- Add real-browser direct-POST tests for denied-reset preservation and
+  authorised target-only reset. Check persisted plugin tables, native
+  completion, an explicit ordinary grade fixture and other learners.
+  All six supplied candidate CI reports pass Behat 52 scenarios /
+  1154 steps, PHPUnit 379/4076 and strict 10/0/0 on commit d75af28.
+- Correct a 133-character line in the new Behat helper to satisfy
+  PHPCS's 132-character limit, without changing assertions or runtime
+  behaviour. Update both callable inventories. The initial candidate
+  CI is blocked by this warning; the corrected candidate still needs
+  a complete successful CI run before merge.
+- Review the last 208 keys / 1664 values: cumulative assisted scope is
+  all 997 keys / 7976 values in eight packs. Correct 73 values across
+  18 existing keys. In particular, offline deferral does not promise
+  an automatic queue, retry resends a request, and rejected segments
+  are excluded from viewed time rather than necessarily absent from
+  the audit ledger. Preserve placeholders and numeric tokens.
+- Record eight maintainer-reported PASS observations on 1.7.248 in
+  Moodle 5.0 / Academi / Windows 11 / Chrome / NVDA. Exact software
+  versions and execution date were not supplied. These observations
+  are no longer marked NOT RUN; Moodle 5.3 manual coverage remains
+  unrecorded. Do not infer manual execution on 249/250 or certify WCAG.
+- Update paired guides, capability descriptions, callable inventory
+  and version/ER labels. XMLDB remains 2026110601, 7 tables / 151 fields /
+  22 indexes / 22 foreign keys; DB, AMD, nine services and CI rules are
+  unchanged. The sole production-logic change is the reset capability
+  guard. U-017/U-007 remain closed; finish web/App gates before agreed
+  multilingual VTT subtitles and authenticated provider integrations.
+
 ## 1.7.249 - 2026-11-11
 
 ### Activity/player/study-tool wording and remaining semantic review

@@ -17,7 +17,7 @@ context are authoritative, and one user may legitimately hold learner and staff 
 | `mod/videotrack:exportaggregatereport` | Module | Export aggregate report data. |
 | `mod/videotrack:exportindividualreport` | Module | Export learner-level personal data. |
 | `mod/videotrack:viewcoursereport` | Course | Open the course VideoTrack dashboard. |
-| `mod/videotrack:managereactions` | Module | Manage reaction definitions. |
+| `mod/videotrack:managereactions` | Module | Reset a visible learner’s activity data from the full report; legacy technical key retained. |
 | `mod/videotrack:grade` | Module | Manage VideoTrack grades. |
 | `mod/videotrack:overrideplayersettings` | Course | Override site-enforced player defaults. |
 | `mod/videotrack:overridecompletionsettings` | Course | Override site-enforced VideoTrack completion defaults. |
@@ -45,3 +45,12 @@ does not bypass hidden-tab, playback-credit, completion or report rules.
 - revoke override capabilities when player/completion policy must be centrally enforced;
 - test custom and dual roles explicitly after permission changes;
 - review group/cohort scope before interpreting or exporting report data.
+
+## Per-student report reset authorisation
+
+The reset POST requires full report access, `mod/videotrack:managereactions`, a valid sesskey and a learner
+inside the viewer's scope before deletion. This matches the existing button gate. Viewing permission alone
+does not authorise reset. The technical capability/role grants remain unchanged; activity reaction editing
+continues to use Moodle's separate activity-editing permission. Read-only reports, grades, ownership, group
+scope and all other mutation paths retain their existing rules. The direct-POST denial and authorised reset
+scenarios are candidate regressions awaiting native CI; see the [current review](27_LANGUAGE_REVIEW.md).

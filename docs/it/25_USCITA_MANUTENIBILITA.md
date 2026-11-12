@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.249** (`2026111102`).
+Albero corrente: VideoTrack **1.7.250** (`2026111103`).
 
 ## Decisione ed evidenze accettate
 
@@ -103,3 +103,12 @@ U-017 resta chiuso. Dopo il precedente lavoro web e la decisione App, implementa
 dei sottotitoli VTT multilingue prima della foundation autenticata/OneDrive, Zoom e Google Drive. La scelta
 lingua delle trascrizioni esistenti resta distinta. La candidata linguistica non aggiunge runtime VTT e
 non chiude U-020 manuale rinviato.
+
+## Scope corrente reset e review
+
+Il reset del singolo studente ora verifica il permesso gestione anche sul server, oltre che nell’interfaccia:
+vedere i [permessi](16_ROLES_CAPABILITIES.md#autorizzazione-reset-del-singolo-studente-nel-report). La review
+assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad approvazione madrelingua.
+Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
+Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
+VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.

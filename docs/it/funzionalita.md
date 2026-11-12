@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.249 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.250 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -201,10 +201,11 @@ L’impostazione stessa sessione governa note/reazioni. I limiti di età dello s
 segnalibri e collegamenti Forum degli studenti; le reazioni non applicano quella finestra temporale.
 Queste distinzioni già esistenti sono descritte nei [confini di sicurezza](13_SECURITY_TRUST_BOUNDARIES.md).
 
-## Review testi attività/player
+## Scope corrente reset e review
 
-La [review linguistica](27_REVISIONE_LINGUE.md) copre 789 chiavi univoche per pacchetto, comprese tutte le chiavi
-senza prefisso di attività/player/strumenti di studio e le famiglie controlli/errori form. Le restanti 208 chiavi
-sono fuori dalla dichiarazione. Le reazioni restano disponibili in pausa in un punto già visto secondo i guard
-esistenti; le icone caricate sono richieste per reazioni configurate di tipo file. Il ridimensionamento dipende
-dal buon esito dell’elaborazione immagini sul server. Runtime, permessi e confini dei dati personali non cambiano.
+Il reset del singolo studente ora verifica il permesso gestione anche sul server, oltre che nell’interfaccia:
+vedere i [permessi](16_ROLES_CAPABILITIES.md#autorizzazione-reset-del-singolo-studente-nel-report). La review
+assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad approvazione madrelingua.
+Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
+Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
+VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.

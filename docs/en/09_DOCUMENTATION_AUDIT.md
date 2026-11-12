@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.249** (`2026111102`).
+Baseline: VideoTrack **1.7.250** (`2026111103`).
 
 ## Scope
 
@@ -32,10 +32,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) remain closed.
-  Actual 1.7.247 ZIP/server/strict and six-job candidate/main CI are accepted. Candidate 1.7.248 covers all
-  remaining report keys and both dashboards, correcting 71 values across 16 existing keys. Runtime, tests,
-  schema, AMD and CI rules are unchanged. U-020 remains deferred. See the [current review](27_LANGUAGE_REVIEW.md).
+- U-017/U-007 remain closed. Actual 1.7.249 ZIP/server/strict and six-job candidate/main CI are accepted.
+  Candidate 1.7.250 adds the missing server reset-management guard and two real-browser reset scenarios,
+  completes assisted review of all 997 keys and records eight manual PASS on the declared Moodle 5.0 setup.
+  Moodle 5.3 manual coverage and native candidate gates remain pending. See the [current review](27_LANGUAGE_REVIEW.md).
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -193,6 +193,6 @@ Italian CSV header correction are in the [review record](27_LANGUAGE_REVIEW.md).
 
 The 412-file tree retains 31 EN/IT documents each, 166 PHP files, 1101 PHP/654 AMD callables, 345 inventory rows
 and unchanged XMLDB 7/151/22/22. Runtime/DB/AMD/tests/CI are unchanged. Native candidate CI and actual merged
-ZIP/server/strict gates remain required. U-020 stays deferred. Complete earlier work/App decision, then the
+ZIP/server/strict gates remain required. U-020 now has scoped Moodle 5.0 PASS evidence; Moodle 5.3 remains unrecorded. Complete earlier work/App decision, then the
 agreed VTT subtitle extension, then authenticated-provider foundation and OneDrive/SharePoint → Zoom → Google
 Drive. No VTT feature or manual pass is introduced by this wording release.

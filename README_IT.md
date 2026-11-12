@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.249**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.250**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -88,7 +88,7 @@ sono descritti in [`docs/it/23_GITHUB_ACTIONS_CI.md`](docs/it/23_GITHUB_ACTIONS_
 
 U-017 manutenibilità e U-007 automazione browser essenziale sono chiusi su evidenze release accettate.
 L’[audit uscita browser](docs/it/26_USCITA_BROWSER.md) registra scope e provenienza. U-020 accessibilità
-manuale è rinviato e resta aperto: conservare il [protocollo manuale](docs/it/19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
+manuale registra otto PASS dichiarati su Moodle 5.0/Academi con Windows 11/Chrome/NVDA; manca la copertura 5.3: conservare il [protocollo manuale](docs/it/19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020)
 per il gate finale di produzione. La [review linguistica mirata](docs/it/27_REVISIONE_LINGUE.md) registra
 correzioni dei testi delle policy in tutti gli otto pacchetti e il perimetro semantico ancora da revisionare.
 

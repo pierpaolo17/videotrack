@@ -107,3 +107,12 @@ Sono policy esistenti distinte; questa modifica documentale non le cambia:
 Riferimenti: `tracker::has_watched_videotime()` / `has_watched_videotime_any_session()` e chiamanti note,
 reazioni, segnalibri e Forum. Consentire la navigazione seek o il solo avvio playback non autorizza un
 istante non visto. Questa review non introduce scorciatoie di riproduzione live né modifica l’evidenza ammessa.
+
+## Autorizzazione reset del singolo studente nel report
+
+Il POST reset richiede accesso completo al report, `mod/videotrack:managereactions`, sesskey valido e studente
+nello scope del lettore prima di cancellare. Corrisponde al gate già usato dal pulsante. Il solo permesso di
+lettura non autorizza il reset. Chiave capability e grant restano invariati; le definizioni delle reazioni
+seguono il distinto permesso Moodle di modifica attività. Report in lettura, voti, ownership, gruppi e altre
+mutazioni conservano le regole esistenti. Gli scenari POST negato e reset autorizzato attendono CI nativa:
+vedere la [review corrente](27_REVISIONE_LINGUE.md).

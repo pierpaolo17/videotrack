@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.249** (`2026111102`).
+Current tree: VideoTrack **1.7.250** (`2026111103`).
 
 ## Decision and accepted evidence
 
@@ -81,23 +81,11 @@ configured analysis scopes. Candidate 1.7.241 preserves all production bodies an
 | `mod_form.php` | 2 | Class complexity and `definition()` length remain after field, validation and preprocessing separation. The form has 23 methods and retains framework orchestration. Reopen for a functional form change with a useful new boundary. |
 | **Total** | **24** | No analyser rule, scope or baseline file is weakened. |
 
-## Current roadmap phase
+## Current reset and review scope
 
-U-017 remains closed; U-007 is closed on the actual accepted 1.7.240 multi-version browser milestone.
-See [browser exit evidence](26_BROWSER_EXIT_AUDIT.md). Public-network availability was not an original
-prerequisite for deterministic adapter automation; other engines and live deployment results remain explicit
-separate evidence. No runtime, test, provider or analysis gate is removed by this documentary decision.
-
-Next is [U-020 manual accessibility](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020), then semantic
-language review and the integrated production/lifecycle/privacy/benchmark gate on one exact ZIP. An audit
-alone does not trigger a functional release; concrete findings do. Candidate 1.7.241 packages this evidence
-and protocol with its own CI/package gates pending. Moodle App evaluation and authenticated-provider
-foundation follow the web gates, then OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and hardening.
-See also [analysis policy](24_STATIC_ANALYSIS.md) and [release gates](07_BUILD_TEST_RELEASE.md).
-
-## Maintainer roadmap update, 2026-11-11
-
-U-017 remains closed. After completion of the earlier web gates and App decision, implement the agreed
-multilingual VTT subtitle extension before authenticated-provider foundation/OneDrive, Zoom and Google
-Drive. Existing transcript language choice is separate. The current language candidate adds no VTT runtime
-behaviour and does not close the deferred manual U-020 gate.
+Per-student reset now enforces the management capability on the server as well as in the UI; see
+[permissions](16_ROLES_CAPABILITIES.md#per-student-report-reset-authorisation). The assisted language review
+covers all 997 keys in eight packs; it is not native sign-off. Eight manual PASS are reported for
+1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 manual coverage remains unrecorded. Candidate gates
+are pending, with expected PHPUnit 379/4076 and Behat 52/1154. Existing web/App work precedes the agreed
+multilingual VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.

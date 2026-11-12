@@ -1,173 +1,130 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.249** (`2026111102`). Review recorded 2026-11-11.
+Current tree: VideoTrack **1.7.250** (`2026111103`). Assisted review recorded 2026-11-11.
 
-## Scope and limits
+## Completed semantic scope and its limits
 
-The cumulative review covers **789 unique keys per pack / 6312 values** in DE, EN, ES, FR, HI, IT, PL and PT.
-The other **208 keys per pack remain outside the claimed semantic review**. All 997 keys and placeholder
-multiplicities are structurally aligned. This assisted source review is not native linguistic sign-off,
-manual accessibility acceptance or certification of every deployed browser/provider combination.
+The cumulative assisted source review covers **all 997 keys per pack / 7976 values** in DE, EN, ES, FR,
+HI, IT, PL and PT. This pass adds the last **208 keys / 1664 values**, without reusing a previous key.
+The accepted earlier scope contains 789 keys / 6312 values. No current key is outside this review claim.
+This is not native linguistic sign-off, WCAG certification or proof of every deployed provider/browser.
 
-U-017 and U-007 remain closed. U-020 remains open and deferred at the maintainer’s request; all eight
-manual observations are NOT RUN. The [manual protocol](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020)
-remains part of the final production gate. Independent language work does not approve those observations.
+The complete manifest is the sorted key set in [the canonical pack](../../lang/en/videotrack.php), identical
+in every pack. SHA-256 of those 997 UTF-8 key names, newline-separated with a final newline:
+`06d08c38e974996779f5ce9f6e05fce742c322b33c880c4f4091cc9f27983903`.
+All existing keys, order, Moodle placeholder multiplicities, literal Forum template tokens and numeric
+tokens are preserved. Retained strings without an active rendering call do not imply new functionality.
 
-## Accepted starting point
+## Accepted actual baseline
 
-- Actual 1.7.248 / `2026111101`, 412 files identical to main `9e53a6f1eb042b57612aca0bae7e1b263f5771e6`.
-- ZIP SHA-256: `05f0c797dca4fef7cd629300b20bc00d501ea6d58e23fa67d39415e6715b6daa`.
-- Server-report ZIP SHA-256: `43144759d020f0eedac37dbf2a30cfe05cc0a89fff4d695a82a1bc896302669d`.
-- Candidate CI `42995227950`: six jobs pass PHPUnit 379/4076, Behat 50/1074 and strict 10/0/0 on the first
-  scenario attempt. Post-merge CI `42999353066`: all six jobs finish successfully; five pass Behat on the
-  first attempt. Moodle 5.1 initially fails one Vimeo rollback/reaction-visibility assertion: the reaction
-  label is present but not visible. Its complete rerun passes 1 scenario / 43 steps. The tool’s existing
-  automatic rerun policy is unchanged. The exact root cause is unproven; retain this intermittent observation
-  for recurrence review, rather than claiming six clean first attempts or a proven functional regression.
-- Actual Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and PHPUnit 379/4076. Both supplied strict
-  outputs are 10/0/0; AMD hashes before/after Grunt match. Server reports did not run Behat or manual assistive
-  checks. The known Browserslist data-age notice, 24 reviewed PHPMD findings and Psalm informative totals
-  732/760 remain recorded. Configured analysis gates pass; no zero-advisory or new native execution is claimed.
+- 1.7.249 / `2026111102`, 412 files identical to main `667e678b52eaa6fe04e93a717c4bfed9efda535d`.
+- ZIP SHA-256: `d71f3c7e7b4c895cbd7fbbfbd1456f31bca2643f40f881263e4795edd223ae8c`.
+- Server report SHA-256: `1210838cb96ad931452ac616ce2bc2aee8b1db67fdd4d367f918f4def0aa0789`.
+- Candidate/main CI `43014227736` / `43017694467`: six jobs each pass first-attempt Behat 50/1074,
+  PHPUnit 379/4076, Grunt and strict 10/0/0. Actual Moodle 5.0/5.3 server reports pass PHPCS/lint 166,
+  Grunt and PHPUnit 379/4076; both supplied strict outputs are 10/0/0. AMD hashes before/after Grunt match.
+  The known Browserslist notice, 24 reviewed PHPMD findings, Moodle alias deprecations and Psalm informative
+  totals 732/760 remain recorded. Configured gates pass; no zero-advisory claim is made.
 
-## Complete cumulative key manifest
+## Current source findings
 
-The following selectors are exhaustive and disjoint. “Without a colon” includes completion keys and the
-unprefixed metadata, activity, player, study-tool and lifecycle labels. Retained keys without an active
-rendering call are reviewed as retained text; this does not introduce or certify new functionality.
+- `report.php` showed reset controls only with full report access and `mod/videotrack:managereactions`,
+  but its direct reset POST required only the historical full-report gate. The candidate adds the missing
+  management check before learner validation or deletion, preserving POST, sesskey and visibility checks.
+  Technical capability keys/role grants are unchanged. The legacy-named permission now describes its actual
+  reset use; editing reaction definitions remains governed by Moodle activity editing, not this reset guard.
+- `tracker::update_state()` retains rejected segments as `servervalidated = 0` audit rows for stale sessions,
+  blocked forward intervals or server-credit rejection; rejected request replay also returns `-1`.
+  `save_segment` maps all these cases to `suspicioussegment`. The warning now states that the segment was not
+  counted as viewed time, without falsely claiming absence from storage or only an elapsed-window cause.
+- `core/api::call()` returns null before transport when offline deferral is requested; it does not itself
+  install an automatic offline queue. The diagnostic says “not sent”. Its transient-error branch retries
+  the request, not the error. Focus-exception wording retains hidden-document pause only when enabled,
+  plus unchanged server validation. Existing Moodle group descriptions are preserved, not migrated by text.
+- Targeted corrections distinguish viewed percentage from full activity completion in the Polish outline,
+  video seeking from textual search in the Spanish override description, and acknowledgement of reading
+  from receipt/acceptance in ES/HI. Polish preset help no longer invents a lowercase-only restriction;
+  units/labels, Italian diacritics and Hindi wording are aligned. Grade labels refer to viewing progress,
+  not assignment submissions; the existing real report grading path is unchanged.
 
-| Selector | Reviewed keys per pack |
-|---|---:|
-| `privacy:` | 74 |
-| `setting:` | 110 |
-| `report:` | 260 |
-| `coursereport:` | 25 |
-| `teacherdashboard:` | 15 |
-| `ctrl:` | 12 |
-| `html5:` | 12 |
-| `source:` | 3 |
-| `err:` | 14 |
-| `completiondetail:` | 8 |
-| All keys without a colon | 228 |
-| Additional exact keys below | 28 |
-| Total unique keys | 789 |
+Sources: `report.php`, `report_access`, `learner_scope`, `save_segment`, `tracker`, `focus_policy`, `core/api`,
+`presets.php`, `locallib.php`, native grade integration and the current Behat/report/interaction tests.
+The reset guard is a deliberate production-logic change; this candidate is not described as wording-only.
 
-- `acknowledgement:enabled_desc`
-- `acknowledgement:pendingvideoend`
-- `acknowledgement:privacyhint`
-- `acknowledgement:text_help`
-- `acknowledgement:timing_help`
-- `acknowledgement:videoendrequired`
-- `error:bookmarksratelimit`
-- `error:learnertrackingstaff`
-- `error:notesratelimit`
-- `error:playbackpositionnotwatched`
-- `error:playbackrequired`
-- `error:reactionratelimit`
-- `forum:composerprivacy`
-- `forum:enable_help`
-- `forum:privacyinfo`
-- `forum:studenthelp`
-- `integrity:analytics_recording_disabled_controls`
-- `integrity:enable_help`
-- `integrity:methodology`
-- `integrity:pauseonfocusloss_desc`
-- `integrity:preventpip_desc`
-- `integrity:randompauseautomatic`
-- `integrity:randompauseinvalid`
-- `integrity:randompauseorder`
-- `integrity:randompauses_desc`
-- `integrity:reportintro`
-- `integrity:settingsintro`
-- `integrity:studentnotice`
+## Exact changed keys and values
 
-## Current activity/player/study-tool pass
-
-This pass reviews **259 additional keys / 2072 values**, with no reused accepted key: the remaining 218
-unprefixed keys and all 41 keys under `ctrl:`, `html5:`, `source:` and `err:`. The previous 530-key evidence
-remains accepted. The cumulative total is 789; 208 remain. Earlier findings are preserved in the changelog.
-
-### Findings grounded in the executed code paths
-
-- Captions: YouTube receives preference flags; Vimeo requests an existing matching track and catches a
-  missing-track failure. Neither creates a provider track. HTML5 attaches one VTT `<track>` and uses the
-  configured language as `srclang`/label. Help now distinguishes availability, metadata and separate transcript
-  files. This does not introduce multiple native subtitle files or a Moodle overlay over external iframes.
-- Reactions can be saved while paused at an already-watched point, subject to existing participation,
-  feature, session and validation rules. The empty-history message no longer implies playing is mandatory.
-  Targeted labels distinguish a minimum of distinct types from a generic reaction requirement.
-- `view.php` supplies the saved server resume position only when enabled and beyond 5 seconds. Manual
-  backward navigation still follows the activity policy. Provider-specific browser-position recovery is a
-  separate existing path; this wording does not promise that a 5-second threshold governs every adapter cache
-  or that disabling server resume clears it. No resume path is changed or newly certified by this patch.
-- `videotrack_pluginfile()` uses Moodle course/module access plus `mod/videotrack:view`, file-area and content
-  checks. The file notice no longer says “only enrolled students”: staff and other permitted access also exist.
-- `reaction_file_icon_errors()` accepts a new or existing icon and requires one for an enabled configured
-  file-icon reaction. The helper no longer calls that image optional in this case. `videotrack_resize_reaction_icon()`
-  keeps the original if image processing is unavailable or fails; the 64×64 notice now states that fallback.
-- Poster removal follows playback start, including autoplay; clicking Play is not the only trigger. The HTML5
-  range control receives a video-position label instead of translations meaning textual “Search”. Chapter/
-  transcript notices use seek/navigation terminology in DE/PT. Transcript search labels remain search labels.
-- Polish media/width/step units and the blocked-autoplay instruction are aligned. Restore notices regain
-  diacritics and Hindi script without changing placeholders or the restore mapping/fallback itself.
-
-Sources: `view.php`, the three provider adapters, `core/player/timed_text` and poster helpers,
-`form_definition`, `mod_form.php`, `lib.php`, `reaction_form_validation` and the existing media/interaction/
-timed-text/restore tests. Existing passing test evidence is not relabelled as candidate execution.
-
-## Exact keys changed in this candidate
-
-- `allowdownload`
-- `autoblockedlabel`
-- `captions_help`
-- `captionslang_help`
-- `chapterfile_notice`
-- `fastforwardstep`
-- `html5:seek`
-- `noreactionsyet`
-- `playerwidth`
-- `posterimage_help`
-- `reactioniconfile_help`
-- `reactioniconfile_notice`
-- `reactionsrequired`
-- `restore_missing_reaction_mapping`
-- `restore_placeholder_reaction`
-- `resumeplayback_desc`
-- `resumeplayback_help`
-- `rewindstep`
-- `showtranscript_help`
-- `timedtext_seek_blocked`
-- `videofile`
-- `videofile_notice`
-
-Nine strings change in each pack; the other changes address targeted translation findings.
+- `acknowledgement:checkboxlabel`
+- `debug:ajaxdeferredoffline`
+- `debug:ajaxretry`
+- `debug:timedtexttimefailed`
+- `focus:exceptiongroupdescription`
+- `integrity:settingsheader`
+- `outline:nodata`
+- `outline:percent`
+- `presets:key_help`
+- `presets:reactions_help`
+- `reactioniconcategory:activity`
+- `reactionpreset:none`
+- `videotrack:grade`
+- `videotrack:managereactions`
+- `videotrack:managereactions_desc`
+- `videotrack:overrideplayersettings_desc`
+- `warning:notetruncated`
+- `warning:suspicioussegment`
 
 | Pack | Values changed |
 |---|---:|
-| DE | 14 |
-| EN | 9 |
-| ES | 12 |
-| FR | 12 |
+| DE | 8 |
+| EN | 7 |
+| ES | 10 |
+| FR | 8 |
 | HI | 11 |
 | IT | 9 |
-| PL | 19 |
-| PT | 14 |
+| PL | 12 |
+| PT | 8 |
 
-Total: **100 values across 22 existing keys**. No key is added or removed. Placeholder multiplicities,
-numeric tokens, machine identifiers, CSV headers and formatting logic are preserved. The HTML5 position
-slider’s accessible name changes deliberately. No new test merely duplicates these literal corrections.
+Total: **73 values across 18 existing keys**. Six strings change in every pack; other changes are targeted.
+Public AJAX method names, warning codes, capability keys, DB fields, CSV headers and persisted data are preserved.
 
-## Candidate gates and agreed sequence
+## Manual accessibility evidence
 
-The tree retains 412 files, 31 documents per EN/IT guide, 166 PHP files, 1101 PHP/654 AMD callables and 345
-inventory rows. XMLDB remains `2026110601`: 7 tables / 151 fields / 22 indexes / 22 foreign keys. ER changes
-only current version labels. Runtime logic, access rules, stored data, DB, services, AMD, tests, fixtures
-and CI/static-analysis rules are byte-identical to accepted 1.7.248.
+The maintainer supplied M01–M08 marked PASS on **1.7.248 / Moodle 5.0 / Academi / Windows 11 / Chrome / NVDA**.
+These are reported executed observations, no longer NOT RUN. The report was received on 2026-11-11; exact
+browser/theme/NVDA versions and execution date were not supplied. Moodle 5.3 manual coverage is unrecorded.
+See the [scoped manual record](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020). Do not infer manual
+249/250 execution from unchanged DOM or from automatic tests. Later wording changes have their own delta.
+U-020 is partially covered; U-017 and the accepted essential U-007 milestone remain closed.
 
-Local contract/delta/link and exact apply/reverse checks do not replace native six-job candidate CI, post-merge
-CI and actual merged ZIP/server/strict gates. The unchanged expected suite is 379 PHPUnit tests / 4076 assertions
-and 50 Behat scenarios / 1074 steps. Those are expectations, not results for this candidate.
+## Candidate gates and roadmap
 
-Finish the existing web work and App decision, then implement the agreed multilingual VTT subtitle phase
-before authenticated foundation, OneDrive/SharePoint, Zoom Cloud and Google Drive. The existing transcript
-panel remains distinct. HTML5 controls/file lifecycle and external-provider/fullscreen feasibility need
-their own evidence. Automatic publication to provider accounts is not selected. U-020 remains deferred.
+The candidate retains 412 files, 166 PHP files, 31 documents per EN/IT guide, 345 inventory rows and 654 AMD
+callables. PHP callables become 1103 through two test-only helpers. XMLDB remains `2026110601`, with
+7 tables / 151 fields / 22 indexes / 22 foreign keys. ER changes only version labels. AMD, backup/privacy
+implementations, nine services, existing role grants and CI/static-analysis rules are unchanged.
+
+Two new browser scenarios submit real same-session POSTs with a valid session key. A full-report viewer
+without the management grant must receive only the matching nopermissions denial; all captured plugin,
+native grade/completion and other-learner records must remain identical. An authorised viewer must reset
+only the selected learner, clearing its grade/completion while preserving other learners. Playback and
+completion evidence is browser-earned; the points grade is an explicit ordinary Moodle grade fixture.
+The denied page is checked and restored inside the step, retaining Moodle's automatic exception hooks.
+
+The six uploaded CI artifacts match commit `d75af28e890d12c7dab4edd507c404ac3f3f1ad9` in run
+`43075665485`, attempt 2. Every supplied report passes **379 PHPUnit tests / 4076 assertions**,
+**52 Behat scenarios / 1154 steps** and strict **10/0/0**; no Behat scenario rerun is present in those reports.
+Grunt completes in all six environments. This is real CI evidence, not a native execution in this workspace.
+
+Overall CI remains blocked by one PHPCS warning: the new denied-reset assertion has 133 characters at
+helper line 1636, beyond the 132-character limit. The same-version correction wraps that expression only
+and updates the helper locations in both callable inventories. Assertions, runtime, translations, XMLDB,
+AMD, version and CI rules are unchanged. The corrected candidate needs a new successful six-job run before
+merge, followed by post-merge CI and actual merged ZIP/server/strict acceptance.
+
+PHPStan and the configured Psalm scopes pass. Psalm reports 733/761 advisory issues, versus 732/760 for
+accepted 249: one additional advisory per analysed Moodle branch. Its detail is not displayed in the supplied
+reports, so its cause is not inferred. The 24 PHPMD findings are byte-identical to accepted 249. No claim of
+zero findings or unchanged advisory totals is made.
+
+Finish the integrated web/lifecycle/privacy/benchmark gate and remaining scoped manual evidence; complete
+the App decision, then implement agreed multilingual VTT subtitles before authenticated foundation,
+OneDrive/SharePoint, Zoom Cloud Recording and Google Drive. No VTT runtime extension is included here.

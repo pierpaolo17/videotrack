@@ -104,3 +104,12 @@ These are separate existing policies; this documentation change does not alter t
 See `tracker::has_watched_videotime()` / `has_watched_videotime_any_session()` and the note, reaction,
 bookmark and Forum callers. Allowing seek navigation or a playback-start row alone does not authorise an
 unwatched timestamp. This source review does not add a live-playback shortcut or change accepted evidence.
+
+## Per-student report reset authorisation
+
+The reset POST requires full report access, `mod/videotrack:managereactions`, a valid sesskey and a learner
+inside the viewer's scope before deletion. This matches the existing button gate. Viewing permission alone
+does not authorise reset. The technical capability/role grants remain unchanged; activity reaction editing
+continues to use Moodle's separate activity-editing permission. Read-only reports, grades, ownership, group
+scope and all other mutation paths retain their existing rules. The direct-POST denial and authorised reset
+scenarios are candidate regressions awaiting native CI; see the [current review](27_LANGUAGE_REVIEW.md).

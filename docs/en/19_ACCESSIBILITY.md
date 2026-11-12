@@ -48,12 +48,15 @@ Automated tests protect structural contracts but do not replace perception and a
 
 ## Manual evidence protocol U-020
 
-**Status: OPEN / NOT RUN.** Automated U-007 acceptance is recorded in the [browser exit audit](26_BROWSER_EXIT_AUDIT.md).
-This protocol prepares real observation; it contains no completed manual result or accessibility certification.
+**Status: PARTIALLY COVERED.** The maintainer reports M01–M08 PASS on VideoTrack 1.7.248,
+Moodle 5.0, Academi, Windows 11, Chrome and NVDA. Moodle 5.3 manual coverage remains unrecorded.
+Automated U-007 acceptance is in the [browser exit audit](26_BROWSER_EXIT_AUDIT.md).
 
-U-020 remains open and is **deferred at the maintainer’s request (2026-11-10)**. This change executes
-or approves no manual case. Independent language work may continue; the final production gate still
-requires the manual audit and any resulting fixes.
+Evidence received 2026-11-11: completed checklist SHA-256
+`5048bbc2b19b2c36c44a7b4b091a76f5c55bd2d834a0c5e3444047b4a9562444`, with the stated environment
+supplied in the maintainer's follow-up. Exact browser/theme/NVDA versions and execution date were not supplied.
+This records the observations for that environment; it does not certify WCAG or manual execution on 249/250.
+There is no reported manual failure to fix. The separate reset authorisation issue was found in source review.
 
 ### Record the tested environment
 
@@ -70,18 +73,18 @@ unless recorded; do not extrapolate from the six Chrome CI environments.
 ### Observation matrix
 
 Repeat applicable rows for each recorded setup. Mark PASS, FAIL, BLOCKED or N/A with a reason and evidence.
-The initial status of every row below is **NOT RUN**.
+The rows below record the maintainer-reported results for the stated Moodle 5.0 environment.
 
-| Id | Action on VideoTrack | Expected observation | Initial status |
+| Id | Action on VideoTrack | Expected observation | Reported result, Moodle 5.0 |
 |---|---|---|---|
-| M01 | Tab/Shift+Tab through player, timed text, interactions and report controls; activate with Enter/Space | Logical order, meaningful names, one intended action and no keyboard trap | NOT RUN |
-| M02 | Add/remove a note or bookmark, open/close histories and enter/leave the Forum composer | Focus stays identifiable and returns to a sensible control; saved state and errors remain discoverable | NOT RUN |
-| M03 | Listen to a screen reader while changing play/pause, completion, form errors and transient/persistent notices | Names, roles and states agree with the UI; relevant status changes are announced without forced focus movement | NOT RUN |
-| M04 | Check ordinary content at 100%/400% zoom and 320 CSS-pixel width | Text/forms wrap without lost controls or ordinary two-axis scrolling; meaningful two-dimensional data tables may keep their own usable scroll area | NOT RUN |
-| M05 | Enable operating-system high contrast/forced colours | Focus, boundaries, button states and text remain distinguishable and usable | NOT RUN |
-| M06 | Use HTML5 and the configured public YouTube/Vimeo iframe controls, captions, transcript and chapters | Keyboard entry/exit works; supplied captions/transcript match the content; record missing content descriptions and provider restrictions separately | NOT RUN |
-| M07 | Test anytime/end-only acknowledgement and an enabled 60–60-second attention interval | Disabled/available states and reasons are understandable; the pause notice is perceivable and manual resume remains operable | NOT RUN |
-| M08 | Compare learner, teacher-only and dual-role pages; use a permitted group report and its learner selector | Read-only/enabled states and selected/report data are understandable with keyboard and screen reader | NOT RUN |
+| M01 | Tab/Shift+Tab through player, timed text, interactions and report controls; activate with Enter/Space | Logical order, meaningful names, one intended action and no keyboard trap | PASS (reported) |
+| M02 | Add/remove a note or bookmark, open/close histories and enter/leave the Forum composer | Focus stays identifiable and returns to a sensible control; saved state and errors remain discoverable | PASS (reported) |
+| M03 | Listen to a screen reader while changing play/pause, completion, form errors and transient/persistent notices | Names, roles and states agree with the UI; relevant status changes are announced without forced focus movement | PASS (reported) |
+| M04 | Check ordinary content at 100%/400% zoom and 320 CSS-pixel width | Text/forms wrap without lost controls or ordinary two-axis scrolling; meaningful two-dimensional data tables may keep their own usable scroll area | PASS (reported) |
+| M05 | Enable operating-system high contrast/forced colours | Focus, boundaries, button states and text remain distinguishable and usable | PASS (reported) |
+| M06 | Use HTML5 and the configured public YouTube/Vimeo iframe controls, captions, transcript and chapters | Keyboard entry/exit works; supplied captions/transcript match the content; record missing content descriptions and provider restrictions separately | PASS (reported) |
+| M07 | Test anytime/end-only acknowledgement and an enabled 60–60-second attention interval | Disabled/available states and reasons are understandable; the pause notice is perceivable and manual resume remains operable | PASS (reported) |
+| M08 | Compare learner, teacher-only and dual-role pages; use a permitted group report and its learner selector | Read-only/enabled states and selected/report data are understandable with keyboard and screen reader | PASS (reported) |
 
 For M07 configure the test activity's two optional attention fields to 60 seconds, enable the existing switch
 and avoid recognised interactions while it plays for the full minute. Use content/rate long enough not to
@@ -100,7 +103,7 @@ Copy one row per observed result:
 
 | Package/commit | Moodle/theme | OS/browser/screen reader | Provider/role | Case | Result | Actual observation / reproducible steps | Evidence reference |
 |---|---|---|---|---|---|---|---|
-| To record | To record | To record | To record | M01–M08 | NOT RUN | To record | To record |
+| 1.7.248 (reported) | Moodle 5.0 / Academi | Windows 11 / Chrome / NVDA | M01–M08 case scope | M01–M08 | PASS (reported) | Maintainer checklist; detailed settings not supplied | SHA-256 above |
 
 For a finding record expected/actual behaviour, impact, exact configuration and a minimal reproduction.
 State whether it belongs to the plugin, Moodle/theme, content or external provider; preserve any unresolved
@@ -108,3 +111,5 @@ boundary. Keep the audit OPEN while an applicable row is NOT RUN/BLOCKED or a ma
 Record explicit scope/reasons for N/A and the tester's final conclusion. Close U-020 only from actual reviewed
 observations. A wholly green audit needs its evidence record, not an automatic functional release. A concrete
 finding warrants a focused correction and the matching static/build/browser/manual recheck.
+
+Moodle 5.3 and any unlisted environment remain outside the recorded manual scope. For a new environment, copy the protocol and record its own results; do not carry over PASS automatically.
