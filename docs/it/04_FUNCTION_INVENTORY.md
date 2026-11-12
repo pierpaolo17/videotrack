@@ -1,11 +1,17 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.253. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1114. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1120 (1114 distribuiti e 6 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
+| `.github/lifecycle/site.php:39` | `videotrack_ci_check` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:56` | `videotrack_ci_rows` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:73` | `videotrack_ci_related` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:89` | `videotrack_ci_snapshot` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:120` | `videotrack_ci_seed` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:248` | `videotrack_ci_residue` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
 | `amd/src/completion_requirements.js:38` | `normaliseText` | Normalizza il testo dei requisiti per confronti esatti e sicuri rispetto agli spazi introdotti dal tema. |
 | `amd/src/completion_requirements.js:48` | `directListItems` | Restituisce le voci figlie dirette di un elenco nativo o ARIA. |
 | `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Rimuove il prefisso composito dagli attributi accessibili opzionali dopo il raggruppamento visivo. |

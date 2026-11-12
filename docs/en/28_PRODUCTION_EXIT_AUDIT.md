@@ -1,86 +1,84 @@
 # Integrated lifecycle and production evidence
 
-Current candidate: VideoTrack **1.7.253** (`2026111203`). Audit recorded 2026-11-12.
+Current candidate: VideoTrack **1.7.254** (`2026111204`). Audit recorded 2026-11-12.
 
 ## Accepted baseline
 
-Actual **1.7.252 / 2026111202** is accepted: all 415 ZIP files match main
-`3f9e62ab6485f36e4088b1c76b79aa644bc49fa3` and the corrected approved candidate.
-Package SHA-256: `659f60d7e48de2d198ab070a71b6ca3ee98506553545d09d29e712443fde61f9`.
+Actual **1.7.253 / 2026111203** is accepted: all 415 ZIP files match main
+`511234197069f8f83e23f0da9444fa1d6a5f8030` and the approved candidate.
+Package SHA-256: `b7a1643ba5502424af714302bba9d99d61dc29b3820cbcc751b84ac16187522d`.
 The 10-file server report has SHA-256
-`34ce4e5d1bfecd3fd874154fc7818797c43dcf2db14089328c82363bd40a21eb`.
-The corrected candidate CI (run 43246418318, commit `5b7ffd3`) and main CI
-(run 43252265858) pass all six environments. Each passes PHPUnit **383/4350**,
-Behat **52 scenarios / 1154 steps**, strict **10/0/0** and Grunt. PHPCS/lint are clean on
-167 files. The two Moodle 5.0/5.3 server reports pass the same PHPUnit suite and Grunt;
-their AMD build hashes are unchanged. Both maintainer-supplied strict outputs are **10/0/0**.
-No native Moodle execution occurred in this workspace. PHPMD's 24 reviewed findings and
-Psalm's 732/760 advisories remain unchanged from the corrected candidate; configured scopes pass.
-The initial two PHPCS argument-layout errors were corrected before merge, not ignored.
+`d2e8591de33b511a8343e86532d4ef49df34773d6a262daf5eac3e86a2e06322`.
+Candidate/main six-job CI and both Moodle 5.0/5.3 server reports pass PHPUnit **384/4516**.
+Behat passes **52 scenarios / 1154 steps** in all six CI environments. PHPCS/lint cover 167 clean
+distributed PHP files; Grunt preserves AMD build hashes and both supplied strict outputs are **10/0/0**.
+The registered-task post-restore retention case is now accepted within its documented scope: unlimited/finite
+policy, repeated cleanup, complete input expiry and preserved shared configuration/files/core grade rows.
+Backup/restore/privacy, standard course reset and synchronous activity-deletion integration remain accepted.
+PHPMD's 24 reviewed findings and Psalm's 732/760 advisory counts remain unchanged; configured scopes pass.
 
-## Accepted integration scope
+## New CI gate: actual installation lineage and full uninstall
 
-| Case | Evidence and scope |
-|---|---|
-| Backup/restore without learners | Real course controllers, shared configuration, Forum/reaction/file mappings and canonical grade item; learner rows/grades/completion excluded, source plugin rows preserved. |
-| Backup/restore with learners and post-restore privacy | Destination retention excludes expired inputs; unvalidated segments and stale aggregate/native completion cannot restore credit; approved-user export, user/context erasure and preservation of other learners/source/files/core grade ownership are checked. |
-| Standard course reset, option off/on | The actual Moodle reset entry discovers `videotrack_reset_userdata()`, which delegates to the retained helper. Two activities in one course are cleared while configuration/definitions/files and another course's learner rows survive. Core completion reset is selected separately and global gradebook reset is off. |
-| Synchronous activity deletion | Public Moodle deletion removes the selected activity, six plugin child tables, native completion, files/context and owned grade items/rows. The linked Forum and a populated neighbouring activity survive. |
+After successful PHPUnit and Behat, the Moodle 5.0/MariaDB and 5.3/MariaDB jobs reuse their disposable
+standard validator databases. The helper checks the Actions workspace, dataroot, site identity and database
+prefix. It refuses ordinary machines, PHPUnit/Behat databases and a populated initial VideoTrack site.
+The normal installer makes a copy of the checkout. The runner also detaches a possible plugin-directory
+symlink before replacing code; neither the checkout nor database versions are rewritten to fake an upgrade.
 
-The standard reset callback and its opt-in/default-off behaviour are accepted on 252. The existing
-helper remains available to historical direct callers. Moodle's reset page owns `moodle/course:reset`,
-login and session/form checks; per-student report reset has its separate management/sesskey/scope gate.
-The deletion test selects `core_courseformat\formatactions::cm()->delete()` when supported and the
-older branch's supported helper otherwise; no deprecation suppression is used.
+| Lineage | Actual installed source | Added coverage |
+|---|---|---|
+| historical | Accepted 1.7.237 / `2026110507`, commit `baa07ab580c15f8924ecb812a5832231e981bed2` | Upgrade from the real 7-table/149-field schema to the current 151-field schema, keeping existing rows and new zero defaults. All 402 actual baseline ZIP files match that immutable commit. |
+| partial | The same actual 1.7.237 | Simulate only the first field DDL of step `2026110601`, leaving the second absent and installed version untouched. Then run the normal upgrade. This is a constructed partial state, not a killed process or power-loss test. |
+| previous | Accepted 1.7.253 / `2026111203`, commit `511234197069f8f83e23f0da9444fa1d6a5f8030` | Upgrade from the immediately preceding actual version; preserve explicit 120/600 attention settings and existing learner/configuration data. |
 
-Backup tests use `MODE_IMPORT` with real XML/files, without archive compression. This does not certify
-MBZ download/extraction, cross-site migration or historical-backup compatibility. Fixtures populate
-framework/DB records directly; they are not evidence that a browser generated those records.
+For each lineage, the runner:
 
-## New candidate: registered retention task after restore
+1. Installs the exact old source using Moodle's real `admin/cli/upgrade.php`, then verifies the actual version.
+2. Creates a course, learner, neighbouring Forum, configured VideoTrack, all seven populated plugin families,
+   reaction/note/bookmark events, shared files, an active grade and native completion. Fixture rows are synthetic.
+3. Records a canonical baseline snapshot, including actual shared-file content hashes and explicit site settings.
+4. Deploys the current committed source, runs real Moodle upgrade and strict, and compares preserved data.
+   Only the two legitimately added zero-default columns may extend the historical activity row.
+5. Repeats the upgrade; both complete snapshots must have the same SHA-256. Failure stops before uninstall.
+6. Calls Moodle's full `admin/cli/uninstall_plugins.php --plugins=mod_videotrack --run`.
+7. Checks absence of plugin tables, module/course-module/context rows, active grades/completion, shared file
+   metadata, plugin configuration, capabilities/grants, external methods/service bindings and registered tasks.
+   The neighbouring Forum/files, course identity and learner must survive exactly within the asserted scope.
 
-One new integration test obtains `mod_videotrack\task\cleanup_task` through
-`core\task\manager::get_scheduled_task()`, checks its component and invokes its real `execute()`.
-It restores an activity with learner data while retention is unlimited, then exercises five invocations:
+The initial empty current-plugin uninstall is preparation only. Three populated lineages on two selected jobs
+mean six new lifecycle paths, recorded inside the existing six artifacts; there is no new artifact family.
+The target code is restored on script exit, but database rollback after a failure is not claimed or attempted.
+Core grade history, configuration/event audit history and File API trash/blob retention remain governed by
+Moodle. Operational residue checks do not promise immediate physical erasure of content-addressed blobs.
 
-1. Unlimited retention preserves exact learner records in both source and restored activities.
-2. A ten-day policy removes expired segment/event/integrity/acknowledgement rows from both activities.
-   Only retained validated segments credit viewing; custom and native completion become incomplete.
-3. Repeating that policy preserves all retained plugin records exactly and reports zero processed pairs.
-4. A one-day policy expires every fixture input and removes all five learner-data families, including state.
-5. Repeating the fully expired cleanup leaves no plugin learner rows and reports zero processed pairs.
+The new CI helper is PHP-linted before execution and excluded only from the production PHPMD directory
+filter (`*/.github/lifecycle/*`). Every previously analysed production file and all PHPMD rules remain in scope.
 
-Shared activity configuration, reaction definitions, files and core-owned grade rows remain unchanged.
-Exact task output covers four user/activity pairs and distinguishes rebuilt from removed states. The site
-policy applies to both courses; source expired data is deliberately cleaned too. The fixture's timestamps
-are two and twenty days old, well away from the chosen cutoffs; no sleep or production clock seam is added.
+## Evidence and release gate
 
-This is a direct invocation of the task registered in Moodle, not a test of cron wake-up times, scheduler
-locks, backlog limits, failure retry or injected faults. Those observations are not inferred from this test.
-The new test is pending native CI. All production PHP except the release marker, schema, AMD, language values,
-roles, services, task registration, privacy/backup implementations and CI rules remain byte-identical to 252.
+The candidate's native lifecycle execution is **pending**. No PASS for the new paths is inferred from local
+patch checks or the previous unit uninstall-hook test. The six normal CI jobs must remain green, and both
+selected jobs must finish `Historical upgrade and populated uninstall` successfully. Inspect `lifecycle.txt`
+and the three before/upgrade/repeat/uninstall sets under `lifecycle/` in each selected artifact.
 
-Expected candidate suite: **384 PHPUnit test methods**; assertion totals must be measured by native CI.
-Behat remains **52 scenarios / 1154 steps**. The tree keeps **415 files**, **167 PHP files**, **32 documents
-per language**, **346 file-inventory rows** and **654 AMD callables**. Named PHP callables become **1114**.
-XMLDB stays `2026110601` and **7/151/22/22** for tables/fields/indexes/foreign keys, with nine AJAX services,
-eight language packs of 997 keys and 48 AMD source/build/map sets. ER changes only its version label.
+Existing PHPUnit remains **384 tests / 4516 assertions** and Behat **52/1154**; the new CLI assertions are
+separate. The release keeps **415 distributed files**, **167 distributed PHP files**, **1114 distributed
+PHP callables**, **654 AMD callables** and **32 documents per language**. Two repository-only helpers add
+six PHP functions: **1120** named PHP callables overall and **348** file-inventory rows, including five
+documented repository-only files. The full repository has 439 files; `.github/**` remains export-ignored.
+XMLDB stays `2026110601`, **7/151/22/22**; nine AJAX services, eight packs of 997 keys and 48 AMD sets remain.
+Production implementations, all existing tests, schema, language, AMD and grants are byte-identical to 253;
+only the release marker, repository CI helpers/workflow, documentation/inventories and ER label change.
 
 ## Remaining production gate and roadmap
 
-- Historical/interrupted upgrades and full populated uninstall with zero-residue checks remain distinct evidence.
-- Real cron scheduling, contention/failure recovery and fault injection have not been certified by these cases.
-- Analytics benchmarks on large datasets, multiple activities/groups and 7/30/90-day periods need recorded
-  versions and data/cache conditions; no benchmark is inferred from test or query counts.
-- Eight maintainer-reported manual PASS on 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA remain scoped.
-  Moodle 5.3 manual observations remain unrecorded; no new manual pass or WCAG certification is inferred.
-- Dedicated Moodle App support remains undeclared (`db/mobile.php` has an empty addon list).
+These bounded histories do not certify every old deployment lineage, cross-site MBZ migration, real process
+interruption, concurrent faults or cron scheduling. Large-dataset Analytics benchmarks and manual Moodle 5.3
+accessibility observations remain unrecorded. Retain the eight reported PASS on 248/Moodle 5.0/Academi/
+Windows 11/Chrome/NVDA within their scope. Dedicated Moodle App support remains undeclared.
+U-017/U-007 remain closed; finish the production/manual/benchmark gate and explicit App decision, then
+agreed multilingual VTT, provider authentication, OneDrive/SharePoint → Zoom Cloud Recording → Google Drive.
+Accept 254 only after candidate/main CI and actual ZIP/server/strict evidence.
 
-U-017 and essential U-007 remain closed. Complete the integrated web/lifecycle/privacy/benchmark/manual
-gate and explicit App decision, then agreed multilingual VTT subtitles, authenticated-provider foundation,
-OneDrive/SharePoint → Zoom Cloud Recording → Google Drive and cross-provider hardening.
-Native candidate/main CI and actual ZIP/server/strict remain required before accepting 253.
-
-See [lifecycle](14_INSTALL_UPGRADE_BACKUP_RESTORE.md), [privacy](18_PRIVACY_RETENTION.md),
-[CLI/benchmarks](21_CLI_DIAGNOSTICS.md), [manual evidence](19_ACCESSIBILITY.md)
-and [language review](27_LANGUAGE_REVIEW.md).
+See [lifecycle](14_INSTALL_UPGRADE_BACKUP_RESTORE.md), [CI](23_GITHUB_ACTIONS_CI.md),
+[privacy](18_PRIVACY_RETENTION.md), [benchmarks](21_CLI_DIAGNOSTICS.md) and [manual evidence](19_ACCESSIBILITY.md).

@@ -131,3 +131,9 @@ report appartiene a un altro percorso e non cambia. Vedere [le evidenze integrat
 La candidata aggiunge un’integrazione reale del task registrato: policy illimitata/finita, scadenza totale,
 ripetizione e conservazione di file/configurazione/voti core dopo il restore. La CI nativa è in attesa.
 Vedere [evidenze e limiti](28_USCITA_PRODUZIONE.md).
+
+## Storia reale installazione e uninstall nella CI
+
+La candidata aggiunge un gate CI temporaneo per installazioni reali 237/253, stato parziale di un campo,
+upgrade normale e ripetuto, uninstall completo popolato e verifica residui operativi. Il gate attende
+l’esecuzione nativa. Vedere [storie esatte e limiti](28_USCITA_PRODUZIONE.md).

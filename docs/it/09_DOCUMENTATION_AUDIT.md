@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.253** (`2026111203`).
+Baseline: VideoTrack **1.7.254** (`2026111204`).
 
 ## Perimetro
 
@@ -32,9 +32,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- U-017/U-007 restano chiusi. ZIP/report server/strict reali 1.7.252 e CI candidata/main nei sei ambienti accettati.
-  Revisionate le 997 chiavi lingua; conservati otto PASS manuali circoscritti su Moodle 5.0. La candidata 253
-  aggiunge retention tramite task registrato dopo il restore; CI nativa e prove manuali Moodle 5.3 restano in attesa.
+- U-017/U-007 restano chiusi. La253 reale è accettata, inclusa retention post-restore tramite task registrato.
+  La candidata254 aggiunge percorsi CI reali upgrade storico/uninstall completo, in attesa di esecuzione.
+  Restano review assistita997 chiavi ed evidenze manuali5.0 circoscritte; manuale5.3 in attesa.
 
 - `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
   seguiti dalle regole di visibilità delle icone. Il form mantiene conteggio, limiti, registrazione filtro upload
@@ -51,7 +51,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.253 / 2026111203.
+- Marker documentali, README principali e artefatti ER identificano 1.7.254 / 2026111204.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -173,11 +173,9 @@ Prima della promozione verificare:
 
 ## Review corrente e fasi successive concordate
 
-La 252 reale/main `3f9e62ab6485f36e4088b1c76b79aa644bc49fa3` è accettata con ZIP esatto di 415 file,
-due report server e strict 10/0/0 forniti. Suite nativa 383/4350 e Behat 52/1154 superati.
-La candidata 253 aggiunge un'integrazione retention del task registrato dopo il restore reale; logica operativa invariata.
-Attesi 384 metodi PHPUnit, asserzioni da misurare; 1114 callable PHP nominati. Restano Behat 52/1154,
-415 file/167 PHP/32 documenti per lingua/346 righe file/654 callable AMD.
-Vedere [evidenze di produzione](28_USCITA_PRODUZIONE.md) per scope corrente e prove upgrade/uninstall,
-benchmark/manuali/cron residue. Completare il gate produzione e la decisione App prima di VTT concordati e
-provider autenticati OneDrive/SharePoint → Zoom → Google Drive. Restano necessari CI nativa e ZIP reale/report server/strict.
+La 253 reale/main `511234197069f8f83e23f0da9444fa1d6a5f8030` è accettata: ZIP415 file, due report server,
+PHPUnit384/4516, Behat52/1154, strict10/0/0 e build Grunt stabili. La candidata254 aggiunge gate solo
+repository installazione-upgrade-uninstall da storia precedente/parziale/immediata in due job CI esistenti.
+Esecuzione in attesa; implementazioni operative e test esistenti invariati. I callable PHP distribuiti sono1114
+più6 helper CI, totale1120; l’inventario file348 comprende343 voci distribuite e5 solo repository.
+Vedere [evidenze produzione](28_USCITA_PRODUZIONE.md) per storie esatte, limiti e gate manuali/benchmark/App residui.

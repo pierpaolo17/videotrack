@@ -128,3 +128,9 @@ is a separate route and is unchanged. See the [integration evidence](28_PRODUCTI
 The candidate adds a real registered-task integration covering unlimited/finite policy, full input expiry,
 repeated execution and preserved shared files/configuration/core grades after restore. Native CI is pending.
 See [the evidence and limits](28_PRODUCTION_EXIT_AUDIT.md).
+
+## Actual installation and uninstall lineage in CI
+
+The candidate adds a disposable CI gate for real 237/253 installs, a constructed partial-field state,
+normal and repeated upgrades, populated full uninstall and operational residue checks. The gate is
+pending native execution. See [the exact histories and limits](28_PRODUCTION_EXIT_AUDIT.md).

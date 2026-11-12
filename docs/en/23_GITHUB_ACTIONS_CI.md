@@ -106,3 +106,16 @@ zero failures in strict mode.
 GitHub CI complements the maintainer's real installation, upgrade, backup/restore, privacy, provider and manual
 accessibility checks. It does not turn a green isolated runner into evidence about production data or external
 provider availability.
+
+## Historical upgrade and full uninstall gate
+
+After successful browser tests, the 5.0/MariaDB and 5.3/MariaDB jobs execute three real old-source
+install/upgrade/repeat/full-uninstall lineages on their disposable standard validator databases.
+The checkout fetches full history for immutable accepted baseline commits. Permissions and existing
+quality gates remain unchanged. The new step uses success(), so a prior failure blocks destructive
+lifecycle preparation; report upload still uses always(). Both selected jobs must pass this step.
+See [scope, data comparisons and residue limits](28_PRODUCTION_EXIT_AUDIT.md). The same six artifacts include
+`lifecycle.txt` and the per-lineage proofs under `lifecycle/`; native execution is pending.
+
+Only the newly added repository-only helper directory is excluded from production PHPMD scanning;
+existing production coverage/rules are preserved and the helper has its own PHP lint before execution.

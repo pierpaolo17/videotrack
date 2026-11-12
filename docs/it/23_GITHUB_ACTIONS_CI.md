@@ -106,3 +106,16 @@ validatore deve terminare in modalità strict senza fallimenti.
 La CI GitHub integra ma non sostituisce i controlli maintainer su installazione reale, upgrade, backup/restore,
 privacy, provider e accessibilità manuale. Un runner isolato verde non dimostra lo stato dei dati di produzione o
 la disponibilità dei provider esterni.
+
+## Gate upgrade storico e uninstall completo
+
+Dopo i test browser riusciti, i job 5.0/MariaDB e 5.3/MariaDB eseguono tre storie reali di installazione
+vecchio codice/upgrade/ripetizione/uninstall completo nei database standard temporanei del validatore.
+Il checkout acquisisce la storia completa per i commit baseline immutabili. Permessi e gate qualità
+esistenti restano invariati. Il nuovo step usa success(): un errore precedente blocca la preparazione
+lifecycle distruttiva; l’upload report conserva always(). Entrambi i job selezionati devono passare.
+Vedere [scope, confronti dati e limiti residui](28_USCITA_PRODUZIONE.md). I sei artifact abituali includono
+`lifecycle.txt` e le prove per percorso in `lifecycle/`; esecuzione nativa in attesa.
+
+Solo la nuova directory degli helper CI è esclusa dalla scansione PHPMD di produzione; perimetro operativo
+e regole precedenti sono conservati, con lint PHP autonomo prima dell’esecuzione dell’helper.

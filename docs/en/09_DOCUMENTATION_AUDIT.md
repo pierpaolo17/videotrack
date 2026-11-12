@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.253** (`2026111203`).
+Baseline: VideoTrack **1.7.254** (`2026111204`).
 
 ## Scope
 
@@ -32,9 +32,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- U-017/U-007 remain closed. Actual 1.7.252 ZIP/server/strict and six-job candidate/main CI are accepted.
-  All 997 language keys are reviewed; eight scoped Moodle 5.0 manual PASS remain recorded. Candidate 253
-  adds registered-task retention after restore; its native CI and Moodle 5.3 manual observations remain pending.
+- U-017/U-007 remain closed. Actual253 is accepted, including registered-task post-restore retention.
+  Candidate254 adds actual historical upgrade/full-uninstall CI paths, pending execution.
+  Assisted review of997 keys and scoped manual5.0 evidence remain; manual5.3 is pending.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -65,7 +65,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.253 / 2026111203.
+- Documentation markers, root README files and ER artefacts identify 1.7.254 / 2026111204.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -185,11 +185,9 @@ Before promotion, verify:
 
 ## Current review and agreed next stages
 
-Actual 252/main `3f9e62ab6485f36e4088b1c76b79aa644bc49fa3` is accepted with exact 415-file ZIP,
-both server reports and supplied strict 10/0/0. Native suite 383/4350 and Behat 52/1154 pass.
-Candidate 253 adds one registered-task retention integration after real restore; production logic is unchanged.
-Expected 384 PHPUnit methods, assertion count to be measured; 1114 named PHP callables. Behat 52/1154,
-415 files/167 PHP/32 documents per language/346 file rows/654 AMD callables remain unchanged.
-See [production evidence](28_PRODUCTION_EXIT_AUDIT.md) for current scope and remaining upgrade/uninstall,
-benchmark/manual/cron evidence. Complete the production gate and App decision before agreed VTT and
-authenticated OneDrive/SharePoint → Zoom → Google Drive work. Native CI and actual ZIP/server/strict remain required.
+Actual 253/main `511234197069f8f83e23f0da9444fa1d6a5f8030` is accepted: 415-file ZIP, both server reports,
+384/4516 PHPUnit, 52/1154 Behat, strict10/0/0 and stable Grunt outputs. Candidate254 adds repository-only
+historical/partial/previous install-upgrade-uninstall gates in two existing CI jobs; execution is pending.
+Production implementations and existing tests are unchanged. There are 1114 distributed PHP callables plus
+6 CI helper functions, 1120 overall; file inventory348 contains343 distributed and5 repository-only entries.
+See [production evidence](28_PRODUCTION_EXIT_AUDIT.md) for exact histories, limits and remaining manual/benchmark/App gates.

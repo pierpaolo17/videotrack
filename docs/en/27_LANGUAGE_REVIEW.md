@@ -1,6 +1,6 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.253** (`2026111203`). Assisted review recorded 2026-11-11.
+Current tree: VideoTrack **1.7.254** (`2026111204`). Assisted review recorded 2026-11-11.
 
 ## Completed semantic scope and its limits
 
