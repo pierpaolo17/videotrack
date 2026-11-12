@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.250** (`2026111103`).
+Current tree: VideoTrack **1.7.251** (`2026111201`).
 
 ## Decision and accepted evidence
 
@@ -83,9 +83,9 @@ configured analysis scopes. Candidate 1.7.241 preserves all production bodies an
 
 ## Current reset and review scope
 
-Per-student reset now enforces the management capability on the server as well as in the UI; see
-[permissions](16_ROLES_CAPABILITIES.md#per-student-report-reset-authorisation). The assisted language review
-covers all 997 keys in eight packs; it is not native sign-off. Eight manual PASS are reported for
-1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 manual coverage remains unrecorded. Candidate gates
-are pending, with expected PHPUnit 379/4076 and Behat 52/1154. Existing web/App work precedes the agreed
-multilingual VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
+Per-student reset and complete assisted review of 997 keys / 7976 values are accepted on actual 250.
+Eight manual PASS are reported on 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 remains unrecorded.
+Candidate 251 adds real course backup/restore/privacy tests: expected 381 PHPUnit methods (assertions to
+measure), Behat 52/1154 unchanged; its native CI and actual-package gates remain pending.
+See the [integrated lifecycle evidence](28_PRODUCTION_EXIT_AUDIT.md). U-017/U-007 remain closed. Finish web/App work before
+the agreed VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.

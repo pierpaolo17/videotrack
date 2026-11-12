@@ -1,5 +1,44 @@
 # VideoTrack changelog
 
+## 1.7.251 - 2026-11-12
+
+### Real backup/restore and post-restore privacy integration gates
+
+- Accept actual 1.7.250 / 2026111103: 412 files match main
+  `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`; ZIP SHA-256
+  `69820512260e51382a463d3b0986e9dd89154a6d1774776483908b9ba63666e8`.
+  Both server reports pass PHPCS/lint on 166 files, Grunt and PHPUnit 379/4076;
+  both supplied strict outputs pass 10/0/0. Corrected candidate and
+  post-merge CI pass Behat 52/1154. Retain the initial PHPCS correction
+  and post-merge Moodle 5.3/MariaDB test-server failure followed by a successful
+  fresh job; do not claim six clean first attempts or a proven cause.
+- Add two real course backup/restore integration cases, with and without
+  learner data. Check attention settings, Forum/reaction/file mappings,
+  destination retention, rebuilt viewing/native completion, ordinary
+  grade-item uniqueness and independent source records. Follow actual
+  restore with approved-user Privacy API export, scoped user/context
+  erasure and preservation of shared files and core-owned grade rows.
+  The synchronous controller path uses real XML/files without archive
+  compression; no historical/cross-site MBZ certification is inferred.
+- Add paired production-evidence guides and update indexes/inventories.
+  Correct the stale fresh-install count from 149 to 151 and obsolete current
+  language-review status. Assisted review covers all 997 keys / 7976 values;
+  eight manual PASS on 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA remain
+  scoped; Moodle 5.3 manual observations and final deployment gates stay
+  explicit. U-017/U-007 remain closed; finish earlier web/App work before
+  agreed VTT subtitles and authenticated OneDrive/SharePoint, Zoom, Drive.
+- All six initial candidate reports on `4edd6f3` pass PHPUnit 381/4296,
+  Behat 52/1154 and strict 10/0/0. The overall CI is blocked by nine PSR12
+  formatting errors in three multiline foreach headers in the new test.
+  Correct their whitespace only and update both callable inventories.
+  Assertions, production logic and CI rules are unchanged; a complete
+  successful run of the corrected candidate is required before merge.
+- Expected corrected suite: 381 PHPUnit tests / 4296 assertions and
+  Behat 52/1154, based on the actual initial execution. All production logic,
+  language values, role grants, XMLDB 7/151/22/22, nine services, AMD and
+  CI rules are unchanged. ER changes only its version label. Native
+  candidate/merged CI and actual ZIP/server/strict acceptance remain required.
+
 ## 1.7.250 - 2026-11-11
 
 ### Reset authorisation, complete assisted language review and scoped manual evidence

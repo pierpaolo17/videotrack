@@ -8,7 +8,7 @@ Install the single `videotrack/` directory under `mod/` or through Moodle's plug
 After installation:
 
 1. run `php mod/videotrack/cli/validate.php --json` from the Moodle root;
-2. confirm 7 tables, 149 fields, 22 explicit indexes, 22 foreign keys/backing indexes, 9 AJAX services,
+2. confirm 7 tables, 151 fields, 22 explicit indexes, 22 foreign keys/backing indexes, 9 AJAX services,
    8 language packs and 48 AMD sources;
 3. review retention, privacy, performance, player, focus and export settings;
 4. purge caches and create a test activity for each source used by the site.
@@ -106,4 +106,10 @@ inside the viewer's scope before deletion. This matches the existing button gate
 does not authorise reset. The technical capability/role grants remain unchanged; activity reaction editing
 continues to use Moodle's separate activity-editing permission. Read-only reports, grades, ownership, group
 scope and all other mutation paths retain their existing rules. The direct-POST denial and authorised reset
-scenarios are candidate regressions awaiting native CI; see the [current review](27_LANGUAGE_REVIEW.md).
+scenarios passed native CI on accepted 250; see the [current review](27_LANGUAGE_REVIEW.md).
+
+## Integrated lifecycle regression
+
+The 251 candidate adds real cross-course backup/restore with and without user data, shared-file/Forum/reaction
+mappings, destination retention and scoped Privacy API export/erasure. Native results remain pending. See
+[the evidence record](28_PRODUCTION_EXIT_AUDIT.md) for the exact assertions and remaining production gates.

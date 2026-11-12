@@ -1,15 +1,16 @@
 # Audit di uscita U-007: automazione browser
 
-Albero corrente: VideoTrack **1.7.250** (`2026111103`). Decisione registrata il 2026-11-09.
+Albero corrente: VideoTrack **1.7.251** (`2026111201`). Decisione registrata il 2026-11-09.
 
 ## Decisione
 
 **U-007 è chiuso sulla baseline 1.7.240 accettata.** La matrice browser/provider/ruoli essenziale ha esecuzione
 reale nei sei job Moodle/PHP/database indicati sotto. La 1.7.241 accettata ha consolidato evidenze e passaggio
-all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. La candidata reset/lingue
-1.7.250 è documentata nella [review mirata](27_REVISIONE_LINGUE.md).
-U-017 resta chiuso. U-020/accessibilità manuale e gate produzione restano separati. La review semantica assistita è completa
-nella candidata 1.7.250, i cui gate nativi restano pendenti. Questo documento non certifica accessibilità o deploy con provider pubblici.
+all’audit manuale; ZIP reale/server/strict e sei job CI release/main sono superati. Reset e revisione assistita
+completa delle lingue sono accettati sulla 1.7.250 reale; vedere la [review mirata](27_REVISIONE_LINGUE.md).
+U-017 resta chiuso. U-020/accessibilità manuale e gate produzione restano separati. La candidata 251
+aggiunge test di integrazione sul ciclo di vita in attesa di CI nativa. Questo documento non certifica
+accessibilità o deployment con provider pubblici.
 
 ## Baseline accettata esatta
 
@@ -72,11 +73,11 @@ restano distinti esplicitamente.
 
 ## Lavoro residuo e condizioni di riapertura
 
-- Eseguire il [protocollo manuale U-020](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020) su tema/browser/tecnologie assistive effettivi.
+- Completare le [osservazioni manuali](19_ACCESSIBILITY.md#protocollo-evidenze-manuali-u-020) Moodle 5.3 non registrate quando possibile; conservare gli otto PASS Moodle 5.0 già dichiarati nel loro scope.
 - Registrare esiti provider reali, cookie/consenso e accessibilità contenuti nell’accettazione deploy/contenuti.
-- Completare review semantica degli otto pacchetti lingua; chiavi/placeholder uguali non approvano la traduzione.
+- Conservare la review assistita completa delle otto lingue sulla 250; l’approvazione madrelingua è distinta.
 - Eseguire il gate integrato produzione/lifecycle/privacy/benchmark su uno ZIP esatto.
-- Poi valutazione Moodle App, base comune provider autenticati, OneDrive/SharePoint, Zoom Cloud Recording,
+- Poi valutazione Moodle App, sottotitoli VTT multilingua concordati, base comune provider autenticati, OneDrive/SharePoint, Zoom Cloud Recording,
   Google Drive e consolidamento fra provider, nell’ordine concordato.
 
 Una regressione adapter/UI comprovata riapre la cella U-007 interessata; un nuovo provider richiede contratti
@@ -86,9 +87,9 @@ mirata solo per un finding concreto. Non riaprire U-017 strutturale per le metri
 
 ## Scope corrente reset e review
 
-Il reset del singolo studente ora verifica il permesso gestione anche sul server, oltre che nell’interfaccia:
-vedere i [permessi](16_ROLES_CAPABILITIES.md#autorizzazione-reset-del-singolo-studente-nel-report). La review
-assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad approvazione madrelingua.
-Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
-Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
-VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.
+Reset per studente e review assistita completa di 997 chiavi / 7976 valori sono accettati sulla 250 reale.
+Otto PASS manuali sono dichiarati sulla 248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 non è registrato.
+La candidata 251 aggiunge test reali backup/restore/privacy tra corsi: attesi 381 metodi PHPUnit (asserzioni
+da misurare), Behat 52/1154 invariato; restano in attesa CI nativa e gate pacchetto reale della candidata.
+Vedere le [evidenze integrate sul ciclo di vita](28_USCITA_PRODUZIONE.md). U-017/U-007 restano chiusi. Completare web/App
+prima dei VTT concordati, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.

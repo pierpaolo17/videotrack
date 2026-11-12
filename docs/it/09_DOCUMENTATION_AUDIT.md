@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.250** (`2026111103`).
+Baseline: VideoTrack **1.7.251** (`2026111201`).
 
 ## Perimetro
 
@@ -158,7 +158,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 412 file legittimi del plugin.
+  L'archivio canonico di release deve contenere quindi soltanto i 415 file legittimi del plugin.
 
 ## Controlli di release
 
@@ -174,13 +174,19 @@ Prima della promozione verificare:
 
 ## Review corrente e fasi successive concordate
 
-La 1.7.247 reale è accettata. La candidata 1.7.248 verifica 179 chiavi report/dashboard / 1432 valori, riusando
-una chiave e verificandone 178 nuove. Cumulativo: 530 chiavi / 4240 valori; 467 chiavi fuori dalla dichiarazione
-semantica. Tutte le 997 chiavi/placeholder restano allineate. Perimetro/rilievi e correzione intenzionale della
-intestazione CSV italiana sono nel [registro review](27_REVISIONE_LINGUE.md).
+La 1.7.250 reale è accettata contro main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`, ZIP reale,
+due report server e i due strict forniti 10/0/0. La revisione semantica assistita completa copre 997 chiavi /
+7976 valori; non è approvazione linguistica madrelingua. U-017 e U-007 essenziale restano chiusi.
 
-L’albero di 412 file conserva 31 documenti EN/IT ciascuno, 166 file PHP, 1101 callable PHP/654 AMD, 345 righe
-inventario e XMLDB 7/151/22/22 invariato. Runtime/DB/AMD/test/CI invariati. Servono ancora CI candidata e gate
-ZIP reale dopo merge/server/strict. U-020 registra PASS nello scope Moodle 5.0; la copertura Moodle 5.3 non è registrata. Completare lavoro precedente/decisione App, poi
-estensione sottotitoli VTT concordata, quindi foundation autenticata e OneDrive/SharePoint → Zoom → Google
-Drive. Questa release testuale non introduce funzioni VTT né esiti manuali.
+La candidata 1.7.251 aggiunge due test reali di integrazione backup/restore/privacy tra corsi. L'albero corrente
+contiene 415 file, 167 PHP, 1110 callable PHP/654 AMD, 346 righe inventario file e 32 documenti per lingua.
+Metodi test PHPUnit attesi: 381; il totale asserzioni attende la CI nativa. Behat resta 52/1154. Logica di
+produzione, schema DB, otto lingue e AMD sono invariati. XMLDB resta 7/151/22/22. La guida installazione
+corregge da 149 a 151 il conteggio campi obsoleto. Entrambi gli inventari includono nuovo file/metodi test
+alle righe effettive.
+
+Restano necessari CI candidata, CI dopo merge e accettazione ZIP/server/strict reali. Restano i PASS manuali
+circoscritti sulla 248/Moodle 5.0; Moodle 5.3 non è registrato. Il [registro delle evidenze integrate](28_USCITA_PRODUZIONE.md)
+distingue upgrade storico/uninstall, benchmark e decisione App dai normali risultati unit/CI. Completare
+lavoro precedente/decisione App, poi VTT concordati, base autenticata e OneDrive/SharePoint → Zoom → Google
+Drive. Qui non si introducono nuovi PASS manuali o VTT runtime.

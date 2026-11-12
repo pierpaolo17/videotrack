@@ -1,6 +1,6 @@
 # Source-grounded language review
 
-Current tree: VideoTrack **1.7.250** (`2026111103`). Assisted review recorded 2026-11-11.
+Current tree: VideoTrack **1.7.251** (`2026111201`). Assisted review recorded 2026-11-11.
 
 ## Completed semantic scope and its limits
 
@@ -95,7 +95,15 @@ See the [scoped manual record](19_ACCESSIBILITY.md#manual-evidence-protocol-u-02
 249/250 execution from unchanged DOM or from automatic tests. Later wording changes have their own delta.
 U-020 is partially covered; U-017 and the accepted essential U-007 milestone remain closed.
 
-## Candidate gates and roadmap
+## Acceptance update and current candidate
+
+The complete assisted review and reset guard were accepted on actual 250/main `7a5b5f391dcc1ef0fd63f8640ce325e93f9ada25`,
+with candidate/merged CI, both server reports and strict 10/0/0. The observations below retain the initial
+250 candidate history. Corrected CI and a fresh post-merge 5.3/MariaDB retry passed; this does not establish
+why that job's test server stopped initially. No language value changes in 251. Its two new lifecycle tests
+are pending native CI; see [current integration evidence](28_PRODUCTION_EXIT_AUDIT.md).
+
+## 1.7.250 candidate history and roadmap
 
 The candidate retains 412 files, 166 PHP files, 31 documents per EN/IT guide, 345 inventory rows and 654 AMD
 callables. PHP callables become 1103 through two test-only helpers. XMLDB remains `2026110601`, with
