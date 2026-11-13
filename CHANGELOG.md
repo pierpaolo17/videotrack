@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.255 - 2026-11-13
+
+### Calibrate the Analytics CLI to its selected viewer
+
+- Accept the actual 1.7.254 package/main a42432a: all 415 distributed files match,
+  server PHPCS/lint cover168 clean PHP files including the repository lifecycle
+  helper, PHPUnit passes 385/4540 on 5.0/5.3, and candidate/main six-job CI passes
+  Behat 52/1154 and the selected historical/partial/previous lifecycle gates.
+- Record real Moodle 5.3 diagnostics on course 2: 42 returned activities, 28 synthetic
+  target states, 28776 target segments and 14388 segments in the seven-day window.
+  The standalone profiler's40 canonical/component comparisons match. Its controlled
+  current-user 0-to-viewer 10 comparison retains all outputs in 40 runs while course
+  queries drop 218-to-92 and single-activity queries 9-to-6. This identifies CLI
+  context overhead; no production Analytics optimisation was applied.
+- Load the selected active user's complete record and set that user as the
+  in-process Moodle user before selecting activities, preparing scopes or timing
+  calls. Emit current_userid beside userid so future JSON records the execution
+  context. The CLI remains read-only; existing Analytics, groups, capabilities,
+  privacy thresholds, aggregation and timing loops are unchanged.
+- Correct both CLI guides: the benchmark always emits JSON and has no --json
+  option. Document its independent default privacy threshold2, explicit site
+  threshold selection, warm-cache/profiler limits and the scoped native evidence.
+  Retain the validator's supported --json option.
+- Update paired current-tree labels and release audits. No test, AMD, schema,
+  language, lifecycle or CI-rule change. Inventories remain 439 repository / 415
+  distributed files, 167 distributed PHP files, 1116 distributed PHP callables
+  plus 7 repository-only helpers and 654 named AMD callables. New candidate native
+  CI/server validation and the shipped CLI rerun remain pending; profiler evidence
+  from254 is not a pass claim for255. Manual Moodle 5.3 remains on standby, and
+  concurrent-load/worst-case benchmarks and the explicit MoodleApp decision remain open.
+
 ## 1.7.254 - 2026-11-12
 
 ### Real historical upgrade/full uninstall and native-completion cleanup
