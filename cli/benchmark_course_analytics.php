@@ -28,6 +28,7 @@ require(__DIR__ . '/../../../config.php');
 
 /** @var stdClass $CFG Moodle configuration initialised by config.php. */
 /** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var stdClass $USER Current Moodle user selected before the benchmark measurements. */
 require_once($CFG->libdir . '/clilib.php');
 
 
@@ -39,7 +40,7 @@ Usage:
 
 Required:
     --courseid=<id>      Course containing VideoTrack activities.
-    --userid=<id>        Viewer used for capability/group visibility checks.
+    --userid=<id>        Active viewer used as the current CLI user and for capability/group checks.
 
 Options:
     --activityid=<id>    Single VideoTrack instance used by *_single scenarios. If omitted,
@@ -51,7 +52,7 @@ Options:
     -h, --help           Print this help.
 
 Output:
-    Pretty-printed JSON containing per-run reads, queries, DB time, wall time, medians and
+    Pretty-printed JSON containing the current user id, per-run reads, queries, DB time, wall time, medians and
     a scaling comparison between one activity and all configured activities.
 
 Notes:
@@ -100,7 +101,14 @@ if ($perioddays < 1 || $perioddays > 3650) {
 }
 
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
-$user = $DB->get_record('user', ['id' => $userid, 'deleted' => 0], 'id,username', MUST_EXIST);
+$user = $DB->get_record(
+    'user',
+    ['id' => $userid, 'deleted' => 0, 'suspended' => 0],
+    '*',
+    MUST_EXIST
+);
+// Match the viewer's in-process context before loading scopes or measuring queries.
+\core\session\manager::set_user($user);
 $configuredactivitycount = $DB->count_records('videotrack', ['course' => $courseid]);
 if ($configuredactivitycount <= 0) {
     cli_error('The selected course has no VideoTrack activities.', 3);
@@ -242,6 +250,7 @@ $report = [
     'db_family' => $DB->get_dbfamily(),
     'courseid' => $courseid,
     'userid' => $userid,
+    'current_userid' => (int)$USER->id,
     'username' => $user->username,
     'configured_activity_count' => $configuredactivitycount,
     'single_activityid' => $activityid,

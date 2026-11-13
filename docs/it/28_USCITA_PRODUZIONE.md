@@ -1,6 +1,24 @@
 # Evidenze integrate sul ciclo di vita e sul gate di produzione
 
-Candidata corrente: VideoTrack **1.7.254** (`2026111204`). Audit registrato 2026-11-13.
+Candidata corrente: VideoTrack **1.7.255** (`2026111300`). Audit registrato 2026-11-13.
+
+## Candidata 1.7.255: contesto viewer del benchmark
+
+La baseline accettata e la254 reale/main a42432a (415 file package coincidenti, PHPCS/lint server puliti su 168 PHP,
+Unit 385/4540 su 5.0/5.3, Behat 52/1154 nei sei job candidata/main e percorsi lifecycle selezionati). L'ultima
+correzione helper e accettata; le precedenti attese di quella correzione sotto sono checkpoint storici.
+
+La255 cambia solo CLI benchmark e documentazione/metadati release: carica il viewer attivo completo, lo imposta
+come utente corrente in memoria prima delle misure ed espone current_userid. Analytics, regole capability/gruppi/
+privacy, schema, tracking, lifecycle e AMD restano invariati. Le due guide CLI eliminano l'esempio --json non
+supportato dal benchmark e documentano il suo default privacy indipendente 2.
+
+L'evidenza nativa254 del profiler con minusers 5 conserva tutti i 40 risultati passando dall'utente corrente 0 al
+viewer 10, con 218-a-92 query del corso e 9-a-6 della singola attivita. Questo calibra il contesto CLI, non dimostra
+una ottimizzazione prestazionale del prodotto. Vedere [la guida CLI](21_CLI_DIAGNOSTICS.md) per densita e limiti.
+Nuovi esiti 255 CI/server/strict e riesecuzione del CLI distribuito sono in attesa. Inventari file/callable invariati.
+Il manuale Moodle 5.3 resta in standby; benchmark worst-case/concorrenti e decisione esplicita MoodleApp restano aperti.
+
 
 ## Baseline accettata
 

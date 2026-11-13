@@ -1,6 +1,6 @@
 # Review linguistica basata sul codice
 
-Albero corrente: VideoTrack **1.7.254** (`2026111204`). Review assistita registrata 2026-11-11.
+Albero corrente: VideoTrack **1.7.255** (`2026111300`). Review assistita registrata 2026-11-11.
 
 ## Perimetro semantico completato e limiti
 

@@ -1,6 +1,24 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.254** (`2026111204`).
+Baseline: VideoTrack **1.7.255** (`2026111300`).
+
+## Candidate 1.7.255: benchmark viewer context
+
+The accepted baseline is actual 1.7.254/main a42432a (415 matching package files, clean 168-file server PHPCS/lint,
+385/4540 Unit on 5.0/5.3, six-job candidate/main Behat 52/1154 and selected lifecycle paths). Its latest helper
+correction is accepted; earlier correction-pending statements below are historical checkpoints.
+
+Candidate 255 changes only the benchmark CLI and release documentation/metadata: select the active full viewer
+record, set the in-process current user before measurement and expose current_userid. The source-controlled
+Analytics, capability/group/privacy rules, schema, tracking, lifecycle and AMD are unchanged. Both CLI guides
+remove the unsupported benchmark --json example and document the independent privacy default 2.
+
+Native 254 profiler evidence with minusers 5 preserves all 40 results when changing current-user 0 to viewer 10,
+with 218-to-92 course queries and 9-to-6 single queries. This calibrates the CLI context rather than demonstrating
+a product performance optimisation. See [the CLI guide](21_CLI_DIAGNOSTICS.md) for density and timing limits.
+New 255 CI/server/strict results and the shipped CLI rerun are pending. File/callable inventories are unchanged.
+Manual Moodle 5.3 remains on standby; worst-case/concurrent benchmarking and the explicit MoodleApp decision remain open.
+
 
 ## Scope
 
@@ -66,7 +84,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.254 / 2026111204.
+- Documentation markers, root README files and ER artefacts identify 1.7.255 / 2026111300.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;

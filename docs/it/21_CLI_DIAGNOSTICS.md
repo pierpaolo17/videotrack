@@ -39,15 +39,54 @@ volutamente una modalità di riparazione.
 
 ```bash
 php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id>
-php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id> --json
+php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id> \
+    --activityid=<instanceid> --minusers=5 --runs=10 --perioddays=7 > benchmark.json
 ```
 
-`courseid` seleziona un corso esistente. `userid` identifica un utente autorizzato il cui scope Moodle viene usato
-dalla query Analytics reale. Il benchmark esegue l'aggregazione batch di produzione per viste all-time e periodo,
-nelle varianti attività singola/tutte. Riporta tempo, letture/query/tempo database, righe e rapporto all-vs-naive.
+Il benchmark emette sempre JSON; `--json` appartiene al validatore e non e una opzione del benchmark.
+Usare il percorso del plugin installato: il layout `public/` puo collocarlo in `public/mod/videotrack/`.
 
-È in sola lettura ma può essere costoso su un corso grande. Eseguirlo in una finestra adeguata, registrare stato di
-database/cache e confrontare dataset equivalenti. Un singolo corso non dimostra lo scaling worst-case.
+`courseid` seleziona un corso esistente. `userid` seleziona un viewer attivo autorizzato. Prima di selezionare
+le attivita o misurare le query, il CLI carica il record completo dell'utente e lo imposta come utente corrente
+in memoria nel processo Moodle. Il JSON registra `userid` e `current_userid`. Questo allinea il contesto dei
+controlli capability al viewer scelto; non cambia ruoli, iscrizioni, impostazioni o dati degli studenti. Resta una
+misura CLI, non del caricamento della pagina nel browser.
+
+`activityid` e l'ID interno VideoTrack, non il course-module dell'URL `view.php?id=...`. Se omesso, lo strumento
+preferisce l'attivita con piu stati. I quattro scenari combinano all-time/periodo e attivita singola/tutte.
+`runs` ha default 5 e ammette1..50; `perioddays` ha default 7. La soglia privacy `minusers` ha default indipendente 2:
+passare esplicitamente il valore del sito per un confronto corrispondente. L'esempio usa5 senza cambiare
+l'impostazione del sito. `groupid` restringe facoltativamente lo scope gruppi gia autorizzato.
+
+Ogni scenario riporta raw run, min/mediana/max di tempo totale, letture/query/tempo DB e numero di attivita
+restituite. `all_vs_naive_ratio` confronta le letture di tutte le attivita con la stima aritmetica delle letture
+singole moltiplicate per le attivita configurate. Verificare righe restituite, attivita configurate e densita dei
+dati prima di interpretarla: non e una misura di chiamate singole ripetute realmente.
+
+### Evidenza Moodle 5.3 e limiti del campione
+
+Il 2026-11-13 il maintainer ha fornito diagnostica reale della baseline 1.7.254: 42 attivita visibili, 28 stati
+sintetici target, 28776 segmenti target e 14388 segmenti target nei sette giorni. Altre attivita contribuiscono 21
+stati all-time ulteriori. Il profiler separato ha usato soglia 5 e 10 run per scenario. Il replay dei componenti
+pubblici coincide con riepiloghi, conteggi eventi e permessi canonici in tutti i 40run. Anche il passaggio
+controllato dall'utente corrente CLI0 al viewer 10 conserva tutti i 40 risultati, mentre le query passano9-a-6
+per l'attivita e218-a-92 per il corso. Il contesto CLI riferito a un altro utente aggiunge 126 query in questa
+misura del corso; non era stata applicata una ottimizzazione degli Analytics di produzione.
+
+Con il viewer corrente, il replay del corso usa 86 query per gli scope, 3 per i conteggi eventi, 3 per stati o
+segmenti e 0 per i flag permessi finali. La sorgente risolve ancora due scope SQL studenti per attivita: questi
+dati non dimostrano un numero totale costante di query. La lettura dei 14388 segmenti del periodo e il calcolo
+dei riepiloghi rimangono un costo distinto dalla preparazione dei permessi.
+
+Questi risultati verificano il confronto diagnostico sulla 254, non l'esecuzione nativa della candidata 255.
+Ripetere il CLI distribuito con la255 dopo l'upgrade e conservare il JSON con `current_userid`. Il profiler
+esegue un warm-up esplicito; le fasi del replay sono esecuzioni separate e le loro mediane non si sommano come
+parti strumentate del totale canonico. Warm-up e prima esecuzione piu lenta non provano una cache fredda.
+
+Il benchmark e in sola lettura ma puo essere costoso su corsi grandi. Registrare stato di database/cache e
+carico del server, confrontare dataset equivalenti e conservare il JSON originale. Il campione non rappresenta 42
+attivita tutte densamente popolate, carico concorrente, accessibilita o una validazione end-to-end del player.
+Il dataset sintetico conservato e utilizzabile per screenshot; l'accessibilita manuale Moodle 5.3 resta in standby.
 
 ## Gestione delle evidenze
 
