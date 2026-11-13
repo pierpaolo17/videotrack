@@ -1,6 +1,6 @@
 # Evidenze integrate sul ciclo di vita e sul gate di produzione
 
-Candidata corrente: VideoTrack **1.7.254** (`2026111204`). Audit registrato 2026-11-12.
+Candidata corrente: VideoTrack **1.7.254** (`2026111204`). Audit registrato 2026-11-13.
 
 ## Baseline accettata
 
@@ -49,9 +49,38 @@ aree: il ciclo non visitava file. Non attribuire alla run iniziale letture dei c
 enumera le sette aree della fixture, richiede un file regolare per area e legge ogni contenuto per verificarne
 l’hash. Chiude una verifica vacua senza indebolire alcuna asserzione sui residui.
 
-La candidata corretta deve superare una nuova run completa di sei job e tutti i tre percorsi nei due job
-selezionati. Suite PHPUnit corretta attesa: **385 metodi**, asserzioni da misurare; Behat resta **52/1154**.
+Quella correzione ha poi superato i sei job e tutte e tre le storie nei due job selezionati.
+La suite PHPUnit corretta misura **385 test / 4540 asserzioni**; Behat resta **52/1154**.
 Il risultato iniziale384/4516 appartiene solo al codice iniziale, non alla candidata corretta.
+
+## CI confermata e rifiuto del report server reale
+
+La candidata corretta `7561ed4dc9fdb73766c8d824be8ddbf6b606d547`, run **43304629270**, e
+main integrato `7145a2fdf03941f4f71a8f0d38b1912d9be620d2`, run **43315619158**, superano tutti i sei job.
+Entrambe misurano PHPUnit **385/4540**, Behat **52/1154**, strict **10/0/0** e tutte e tre le
+storie lifecycle sui due job selezionati. Coincidono tutte le sei coppie indipendenti di snapshot
+upgrade/ripetizione. Ogni job selezionato verifica **63** hash fisici dei file condivisi tra seed,
+upgrade e ripetizione delle tre storie.
+
+Lo ZIP reale di 415 file coincide esattamente con quel main approvato. SHA-256 pacchetto:
+`1a78bf8360034f425ba86549bc78c9bd96613e822f161bff226f9678ad14dd5a`.
+Il report server `20261113_091431`, SHA-256
+`56b19571d624cffe10b05395ce9e4cfa8f3c275de44ed2ee6537631eb2ba8143`, supera lint su **168** PHP,
+Grunt con hash AMD invariati e PHPUnit **385/4540** sui due siti PHP 8.3.6, Moodle 5.0/5.3.
+Entrambi gli strict forniti sono **10 PASS / 0 WARN / 0 FAIL**; grade item/righe sono rispettivamente
+**0/0** e **33/33**. Gli strict sono evidenze CLI fornite, non esecuzioni locali.
+
+Il risultato complessivo del report è **FAIL**: PHPCS canonico controlla 168 file e segnala tre errori,
+tutti in `.github/lifecycle/site.php`: boilerplate GPL incompleto, assegnazioni globali prima
+dell’inclusione config e docblock inline senza annotazione di tipo per una variabile. La CI precedente
+controllava i soli 167 file distribuiti e saltava questo helper nella directory nascosta, solo repository.
+La253 reale resta la baseline accettata.
+
+Correggere nella stessa release: completare il boilerplate, conservare il controllo ambiente/percorso
+identico in `videotrack_ci_root()` chiamato dalla prima inclusione config.php, e usare un commento
+normale. Il rifiuto resta prima del bootstrap. Il job qualità esegue esplicitamente lint e PHPCS
+sull’helper col ruleset canonico `moodle-extra` del progetto; conserva `phplint-lifecycle.txt` e
+`phpcs-lifecycle.txt` nello stesso artifact. Nessuna soppressione di regole o modifica al PHP distribuito.
 
 ## Nuovo gate CI: storia installazione reale e uninstall completo
 
@@ -92,14 +121,15 @@ Il nuovo helper CI passa dal lint PHP prima dell’esecuzione ed è escluso solo
 
 ## Evidenze e gate release
 
-L'esecuzione lifecycle nativa della candidata è **in attesa**. Non si deducono PASS dai controlli patch locali
-o dal precedente test unitario dell'hook uninstall. I sei job normali devono essere verdi ed entrambi i job
-selezionati devono concludere `Historical upgrade and populated uninstall`. Analizzare `lifecycle.txt` e le
-tre serie prima/upgrade/ripetizione/uninstall sotto `lifecycle/` nei rispettivi artifact.
+La seconda correzione nella stessa versione è **in attesa di validazione nativa**. Le CI su sei job
+e le prove server sopra descrivono main7145a2f, non questo helper/workflow corretto. Non si dichiara
+un’esecuzione PHP/PHPCS nativa locale. Richiedere nuova CI candidata/main su sei job, report helper
+espliciti puliti e tutte e tre le storie lifecycle sui due job, poi ZIP reale/report server/strict
+prima di accettare254.
 
-Attesi **385 metodi PHPUnit**, asserzioni da misurare; Behat resta **52/1154**. Le asserzioni CLI sono separate.
+Attesi PHPUnit **385 test / 4540 asserzioni** e Behat **52/1154**; le asserzioni CLI sono separate.
 Restano **415 file distribuiti**, **167 PHP distribuiti**, **1116 callable PHP distribuiti**, **654 callable AMD**
-e **32 documenti per lingua**. Due helper solo repository aggiungono sei funzioni PHP: **1122** callable PHP
+e **32 documenti per lingua**. Due helper solo repository aggiungono sette funzioni PHP: **1123** callable PHP
 nominati complessivi e **348** righe inventario file, compresi cinque file documentati solo repository.
 Il repository completo conta 439 file; `.github/**` resta escluso dagli archivi. XMLDB resta `2026110601`,
 **7/151/22/22**; nove AJAX, otto pacchetti da 997 chiavi e 48 terne AMD restano invariati. L’unica correzione

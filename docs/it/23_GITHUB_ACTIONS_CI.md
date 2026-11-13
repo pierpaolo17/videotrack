@@ -115,7 +115,7 @@ Il checkout acquisisce la storia completa per i commit baseline immutabili. Perm
 esistenti restano invariati. Il nuovo step usa success(): un errore precedente blocca la preparazione
 lifecycle distruttiva; l’upload report conserva always(). Entrambi i job selezionati devono passare.
 Vedere [scope, confronti dati e limiti residui](28_USCITA_PRODUZIONE.md). I sei artifact abituali includono
-`lifecycle.txt` e le prove per percorso in `lifecycle/`; esecuzione nativa in attesa.
+`lifecycle.txt` e le prove per percorso in `lifecycle/`; la correzione completion supera CI candidata/main.
 
 Solo la nuova directory degli helper CI è esclusa dalla scansione PHPMD di produzione; perimetro operativo
 e regole precedenti sono conservati, con lint PHP autonomo prima dell’esecuzione dell’helper.
@@ -123,3 +123,9 @@ e regole precedenti sono conservati, con lint PHP autonomo prima dell’esecuzio
 La run254 iniziale43297863869 supera i test ordinari, ma i due job lifecycle si fermano al residuo di
 completion nativa dell’uninstall storico. Partial/previous ineseguiti. La254 corretta pulisce lo scope
 nell’hook ed enumera aree file esplicite con asserzioni di presenza/hash; nessun controllo fallito è attenuato.
+
+Il job qualità controlla ora esplicitamente anche il PHP dell’helper nascosto con lint e PHPCS canonico
+`moodle-extra`; `phplint-lifecycle.txt` e `phpcs-lifecycle.txt` affiancano i report dei167 PHP distribuiti.
+Errori lint, errori o warning PHPCS fermano il job tramite pipefail. Il report server ha rilevato tre
+errori in questo168° PHP; la correzione helper/CI nella stessa254 richiede nuove evidenze native.
+La correzione completion precedente supera candidata/main385/4540 e tutte e sei le storie lifecycle.

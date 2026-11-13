@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Repository-only assertions for disposable CI lifecycle sites.
@@ -17,18 +25,28 @@
 define('CLI_SCRIPT', true);
 define('IGNORE_COMPONENT_CACHE', true);
 
-$workspace = realpath((string)getenv('GITHUB_WORKSPACE'));
-$root = realpath((string)getenv('MOODLE_ROOT'));
-if (getenv('GITHUB_ACTIONS') !== 'true' || !$workspace || $root !== $workspace . '/moodle') {
-    fwrite(STDERR, "This helper requires the disposable Moodle GitHub Actions workspace.\n");
-    exit(2);
-}
-require($root . '/config.php');
+require(videotrack_ci_root() . '/config.php');
 require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/ddllib.php');
 
-/** @var int Number of successful assertions in this invocation. */
+$workspace = realpath((string)getenv('GITHUB_WORKSPACE'));
+// Number of successful assertions in this invocation.
 $checks = 0;
+
+/**
+ * Resolve the disposable CI Moodle root before allowing config.php to load.
+ *
+ * @return string Validated absolute Moodle root.
+ */
+function videotrack_ci_root(): string {
+    $workspace = realpath((string)getenv('GITHUB_WORKSPACE'));
+    $root = realpath((string)getenv('MOODLE_ROOT'));
+    if (getenv('GITHUB_ACTIONS') !== 'true' || !$workspace || $root !== $workspace . '/moodle') {
+        fwrite(STDERR, "This helper requires the disposable Moodle GitHub Actions workspace.\n");
+        exit(2);
+    }
+    return $root;
+}
 
 /**
  * Fail immediately so a preservation error cannot be followed by uninstall.

@@ -115,10 +115,14 @@ The checkout fetches full history for immutable accepted baseline commits. Permi
 quality gates remain unchanged. The new step uses success(), so a prior failure blocks destructive
 lifecycle preparation; report upload still uses always(). Both selected jobs must pass this step.
 See [scope, data comparisons and residue limits](28_PRODUCTION_EXIT_AUDIT.md). The same six artifacts include
-`lifecycle.txt` and the per-lineage proofs under `lifecycle/`; native execution is pending.
+`lifecycle.txt` and the per-lineage proofs under `lifecycle/`; the completion correction passes both candidate/main runs.
 
 Only the newly added repository-only helper directory is excluded from production PHPMD scanning;
 existing production coverage/rules are preserved and the helper has its own PHP lint before execution.
+The quality job now also explicitly lints the hidden helper and checks canonical `moodle-extra` PHPCS;
+`phplint-lifecycle.txt` and `phpcs-lifecycle.txt` record the commands alongside the ordinary 167-file scan.
+Any helper lint error, PHPCS error or warning fails the job through pipefail. The previous server report
+found three errors in this 168th PHP file; the helper/CI correction needs fresh native evidence.
 
 The initial254 run43297863869 passed all ordinary tests but both lifecycle jobs stopped at the historical
 uninstall's native-completion residue. Partial/previous paths were not run. Corrected254 adds scoped

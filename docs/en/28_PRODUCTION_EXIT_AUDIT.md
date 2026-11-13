@@ -1,6 +1,6 @@
 # Integrated lifecycle and production evidence
 
-Current candidate: VideoTrack **1.7.254** (`2026111204`). Audit recorded 2026-11-12.
+Current candidate: VideoTrack **1.7.254** (`2026111204`). Audit recorded 2026-11-13.
 
 ## Accepted baseline
 
@@ -49,9 +49,36 @@ the loop visited no files. Do not describe the initial run as having read their 
 helper to enumerate all seven named fixture areas, require exactly one regular file per area and read
 each file to verify its hash. This closes a vacuous-check gap without weakening any residue assertion.
 
-The corrected candidate must pass a new complete six-job run and all three lineages in both selected jobs.
-Expected corrected PHPUnit suite: **385 methods**, assertion total to be measured; Behat remains **52/1154**.
+That correction subsequently passed all six jobs and all three lineages in both selected jobs.
+The corrected PHPUnit suite measures **385 tests / 4540 assertions**; Behat remains **52/1154**.
 The initial 384/4516 result belongs only to the initial code, not to the corrected candidate.
+
+## Confirmed CI and actual server rejection
+
+Corrected candidate `7561ed4dc9fdb73766c8d824be8ddbf6b606d547`, run **43304629270**, and
+merged main `7145a2fdf03941f4f71a8f0d38b1912d9be620d2`, run **43315619158**, each pass all six jobs.
+Both measure PHPUnit **385/4540**, Behat **52/1154**, strict **10/0/0** and all three lifecycle
+lineages on both selected jobs. All six independent upgrade/repeat snapshot pairs match. Each selected
+job performs **63** physical shared-file hash checks across seed/upgrade/repeat and the three lineages.
+
+The actual 415-file ZIP matches that approved main source exactly. Package SHA-256:
+`1a78bf8360034f425ba86549bc78c9bd96613e822f161bff226f9678ad14dd5a`.
+Server report `20261113_091431`, SHA-256
+`56b19571d624cffe10b05395ce9e4cfa8f3c275de44ed2ee6537631eb2ba8143`, passes lint on **168** PHP files,
+Grunt with unchanged AMD hashes and PHPUnit **385/4540** on both PHP 8.3.6 Moodle 5.0/5.3 sites.
+Both supplied strict outputs are **10 PASS / 0 WARN / 0 FAIL**; grade item/row counts are **0/0**
+and **33/33**, respectively. Strict is user-supplied CLI evidence, not a local execution.
+
+The report overall is **FAIL**: canonical PHPCS checks 168 files and reports three errors, all in
+`.github/lifecycle/site.php`: incomplete GPL boilerplate, global assignments before config inclusion,
+and an inline docblock without a variable type annotation. Earlier CI PHPCS checked only the 167
+distributed files and skipped this hidden repository-only helper. Actual253 remains the accepted baseline.
+
+Correct within the same release: complete the boilerplate, retain the exact environment/path guard in
+`videotrack_ci_root()` called by the first config.php inclusion, and replace the inline docblock with
+a normal comment. Keep guard rejection before bootstrap. The quality job explicitly lints this helper
+and checks it with the project canonical `moodle-extra` ruleset; retain `phplint-lifecycle.txt` and
+`phpcs-lifecycle.txt` in the existing artifact. No rule suppression or production PHP change is added.
 
 ## New CI gate: actual installation lineage and full uninstall
 
@@ -87,20 +114,22 @@ The target code is restored on script exit, but database rollback after a failur
 Core grade history, configuration/event audit history and File API trash/blob retention remain governed by
 Moodle. Operational residue checks do not promise immediate physical erasure of content-addressed blobs.
 
-The new CI helper is PHP-linted before execution and excluded only from the production PHPMD directory
-filter (`*/.github/lifecycle/*`). Every previously analysed production file and all PHPMD rules remain in scope.
+The CI helper is PHP-linted before lifecycle execution. The quality job also explicitly runs helper lint
+and canonical PHPCS, covering the hidden file omitted by the ordinary plugin scan. It is excluded only
+from the production PHPMD directory filter (`*/.github/lifecycle/*`). Every previously analysed production
+file and all PHPMD rules remain in scope.
 
 ## Evidence and release gate
 
-The candidate's native lifecycle execution is **pending**. No PASS for the new paths is inferred from local
-patch checks or the previous unit uninstall-hook test. The six normal CI jobs must remain green, and both
-selected jobs must finish `Historical upgrade and populated uninstall` successfully. Inspect `lifecycle.txt`
-and the three before/upgrade/repeat/uninstall sets under `lifecycle/` in each selected artifact.
+The second same-version correction is **pending native validation**. Earlier six-job CI and server
+results above describe main7145a2f, not this corrected helper/workflow. No local native PHP/PHPCS run
+is claimed. Require new candidate/main six-job CI, clean explicit helper reports, all three lifecycle
+paths on both selected jobs, then actual ZIP/server and strict evidence before accepting254.
 
-Corrected PHPUnit expects **385 methods**, assertions to be measured; Behat remains **52/1154**. CLI assertions
-are separate from PHPUnit. The release keeps **415 distributed files**, **167 distributed PHP files**, **1116 distributed
+Expected PHPUnit remains **385 tests / 4540 assertions**, Behat **52/1154**; CLI assertions are separate.
+The release keeps **415 distributed files**, **167 distributed PHP files**, **1116 distributed
 PHP callables**, **654 AMD callables** and **32 documents per language**. Two repository-only helpers add
-six PHP functions: **1122** named PHP callables overall and **348** file-inventory rows, including five
+seven PHP functions: **1123** named PHP callables overall and **348** file-inventory rows, including five
 documented repository-only files. The full repository has 439 files; `.github/**` remains export-ignored.
 XMLDB stays `2026110601`, **7/151/22/22**; nine AJAX services, eight packs of 997 keys and 48 AMD sets remain.
 The only production correction since the initial 254 is scoped native-completion cleanup in the uninstall
