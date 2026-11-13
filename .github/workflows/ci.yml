@@ -207,6 +207,16 @@ jobs:
           set -o pipefail
           moodle-plugin-ci phpcs --max-warnings 0 2>&1 | tee ci-reports/phpcs.txt
 
+      - name: Canonical checks for lifecycle helper
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          php -l "$GITHUB_WORKSPACE/plugin/.github/lifecycle/site.php" 2>&1 \
+            | tee ci-reports/phplint-lifecycle.txt
+          phpcs --standard="$GITHUB_WORKSPACE/plugin/phpcs.xml.dist" \
+            "$GITHUB_WORKSPACE/plugin/.github/lifecycle/site.php" 2>&1 \
+            | tee ci-reports/phpcs-lifecycle.txt
+
       - name: Moodle PHPDoc Checker
         if: ${{ !cancelled() && matrix.quality }}
         run: |

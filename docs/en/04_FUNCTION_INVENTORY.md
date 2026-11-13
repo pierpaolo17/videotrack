@@ -2,16 +2,17 @@
 
 Generated from the VideoTrack 1.7.254 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1122 (1116 distributed and 6 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1123 (1116 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
-| `.github/lifecycle/site.php:39` | `videotrack_ci_check` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
-| `.github/lifecycle/site.php:56` | `videotrack_ci_rows` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
-| `.github/lifecycle/site.php:73` | `videotrack_ci_related` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
-| `.github/lifecycle/site.php:89` | `videotrack_ci_snapshot` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
-| `.github/lifecycle/site.php:124` | `videotrack_ci_seed` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
-| `.github/lifecycle/site.php:252` | `videotrack_ci_residue` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:41` | `videotrack_ci_root` | Rejects unsupported environments and resolves the disposable Moodle root before bootstrap. |
+| `.github/lifecycle/site.php:57` | `videotrack_ci_check` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:74` | `videotrack_ci_rows` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:91` | `videotrack_ci_related` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:107` | `videotrack_ci_snapshot` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:142` | `videotrack_ci_seed` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
+| `.github/lifecycle/site.php:270` | `videotrack_ci_residue` | Repository-only disposable-site lifecycle assertion helper; see production evidence for scope. |
 | `amd/src/completion_requirements.js:38` | `normaliseText` | Normalises rendered completion text for exact locale-safe comparisons across theme whitespace. |
 | `amd/src/completion_requirements.js:48` | `directListItems` | Returns the direct completion items of a native or ARIA list. |
 | `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Removes the composite prefix from optional item accessibility attributes after visual grouping. |

@@ -129,18 +129,19 @@ report appartiene a un altro percorso e non cambia. Vedere [le evidenze integrat
 ## Task retention registrato dopo il ripristino
 
 La candidata aggiunge un’integrazione reale del task registrato: policy illimitata/finita, scadenza totale,
-ripetizione e conservazione di file/configurazione/voti core dopo il restore. La CI nativa è in attesa.
+ripetizione e conservazione di file/configurazione/voti core dopo il restore. CI nativa e report server sono accettati sulla253 reale.
 Vedere [evidenze e limiti](28_USCITA_PRODUZIONE.md).
 
 ## Storia reale installazione e uninstall nella CI
 
 La candidata aggiunge un gate CI temporaneo per installazioni reali 237/253, stato parziale di un campo,
-upgrade normale e ripetuto, uninstall completo popolato e verifica residui operativi. Il gate attende
-l’esecuzione nativa. Vedere [storie esatte e limiti](28_USCITA_PRODUZIONE.md).
+upgrade normale e ripetuto, uninstall completo popolato e verifica residui operativi. La CI candidata/main
+corretta conferma questi percorsi. Vedere [storie esatte e limiti](28_USCITA_PRODUZIONE.md).
 
 ## Proprietà della completion nativa nell’uninstall completo
 
 L’hook uninstall pulisce la completion nativa dopo il gradebook e anche senza grade item, quando i course
 module VideoTrack esistono ancora. La cancellazione usa l’identificatore positivo del modulo registrato;
 senza identità non agisce e non tocca altri moduli. La CI254 iniziale ha dimostrato il residuo di completion
-nell’uninstall core completo sui due rami. Il controllo fallito resta attivo; la CI corretta è in attesa.
+nell’uninstall core completo sui due rami. Il controllo fallito resta attivo; CI candidata/main corretta supera le tre storie su entrambi i job.
+L’accettazione server254 è bloccata da PHPCS sull’helper; la seconda correzione helper/CI richiede nuove prove.

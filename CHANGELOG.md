@@ -26,12 +26,25 @@
   the physical-content loop to visit no files. Enumerate seven named areas,
   require exactly one regular file in each and verify actual content hashes.
   Keep every lifecycle failure assertion and CI rule; do not relax the gate.
-- Corrected native CI is pending:385 Unit methods, assertion total to measure;
-  Behat52/1154 and all three lifecycle paths on both jobs are required before
-  merge. Version/schema/AMD/languages/roles remain unchanged from initial254.
-  Inventories:415 distributed files,167PHP,1116 distributed plus6 repository
-  PHP functions,348 file rows. Core history/blob retention and bounded-history,
-  manual5.3/benchmark/App limits remain explicit.
+- Corrected candidate7561ed4/run43304629270 and merged main7145a2f/
+  run43315619158 pass all six jobs:385/4540 Unit,52/1154 Behat, strict10/0/0
+  and all three lifecycle paths on both selected jobs. Each selected job
+  verifies63 actual shared-file hashes across seed/upgrade/repeat snapshots.
+- The actual254 ZIP matches all415 approved main files. Server report
+  20261113_091431 passes lint168, Grunt and385/4540 Unit on5.0/5.3; both
+  supplied strict outputs pass10/0/0. Overall acceptance remains blocked:
+  canonical PHPCS reports3 errors in repository-only lifecycle/site.php,
+  omitted by the earlier CI scan of167 distributed PHP files.
+- Complete the helper GPL boilerplate, use a guarded root resolver in
+  config.php inclusion before global assignments, and use a normal inline
+  comment. Keep the exact pre-bootstrap Actions/path rejection. Add explicit
+  helper lint and canonical moodle-extra PHPCS to the quality job, with
+  separate reports. Existing gates, exclusions and rules are retained.
+  This second same254 correction needs fresh CI/server evidence; no local
+  native PHP/PHPCS success is claimed. Production PHP is unchanged.
+  Inventories:415 distributed files,167PHP,1116 distributed plus7 repository
+  PHP functions,348 file rows. Version remains1.7.254/2026111204; core history/
+  blob retention and bounded-history/manual5.3/benchmark/App limits remain.
 
 ## 1.7.253 - 2026-11-12
 

@@ -33,7 +33,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - U-017/U-007 restano chiusi. La253 reale è accettata, inclusa retention post-restore tramite task registrato.
-  La candidata254 aggiunge percorsi CI reali upgrade storico/uninstall completo, in attesa di esecuzione.
+  La CI candidata/main254 supera upgrade storico/uninstall completo; il report server è bloccato da tre
+  errori PHPCS sull’helper. La seconda correzione helper/CI nella stessa254 attende nuove evidenze native.
   Restano review assistita997 chiavi ed evidenze manuali5.0 circoscritte; manuale5.3 in attesa.
 
 - `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
@@ -176,8 +177,11 @@ Prima della promozione verificare:
 La 253 reale/main `511234197069f8f83e23f0da9444fa1d6a5f8030` è accettata: ZIP415 file, due report server,
 PHPUnit384/4516, Behat52/1154, strict10/0/0 e build Grunt stabili. La candidata254 aggiunge gate solo
 repository installazione-upgrade-uninstall da storia precedente/parziale/immediata in due job CI esistenti.
-Esecuzione corretta in attesa; aggiunti pulizia completion uninstall e una regressione, test precedenti conservati. I callable PHP distribuiti sono1116
-più6 helper CI, totale1122; l’inventario file348 comprende343 voci distribuite e5 solo repository.
+La correzione completion supera CI candidata/main385/4540 e tutte le sei storie lifecycle. Il report
+server supera Unit/Grunt/lint e gli strict forniti passano10/0/0, ma PHPCS fallisce sull’helper nascosto.
+Correggere boilerplate/bootstrap/commento e aggiungere lint/PHPCS espliciti in CI, conservando i gate
+esistenti. Questa seconda correzione nella stessa254 attende nuove evidenze native. I callable PHP distribuiti sono1116
+più7 helper CI, totale1123; l’inventario file348 comprende343 voci distribuite e5 solo repository.
 Vedere [evidenze produzione](28_USCITA_PRODUZIONE.md) per storie esatte, limiti e gate manuali/benchmark/App residui.
 
 La CI254 iniziale supera Unit384/4516 e Behat52/1154 nei sei job; i due lifecycle falliscono sulla completion

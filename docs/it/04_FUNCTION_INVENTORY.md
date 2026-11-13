@@ -2,16 +2,17 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.254. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1122 (1116 distribuiti e 6 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1123 (1116 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
-| `.github/lifecycle/site.php:39` | `videotrack_ci_check` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:56` | `videotrack_ci_rows` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:73` | `videotrack_ci_related` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:89` | `videotrack_ci_snapshot` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:124` | `videotrack_ci_seed` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
-| `.github/lifecycle/site.php:252` | `videotrack_ci_residue` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:41` | `videotrack_ci_root` | Rifiuta ambienti non supportati e risolve la radice Moodle temporanea prima del bootstrap. |
+| `.github/lifecycle/site.php:57` | `videotrack_ci_check` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:74` | `videotrack_ci_rows` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:91` | `videotrack_ci_related` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:107` | `videotrack_ci_snapshot` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:142` | `videotrack_ci_seed` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
+| `.github/lifecycle/site.php:270` | `videotrack_ci_residue` | Helper di collaudo su sito CI temporaneo, solo repository; vedere le evidenze produzione per lo scope. |
 | `amd/src/completion_requirements.js:38` | `normaliseText` | Normalizza il testo dei requisiti per confronti esatti e sicuri rispetto agli spazi introdotti dal tema. |
 | `amd/src/completion_requirements.js:48` | `directListItems` | Restituisce le voci figlie dirette di un elenco nativo o ARIA. |
 | `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Rimuove il prefisso composito dagli attributi accessibili opzionali dopo il raggruppamento visivo. |

@@ -33,7 +33,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - U-017/U-007 remain closed. Actual253 is accepted, including registered-task post-restore retention.
-  Candidate254 adds actual historical upgrade/full-uninstall CI paths, pending execution.
+  Candidate/main254 CI passes historical upgrade/full-uninstall paths; actual server acceptance is blocked
+  by three helper PHPCS errors. The second same254 helper/CI correction awaits native evidence.
   Assisted review of997 keys and scoped manual5.0 evidence remain; manual5.3 is pending.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
@@ -188,8 +189,11 @@ Before promotion, verify:
 Actual 253/main `511234197069f8f83e23f0da9444fa1d6a5f8030` is accepted: 415-file ZIP, both server reports,
 384/4516 PHPUnit, 52/1154 Behat, strict10/0/0 and stable Grunt outputs. Candidate254 adds repository-only
 historical/partial/previous install-upgrade-uninstall gates in two existing CI jobs; execution is pending.
-Corrected254 adds scoped uninstall completion cleanup and one new regression; all previous tests remain. There are 1116 distributed PHP callables plus
-6 CI helper functions, 1122 overall; file inventory348 contains343 distributed and5 repository-only entries.
+The completion correction passes candidate/main CI385/4540 and all six lineage paths. The server
+report passes Unit/Grunt/lint and both supplied strict outputs pass10/0/0, but fails canonical PHPCS
+on the hidden helper. Correct boilerplate/bootstrap/comment and explicitly check helper lint/PHPCS
+in CI, retaining all existing gates. This second same254 correction awaits fresh native evidence. There are 1116 distributed PHP callables plus
+7 CI helper functions, 1123 overall; file inventory348 contains343 distributed and5 repository-only entries.
 See [production evidence](28_PRODUCTION_EXIT_AUDIT.md) for exact histories, limits and remaining manual/benchmark/App gates.
 
 Initial254 CI passes384/4516 Unit and52/1154 Behat in all six jobs; both lifecycle jobs fail on native

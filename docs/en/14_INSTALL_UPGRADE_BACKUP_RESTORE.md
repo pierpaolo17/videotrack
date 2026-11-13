@@ -126,18 +126,20 @@ is a separate route and is unchanged. See the [integration evidence](28_PRODUCTI
 ## Registered retention task after restore
 
 The candidate adds a real registered-task integration covering unlimited/finite policy, full input expiry,
-repeated execution and preserved shared files/configuration/core grades after restore. Native CI is pending.
+repeated execution and preserved shared files/configuration/core grades after restore. Native CI and
+server evidence for this retention case are accepted on actual253.
 See [the evidence and limits](28_PRODUCTION_EXIT_AUDIT.md).
 
 ## Actual installation and uninstall lineage in CI
 
 The candidate adds a disposable CI gate for real 237/253 installs, a constructed partial-field state,
 normal and repeated upgrades, populated full uninstall and operational residue checks. The gate is
-pending native execution. See [the exact histories and limits](28_PRODUCTION_EXIT_AUDIT.md).
+confirmed by corrected candidate/main CI. See [the exact histories and limits](28_PRODUCTION_EXIT_AUDIT.md).
 
 ## Full-uninstall native-completion ownership
 
 The uninstall hook clears native completion after its gradebook work and also when there are no grade items,
 while VideoTrack course modules still exist. The positive registered module id scopes the delete; missing
 identity is a no-op, and foreign modules are untouched. The initial 254 CI demonstrated the orphan-completion
-residue in the full core uninstall on both branches. The failed check stays in place; corrected native CI is pending.
+residue in the full core uninstall on both branches. The failed check stays in place; corrected candidate/main CI passes all three lineages on both jobs.
+Actual254 server acceptance is blocked by helper PHPCS; the second helper/CI correction needs new evidence.
