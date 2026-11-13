@@ -861,6 +861,8 @@ $string['setting:heading_presets'] = 'Reaction presets';
 $string['setting:heading_presets_desc'] = 'Site-wide sets of reactions that teachers can use as a starting point when configuring a new VideoTrack activity.';
 $string['setting:heading_privacy'] = 'Privacy and data retention';
 $string['setting:heading_privacy_desc'] = 'Configure how VideoTrack stores tracking, notes and reaction data.';
+$string['setting:heading_providerconnections'] = 'Video source connections';
+$string['setting:heading_providerconnections_desc'] = 'Prepare authenticated sources using Moodle OAuth 2 services. OneDrive/SharePoint playback is not enabled in this release.';
 $string['setting:heartbeatinterval'] = 'Heartbeat interval (seconds)';
 $string['setting:heartbeatinterval_desc'] = 'How often the player saves the current viewing segment during continuous playback. Shorter intervals reduce potential data loss but increase requests and database work. Each active learner normally sends one segment-save request per interval; database work varies with validation and persistence. Recommended range: 15–120 seconds. The server enforces a minimum of 5 seconds.';
 $string['setting:html5controls'] = 'Available controls';
@@ -871,6 +873,8 @@ $string['setting:lockedbyAdmin'] = 'These settings are locked by the platform ad
 $string['setting:maxplaybackrate']      = 'Maximum playback rate (default)';
 $string['setting:maxplaybackrate_desc'] = 'Default maximum playback rate for new activities. Teachers can override per-activity.';
 $string['setting:maxplaybackrate_nolimit'] = 'No limit';
+$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 service';
+$string['setting:microsoftissuerid_desc'] = 'Select an existing Microsoft service available for internal services. Credentials remain in Moodle OAuth 2 services. Select None to leave the connection unconfigured.';
 $string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
 $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than or equal to 0.';
 $string['setting:notemaxlength'] = 'Maximum note length';
@@ -1020,9 +1024,3 @@ $string['watch'] = 'Watch';
 $string['yes'] = 'Yes';
 $string['youtubeurl'] = 'YouTube URL';
 $string['youtubeurl_help'] = 'Paste a standard YouTube watch URL, short URL, or embed URL.';
-
-// Authenticated media provider connection foundation.
-$string['setting:heading_providerconnections'] = 'Video source connections';
-$string['setting:heading_providerconnections_desc'] = 'Prepare authenticated sources using Moodle OAuth 2 services. OneDrive/SharePoint playback is not enabled in this release.';
-$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 service';
-$string['setting:microsoftissuerid_desc'] = 'Select an existing Microsoft service available for internal services. Credentials remain in Moodle OAuth 2 services. Select None to leave the connection unconfigured.';

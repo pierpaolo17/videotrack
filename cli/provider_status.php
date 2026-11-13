@@ -24,6 +24,8 @@
 
 define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../config.php');
+
+/** @var stdClass $CFG Moodle configuration initialised by config.php. */
 require_once($CFG->libdir . '/clilib.php');
 
 $usage = <<<'USAGE'
@@ -58,6 +60,7 @@ try {
     $status = \mod_videotrack\local\provider_connection::configuration_status((string)$options['provider']);
 } catch (invalid_parameter_exception $error) {
     cli_error($error->getMessage(), 2);
+    exit(2);
 }
 cli_writeln(json_encode($status, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
 exit($options['strict'] && $status['status'] !== 'configuration_complete' ? 2 : 0);

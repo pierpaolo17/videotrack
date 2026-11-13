@@ -2,6 +2,25 @@
 
 Baseline: VideoTrack **1.7.256** (`2026111301`).
 
+## Rifiuto della prima CI 256 e correzione circoscritta
+
+La candidata `81933c95`, run `43490372802`, fallisce tutti i sei job: ogni PHPUnit
+riporta 396 test, 4496 asserzioni, 9 errori per `image` nullo nella fixture OAuth e
+1 fallimento per l’ordine delle chiavi lingua. PHPCS canonico riporta 13 errori
+PHPDoc e 16 warning lingua; PHPStan 3 errori di definizione variabili CLI e Psalm
+1 errore su CFG. PHPMD resta a 24 segnalazioni, identiche byte per byte alla 255
+accettata. I conteggi informativi Psalm sono 737/765 (prima 732/760); i log non
+mostrano i tipi delle voci.
+
+Behat 52/1154, Grunt e strict 10/0/0 passano nei sei job. Il lifecycle è saltato dopo
+il fallimento dei prerequisiti: nessuna storia lifecycle ha un PASS sulla 256.
+La correzione resta 1.7.256/2026111301: image non nullo nella fixture; PHPDoc metodi
+multilinea; stesse quattro nuove stringhe inserite nelle posizioni ordinate;
+annotazione CFG e uscita esplicita nel catch CLI. Restano tutte le asserzioni e
+le regole CI. Runtime provider, schema e gestione credenziali sono invariati.
+Servono nuove prove native candidata/main e pacchetto/server/strict. I controlli
+locali sono su archivi/sorgenti e un modello di vincoli SQLite, non esecuzioni Moodle.
+
 ## 1.7.256: base delle connessioni ai provider
 
 La255 reale/main36ab70ed è accettata:415 file corrispondenti, PHPCS/lint server168 puliti, Unit385/4540 su50/53 e strict10/0/0; CI candidata/main a sei job con52/1154 Behat e storie lifecycle selezionate superate. Il benchmark distribuito255 conferma current_userid10 e6/92 query mediane in40 campioni.

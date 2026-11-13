@@ -861,6 +861,8 @@ $string['setting:heading_presets'] = 'प्रतिक्रिया प्�
 $string['setting:heading_presets_desc'] = 'साइट-व्यापी प्रतिक्रिया सेट जिन्हें शिक्षक शुरुआती बिंदु के रूप में उपयोग कर सकते हैं।';
 $string['setting:heading_privacy'] = 'गोपनीयता और डेटा संरक्षण';
 $string['setting:heading_privacy_desc'] = 'कॉन्फ़िगर करें कि VideoTrack ट्रैकिंग, नोट और प्रतिक्रिया डेटा कैसे संग्रहीत करता है।';
+$string['setting:heading_providerconnections'] = 'वीडियो स्रोत कनेक्शन';
+$string['setting:heading_providerconnections_desc'] = 'Moodle की OAuth 2 सेवाओं से प्रमाणित स्रोत तैयार करें। इस संस्करण में OneDrive/SharePoint से वीडियो चलाना सक्षम नहीं है।';
 $string['setting:heartbeatinterval'] = 'हार्टबीट अंतराल (सेकंड)';
 $string['setting:heartbeatinterval_desc'] = 'निरंतर प्लेबैक के दौरान प्लेयर वर्तमान देखे गए खंड को कितनी बार सहेजता है। छोटे अंतराल संभावित डेटा हानि कम करते हैं, लेकिन अनुरोध और डेटाबेस का काम बढ़ाते हैं। प्रत्येक सक्रिय विद्यार्थी सामान्यतः हर अंतराल में खंड सहेजने का एक अनुरोध भेजता है; डेटाबेस का काम सत्यापन और सहेजने की प्रक्रिया पर निर्भर करता है। अनुशंसित सीमा: 15–120 सेकंड। सर्वर न्यूनतम 5 सेकंड लागू करता है।';
 $string['setting:html5controls'] = 'उपलब्ध नियंत्रण';
@@ -871,6 +873,8 @@ $string['setting:lockedbyAdmin'] = 'ये सेटिंग्स प्ले
 $string['setting:maxplaybackrate'] = 'अधिकतम प्लेबैक गति (डिफ़ॉल्ट)';
 $string['setting:maxplaybackrate_desc'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट अधिकतम गति। शिक्षक इसे प्रति गतिविधि बदल सकते हैं।';
 $string['setting:maxplaybackrate_nolimit'] = 'कोई सीमा नहीं';
+$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 सेवा';
+$string['setting:microsoftissuerid_desc'] = 'आंतरिक सेवाओं के लिए उपलब्ध मौजूदा Microsoft सेवा चुनें। क्रेडेंशियल Moodle की OAuth 2 सेवाओं में रहते हैं। कनेक्शन को कॉन्फ़िगर न करने के लिए कोई नहीं चुनें।';
 $string['setting:nonnegativeintmax'] = 'मान {$a} से अधिक नहीं होना चाहिए।';
 $string['setting:nonnegativeintrequired'] = '0 या उससे अधिक पूर्ण संख्या दर्ज करें।';
 $string['setting:notemaxlength'] = 'नोट की अधिकतम लंबाई';
@@ -1020,9 +1024,3 @@ $string['watch'] = 'देखें';
 $string['yes'] = 'हाँ';
 $string['youtubeurl'] = 'YouTube URL';
 $string['youtubeurl_help'] = 'सामान्य YouTube watch URL, short URL या embed URL चिपकाएँ।';
-
-// Authenticated media provider connection foundation.
-$string['setting:heading_providerconnections'] = 'वीडियो स्रोत कनेक्शन';
-$string['setting:heading_providerconnections_desc'] = 'Moodle की OAuth 2 सेवाओं से प्रमाणित स्रोत तैयार करें। इस संस्करण में OneDrive/SharePoint से वीडियो चलाना सक्षम नहीं है।';
-$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 सेवा';
-$string['setting:microsoftissuerid_desc'] = 'आंतरिक सेवाओं के लिए उपलब्ध मौजूदा Microsoft सेवा चुनें। क्रेडेंशियल Moodle की OAuth 2 सेवाओं में रहते हैं। कनेक्शन को कॉन्फ़िगर न करने के लिए कोई नहीं चुनें।';

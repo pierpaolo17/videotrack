@@ -4,6 +4,13 @@
 
 ### Prepare authenticated provider connections using Moodle OAuth 2
 
+- Supply an empty image in OAuth test fixtures to satisfy Moodle's non-null
+  database field. Use canonical method PHPDoc and insert the four new language
+  keys in alphabetical order in all eight packs. Annotate the CLI configuration
+  variable and explicitly terminate its unsupported-provider error branch so
+  static analysis can follow variable assignment. Retain all assertions and CI
+  rules. These corrections remain in 1.7.256; native reruns are pending.
+
 - Accept actual1.7.255/main36ab70ed:415 matching files, server PHPCS/lint168 clean,
   Unit385/4540 on50/53, strict10/0/0, six-job candidate/main CI and lifecycle paths.
   The shipped CLI confirms current_userid10 and6/92 median queries across40 samples.

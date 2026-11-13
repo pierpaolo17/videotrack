@@ -861,6 +861,8 @@ $string['setting:heading_presets'] = 'Preset reazioni';
 $string['setting:heading_presets_desc'] = 'Set di reazioni a livello di sito che i docenti possono usare come punto di partenza quando configurano una nuova attività VideoTrack.';
 $string['setting:heading_privacy'] = 'Privacy e conservazione dati';
 $string['setting:heading_privacy_desc'] = 'Configura come VideoTrack conserva dati di tracciamento, note e reazioni.';
+$string['setting:heading_providerconnections'] = 'Connessioni alle sorgenti video';
+$string['setting:heading_providerconnections_desc'] = 'Prepara le sorgenti autenticate usando i servizi OAuth 2 di Moodle. La riproduzione OneDrive/SharePoint non è attiva in questa release.';
 $string['setting:heartbeatinterval'] = 'Intervallo heartbeat (secondi)';
 $string['setting:heartbeatinterval_desc'] = 'Con quale frequenza il player salva il segmento di visione corrente durante la riproduzione continua. Intervalli più brevi riducono la possibile perdita di dati ma aumentano richieste e lavoro sul database. Ogni studente attivo invia normalmente una richiesta di salvataggio per intervallo; il lavoro sul database varia con validazione e persistenza. Intervallo consigliato: 15–120 secondi. Il server applica un minimo di 5 secondi.';
 $string['setting:html5controls'] = 'Controlli disponibili';
@@ -871,6 +873,8 @@ $string['setting:lockedbyAdmin'] = 'Queste impostazioni sono bloccate dall’amm
 $string['setting:maxplaybackrate'] = 'Velocità massima di riproduzione (predefinita)';
 $string['setting:maxplaybackrate_desc'] = 'Velocità massima predefinita per le nuove attività. I docenti possono sovrascriverla per singola attività.';
 $string['setting:maxplaybackrate_nolimit'] = 'Nessun limite';
+$string['setting:microsoftissuerid'] = 'Servizio OAuth 2 Microsoft';
+$string['setting:microsoftissuerid_desc'] = 'Seleziona un servizio Microsoft esistente disponibile per i servizi interni. Le credenziali restano nei servizi OAuth 2 di Moodle. Seleziona Nessuno per lasciare la connessione non configurata.';
 $string['setting:nonnegativeintmax'] = 'Il valore non può essere superiore a {$a}.';
 $string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore o uguale a 0.';
 $string['setting:notemaxlength'] = 'Lunghezza massima delle note';
@@ -1020,9 +1024,3 @@ $string['watch'] = 'Guarda';
 $string['yes'] = 'Sì';
 $string['youtubeurl'] = 'URL YouTube';
 $string['youtubeurl_help'] = 'Incollare un URL YouTube standard, breve o di incorporamento.';
-
-// Authenticated media provider connection foundation.
-$string['setting:heading_providerconnections'] = 'Connessioni alle sorgenti video';
-$string['setting:heading_providerconnections_desc'] = 'Prepara le sorgenti autenticate usando i servizi OAuth 2 di Moodle. La riproduzione OneDrive/SharePoint non è attiva in questa release.';
-$string['setting:microsoftissuerid'] = 'Servizio OAuth 2 Microsoft';
-$string['setting:microsoftissuerid_desc'] = 'Seleziona un servizio Microsoft esistente disponibile per i servizi interni. Le credenziali restano nei servizi OAuth 2 di Moodle. Seleziona Nessuno per lasciare la connessione non configurata.';

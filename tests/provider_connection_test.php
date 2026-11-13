@@ -36,7 +36,9 @@ final class provider_connection_test extends advanced_testcase {
     /** @var string Original site root restored after each test. */
     private string $originalroot;
 
-    /** Set a deterministic HTTPS site without contacting a provider. */
+    /**
+     * Set a deterministic HTTPS site without contacting a provider.
+     */
     protected function setUp(): void {
         parent::setUp();
         $this->resetAfterTest();
@@ -45,14 +47,18 @@ final class provider_connection_test extends advanced_testcase {
         $CFG->wwwroot = 'https://moodle.example.org';
     }
 
-    /** Restore the test runner's site root. */
+    /**
+     * Restore the test runner's site root.
+     */
     protected function tearDown(): void {
         global $CFG;
         $CFG->wwwroot = $this->originalroot;
         parent::tearDown();
     }
 
-    /** No configuration is a supported inert state. */
+    /**
+     * No configuration is a supported inert state.
+     */
     public function test_unconfigured_connection_is_inert(): void {
         $status = provider_connection::configuration_status('microsoft');
         $this->assertSame('not_configured', $status['status']);
@@ -62,7 +68,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertFalse($status['playback_implemented']);
     }
 
-    /** Deleted service references remain diagnosable without repairing core data. */
+    /**
+     * Deleted service references remain diagnosable without repairing core data.
+     */
     public function test_deleted_issuer_is_reported(): void {
         $issuer = $this->create_issuer();
         $id = (int)$issuer->get('id');
@@ -71,7 +79,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertSame($id, (int)get_config('mod_videotrack', 'microsoftissuerid'));
     }
 
-    /** Disabled services fail readiness but remain visible for diagnosis. */
+    /**
+     * Disabled services fail readiness but remain visible for diagnosis.
+     */
     public function test_disabled_service_is_incomplete(): void {
         $issuer = $this->create_issuer(['enabled' => false]);
         $status = provider_connection::configuration_status('microsoft');
@@ -80,7 +90,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertArrayHasKey((int)$issuer->get('id'), provider_connection::issuer_options('microsoft'));
     }
 
-    /** Provider type prevents silently selecting an unrelated OAuth connection. */
+    /**
+     * Provider type prevents silently selecting an unrelated OAuth connection.
+     */
     public function test_wrong_provider_type_is_rejected_by_readiness(): void {
         $issuer = $this->create_issuer(['servicetype' => 'google']);
         $status = provider_connection::configuration_status('microsoft');
@@ -89,7 +101,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertArrayNotHasKey((int)$issuer->get('id'), provider_connection::issuer_options('microsoft'));
     }
 
-    /** Login-only and mail-only services cannot provide media service access. */
+    /**
+     * Login-only and mail-only services cannot provide media service access.
+     */
     public function test_service_usage_restrictions_are_respected(): void {
         $issuer = $this->create_issuer();
         foreach ([issuer::LOGINONLY, issuer::SMTPWITHXOAUTH2] as $usage) {
@@ -100,7 +114,9 @@ final class provider_connection_test extends advanced_testcase {
         }
     }
 
-    /** Missing secrets are diagnosed without including their values in output. */
+    /**
+     * Missing secrets are diagnosed without including their values in output.
+     */
     public function test_missing_client_credentials_are_incomplete(): void {
         $this->create_issuer(['clientsecret' => '']);
         $status = provider_connection::configuration_status('microsoft');
@@ -108,7 +124,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertSame('configuration_incomplete', $status['status']);
     }
 
-    /** A user login alone does not provide a stored system account. */
+    /**
+     * A user login alone does not provide a stored system account.
+     */
     public function test_missing_system_account_is_incomplete(): void {
         global $DB;
         $issuer = $this->create_issuer();
@@ -118,7 +136,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertSame('configuration_incomplete', $status['status']);
     }
 
-    /** HTTPS belongs to readiness rather than being inferred from an issuer name. */
+    /**
+     * HTTPS belongs to readiness rather than being inferred from an issuer name.
+     */
     public function test_http_site_is_incomplete(): void {
         global $CFG;
         $this->create_issuer();
@@ -128,7 +148,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertSame('configuration_incomplete', $status['status']);
     }
 
-    /** Missing and insecure endpoints cannot make a connection look complete. */
+    /**
+     * Missing and insecure endpoints cannot make a connection look complete.
+     */
     public function test_endpoint_configuration_is_checked(): void {
         global $DB;
         $issuer = $this->create_issuer();
@@ -142,7 +164,9 @@ final class provider_connection_test extends advanced_testcase {
         $this->assertFalse(provider_connection::configuration_status('microsoft')['checks']['token_https']);
     }
 
-    /** Complete local configuration neither discloses secrets nor changes OAuth records. */
+    /**
+     * Complete local configuration neither discloses secrets nor changes OAuth records.
+     */
     public function test_complete_configuration_is_read_only_and_redacted(): void {
         global $DB;
         $issuer = $this->create_issuer();
@@ -165,7 +189,9 @@ final class provider_connection_test extends advanced_testcase {
         );
     }
 
-    /** Unsupported provider keys cannot inspect arbitrary configuration. */
+    /**
+     * Unsupported provider keys cannot inspect arbitrary configuration.
+     */
     public function test_unknown_provider_is_rejected(): void {
         $this->expectException(\invalid_parameter_exception::class);
         provider_connection::configuration_status('unknown');
@@ -180,6 +206,7 @@ final class provider_connection_test extends advanced_testcase {
     private function create_issuer(array $overrides = []): issuer {
         $issuer = new issuer(0, (object)array_replace([
             'name' => 'VideoTrack fixture Microsoft',
+            'image' => '',
             'servicetype' => 'microsoft',
             'clientid' => 'client-id-marker',
             'clientsecret' => 'client-secret-marker',
