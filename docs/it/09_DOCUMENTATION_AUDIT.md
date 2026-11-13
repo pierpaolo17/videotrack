@@ -1,8 +1,19 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.255** (`2026111300`).
+Baseline: VideoTrack **1.7.256** (`2026111301`).
 
-## Candidata 1.7.255: contesto viewer del benchmark
+## 1.7.256: base delle connessioni ai provider
+
+La255 reale/main36ab70ed è accettata:415 file corrispondenti, PHPCS/lint server168 puliti, Unit385/4540 su50/53 e strict10/0/0; CI candidata/main a sei job con52/1154 Behat e storie lifecycle selezionate superate. Il benchmark distribuito255 conferma current_userid10 e6/92 query mediane in40 campioni.
+
+Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
+
+Il manutentore dà ora priorità alle sorgenti autenticate: OneDrive/SharePoint, Zoom Cloud Recording e poi Google Drive; l’App seguirà. La prova App → browser/HTTPS è esplicitamente saltata. L’estensione completa dei sottotitoli multilingua è rinviata perché non è circoscrivibile con sufficiente affidabilità a una sola release tra HTML5 e overlay dei provider. Trascrizioni e sottotitoli esistenti restano disponibili. Il manuale di accessibilità Moodle 5.3 resta in standby.
+
+La validazione nativa della candidata256 resta da eseguire. Inventari attesi:442 file repository/418 distribuiti,170 PHP distribuiti più1 helper repository,1141 callable PHP nominati (1134 distribuiti+7 solo repository),654 callable AMD e8 pacchetti da1001 chiavi. Schema, AMD, AJAX/player/tracking e CI restano invariati. I nuovi11 metodi PHPUnit richiedono esecuzione nativa; nessun PASS App o provider remoto è dichiarato. Le sezioni precedenti in attesa di prove sono checkpoint storici.
+
+
+## Candidata 1.7.256: contesto viewer del benchmark
 
 La baseline accettata e la254 reale/main a42432a (415 file package coincidenti, PHPCS/lint server puliti su 168 PHP,
 Unit 385/4540 su 5.0/5.3, Behat 52/1154 nei sei job candidata/main e percorsi lifecycle selezionati). L'ultima

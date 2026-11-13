@@ -1,5 +1,29 @@
 # VideoTrack changelog
 
+## 1.7.256 - 2026-11-13
+
+### Prepare authenticated provider connections using Moodle OAuth 2
+
+- Accept actual1.7.255/main36ab70ed:415 matching files, server PHPCS/lint168 clean,
+  Unit385/4540 on50/53, strict10/0/0, six-job candidate/main CI and lifecycle paths.
+  The shipped CLI confirms current_userid10 and6/92 median queries across40 samples.
+- Add an optional Microsoft OAuth service reference (default None), reusing core
+  issuer/system-account metadata. Add read-only JSON provider_status.php, with
+  explicit local-only readiness and optional strict exit status. No credentials
+  are copied into VideoTrack; no token exchange, refresh, scope injection, consent,
+  remote file request or new selectable video source is introduced.
+- Add11 native regression methods for inert/missing/disabled/wrong-type/service
+  usage, client/account/HTTPS/endpoint checks, secret redaction and no record writes.
+  Native execution remains pending. Add4 administration keys in all8 language packs.
+- Follow the maintainer's revised roadmap: skip App-to-browser validation, defer
+  the full multilingual subtitle extension under the single-release constraint,
+  implement authenticated sources OneDrive/SharePoint -> Zoom -> Google Drive,
+  and return to the App afterwards. Existing captions/transcripts are unchanged.
+- Inventories:442 repository/418 distributed files,170 distributed PHP,1141 named
+  PHP callables (1134 distributed+7 repository-only),654 AMD callables,8 packs of1001
+  keys. No DB schema/upgrade, AMD, current AJAX/player/tracking or CI-rule change.
+  Candidate/main CI, actual package/server/strict and real provider tests remain open.
+
 ## 1.7.255 - 2026-11-13
 
 ### Calibrate the Analytics CLI to its selected viewer

@@ -1020,3 +1020,9 @@ $string['watch'] = 'Watch';
 $string['yes'] = 'Yes';
 $string['youtubeurl'] = 'YouTube URL';
 $string['youtubeurl_help'] = 'Paste a standard YouTube watch URL, short URL, or embed URL.';
+
+// Authenticated media provider connection foundation.
+$string['setting:heading_providerconnections'] = 'Video source connections';
+$string['setting:heading_providerconnections_desc'] = 'Prepare authenticated sources using Moodle OAuth 2 services. OneDrive/SharePoint playback is not enabled in this release.';
+$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 service';
+$string['setting:microsoftissuerid_desc'] = 'Select an existing Microsoft service available for internal services. Credentials remain in Moodle OAuth 2 services. Select None to leave the connection unconfigured.';

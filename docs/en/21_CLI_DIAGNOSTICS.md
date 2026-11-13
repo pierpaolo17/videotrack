@@ -1,6 +1,6 @@
 # CLI validation and Analytics benchmark
 
-VideoTrack ships two read-only CLI tools. Run them from the Moodle root as the same operating-system user normally
+VideoTrack ships three read-only CLI tools. Run them from the Moodle root as the same operating-system user normally
 used for Moodle CLI maintenance.
 
 ## Installation/release validator
@@ -92,3 +92,14 @@ can support dashboard screenshots; manual Moodle 5.3 accessibility remains on st
 Archive JSON output with release tests, recording plugin/Moodle/PHP/database versions and critical configuration.
 The validator complements PHPCS, lint, PHPUnit, Grunt and Behat; it does not replace them. Re-run the benchmark when
 course Analytics SQL, indexes, group/cohort scope or aggregation logic changes.
+
+## Provider connection diagnostics
+
+This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
+
+```bash
+php mod/videotrack/cli/provider_status.php
+php mod/videotrack/cli/provider_status.php --provider=microsoft --strict
+```
+
+Output is always JSON. Status is not_configured, issuer_missing, configuration_incomplete or configuration_complete. No secrets, account identifiers or provider HTTP requests are emitted. Exit0 is normal; --strict exits2 unless local configuration is complete. Unknown providers/options also exit2. A stored system account is checked against core-required scopes, not a live Microsoft consent or file-access test. network_checked=false and playback_implemented=false stay explicit, even for complete local configuration. No optional provider configuration is required to pass cli/validate.php. The current test site needs HTTPS before a real Microsoft OAuth callback can work.

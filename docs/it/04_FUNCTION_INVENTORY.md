@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.255. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.256. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1123 (1116 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1141 (1134 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1783,3 +1783,21 @@ Generato dall’albero sorgente VideoTrack 1.7.255. Le voci PHP includono funzio
 | `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifica le 22 dichiarazioni esatte delle foreign key XMLDB stabili. |
 | `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protegge i riferimenti Forum e reazione con sentinella zero legittima. |
 | `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Impedisce la duplicazione esplicita degli indici generati da XMLDB. |
+| `classes/local/provider_connection.php:47` | `issuer_options` | Callable `issuer_options` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `classes/local/provider_connection.php:67` | `configuration_status` | Callable `configuration_status` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `classes/local/provider_connection.php:115` | `definition` | Callable `definition` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `classes/local/provider_connection.php:128` | `is_https_url` | Callable `is_https_url` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:40` | `setUp` | Callable `setUp` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:49` | `tearDown` | Callable `tearDown` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:56` | `test_unconfigured_connection_is_inert` | Callable `test_unconfigured_connection_is_inert` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:66` | `test_deleted_issuer_is_reported` | Callable `test_deleted_issuer_is_reported` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:75` | `test_disabled_service_is_incomplete` | Callable `test_disabled_service_is_incomplete` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:84` | `test_wrong_provider_type_is_rejected_by_readiness` | Callable `test_wrong_provider_type_is_rejected_by_readiness` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:93` | `test_service_usage_restrictions_are_respected` | Callable `test_service_usage_restrictions_are_respected` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:104` | `test_missing_client_credentials_are_incomplete` | Callable `test_missing_client_credentials_are_incomplete` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:112` | `test_missing_system_account_is_incomplete` | Callable `test_missing_system_account_is_incomplete` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:122` | `test_http_site_is_incomplete` | Callable `test_http_site_is_incomplete` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:132` | `test_endpoint_configuration_is_checked` | Callable `test_endpoint_configuration_is_checked` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:146` | `test_complete_configuration_is_read_only_and_redacted` | Callable `test_complete_configuration_is_read_only_and_redacted` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:169` | `test_unknown_provider_is_rejected` | Callable `test_unknown_provider_is_rejected` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `tests/provider_connection_test.php:180` | `create_issuer` | Callable `create_issuer` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |

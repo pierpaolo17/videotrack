@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.255 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.256 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1123 (1116 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1141 (1134 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1783,3 +1783,21 @@ Generated from the VideoTrack 1.7.255 source tree. PHP entries include named fun
 | `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifies the exact 22 stable XMLDB foreign-key declarations. |
 | `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protects legitimate zero-sentinel Forum and reaction references. |
 | `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Prevents explicit duplication of XMLDB-generated backing indexes. |
+| `classes/local/provider_connection.php:47` | `issuer_options` | Callable `issuer_options` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `classes/local/provider_connection.php:67` | `configuration_status` | Callable `configuration_status` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `classes/local/provider_connection.php:115` | `definition` | Callable `definition` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `classes/local/provider_connection.php:128` | `is_https_url` | Callable `is_https_url` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:40` | `setUp` | Callable `setUp` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:49` | `tearDown` | Callable `tearDown` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:56` | `test_unconfigured_connection_is_inert` | Callable `test_unconfigured_connection_is_inert` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:66` | `test_deleted_issuer_is_reported` | Callable `test_deleted_issuer_is_reported` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:75` | `test_disabled_service_is_incomplete` | Callable `test_disabled_service_is_incomplete` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:84` | `test_wrong_provider_type_is_rejected_by_readiness` | Callable `test_wrong_provider_type_is_rejected_by_readiness` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:93` | `test_service_usage_restrictions_are_respected` | Callable `test_service_usage_restrictions_are_respected` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:104` | `test_missing_client_credentials_are_incomplete` | Callable `test_missing_client_credentials_are_incomplete` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:112` | `test_missing_system_account_is_incomplete` | Callable `test_missing_system_account_is_incomplete` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:122` | `test_http_site_is_incomplete` | Callable `test_http_site_is_incomplete` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:132` | `test_endpoint_configuration_is_checked` | Callable `test_endpoint_configuration_is_checked` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:146` | `test_complete_configuration_is_read_only_and_redacted` | Callable `test_complete_configuration_is_read_only_and_redacted` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:169` | `test_unknown_provider_is_rejected` | Callable `test_unknown_provider_is_rejected` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |
+| `tests/provider_connection_test.php:180` | `create_issuer` | Callable `create_issuer` for local OAuth configuration inspection and its regression tests; no provider HTTP operation. |

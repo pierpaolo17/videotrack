@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.255 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.256 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **348** — 343 distributed files and five repository-only files excluded from release archives.
+Entries: **351** — 346 distributed files and five repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -356,3 +356,6 @@ Entries: **348** — 343 distributed files and five repository-only files exclud
 | `tests/behat/browser_ended_replay_rate.feature` | Unseeded natural end, watched replay, authorised 2x and above-cap fallback for HTML5/YouTube/Vimeo. |
 | `tests/behat/browser_role_tracking.feature` | Unseeded staff-preview exclusion and dual-role earned completion for HTML5/YouTube/Vimeo. |
 | `tests/behat/browser_report_groups.feature` | Actual browser-earned evidence, exact report learner choices and separate-group direct-request boundaries. |
+| `classes/local/provider_connection.php` | Read-only local OAuth connection status and matching issuer choices; credentials remain in core. |
+| `cli/provider_status.php` | Read-only JSON diagnostics for optional provider configuration; no remote requests or token refresh. |
+| `tests/provider_connection_test.php` | Native Moodle OAuth fixture tests for missing/disabled/mismatched services, HTTPS, secret redaction and read-only status. |

@@ -1020,3 +1020,9 @@ $string['watch'] = 'देखें';
 $string['yes'] = 'हाँ';
 $string['youtubeurl'] = 'YouTube URL';
 $string['youtubeurl_help'] = 'सामान्य YouTube watch URL, short URL या embed URL चिपकाएँ।';
+
+// Authenticated media provider connection foundation.
+$string['setting:heading_providerconnections'] = 'वीडियो स्रोत कनेक्शन';
+$string['setting:heading_providerconnections_desc'] = 'Moodle की OAuth 2 सेवाओं से प्रमाणित स्रोत तैयार करें। इस संस्करण में OneDrive/SharePoint से वीडियो चलाना सक्षम नहीं है।';
+$string['setting:microsoftissuerid'] = 'Microsoft OAuth 2 सेवा';
+$string['setting:microsoftissuerid_desc'] = 'आंतरिक सेवाओं के लिए उपलब्ध मौजूदा Microsoft सेवा चुनें। क्रेडेंशियल Moodle की OAuth 2 सेवाओं में रहते हैं। कनेक्शन को कॉन्फ़िगर न करने के लिए कोई नहीं चुनें।';
