@@ -1,6 +1,12 @@
 # User and administrator guide
 
-VideoTrack 1.7.255 is a Moodle activity for delivering video, recording server-validated watched evidence,
+## 1.7.256: provider connection foundation
+
+This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
+
+The maintainer now prioritises authenticated sources: OneDrive/SharePoint, Zoom Cloud Recording, then Google Drive; the App comes afterwards. The App-to-browser/HTTPS trial is explicitly skipped. The full multilingual subtitle extension is deferred because it is not bounded reliably to one release across HTML5 and provider overlays. Existing transcripts and captions remain supported. Manual Moodle 5.3 accessibility stays on standby.
+
+VideoTrack 1.7.256 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 

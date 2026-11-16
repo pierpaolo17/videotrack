@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.255. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.256. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **348** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
+Voci: **351** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
 
 | File | Responsabilità |
 |---|---|
@@ -356,3 +356,6 @@ Voci: **348** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `tests/behat/browser_ended_replay_rate.feature` | Fine naturale, replay già visto, 2x autorizzato e riserva oltre tetto senza seed su HTML5/YouTube/Vimeo. |
 | `tests/behat/browser_role_tracking.feature` | Esclusione tracking anteprima docente e completamento con doppio ruolo senza seed su HTML5/YouTube/Vimeo. |
 | `tests/behat/browser_report_groups.feature` | Evidenze ottenute dal browser, scelte studente esatte e confini gruppi separati sulle richieste dirette dei report. |
+| `classes/local/provider_connection.php` | Stato OAuth locale in sola lettura e scelta dei servizi compatibili; credenziali gestite dal core. |
+| `cli/provider_status.php` | Diagnostica JSON in sola lettura della configurazione provider; nessuna richiesta remota o rinnovo token. |
+| `tests/provider_connection_test.php` | Test Moodle con fixture OAuth per servizi assenti/disabilitati/non compatibili, HTTPS, omissione segreti e stato in sola lettura. |

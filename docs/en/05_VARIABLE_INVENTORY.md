@@ -465,3 +465,7 @@ The JSON script element created by `view.php` is the single server-to-player con
 ## File areas
 
 - uploaded video source; poster; caption VTT; searchable transcript tracks; chapter VTT; uploaded reaction icons.
+
+## Microsoft OAuth connection reference
+
+- `microsoftissuerid`: Moodle OAuth issuer id; default0 (None). No credentials are copied into activity data.

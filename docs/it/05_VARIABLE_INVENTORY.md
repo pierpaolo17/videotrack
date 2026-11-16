@@ -465,3 +465,7 @@ L’elemento script JSON creato da `view.php` è il contratto unico server→pla
 ## File area
 
 - video caricato; poster; sottotitoli VTT; tracce trascrizione ricercabili; capitoli VTT; icone reazioni caricate.
+
+## Riferimento connessione OAuth Microsoft
+
+- `microsoftissuerid`: ID servizio OAuth Moodle; predefinito0 (Nessuno). Nessuna credenziale viene copiata nei dati attività.

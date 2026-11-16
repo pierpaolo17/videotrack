@@ -25,6 +25,20 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
+    // Reference Moodle's existing OAuth services; credentials remain owned by core.
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_providerconnections',
+        get_string('setting:heading_providerconnections', 'mod_videotrack'),
+        get_string('setting:heading_providerconnections_desc', 'mod_videotrack')
+    ));
+    $settings->add(new admin_setting_configselect(
+        'mod_videotrack/microsoftissuerid',
+        get_string('setting:microsoftissuerid', 'mod_videotrack'),
+        get_string('setting:microsoftissuerid_desc', 'mod_videotrack'),
+        0,
+        \mod_videotrack\local\provider_connection::issuer_options('microsoft')
+    ));
+
     // Show a persistent admin warning when GD is not available.
     if (!function_exists('imagecreatefromstring')) {
         $settings->add(new admin_setting_heading(

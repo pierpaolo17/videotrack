@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.255**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.256**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -95,3 +95,9 @@ correzioni dei testi delle policy in tutti gli otto pacchetti e il perimetro sem
 ## Licenza
 
 GNU GPL v3 o successiva, coerentemente con Moodle.
+
+## Preparazione dei provider autenticati
+
+Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
+
+Il manutentore dà ora priorità alle sorgenti autenticate: OneDrive/SharePoint, Zoom Cloud Recording e poi Google Drive; l’App seguirà. La prova App → browser/HTTPS è esplicitamente saltata. L’estensione completa dei sottotitoli multilingua è rinviata perché non è circoscrivibile con sufficiente affidabilità a una sola release tra HTML5 e overlay dei provider. Trascrizioni e sottotitoli esistenti restano disponibili. Il manuale di accessibilità Moodle 5.3 resta in standby.

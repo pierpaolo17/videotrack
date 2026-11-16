@@ -1,6 +1,6 @@
 # Validazione CLI e benchmark Analytics
 
-VideoTrack distribuisce due strumenti CLI in sola lettura. Eseguirli dalla root Moodle con lo stesso utente di
+VideoTrack distribuisce tre strumenti CLI in sola lettura. Eseguirli dalla root Moodle con lo stesso utente di
 sistema normalmente usato per la manutenzione CLI.
 
 ## Validatore installazione/release
@@ -93,3 +93,14 @@ Il dataset sintetico conservato e utilizzabile per screenshot; l'accessibilita m
 Archiviare l'output JSON con i test di release indicando versioni plugin/Moodle/PHP/database e configurazione critica.
 Il validatore completa PHPCS, lint, PHPUnit, Grunt e Behat senza sostituirli. Rieseguire il benchmark quando cambiano
 SQL Analytics, indici, scope gruppi/cohort o logica di aggregazione.
+
+## Diagnostica delle connessioni ai provider
+
+Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
+
+```bash
+php mod/videotrack/cli/provider_status.php
+php mod/videotrack/cli/provider_status.php --provider=microsoft --strict
+```
+
+L’output è sempre JSON. Lo stato è not_configured, issuer_missing, configuration_incomplete o configuration_complete. Non vengono emessi segreti, identificatori account o richieste HTTP ai provider. L’uscita normale è0; --strict termina con2 se la configurazione locale non è completa. Provider/opzioni sconosciuti terminano con2. L’account memorizzato viene confrontato con gli scopi richiesti dal core, senza verificare consenso Microsoft o accesso a un file remoto. network_checked=false e playback_implemented=false restano espliciti anche con configurazione locale completa. La configurazione facoltativa non è richiesta per superare cli/validate.php. Il sito di test richiede HTTPS prima di una vera callback OAuth Microsoft.

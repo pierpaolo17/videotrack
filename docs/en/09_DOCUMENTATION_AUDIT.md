@@ -1,8 +1,38 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.255** (`2026111300`).
+Baseline: VideoTrack **1.7.256** (`2026111301`).
 
-## Candidate 1.7.255: benchmark viewer context
+## First 256 candidate CI rejection and bounded correction
+
+Candidate `81933c95`, run `43490372802`, fails all six jobs: each PHPUnit run has
+396 tests, 4496 assertions, 9 errors from a null OAuth fixture image and 1 failure
+from language key order. Canonical PHPCS reports 13 method-docblock errors and
+16 language warnings; PHPStan reports 3 CLI variable-definition errors, and Psalm
+reports 1 CFG error. PHPMD remains at 24 findings, byte-identical to accepted 255.
+Psalm informational counts are 737/765 (previously 732/760); the logs do not print
+the issue kinds.
+
+Behat 52/1154, Grunt and strict 10/0/0 pass in all six jobs. Lifecycle is skipped
+after failed prerequisites, so none of its paths has a 256 pass. This correction stays at
+1.7.256/2026111301: supply a non-null fixture image; use canonical multiline method
+PHPDoc; insert the same four new strings at their sorted positions; annotate CFG
+and explicitly terminate the CLI catch. Preserve every assertion and CI rule.
+The provider runtime, schema and credentials handling are unchanged. New native
+candidate/main and package/server/strict results are required; local checks are
+archive/source checks and a SQLite constraint model, not a Moodle test execution.
+
+## 1.7.256: provider connection foundation
+
+Actual255/main36ab70ed is accepted:415 matching files, server PHPCS/lint168 clean, Unit385/4540 on50/53 and strict10/0/0; six-job candidate/main CI passes52/1154 Behat and selected lifecycle paths. The shipped255 benchmark confirms current_userid10 and6/92 median queries in40 samples.
+
+This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
+
+The maintainer now prioritises authenticated sources: OneDrive/SharePoint, Zoom Cloud Recording, then Google Drive; the App comes afterwards. The App-to-browser/HTTPS trial is explicitly skipped. The full multilingual subtitle extension is deferred because it is not bounded reliably to one release across HTML5 and provider overlays. Existing transcripts and captions remain supported. Manual Moodle 5.3 accessibility stays on standby.
+
+Candidate256 native validation remains pending. Expected inventories:442 repository/418 distributed files,170 distributed PHP plus1 repository helper,1141 named PHP callables (1134 distributed+7 repository-only),654 AMD callables and8 packs of1001 keys. Schema, AMD, AJAX/player/tracking and CI are unchanged. New11 PHPUnit methods need native execution; no App or remote-provider pass is claimed. Older candidate-pending sections below are historical checkpoints.
+
+
+## Candidate 1.7.256: benchmark viewer context
 
 The accepted baseline is actual 1.7.254/main a42432a (415 matching package files, clean 168-file server PHPCS/lint,
 385/4540 Unit on 5.0/5.3, six-job candidate/main Behat 52/1154 and selected lifecycle paths). Its latest helper
