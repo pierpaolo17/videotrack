@@ -35,9 +35,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(event_exporter::class)]
 final class privacy_exporter_test extends \advanced_testcase {
     /**
-     * State, segments and all six interaction groups retain their export contract.
+     * State and reactions retain their export contract; removed personal items stay excluded.
      */
-    public function test_state_segments_and_deleted_event_categories_are_exported_for_approved_user(): void {
+    public function test_state_segments_and_reactions_export_without_removed_personal_content(): void {
         global $DB;
 
         $this->resetAfterTest();
@@ -98,9 +98,7 @@ final class privacy_exporter_test extends \advanced_testcase {
             ['reactionsheader', 'privacy:reactionsactivechunk', 'events', 'active', false],
             ['reactionsheader', 'privacy:reactionsdeletedchunk', 'events', 'deleted', true],
             ['studentnotes_title', 'privacy:notesactivechunk', 'notes', 'notes', false],
-            ['studentnotes_title', 'privacy:notesdeletedchunk', 'notes', 'deletednotes', true],
             ['bookmarks_title', 'privacy:bookmarksactivechunk', 'bookmarks', 'bookmarks', false],
-            ['bookmarks_title', 'privacy:bookmarksdeletedchunk', 'bookmarks', 'deletedbookmarks', true],
         ];
         foreach ($categories as [$title, $chunk, $field, $label, $deleted]) {
             $path = [get_string($title, 'mod_videotrack'), get_string($chunk, 'mod_videotrack', 1)];
@@ -111,6 +109,14 @@ final class privacy_exporter_test extends \advanced_testcase {
             $this->assertSame(transform::yesno($deleted), $event->isdeleted);
             $this->assertArrayNotHasKey('userid', (array)$event);
             $this->assertArrayNotHasKey('reactionid', (array)$event);
+        }
+        $removedcategories = [
+            ['studentnotes_title', 'privacy:notesdeletedchunk', 'notes'],
+            ['bookmarks_title', 'privacy:bookmarksdeletedchunk', 'bookmarks'],
+        ];
+        foreach ($removedcategories as [$title, $chunk, $field]) {
+            $path = [get_string($title, 'mod_videotrack'), get_string($chunk, 'mod_videotrack', 1)];
+            $this->assertArrayNotHasKey($field, (array)$written->get_data($path));
         }
     }
 
@@ -141,7 +147,7 @@ final class privacy_exporter_test extends \advanced_testcase {
             get_string('studentnotes_title', 'mod_videotrack'),
             get_string('privacy:notesdeletedchunk', 'mod_videotrack', 1),
         ];
-        $this->assertSame('deleted note', $written->get_data($notepath)->notes[0]->notetext);
+        $this->assertArrayNotHasKey('notes', (array)$written->get_data($notepath));
     }
 
     /**

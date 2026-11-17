@@ -1,5 +1,19 @@
 # VideoTrack privacy and data-handling summary
 
+## 1.7.258: security follow-up
+
+Removal physically erases the owned note/bookmark row. AJAX parameters and responses
+remain compatible. Login/context/participation/sesskey checks precede retries: missing ids
+are successful no-ops, existing foreign or wrong-type rows are rejected. A Moodle lock
+serialises removals and the transaction includes one event without private text. An old
+soft-deleted row is erased without duplicating its event.
+
+User backups and Privacy exports exclude removed personal items; restore rejects personal
+rows marked deleted in older XML. Active tools and reaction history retain their contracts.
+Backup files created before deletion may contain then-active copies: their retention is
+separate, and restore cannot infer a later deletion from an older active copy. No general
+migration or demo cleanup runs.
+
 This document describes the current VideoTrack data model and operational privacy boundaries. It complements, but does not replace, the site’s own privacy notice, lawful-basis assessment and retention policy.
 
 Italian version: [`PRIVACY_IT.md`](PRIVACY_IT.md).

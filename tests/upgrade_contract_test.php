@@ -86,7 +86,7 @@ final class upgrade_contract_test extends advanced_testcase {
 
         $versionsource = file_get_contents($CFG->dirroot . '/mod/videotrack/version.php');
         $upgradesource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
-        $repairsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
+        $repairsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgradelib.php');
         $this->assertIsString($versionsource);
         $this->assertIsString($upgradesource);
         $this->assertIsString($repairsource);

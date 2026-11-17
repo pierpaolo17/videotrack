@@ -1,6 +1,31 @@
 # Audit di uscita U-017: manutenibilità
 
-## 1.7.257: correzioni delle revisioni di sicurezza
+## 1.7.258: completamento delle correzioni di sicurezza
+
+Baseline reale accettata257/main d6e8705e:422 file corrispondenti, PHPCS/lint server173
+puliti, PHPUnit414/4695 e strict10/0/0 su50/53, build AMD invariati, CI candidata/main a sei
+job, Behat52/1154 senza rerun e tre percorsi lifecycle nei job50/53MariaDB previsti.
+SHA-256 pacchetto:59fff2d7214a6828c1544b896d489ecebb8bbefb1821e72c6a3384ca845cc504.
+
+La candidata258 aggiunge15 metodi PHPUnit e due scenari browser, compreso backup/ripristino
+reale con vecchio XML modificato. PHP/Moodle non disponibili localmente: prove native
+PHPCS/lint/statiche/PHPUnit/Behat/lifecycle e accettazione di ZIP/server restano da eseguire.
+Grunt AMD Moodle reale Node22 superato: solo due sorgenti e quattro build/mappe cambiano.
+Smoke AMD e test adapter passano. Tre script Node storici falliscono ugualmente su257/258:
+privacy_static_test e backup_restore_static_test hanno contratti precedenti ai refactor;
+tracker_segment_test non ha la dipendenza core/str nel suo harness. È debito preesistente,
+non test nativi superati. Un nuovo punteggio di sicurezza richiede una nuova scansione.
+I rilievi nativi257 PHPMD28 e Psalm740/768 restano registrati, senza dichiarare zero warning.
+
+Nessuna modifica a schema/savepoint/servizi/task retention/OAuth. Nessuna bonifica generale
+dei dati pregressi, come richiesto; dataset demo conservato. Accessibilità manuale5.3 ancora
+in standby; verifica visiva Tiles da eseguire. Dopo l'accettazione finale completa si passa
+direttamente alla patch successiva, senza riconferma. Nuove sorgenti prima dell'App; prova
+App → browser saltata.
+
+[Completamento delle correzioni di sicurezza](29_REVISIONE_SICUREZZA.md).
+
+## 1.7.258: correzioni delle revisioni di sicurezza
 
 La baseline accettata è la 1.7.256 reale/main 26cf86ed: 418 file corrispondenti,
 PHPCS/lint server puliti su 171 file, PHPUnit 396/4581 su Moodle 5.0/5.3, build Grunt invariati,

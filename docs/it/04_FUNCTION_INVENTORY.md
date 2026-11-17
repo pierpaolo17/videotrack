@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.258. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1175 (1168 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1203 (1196 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -474,66 +474,66 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `amd/src/player.js:153` | `getMaxWatchedFromIntervals` | Callable `getMaxWatchedFromIntervals` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/player.js:176` | `getResumeStorageKey` | Callable `getResumeStorageKey` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/player.js:180` | `readStoredResumePosition` | Callable `readStoredResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:191` | `rememberResumePosition` | Callable `rememberResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:205` | `resolveResumePosition` | Callable `resolveResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:219` | `initialiseKnownProgress` | Callable `initialiseKnownProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:230` | `getBlockedSeekPlaybackRate` | Callable `getBlockedSeekPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:239` | `blockForwardSeek` | Callable `blockForwardSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:274` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:284` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:288` | `saveCurrentProgress` | Callable `saveCurrentProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:298` | `closeCurrentSegment` | Callable `closeCurrentSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:305` | `getConfiguredMaxPlaybackRate` | Callable `getConfiguredMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:319` | `getPlaybackRatePenalty` | Callable `getPlaybackRatePenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:327` | `writePlaybackRate` | Callable `writePlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:348` | `applyBlockedSeekPenalty` | Callable `applyBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:352` | `retryBlockedSeekPenalty` | Callable `retryBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:363` | `enforceMaxPlaybackRate` | Callable `enforceMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:393` | `installPlaybackRateGuard` | Callable `installPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:404` | `cleanupPlaybackRateGuard` | Callable `cleanupPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:411` | `startCurrentSegment` | Callable `startCurrentSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:430` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:435` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:439` | `seekProgrammatically` | Callable AMD nominato `seekProgrammatically`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/player.js:460` | `replayFragment` | Callable `replayFragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:473` | `handleSeekByPolling` | Callable `handleSeekByPolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:596` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:603` | `onPlayerStateChange` | Callable `onPlayerStateChange` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:652` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:659` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:663` | `onHidden` | Callable `onHidden` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:666` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:667` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:670` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:672` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:688` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:697` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:824` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:843` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:919` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:947` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:979` | `onPlaybackRateChange` | Callable `onPlaybackRateChange` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:982` | `onAutoplayBlocked` | Callable `onAutoplayBlocked` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:996` | `removeNotice` | Callable `removeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1014` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1030` | `buildYouTubeSkipButtons` | Callable `buildYouTubeSkipButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1102` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1113` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/player.js:1121` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1126` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1129` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1146` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1155` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1164` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1179` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1197` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1219` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1223` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1228` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1245` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/player.js:1250` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/player.js:1266` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/player.js:1301` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:192` | `rememberResumePosition` | Callable `rememberResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:206` | `resolveResumePosition` | Callable `resolveResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:220` | `initialiseKnownProgress` | Callable `initialiseKnownProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:231` | `getBlockedSeekPlaybackRate` | Callable `getBlockedSeekPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:240` | `blockForwardSeek` | Callable `blockForwardSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:275` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:285` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:289` | `saveCurrentProgress` | Callable `saveCurrentProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:299` | `closeCurrentSegment` | Callable `closeCurrentSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:306` | `getConfiguredMaxPlaybackRate` | Callable `getConfiguredMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:320` | `getPlaybackRatePenalty` | Callable `getPlaybackRatePenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:328` | `writePlaybackRate` | Callable `writePlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:349` | `applyBlockedSeekPenalty` | Callable `applyBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:353` | `retryBlockedSeekPenalty` | Callable `retryBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:364` | `enforceMaxPlaybackRate` | Callable `enforceMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:394` | `installPlaybackRateGuard` | Callable `installPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:405` | `cleanupPlaybackRateGuard` | Callable `cleanupPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:412` | `startCurrentSegment` | Callable `startCurrentSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:431` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:436` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:440` | `seekProgrammatically` | Callable AMD nominato `seekProgrammatically`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/player.js:461` | `replayFragment` | Callable `replayFragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:474` | `handleSeekByPolling` | Callable `handleSeekByPolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:597` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:604` | `onPlayerStateChange` | Callable `onPlayerStateChange` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:653` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:660` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:664` | `onHidden` | Callable `onHidden` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:667` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:668` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:671` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:673` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:689` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:698` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:825` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:844` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:920` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:948` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:980` | `onPlaybackRateChange` | Callable `onPlaybackRateChange` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:983` | `onAutoplayBlocked` | Callable `onAutoplayBlocked` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:997` | `removeNotice` | Callable `removeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1015` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1031` | `buildYouTubeSkipButtons` | Callable `buildYouTubeSkipButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1103` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1114` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/player.js:1122` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1127` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1130` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1147` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1156` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1165` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1180` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1198` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1220` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1224` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1229` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1246` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/player.js:1251` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/player.js:1267` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/player.js:1302` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/presets.js:29` | `cssEscape` | Callable `cssEscape` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/presets.js:36` | `queryByName` | Callable `queryByName` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/presets.js:43` | `findPicker` | Callable `findPicker` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -594,79 +594,79 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `amd/src/vimeo_player.js:526` | `ensureVimeoRuntimePlaying` | Callable `ensureVimeoRuntimePlaying` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/vimeo_player.js:539` | `getResumeStorageKey` | Callable `getResumeStorageKey` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/vimeo_player.js:543` | `readStoredResumePosition` | Callable `readStoredResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:564` | `rememberResumePosition` | Callable `rememberResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:578` | `resolveResumePosition` | Callable `resolveResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:592` | `startVimeoRuntimePolling` | Callable `startVimeoRuntimePolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:600` | `stopVimeoRuntimePolling` | Callable `stopVimeoRuntimePolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:608` | `readVimeoValue` | Callable `readVimeoValue` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:618` | `pauseRuntimeSegment` | Callable `pauseRuntimeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:628` | `pollVimeoRuntime` | Callable `pollVimeoRuntime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:664` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:668` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:676` | `handleVimeoTime` | Callable `handleVimeoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:754` | `initialiseKnownProgress` | Callable `initialiseKnownProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:765` | `resumeBlockedSeekIfPaused` | Callable AMD nominato `resumeBlockedSeekIfPaused`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:784` | `scheduleBlockedSeekResume` | Callable `scheduleBlockedSeekResume` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:809` | `recoverBlockedSeek` | Callable `recoverBlockedSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:826` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:880` | `getBlockedSeekPlaybackRate` | Callable `getBlockedSeekPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:889` | `persistBlockedSeekFrontier` | Callable AMD nominato `persistBlockedSeekFrontier`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:896` | `blockForwardSeek` | Callable `blockForwardSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:924` | `getConfiguredMaxPlaybackRate` | Callable `getConfiguredMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:935` | `getPlaybackRatePenalty` | Callable `getPlaybackRatePenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:943` | `applyBlockedSeekPenalty` | Callable `applyBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:947` | `retryBlockedSeekPenalty` | Callable `retryBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:965` | `writePlaybackRate` | Callable `writePlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:979` | `retryPlaybackRateLimit` | Callable `retryPlaybackRateLimit` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:994` | `enforcePlaybackRateValue` | Callable `enforcePlaybackRateValue` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1014` | `enforceMaxPlaybackRate` | Callable `enforceMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1026` | `installPlaybackRateGuard` | Callable `installPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1035` | `cleanupPlaybackRateGuard` | Callable `cleanupPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1044` | `startSegment` | Callable `startSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1058` | `closeSegment` | Callable `closeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1066` | `startHeartbeat` | Callable `startHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1071` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1075` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1083` | `stopHeartbeat` | Callable `stopHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1093` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1097` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1102` | `onHidden` | Callable `onHidden` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1105` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1106` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1109` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1110` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1120` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:1130` | `loadVimeoSDK` | Callable `loadVimeoSDK` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1166` | `showVimeoSdkError` | Callable AMD nominato `showVimeoSdkError`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:1186` | `resolveVimeoSource` | Callable `resolveVimeoSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1221` | `buildVimeoIframe` | Callable `buildVimeoIframe` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1260` | `replayVimeoFragment` | Callable `replayVimeoFragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1304` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1612` | `handleReplayClick` | Callable `handleReplayClick` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1641` | `buildVimeoSkipButtons` | Callable `buildVimeoSkipButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1725` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1730` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1735` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1739` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1809` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1818` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1922` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1942` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1959` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:1968` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1973` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1976` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1985` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:1994` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2009` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2027` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2061` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2065` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2070` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2090` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:2095` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/vimeo_player.js:2113` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/vimeo_player.js:2147` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:565` | `rememberResumePosition` | Callable `rememberResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:579` | `resolveResumePosition` | Callable `resolveResumePosition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:593` | `startVimeoRuntimePolling` | Callable `startVimeoRuntimePolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:601` | `stopVimeoRuntimePolling` | Callable `stopVimeoRuntimePolling` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:609` | `readVimeoValue` | Callable `readVimeoValue` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:619` | `pauseRuntimeSegment` | Callable `pauseRuntimeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:629` | `pollVimeoRuntime` | Callable `pollVimeoRuntime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:665` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:669` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:677` | `handleVimeoTime` | Callable `handleVimeoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:755` | `initialiseKnownProgress` | Callable `initialiseKnownProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:766` | `resumeBlockedSeekIfPaused` | Callable AMD nominato `resumeBlockedSeekIfPaused`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:785` | `scheduleBlockedSeekResume` | Callable `scheduleBlockedSeekResume` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:810` | `recoverBlockedSeek` | Callable `recoverBlockedSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:827` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:881` | `getBlockedSeekPlaybackRate` | Callable `getBlockedSeekPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:890` | `persistBlockedSeekFrontier` | Callable AMD nominato `persistBlockedSeekFrontier`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:897` | `blockForwardSeek` | Callable `blockForwardSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:925` | `getConfiguredMaxPlaybackRate` | Callable `getConfiguredMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:936` | `getPlaybackRatePenalty` | Callable `getPlaybackRatePenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:944` | `applyBlockedSeekPenalty` | Callable `applyBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:948` | `retryBlockedSeekPenalty` | Callable `retryBlockedSeekPenalty` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:966` | `writePlaybackRate` | Callable `writePlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:980` | `retryPlaybackRateLimit` | Callable `retryPlaybackRateLimit` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:995` | `enforcePlaybackRateValue` | Callable `enforcePlaybackRateValue` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1015` | `enforceMaxPlaybackRate` | Callable `enforceMaxPlaybackRate` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1027` | `installPlaybackRateGuard` | Callable `installPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1036` | `cleanupPlaybackRateGuard` | Callable `cleanupPlaybackRateGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1045` | `startSegment` | Callable `startSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1059` | `closeSegment` | Callable `closeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1067` | `startHeartbeat` | Callable `startHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1072` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1076` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1084` | `stopHeartbeat` | Callable `stopHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1094` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1098` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1103` | `onHidden` | Callable `onHidden` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1106` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1107` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1110` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1111` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1121` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:1131` | `loadVimeoSDK` | Callable `loadVimeoSDK` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1167` | `showVimeoSdkError` | Callable AMD nominato `showVimeoSdkError`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:1187` | `resolveVimeoSource` | Callable `resolveVimeoSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1222` | `buildVimeoIframe` | Callable `buildVimeoIframe` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1261` | `replayVimeoFragment` | Callable `replayVimeoFragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1305` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1613` | `handleReplayClick` | Callable `handleReplayClick` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1642` | `buildVimeoSkipButtons` | Callable `buildVimeoSkipButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1726` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1731` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1736` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1740` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1810` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1819` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1923` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1943` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1960` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:1969` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1974` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1977` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1986` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:1995` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2010` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2028` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2062` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2066` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2071` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2091` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:2096` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/vimeo_player.js:2114` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/vimeo_player.js:2148` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:37` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:43` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:53` | `encode_content_links` | Callable PHP `encode_content_links`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -676,7 +676,7 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `backup/moodle2/backup_videotrack_stepslib.php:105` | `create_user_elements` | Crea wrapper ed elementi riga opzionali dei dati utente. |
 | `backup/moodle2/backup_videotrack_stepslib.php:136` | `attach_user_elements` | Collega gli elementi opzionali dei dati utente nell'ordine XML canonico. |
 | `backup/moodle2/backup_videotrack_stepslib.php:154` | `configure_sources` | Configura sorgenti attività, reazioni e dati utente conservabili con le annotazioni degli identificatori. |
-| `backup/moodle2/backup_videotrack_stepslib.php:225` | `annotate_files` | Registra le aree file dell'attività e delle reazioni. |
+| `backup/moodle2/backup_videotrack_stepslib.php:226` | `annotate_files` | Registra le aree file dell'attività e delle reazioni. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:37` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:43` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:52` | `define_decode_contents` | Callable PHP `define_decode_contents`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -688,11 +688,11 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `backup/moodle2/restore_videotrack_stepslib.php:125` | `process_videotrack_segment` | Callable PHP `process_videotrack_segment`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:187` | `process_videotrack_state` | Callable PHP `process_videotrack_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:199` | `process_videotrack_reactionevent` | Callable PHP `process_videotrack_reactionevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:266` | `restore_missing_reaction` | Crea e mappa un placeholder nascosto per una reazione omessa nella transazione di ripristino. |
-| `backup/moodle2/restore_videotrack_stepslib.php:302` | `process_videotrack_integrityevent` | Callable PHP `process_videotrack_integrityevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:344` | `process_videotrack_acknowledgement` | Callable PHP `process_videotrack_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:389` | `get_restored_cmid` | Callable PHP `get_restored_cmid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:402` | `after_execute` | Callable PHP `after_execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:269` | `restore_missing_reaction` | Crea e mappa un placeholder nascosto per una reazione omessa nella transazione di ripristino. |
+| `backup/moodle2/restore_videotrack_stepslib.php:305` | `process_videotrack_integrityevent` | Callable PHP `process_videotrack_integrityevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:347` | `process_videotrack_acknowledgement` | Callable PHP `process_videotrack_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:392` | `get_restored_cmid` | Callable PHP `get_restored_cmid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:405` | `after_execute` | Callable PHP `after_execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_int_range.php:43` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_int_range.php:61` | `validate` | Callable PHP `validate`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_nonnegative_int.php:36` | `validate` | Callable PHP `validate`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -777,10 +777,10 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `classes/event/student_progress_reset.php:91` | `get_objectid_mapping` | Callable PHP `get_objectid_mapping`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_bookmark.php:43` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_bookmark.php:57` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_bookmark.php:90` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_bookmark.php:77` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_note.php:43` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_note.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_note.php:117` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_note.php:98` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_reaction.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_reaction.php:61` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/delete_reaction.php:132` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1025,6 +1025,10 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | Callable PHP `prefix_named_params`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Funzione/metodo PHP nominato `can_participate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | Callable PHP `user_is_visible`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `classes/local/personal_item.php:119` | `trigger_deleted_event` | Implementa `trigger_deleted_event` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/privacy_manager.php:47` | `retention_period_seconds` | Callable PHP `retention_period_seconds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:68` | `retention_cutoff_timestamp` | Callable PHP `retention_cutoff_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:83` | `timestamp_is_retained` | Callable PHP `timestamp_is_retained`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1089,15 +1093,16 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renderizza aggregati e progresso privacy-safe delle prese visione. |
 | `classes/local/report_summary_view.php:200` | `acknowledgement_values` | Risolve i valori delle schede sotto soppressione privacy completa o del solo progresso. |
 | `classes/local/report_summary_view.php:233` | `acknowledgement_notice` | Renderizza avvisi di disponibilità, privacy e progresso legacy delle prese visione. |
-| `classes/local/report_support.php:39` | `user_label` | Formatta le etichette utente rispettando la visibilità email. |
-| `classes/local/report_support.php:58` | `user_label_html` | Implementa `user_label_html` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `classes/local/report_support.php:69` | `dashboard_count_cell` | Implementa `dashboard_count_cell` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `classes/local/report_support.php:86` | `analytics_prefers_state_fallback` | Seleziona il fallback state per priorità viewer ed epsilon sui secondi unici. |
-| `classes/local/report_support.php:101` | `analytics_highlights` | Seleziona highlight Analytics più visti, più riprodotti e maggiori cali. |
-| `classes/local/report_support.php:141` | `analytics_acknowledgement_timing_counts` | Conta i bucket timing delle prese visione con fallback canonico. |
-| `classes/local/report_support.php:163` | `user_options` | Costruisce opzioni utente per priorità preservando la privacy. |
-| `classes/local/report_support.php:195` | `cluster_reaction_events` | Costruisce cluster di reazioni limitati con conteggio studenti e ordine stabili. |
-| `classes/local/report_support.php:264` | `tabs` | Costruisce i tab del report docente in base alle capability. |
+| `classes/local/report_support.php:40` | `section_label_html` | Implementa `section_label_html` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `classes/local/report_support.php:54` | `user_label` | Formatta le etichette utente rispettando la visibilità email. |
+| `classes/local/report_support.php:73` | `user_label_html` | Implementa `user_label_html` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `classes/local/report_support.php:84` | `dashboard_count_cell` | Implementa `dashboard_count_cell` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `classes/local/report_support.php:101` | `analytics_prefers_state_fallback` | Seleziona il fallback state per priorità viewer ed epsilon sui secondi unici. |
+| `classes/local/report_support.php:116` | `analytics_highlights` | Seleziona highlight Analytics più visti, più riprodotti e maggiori cali. |
+| `classes/local/report_support.php:156` | `analytics_acknowledgement_timing_counts` | Conta i bucket timing delle prese visione con fallback canonico. |
+| `classes/local/report_support.php:178` | `user_options` | Costruisce opzioni utente per priorità preservando la privacy. |
+| `classes/local/report_support.php:210` | `cluster_reaction_events` | Costruisce cluster di reazioni limitati con conteggio studenti e ordine stabili. |
+| `classes/local/report_support.php:279` | `tabs` | Costruisce i tab del report docente in base alle capability. |
 | `classes/local/report_time_filter.php:36` | `date_to_timestamp` | Converte una data ISO valida nell'inizio giornata del fuso utente, altrimenti restituisce zero. |
 | `classes/local/report_time_filter.php:55` | `end_date_to_timestamp` | Converte una data ISO valida nel limite inclusivo di fine giornata, altrimenti restituisce zero. |
 | `classes/local/report_time_filter.php:77` | `optional_time_param` | Seleziona i componenti strutturati quando presenti e conserva altrimenti il parsing legacy a due punti. |
@@ -1125,6 +1130,7 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `classes/local/report_view.php:43` | `analytics_methodology` | Renderizza la spiegazione espandibile di calcoli e privacy Analytics. |
 | `classes/local/report_view.php:105` | `privacy_alert` | Renderizza l'avviso privacy specifico del dataset Analytics. |
 | `classes/local/report_view.php:132` | `analytics_download` | Renderizza il selettore di download della tabella Analytics. |
+| `classes/local/resume_storage.php:39` | `key` | Implementa `key` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | Callable PHP `accessible_courses`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:80` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:127` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1169,9 +1175,9 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:1194` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/event_exporter.php:44` | `export` | Esporta sei categorie di interazioni in blocchi limitati. |
-| `classes/privacy/event_exporter.php:85` | `prepare_event` | Trasforma gli eventi ed elimina gli identificatori interni. |
-| `classes/privacy/event_exporter.php:109` | `category` | Sceglie la categoria originale di reazioni, note o segnalibri. |
-| `classes/privacy/event_exporter.php:128` | `write_chunk` | Scrive il percorso tradotto e i dati della categoria. |
+| `classes/privacy/event_exporter.php:86` | `prepare_event` | Trasforma gli eventi ed elimina gli identificatori interni. |
+| `classes/privacy/event_exporter.php:110` | `category` | Sceglie la categoria originale di reazioni, note o segnalibri. |
+| `classes/privacy/event_exporter.php:129` | `write_chunk` | Scrive il percorso tradotto e i dati della categoria. |
 | `classes/privacy/exporter.php:38` | `format_interval_second` | Formatta i secondi del video in MM:SS. |
 | `classes/privacy/exporter.php:48` | `export_user_data` | Delega le sezioni dell’export autorizzato nello stesso ordine. |
 | `classes/privacy/exporter.php:72` | `export_state` | Esporta lo stato con date e intervalli leggibili. |
@@ -1196,18 +1202,18 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `db/repairlib.php:126` | `videotrack_repair_preproduction_grade_item_has_canonical_context` | Verifica istanza, corso, contesto del modulo e numero prima della riparazione delle voci di valutazione. |
 | `db/repairlib.php:152` | `videotrack_repair_preproduction_merge_grade_grades` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_merge_grade_grades`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:182` | `videotrack_repair_preproduction_delete_grade_items` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_delete_grade_items`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:203` | `videotrack_repair_preproduction_schema` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_schema`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:230` | `videotrack_repair_preproduction_table` | Crea le tabelle mancanti o ripara la tabella vuota senza campo id. |
-| `db/repairlib.php:264` | `videotrack_repair_preproduction_table_fields` | Aggiunge i campi mancanti e normalizza gli ID richiesta prima degli indici. |
-| `db/repairlib.php:288` | `videotrack_repair_preproduction_table_indexes` | Aggiunge gli indici XMLDB nell’ordine dichiarato dopo la preparazione dei dati unici. |
-| `db/repairlib.php:308` | `videotrack_repair_preproduction_add_field` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_add_field`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:344` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:365` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:406` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Pulizia uninstall prima del core: grade item canonici/malformati e completion nativa circoscritta, anche senza grade item. |
 | `db/uninstall.php:90` | `videotrack_uninstall_delete_completion` | Elimina la completion nativa solo dei course module appartenenti al modulo VideoTrack registrato; senza identità non cancella. |
-| `db/uninstall.php:111` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
+| `db/uninstall.php:122` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `db/upgradelib.php:40` | `videotrack_repair_preproduction_schema` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_schema`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/upgradelib.php:67` | `videotrack_repair_preproduction_table` | Crea le tabelle mancanti o ripara la tabella vuota senza campo id. |
+| `db/upgradelib.php:101` | `videotrack_repair_preproduction_table_fields` | Aggiunge i campi mancanti e normalizza gli ID richiesta prima degli indici. |
+| `db/upgradelib.php:125` | `videotrack_repair_preproduction_table_indexes` | Aggiunge gli indici XMLDB nell’ordine dichiarato dopo la preparazione dei dati unici. |
+| `db/upgradelib.php:145` | `videotrack_repair_preproduction_add_field` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_add_field`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/upgradelib.php:181` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/upgradelib.php:202` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/upgradelib.php:243` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `lib.php:38` | `videotrack_supports` | Callable PHP `videotrack_supports`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:64` | `videotrack_whitelist_record` | Callable PHP `videotrack_whitelist_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:87` | `videotrack_add_instance` | Callable PHP `videotrack_add_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1406,49 +1412,52 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verifica filtri e annotazioni dei dati utente conservabili. |
 | `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verifica tabelle sorgente, mapping Forum e aree file. |
 | `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
-| `tests/behat/behat_mod_videotrack.php:46` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifica la risposta invaliduser esatta senza dati studente e ripristina il report autorizzato prima dei normali controlli errori. |
-| `tests/behat/behat_mod_videotrack.php:76` | `the_videotrack_report_shows_only_learner` | Verifica id studente selezionato e una sola riga di progresso corrispondente, indipendentemente dalle opzioni disponibili. |
-| `tests/behat/behat_mod_videotrack.php:107` | `the_videotrack_learner_tracking_policy_is` | Legge l’interruttore di tracking effettivo della pagina per anteprima docente e partecipazione studente. |
-| `tests/behat/behat_mod_videotrack.php:124` | `preview_creates_no_learner_tracking` | Legge segmenti/stato del plugin e completamento nativo per escludere evidenze studente dall’anteprima docente. |
-| `tests/behat/behat_mod_videotrack.php:148` | `i_open_the_videotrack_report_for_learner` | Visita il report reale con gli id delle fixture, comprese richieste intenzionali fuori scope. |
-| `tests/behat/behat_mod_videotrack.php:167` | `the_videotrack_report_learner_choices_are` | Confronta gli id delle opzioni report effettivamente renderizzate con l’insieme esatto degli studenti attesi. |
-| `tests/behat/behat_mod_videotrack.php:201` | `i_request_videotrack_playback_rate` | Richiede tramite media/SDK una velocità selezionata oppure una prova esplicita oltre il tetto. |
-| `tests/behat/behat_mod_videotrack.php:225` | `the_videotrack_playback_rate_is` | Osserva la velocità effettiva media/SDK, inclusi i risultati asincroni Vimeo. |
-| `tests/behat/behat_mod_videotrack.php:248` | `the_videotrack_player_reaches_its_natural_end` | Attende la fine naturale della fixture da 60 secondi senza seek o alterazioni dell’orologio. |
-| `tests/behat/behat_mod_videotrack.php:266` | `an_accepted_end_closes_playback` | Legge fine accettata e credito chiuso e conserva la copertura ottenuta dal browser per verificare il replay. |
-| `tests/behat/behat_mod_videotrack.php:313` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
-| `tests/behat/behat_mod_videotrack.php:350` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
-| `tests/behat/behat_mod_videotrack.php:371` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
-| `tests/behat/behat_mod_videotrack.php:391` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
-| `tests/behat/behat_mod_videotrack.php:408` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
-| `tests/behat/behat_mod_videotrack.php:430` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
-| `tests/behat/behat_mod_videotrack.php:456` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
-| `tests/behat/behat_mod_videotrack.php:479` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
-| `tests/behat/behat_mod_videotrack.php:502` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:522` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:540` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:566` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:591` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
-| `tests/behat/behat_mod_videotrack.php:610` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
-| `tests/behat/behat_mod_videotrack.php:637` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:658` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:680` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
-| `tests/behat/behat_mod_videotrack.php:721` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
-| `tests/behat/behat_mod_videotrack.php:785` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
-| `tests/behat/behat_mod_videotrack.php:854` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
-| `tests/behat/behat_mod_videotrack.php:879` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
-| `tests/behat/behat_mod_videotrack.php:948` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
-| `tests/behat/behat_mod_videotrack.php:1032` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
-| `tests/behat/behat_mod_videotrack.php:1054` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
-| `tests/behat/behat_mod_videotrack.php:1116` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
-| `tests/behat/behat_mod_videotrack.php:1163` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
-| `tests/behat/behat_mod_videotrack.php:1257` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:1351` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
-| `tests/behat/behat_mod_videotrack.php:1392` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
-| `tests/behat/behat_mod_videotrack.php:1415` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
-| `tests/behat/behat_mod_videotrack.php:1489` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
-| `tests/behat/behat_mod_videotrack.php:1542` | `i_submit_a_videotrack_reset_expecting` | Invia un POST reset autenticato reale; verifica rifiuto per permesso e conservazione oppure reset del solo target, poi ripristina una pagina normale senza disabilitare hook errori. |
-| `tests/behat/behat_mod_videotrack.php:1674` | `videotrack_reset_snapshot` | Legge record plugin/voto/completion nativa del target e degli altri utenti per confronti reset senza normalizzare mutazioni. |
+| `tests/behat/behat_mod_videotrack.php:45` | `i_store_a_videotrack_browser_resume_hint` | Implementa `i_store_a_videotrack_browser_resume_hint` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/behat/behat_mod_videotrack.php:70` | `i_restore_stale_videotrack_browser_hints_before_opening` | Prepara suggerimenti browser residui prima del player successivo, conservando i metadati cache Moodle. |
+| `tests/behat/behat_mod_videotrack.php:96` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Implementa `the_videotrack_browser_resume_key_belongs_to_a_different_learner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/behat/behat_mod_videotrack.php:125` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifica la risposta invaliduser esatta senza dati studente e ripristina il report autorizzato prima dei normali controlli errori. |
+| `tests/behat/behat_mod_videotrack.php:155` | `the_videotrack_report_shows_only_learner` | Verifica id studente selezionato e una sola riga di progresso corrispondente, indipendentemente dalle opzioni disponibili. |
+| `tests/behat/behat_mod_videotrack.php:186` | `the_videotrack_learner_tracking_policy_is` | Legge l’interruttore di tracking effettivo della pagina per anteprima docente e partecipazione studente. |
+| `tests/behat/behat_mod_videotrack.php:203` | `preview_creates_no_learner_tracking` | Legge segmenti/stato del plugin e completamento nativo per escludere evidenze studente dall’anteprima docente. |
+| `tests/behat/behat_mod_videotrack.php:227` | `i_open_the_videotrack_report_for_learner` | Visita il report reale con gli id delle fixture, comprese richieste intenzionali fuori scope. |
+| `tests/behat/behat_mod_videotrack.php:246` | `the_videotrack_report_learner_choices_are` | Confronta gli id delle opzioni report effettivamente renderizzate con l’insieme esatto degli studenti attesi. |
+| `tests/behat/behat_mod_videotrack.php:280` | `i_request_videotrack_playback_rate` | Richiede tramite media/SDK una velocità selezionata oppure una prova esplicita oltre il tetto. |
+| `tests/behat/behat_mod_videotrack.php:304` | `the_videotrack_playback_rate_is` | Osserva la velocità effettiva media/SDK, inclusi i risultati asincroni Vimeo. |
+| `tests/behat/behat_mod_videotrack.php:327` | `the_videotrack_player_reaches_its_natural_end` | Attende la fine naturale della fixture da 60 secondi senza seek o alterazioni dell’orologio. |
+| `tests/behat/behat_mod_videotrack.php:345` | `an_accepted_end_closes_playback` | Legge fine accettata e credito chiuso e conserva la copertura ottenuta dal browser per verificare il replay. |
+| `tests/behat/behat_mod_videotrack.php:392` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
+| `tests/behat/behat_mod_videotrack.php:429` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
+| `tests/behat/behat_mod_videotrack.php:450` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
+| `tests/behat/behat_mod_videotrack.php:470` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
+| `tests/behat/behat_mod_videotrack.php:487` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
+| `tests/behat/behat_mod_videotrack.php:509` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
+| `tests/behat/behat_mod_videotrack.php:535` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
+| `tests/behat/behat_mod_videotrack.php:558` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
+| `tests/behat/behat_mod_videotrack.php:581` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:601` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:619` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:645` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:670` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
+| `tests/behat/behat_mod_videotrack.php:689` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
+| `tests/behat/behat_mod_videotrack.php:716` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:737` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:759` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
+| `tests/behat/behat_mod_videotrack.php:800` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
+| `tests/behat/behat_mod_videotrack.php:864` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
+| `tests/behat/behat_mod_videotrack.php:933` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
+| `tests/behat/behat_mod_videotrack.php:958` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
+| `tests/behat/behat_mod_videotrack.php:1027` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
+| `tests/behat/behat_mod_videotrack.php:1111` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
+| `tests/behat/behat_mod_videotrack.php:1133` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
+| `tests/behat/behat_mod_videotrack.php:1195` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
+| `tests/behat/behat_mod_videotrack.php:1242` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
+| `tests/behat/behat_mod_videotrack.php:1336` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:1430` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
+| `tests/behat/behat_mod_videotrack.php:1471` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:1494` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:1568` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:1621` | `i_submit_a_videotrack_reset_expecting` | Invia un POST reset autenticato reale; verifica rifiuto per permesso e conservazione oppure reset del solo target, poi ripristina una pagina normale senza disabilitare hook errori. |
+| `tests/behat/behat_mod_videotrack.php:1753` | `videotrack_reset_snapshot` | Legge record plugin/voto/completion nativa del target e degli altri utenti per confronti reset senza normalizzare mutazioni. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1588,16 +1597,19 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | Callable PHP `test_player_behavior_fields_normalise_bookmark_setting`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | Callable PHP `test_caption_normalisation_preserves_provider_timed_text_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifica che il filtro dei record attività conservi le colonne reali e scarti i valori riservati al form. |
-| `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Esegue un ripristino reale senza utenti e verifica configurazione, file, assenza di dati studente e isolamento origine. |
-| `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Esegue un ripristino con utenti e retention destinazione, poi verifica stato ricostruito, export e cancellazione circoscritta. |
-| `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Invoca il reset Moodle reale con opzione disattivata/attivata su due attività, verificando dati, voti, completion e altro corso. |
-| `tests/lifecycle_integration_test.php:213` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Esegue la cancellazione sincrona Moodle reale e controlla righe/file/voti/contesto propri, conservando l’attività vicina. |
-| `tests/lifecycle_integration_test.php:264` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Esegue il task registrato dopo un restore reale: policy illimitata/finita, progresso validato, scadenza totale e ripetizione, conservando configurazione/file/voti condivisi. |
-| `tests/lifecycle_integration_test.php:386` | `create_fixture` | Prepara fixture popolate in un corso nuovo o esistente, con configurazione/file condivisi e due studenti. |
-| `tests/lifecycle_integration_test.php:470` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
-| `tests/lifecycle_integration_test.php:530` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
-| `tests/lifecycle_integration_test.php:579` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
-| `tests/lifecycle_integration_test.php:642` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
+| `tests/lifecycle_integration_test.php:37` | `test_removed_personal_items_do_not_survive_user_backup` | Implementa `test_removed_personal_items_do_not_survive_user_backup` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/lifecycle_integration_test.php:67` | `test_legacy_backup_removed_personal_items_are_not_restored` | Implementa `test_legacy_backup_removed_personal_items_are_not_restored` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/lifecycle_integration_test.php:83` | `test_restore_without_users_keeps_configuration_and_shared_files` | Esegue un ripristino reale senza utenti e verifica configurazione, file, assenza di dati studente e isolamento origine. |
+| `tests/lifecycle_integration_test.php:109` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Esegue un ripristino con utenti e retention destinazione, poi verifica stato ricostruito, export e cancellazione circoscritta. |
+| `tests/lifecycle_integration_test.php:181` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Invoca il reset Moodle reale con opzione disattivata/attivata su due attività, verificando dati, voti, completion e altro corso. |
+| `tests/lifecycle_integration_test.php:259` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Esegue la cancellazione sincrona Moodle reale e controlla righe/file/voti/contesto propri, conservando l’attività vicina. |
+| `tests/lifecycle_integration_test.php:310` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Esegue il task registrato dopo un restore reale: policy illimitata/finita, progresso validato, scadenza totale e ripetizione, conservando configurazione/file/voti condivisi. |
+| `tests/lifecycle_integration_test.php:432` | `create_fixture` | Prepara fixture popolate in un corso nuovo o esistente, con configurazione/file condivisi e due studenti. |
+| `tests/lifecycle_integration_test.php:516` | `insert_user_records` | Prepara input vecchi, conservati e non validati più stato/completion obsoleti per regressioni sul ciclo di vita. |
+| `tests/lifecycle_integration_test.php:577` | `restore_course` | Esegue controller Moodle reali di backup/restore in un nuovo corso con policy esplicita per utenti e retention. |
+| `tests/lifecycle_integration_test.php:627` | `append_removed_items_to_backup` | Implementa `append_removed_items_to_backup` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/lifecycle_integration_test.php:655` | `assert_restored_configuration` | Verifica configurazione ripristinata, mapping Forum/reazioni, unicità grade item e hash dei file condivisi. |
+| `tests/lifecycle_integration_test.php:718` | `snapshot` | Legge i record studente plugin ordinati per confronti esatti di isolamento dell’origine. |
 | `tests/locallib_test.php:62` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1627,10 +1639,10 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Funzione/metodo PHP nominato `test_completion_mutations_synchronise_moodle_state`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:120` | `test_completion_transitions_avoid_redundant_events_and_writes` | Funzione/metodo PHP nominato `test_completion_transitions_avoid_redundant_events_and_writes`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:136` | `test_persistent_notices_coexist_with_transient_status_messages` | Funzione/metodo PHP nominato `test_persistent_notices_coexist_with_transient_status_messages`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
-| `tests/privacy_exporter_test.php:40` | `test_state_segments_and_deleted_event_categories_are_exported_for_approved_user` | Verifica filtro utente, stato, segmenti e sei percorsi eventi. |
-| `tests/privacy_exporter_test.php:120` | `test_event_chunks_keep_insertion_order_and_separate_counters` | Verifica blocchi da 500 e contatori indipendenti. |
-| `tests/privacy_exporter_test.php:152` | `create_activity` | Crea un contesto modulo reale per i test privacy. |
-| `tests/privacy_exporter_test.php:183` | `insert_event` | Crea una interazione con utente, tipo e stato specifici. |
+| `tests/privacy_exporter_test.php:40` | `test_state_segments_and_reactions_export_without_removed_personal_content` | Implementa `test_state_segments_and_reactions_export_without_removed_personal_content` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/privacy_exporter_test.php:126` | `test_event_chunks_keep_insertion_order_and_separate_counters` | Verifica blocchi da 500 e contatori indipendenti. |
+| `tests/privacy_exporter_test.php:158` | `create_activity` | Crea un contesto modulo reale per i test privacy. |
+| `tests/privacy_exporter_test.php:189` | `insert_event` | Crea una interazione con utente, tipo e stato specifici. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | Callable PHP `test_cleanup_deletes_expired_rows_and_rebuilds_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/privacy_manager_test.php:138` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | Callable PHP `test_cleanup_removes_state_when_no_retained_inputs_remain`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/privacy_manager_test.php:178` | `test_cleanup_preserves_recent_playback_guard` | Callable PHP `test_cleanup_preserves_recent_playback_guard`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1754,6 +1766,22 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `tests/save_reaction_test.php:150` | `test_execute_keeps_guard_and_persistence_order` | Protegge l'ordine completo dall'ingresso validato all'insert. |
 | `tests/save_reaction_test.php:177` | `test_post_insert_pipeline_keeps_side_effect_order` | Protegge l'ordine cache, evento, aggregato e completion dopo l'insert. |
 | `tests/save_reaction_test.php:197` | `test_external_response_wraps_post_insert_service_result` | Protegge il mapping stabile della risposta external dopo la delega al collaboratore. |
+| `tests/security_followup_test.php:51` | `setUp` | Implementa `setUp` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:70` | `tearDown` | Implementa `tearDown` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:78` | `test_note_erasure_and_legacy_retry_emit_one_content_free_event` | Implementa `test_note_erasure_and_legacy_retry_emit_one_content_free_event` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:96` | `test_bookmark_erasure_and_retry_emit_one_event` | Implementa `test_bookmark_erasure_and_retry_emit_one_event` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:111` | `test_legacy_removed_items_are_erased_without_new_events` | Implementa `test_legacy_removed_items_are_erased_without_new_events` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:126` | `test_foreign_learner_item_is_not_erased` | Implementa `test_foreign_learner_item_is_not_erased` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:141` | `test_wrong_personal_item_type_is_not_erased` | Implementa `test_wrong_personal_item_type_is_not_erased` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:155` | `test_foreign_activity_item_is_not_erased` | Implementa `test_foreign_activity_item_is_not_erased` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:170` | `test_missing_item_retry_does_not_bypass_sesskey` | Implementa `test_missing_item_retry_does_not_bypass_sesskey` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:179` | `test_missing_item_retry_requires_participation` | Implementa `test_missing_item_retry_requires_participation` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:191` | `test_uninstall_completion_api_preserves_neighbouring_activity` | Implementa `test_uninstall_completion_api_preserves_neighbouring_activity` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:211` | `test_orphan_completion_fallback_remains_bounded` | Implementa `test_orphan_completion_fallback_remains_bounded` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:228` | `test_resume_storage_keys_isolate_all_identity_components` | Implementa `test_resume_storage_keys_isolate_all_identity_components` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:255` | `test_analytics_download_form_posts_filters_and_session_key` | Implementa `test_analytics_download_form_posts_filters_and_session_key` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:273` | `test_course_format_section_labels_are_cleaned_at_output` | Implementa `test_course_format_section_labels_are_cleaned_at_output` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/security_followup_test.php:291` | `insert_item` | Implementa `insert_item` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `tests/security_hardening_test.php:44` | `setUp` | Implementa `setUp` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `tests/security_hardening_test.php:53` | `test_creation_policy_uses_defaults_and_clears_aliases` | Implementa `test_creation_policy_uses_defaults_and_clears_aliases` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `tests/security_hardening_test.php:79` | `test_update_rejects_forged_values_before_file_side_effects` | Implementa `test_update_rejects_forged_values_before_file_side_effects` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |

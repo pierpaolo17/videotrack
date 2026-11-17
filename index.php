@@ -90,7 +90,10 @@ foreach ($instances as $instance) {
         $printsection = '';
         if ($instance->section !== $currentsection) {
             if ($instance->section) {
-                $printsection = get_section_name($course, $instance->section);
+                $printsection = \mod_videotrack\local\report_support::section_label_html(
+                    get_section_name($course, $instance->section),
+                    $context
+                );
             }
             $currentsection = $instance->section;
         }

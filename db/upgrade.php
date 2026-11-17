@@ -1965,7 +1965,7 @@ function xmldb_videotrack_upgrade($oldversion) {
 
     if ($oldversion < 2026060452) {
         // Release 1.6.37: repair stale or duplicate pre-production gradebook rows.
-        require_once(__DIR__ . '/repairlib.php');
+        require_once(__DIR__ . '/upgradelib.php');
         videotrack_repair_preproduction_gradebook_rows();
 
         upgrade_mod_savepoint(true, 2026060452, 'videotrack');
@@ -1982,7 +1982,7 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.6.39: recover interrupted pre-production installs left on the
         // obsolete 2026063000 development lineage. Reconcile only missing schema
         // objects against the current install.xml and never recreate videotrack_progress.
-        require_once(__DIR__ . '/repairlib.php');
+        require_once(__DIR__ . '/upgradelib.php');
         videotrack_repair_preproduction_schema();
         videotrack_repair_preproduction_gradebook_rows();
 
@@ -1993,7 +1993,7 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.7.31: reconcile duplicate grade items created by the former
         // module-specific restore callback before Moodle core restored grades.xml.
         // This is deliberately DML-only so upgrades remain safe and resumable.
-        require_once(__DIR__ . '/repairlib.php');
+        require_once(__DIR__ . '/upgradelib.php');
         videotrack_repair_preproduction_gradebook_rows();
 
         upgrade_mod_savepoint(true, 2026081131, 'videotrack');
@@ -2116,7 +2116,7 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.7.119 corrective revision: remove grade items that cannot
         // resolve exactly one VideoTrack course-module context. The uninstall
         // hook can then use the Grade API before core removes those contexts.
-        require_once(__DIR__ . '/repairlib.php');
+        require_once(__DIR__ . '/upgradelib.php');
         videotrack_repair_preproduction_gradebook_rows();
 
         upgrade_mod_savepoint(true, 2026082901, 'videotrack');

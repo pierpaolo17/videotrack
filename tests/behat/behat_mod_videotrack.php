@@ -33,6 +33,85 @@ use Behat\Mink\Exception\ExpectationException;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_videotrack extends behat_base {
+    /** @var string Previous learner's scoped browser hint, retained across login in one scenario. */
+    private string $previousresumekey = '';
+
+    /**
+     * Store a scoped hint and a conflicting legacy hint without writing tracking evidence.
+     *
+     * @When /^I store a VideoTrack browser resume hint of "([0-9]+)" seconds$/
+     * @param int $seconds Scoped hint position.
+     */
+    public function i_store_a_videotrack_browser_resume_hint(int $seconds): void {
+        $value = json_encode($seconds, JSON_THROW_ON_ERROR);
+        $key = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('[id^=\"mod-videotrack-player-config-\"]');"
+                . "var config = JSON.parse(node.textContent);var key = config.resumestoragekey;"
+                . "if (!/^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key)) {return ''; }"
+                . "localStorage.setItem(key, String(" . $value . "));"
+                . "localStorage.setItem('videotrack:lastposition:' + config.cmid, '45');return key;}())"
+        );
+        if (!is_string($key) || $key === '') {
+            throw new ExpectationException('A scoped browser resume key is required.', $this->getSession());
+        }
+        $this->previousresumekey = $key;
+    }
+
+    /**
+     * Put known foreign hints in storage after login and before the next player initialises.
+     *
+     * Moodle may legitimately purge storage when its JS revision changes, and the
+     * first player's normal position updates need not keep the literal string 30.
+     * Reset only VideoTrack hints, preserving Moodle's own cache revision sentinel.
+     *
+     * @When /^I restore stale VideoTrack browser hints before opening "([^"]+)"$/
+     * @param string $activityname Destination VideoTrack activity.
+     */
+    public function i_restore_stale_videotrack_browser_hints_before_opening(string $activityname): void {
+        global $DB;
+        if ($this->previousresumekey === '') {
+            throw new ExpectationException('The previous learner hint was not recorded.', $this->getSession());
+        }
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', $activity->id, $activity->course, false, MUST_EXIST);
+        $previous = json_encode($this->previousresumekey, JSON_THROW_ON_ERROR);
+        $legacy = json_encode('videotrack:lastposition:' . $cm->id, JSON_THROW_ON_ERROR);
+        $stored = $this->getSession()->evaluateScript(
+            "(function() {Object.keys(localStorage).forEach(function(key) {"
+                . "if (key.indexOf('videotrack:lastposition:') === 0) {localStorage.removeItem(key);}});"
+                . "localStorage.setItem(" . $previous . ", '30');localStorage.setItem(" . $legacy . ", '45');"
+                . "return localStorage.getItem(" . $previous . ") === '30'"
+                . " && localStorage.getItem(" . $legacy . ") === '45';}())"
+        );
+        if ($stored !== true) {
+            throw new ExpectationException('The foreign resume hints were not stored.', $this->getSession());
+        }
+    }
+
+    /**
+     * Confirm a second login leaves the first hint intact but does not read it.
+     *
+     * @Then /^the VideoTrack browser resume key belongs to a different learner$/
+     */
+    public function the_videotrack_browser_resume_key_belongs_to_a_different_learner(): void {
+        $previous = json_encode($this->previousresumekey, JSON_THROW_ON_ERROR);
+        $raw = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('[id^=\"mod-videotrack-player-config-\"]');"
+                . "var config = JSON.parse(node.textContent);var key = config.resumestoragekey;"
+                . "return JSON.stringify({versioned:/^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key),"
+                . "different:key !== " . $previous . ",previous:localStorage.getItem(" . $previous . "),"
+                . "current:localStorage.getItem(key),server:Number(config.resumeposition)});}())"
+        );
+        $observed = is_string($raw) ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR) : [];
+        $expected = ['versioned' => true, 'different' => true, 'previous' => '30', 'current' => null, 'server' => 0];
+        if ($observed !== $expected) {
+            throw new ExpectationException(
+                'Unexpected learner resume state: ' . json_encode($observed, JSON_THROW_ON_ERROR),
+                $this->getSession()
+            );
+        }
+    }
+
     /** @var array End-of-video observations used only by read-only replay assertions. */
     private array $endedbaselines = [];
 

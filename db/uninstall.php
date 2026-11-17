@@ -30,8 +30,8 @@
  * activity context therefore use the Grade API, preserving its normal file,
  * history and regrade behaviour. Already malformed rows cannot safely resolve
  * a module context and are removed through the existing DML-only repair helper.
- * Core's full module uninstall bypasses per-activity completion cleanup, so remove
- * only rows whose course module still belongs to the registered VideoTrack module.
+ * Core's full module uninstall bypasses per-activity completion cleanup. Use its
+ * completion API for resolvable courses and scoped DML only for orphan modules.
  *
  * @return bool Always true after successful cleanup.
  */
@@ -88,16 +88,27 @@ function xmldb_videotrack_uninstall(): bool {
  * @param int $moduleid Registered VideoTrack module id, or zero when missing.
  */
 function videotrack_uninstall_delete_completion(int $moduleid): void {
-    global $DB;
+    global $CFG, $DB;
 
     if ($moduleid <= 0) {
         return;
     }
-    $DB->delete_records_select(
-        'course_modules_completion',
-        'coursemoduleid IN (SELECT id FROM {course_modules} WHERE module = :moduleid)',
-        ['moduleid' => $moduleid]
-    );
+    require_once($CFG->libdir . '/completionlib.php');
+    $modules = $DB->get_recordset('course_modules', ['module' => $moduleid], 'course, id', 'id, course');
+    try {
+        foreach ($modules as $cm) {
+            $course = $DB->get_record('course', ['id' => $cm->course]);
+            if ($course) {
+                $completion = new completion_info($course);
+                $completion->delete_all_state($cm);
+            } else {
+                // A missing course cannot initialise completion_info safely.
+                $DB->delete_records('course_modules_completion', ['coursemoduleid' => $cm->id]);
+            }
+        }
+    } finally {
+        $modules->close();
+    }
 }
 
 /**

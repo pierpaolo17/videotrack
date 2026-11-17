@@ -21,14 +21,14 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
-use mod_videotrack\event\bookmark_deleted;
+use mod_videotrack\local\personal_item;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../lib.php');
 
 /**
- * Soft-deletes a private bookmark owned by the current user.
+ * Permanently deletes a private bookmark owned by the current user.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -55,7 +55,7 @@ class delete_bookmark extends external_api {
      * @return array
      */
     public static function execute(int $cmid, int $bookmarkeventid): array {
-        global $DB, $USER;
+        global $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'bookmarkeventid'));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
@@ -64,21 +64,8 @@ class delete_bookmark extends external_api {
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
-        $bookmark = $DB->get_record('videotrack_reactev', [
-            'id' => $bookmarkeventid,
-            'userid' => $USER->id,
-            'videotrackid' => $videotrack->id,
-            'notetype' => 'bookmark',
-        ], '*', MUST_EXIST);
-        if (empty($bookmark->isdeleted)) {
-            $bookmark->isdeleted = 1;
-            $bookmark->timemodified = time();
-            $DB->update_record('videotrack_reactev', $bookmark);
-            bookmark_deleted::create([
-                'objectid' => $bookmark->id,
-                'context' => $context,
-            ])->trigger();
-        }
+        personal_item::erase($videotrack, $context, (int)$USER->id, $bookmarkeventid, 'bookmark');
+
         return ['deleted' => true, 'warnings' => []];
     }
 

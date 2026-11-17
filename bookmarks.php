@@ -41,7 +41,7 @@ if (!\mod_videotrack\local\learner_scope::can_participate($context)) {
     throw new moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
 }
 require_sesskey();
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($videotrack->bookmarksenabled)) {
+if (!data_submitted() || empty($videotrack->bookmarksenabled)) {
     throw new moodle_exception('invalidrequest', 'error');
 }
 

@@ -32,6 +32,52 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 final class lifecycle_integration_test extends \advanced_testcase {
     /**
+     * Removed personal rows are absent after a real backup/restore with users.
+     */
+    public function test_removed_personal_items_do_not_survive_user_backup(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $fixture = $this->create_fixture();
+        foreach (['note', 'bookmark'] as $type) {
+            $old = $DB->get_record('videotrack_reactev', [
+                'videotrackid' => $fixture['activity']->id, 'notetype' => $type,
+            ], '*', IGNORE_MULTIPLE);
+            unset($old->id);
+            $old->isdeleted = 1;
+            $old->notetext = 'removed-private-' . $type;
+            $old->timecreated = time();
+            $old->timemodified = time();
+            $DB->insert_record('videotrack_reactev', $old);
+        }
+        $courseid = $this->restore_course($fixture['course'], true, 0);
+        $copy = $this->assert_restored_configuration($fixture, $courseid);
+        $restoredtexts = $DB->get_fieldset('videotrack_reactev', 'notetext', ['videotrackid' => $copy->id]);
+        foreach (['note', 'bookmark'] as $type) {
+            $this->assertNotContains('removed-private-' . $type, $restoredtexts);
+            $this->assertTrue($DB->record_exists('videotrack_reactev', [
+                'videotrackid' => $copy->id, 'notetype' => $type, 'isdeleted' => 0,
+            ]));
+        }
+    }
+
+    /**
+     * Older backup XML cannot reintroduce already removed personal text.
+     */
+    public function test_legacy_backup_removed_personal_items_are_not_restored(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $fixture = $this->create_fixture();
+        $courseid = $this->restore_course($fixture['course'], true, 0, true);
+        $copy = $this->assert_restored_configuration($fixture, $courseid);
+        $restoredtexts = $DB->get_fieldset('videotrack_reactev', 'notetext', ['videotrackid' => $copy->id]);
+        foreach (['note', 'bookmark'] as $type) {
+            $this->assertNotContains('legacy-removed-' . $type, $restoredtexts);
+        }
+    }
+
+    /**
      * A configuration-only restore copies shared files and definitions without learner records.
      */
     public function test_restore_without_users_keeps_configuration_and_shared_files(): void {
@@ -525,9 +571,10 @@ final class lifecycle_integration_test extends \advanced_testcase {
      * @param \stdClass $course Source course.
      * @param bool $userdata Whether to include learner data.
      * @param int $retentiondays Destination policy, applied after backup has captured its source data.
+     * @param bool $legacyremoved Whether to inject removed items into old-format backup XML.
      * @return int Restored course id.
      */
-    private function restore_course(\stdClass $course, bool $userdata, int $retentiondays): int {
+    private function restore_course(\stdClass $course, bool $userdata, int $retentiondays, bool $legacyremoved = false): int {
         global $CFG, $USER;
 
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
@@ -545,6 +592,9 @@ final class lifecycle_integration_test extends \advanced_testcase {
             $backup->get_plan()->get_setting('users')->set_value($userdata);
             $backupid = $backup->get_backupid();
             $backup->execute_plan();
+            if ($legacyremoved) {
+                $this->append_removed_items_to_backup($backupid);
+            }
         } finally {
             $backup->destroy();
         }
@@ -567,6 +617,32 @@ final class lifecycle_integration_test extends \advanced_testcase {
             $restore->destroy();
         }
         return (int)$courseid;
+    }
+
+    /**
+     * Add old soft-deleted personal rows to disposable backup XML before real restore.
+     *
+     * @param string $backupid Disposable Moodle backup identifier.
+     */
+    private function append_removed_items_to_backup(string $backupid): void {
+        global $CFG;
+        $base = $CFG->backuptempdir ?? ($CFG->tempdir . '/backup');
+        $paths = glob($base . '/' . $backupid . '/activities/videotrack_*/videotrack.xml');
+        $this->assertCount(1, $paths);
+        $dom = new \DOMDocument();
+        $this->assertTrue($dom->load($paths[0]));
+        $xpath = new \DOMXPath($dom);
+        $original = $xpath->query('//reactionevent[notetype="note" and isdeleted="0"]')->item(0);
+        $this->assertNotNull($original);
+        foreach (['note', 'bookmark'] as $index => $type) {
+            $copy = $original->cloneNode(true);
+            $copy->setAttribute('id', (string)(900000001 + $index));
+            $copy->getElementsByTagName('notetype')->item(0)->nodeValue = $type;
+            $copy->getElementsByTagName('isdeleted')->item(0)->nodeValue = '1';
+            $copy->getElementsByTagName('notetext')->item(0)->nodeValue = 'legacy-removed-' . $type;
+            $original->parentNode->appendChild($copy);
+        }
+        $this->assertNotFalse($dom->save($paths[0]));
     }
 
     /**

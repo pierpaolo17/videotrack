@@ -60,7 +60,7 @@ if ($ackaction === 'confirm') {
     if (!$islearner) {
         throw new moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
     }
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -213,6 +213,14 @@ if (!empty($videotrack->forumpostingenabled)) {
 $playerconfig = [
     'cmid'                   => (int)$cm->id,
     'videoid'                => $videotrack->videoid,
+    'resumestoragekey'       => $islearner
+        ? \mod_videotrack\local\resume_storage::key(
+            (int)$USER->id,
+            (int)$cm->id,
+            (string)$source,
+            (string)$videotrack->videoid
+        )
+        : '',
     'videosource'            => $source,
     'showcontrols'           => (bool)$videotrack->showcontrols,
     'disablekeyboard'        => (bool)$videotrack->disablekeyboard,

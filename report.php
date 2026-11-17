@@ -42,7 +42,7 @@ $export = optional_param('export', '', PARAM_ALPHANUMEXT);
 $csvuserid = optional_param('csvuserid', 0, PARAM_INT);
 $csvincludereactions = optional_param(
     'csvincludereactions',
-    $_SERVER['REQUEST_METHOD'] === 'POST' ? 0 : 1,
+    data_submitted() ? 0 : 1,
     PARAM_BOOL
 );
 $csvincludenotes = optional_param('csvincludenotes', 0, PARAM_BOOL);
@@ -488,6 +488,9 @@ if ($mode === 'analytics') {
     $analyticsformats = \mod_videotrack\local\analytics_table_export::enabled_formats();
 
     if ($analyticsformat !== '') {
+        if (!data_submitted()) {
+            throw new moodle_exception('invalidrequest', 'error');
+        }
         if (!$canexportaggregatereport) {
             require_capability('mod/videotrack:exportaggregatereport', $context);
         }
@@ -1221,7 +1224,7 @@ $csvusermap = \mod_videotrack\local\csv_export::load_users($alluserids, $csvfiel
 $videoduration = (float)$videotrack->durationseconds;
 
 if ($export === 'custom_csv') {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -1545,7 +1548,7 @@ if ($export === 'custom_csv') {
 }
 
 if ($export === 'events_csv') {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -1633,7 +1636,7 @@ if ($export === 'events_csv') {
 }
 
 if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -1734,7 +1737,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
 }
 
 if ($export === 'csv') {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -1908,7 +1911,7 @@ if ($export === 'csv') {
 
 // Recalculate aggregate completion state for all tracked users or one selected user.
 if ($action === 'recalculate') {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
@@ -1934,7 +1937,7 @@ if ($action === 'recalculate') {
 }
 
 // Reset one student's plugin-owned data for this activity.
-if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($resetaction === 'resetstudent' && data_submitted()) {
     require_sesskey();
     $resetuserid = required_param('resetuserid', PARAM_INT);
     require_capability('mod/videotrack:viewreport', $context);
@@ -2007,7 +2010,7 @@ $PAGE->set_heading(format_string($course->fullname, true, ['context' => context_
 
 // The savegrade block must run before $OUTPUT->header() to allow redirect responses.
 if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!data_submitted()) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();

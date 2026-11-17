@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.257 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.258 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1175 (1168 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1203 (1196 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -474,66 +474,66 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `amd/src/player.js:153` | `getMaxWatchedFromIntervals` | Named callable `getMaxWatchedFromIntervals` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:176` | `getResumeStorageKey` | Named callable `getResumeStorageKey` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:180` | `readStoredResumePosition` | Named callable `readStoredResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:191` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:205` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:219` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:230` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:239` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:274` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:284` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:288` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:298` | `closeCurrentSegment` | Named callable `closeCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:305` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:319` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:327` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:348` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:352` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:363` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:393` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:404` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:411` | `startCurrentSegment` | Named callable `startCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:430` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:435` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:439` | `seekProgrammatically` | Named AMD callable `seekProgrammatically`; see JSDoc and callers for the current contract. |
-| `amd/src/player.js:460` | `replayFragment` | Named callable `replayFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:473` | `handleSeekByPolling` | Named callable `handleSeekByPolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:596` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:603` | `onPlayerStateChange` | Named callable `onPlayerStateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:652` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:659` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:663` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:666` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:667` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:670` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:672` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:688` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:697` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:824` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:843` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:919` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:947` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:979` | `onPlaybackRateChange` | Named callable `onPlaybackRateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:982` | `onAutoplayBlocked` | Named callable `onAutoplayBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:996` | `removeNotice` | Named callable `removeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1014` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1030` | `buildYouTubeSkipButtons` | Named callable `buildYouTubeSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1102` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1113` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
-| `amd/src/player.js:1121` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1126` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1129` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1146` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1155` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1164` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1179` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1197` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1219` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1223` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1228` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1245` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
-| `amd/src/player.js:1250` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
-| `amd/src/player.js:1266` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1301` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:192` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:206` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:220` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:231` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:240` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:275` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:285` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:289` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:299` | `closeCurrentSegment` | Named callable `closeCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:306` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:320` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:328` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:349` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:353` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:364` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:394` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:405` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:412` | `startCurrentSegment` | Named callable `startCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:431` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:436` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:440` | `seekProgrammatically` | Named AMD callable `seekProgrammatically`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:461` | `replayFragment` | Named callable `replayFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:474` | `handleSeekByPolling` | Named callable `handleSeekByPolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:597` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:604` | `onPlayerStateChange` | Named callable `onPlayerStateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:653` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:660` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:664` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:667` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:668` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:671` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:673` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:689` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:698` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:825` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:844` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:920` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:948` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:980` | `onPlaybackRateChange` | Named callable `onPlaybackRateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:983` | `onAutoplayBlocked` | Named callable `onAutoplayBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:997` | `removeNotice` | Named callable `removeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1015` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1031` | `buildYouTubeSkipButtons` | Named callable `buildYouTubeSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1103` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1114` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1122` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1127` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1130` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1147` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1156` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1165` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1180` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1198` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1220` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1224` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1229` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1246` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1251` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1267` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1302` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:29` | `cssEscape` | Named callable `cssEscape` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:36` | `queryByName` | Named callable `queryByName` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:43` | `findPicker` | Named callable `findPicker` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -594,79 +594,79 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `amd/src/vimeo_player.js:526` | `ensureVimeoRuntimePlaying` | Named callable `ensureVimeoRuntimePlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/vimeo_player.js:539` | `getResumeStorageKey` | Named callable `getResumeStorageKey` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/vimeo_player.js:543` | `readStoredResumePosition` | Named callable `readStoredResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:564` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:578` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:592` | `startVimeoRuntimePolling` | Named callable `startVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:600` | `stopVimeoRuntimePolling` | Named callable `stopVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:608` | `readVimeoValue` | Named callable `readVimeoValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:618` | `pauseRuntimeSegment` | Named callable `pauseRuntimeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:628` | `pollVimeoRuntime` | Named callable `pollVimeoRuntime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:664` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:668` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:676` | `handleVimeoTime` | Named callable `handleVimeoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:754` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:765` | `resumeBlockedSeekIfPaused` | Named AMD callable `resumeBlockedSeekIfPaused`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:784` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:809` | `recoverBlockedSeek` | Named callable `recoverBlockedSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:826` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:880` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:889` | `persistBlockedSeekFrontier` | Named AMD callable `persistBlockedSeekFrontier`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:896` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:924` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:935` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:943` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:947` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:965` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:979` | `retryPlaybackRateLimit` | Named callable `retryPlaybackRateLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:994` | `enforcePlaybackRateValue` | Named callable `enforcePlaybackRateValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1014` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1026` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1035` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1044` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1058` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1066` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1071` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1075` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1083` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1093` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1097` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1102` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1105` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1106` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1109` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1110` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1120` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:1130` | `loadVimeoSDK` | Named callable `loadVimeoSDK` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1166` | `showVimeoSdkError` | Named AMD callable `showVimeoSdkError`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:1186` | `resolveVimeoSource` | Named callable `resolveVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1221` | `buildVimeoIframe` | Named callable `buildVimeoIframe` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1260` | `replayVimeoFragment` | Named callable `replayVimeoFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1304` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1612` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1641` | `buildVimeoSkipButtons` | Named callable `buildVimeoSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1725` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1730` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1735` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1739` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1809` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1818` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1922` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1942` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1959` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:1968` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1973` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1976` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1985` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1994` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2009` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2027` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2061` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2065` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2070` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2090` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:2095` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
-| `amd/src/vimeo_player.js:2113` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:2147` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:565` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:579` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:593` | `startVimeoRuntimePolling` | Named callable `startVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:601` | `stopVimeoRuntimePolling` | Named callable `stopVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:609` | `readVimeoValue` | Named callable `readVimeoValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:619` | `pauseRuntimeSegment` | Named callable `pauseRuntimeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:629` | `pollVimeoRuntime` | Named callable `pollVimeoRuntime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:665` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:669` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:677` | `handleVimeoTime` | Named callable `handleVimeoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:755` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:766` | `resumeBlockedSeekIfPaused` | Named AMD callable `resumeBlockedSeekIfPaused`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:785` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:810` | `recoverBlockedSeek` | Named callable `recoverBlockedSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:827` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:881` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:890` | `persistBlockedSeekFrontier` | Named AMD callable `persistBlockedSeekFrontier`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:897` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:925` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:936` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:944` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:948` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:966` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:980` | `retryPlaybackRateLimit` | Named callable `retryPlaybackRateLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:995` | `enforcePlaybackRateValue` | Named callable `enforcePlaybackRateValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1015` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1027` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1036` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1045` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1059` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1067` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1072` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1076` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1084` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1094` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1098` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1103` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1106` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1107` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1110` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1111` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1121` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1131` | `loadVimeoSDK` | Named callable `loadVimeoSDK` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1167` | `showVimeoSdkError` | Named AMD callable `showVimeoSdkError`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1187` | `resolveVimeoSource` | Named callable `resolveVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1222` | `buildVimeoIframe` | Named callable `buildVimeoIframe` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1261` | `replayVimeoFragment` | Named callable `replayVimeoFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1305` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1613` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1642` | `buildVimeoSkipButtons` | Named callable `buildVimeoSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1726` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1731` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1736` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1740` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1810` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1819` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1923` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1943` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1960` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1969` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1974` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1977` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1986` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1995` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2010` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2028` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2062` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2066` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2071` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2091` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:2096` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:2114` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2148` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:37` | `define_my_settings` | PHP callable `define_my_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:43` | `define_my_steps` | PHP callable `define_my_steps`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:53` | `encode_content_links` | PHP callable `encode_content_links`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -676,7 +676,7 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `backup/moodle2/backup_videotrack_stepslib.php:105` | `create_user_elements` | Create optional user-data wrapper and row elements. |
 | `backup/moodle2/backup_videotrack_stepslib.php:136` | `attach_user_elements` | Attach optional user-data elements in canonical XML order. |
 | `backup/moodle2/backup_videotrack_stepslib.php:154` | `configure_sources` | Configure activity, reaction and retained user-data sources and identifier annotations. |
-| `backup/moodle2/backup_videotrack_stepslib.php:225` | `annotate_files` | Register activity and reaction file areas. |
+| `backup/moodle2/backup_videotrack_stepslib.php:226` | `annotate_files` | Register activity and reaction file areas. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:37` | `define_my_settings` | PHP callable `define_my_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:43` | `define_my_steps` | PHP callable `define_my_steps`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:52` | `define_decode_contents` | PHP callable `define_decode_contents`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -688,11 +688,11 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `backup/moodle2/restore_videotrack_stepslib.php:125` | `process_videotrack_segment` | PHP callable `process_videotrack_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:187` | `process_videotrack_state` | PHP callable `process_videotrack_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:199` | `process_videotrack_reactionevent` | PHP callable `process_videotrack_reactionevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:266` | `restore_missing_reaction` | Creates and maps a hidden placeholder for an omitted reaction inside the restore transaction. |
-| `backup/moodle2/restore_videotrack_stepslib.php:302` | `process_videotrack_integrityevent` | PHP callable `process_videotrack_integrityevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:344` | `process_videotrack_acknowledgement` | PHP callable `process_videotrack_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:389` | `get_restored_cmid` | PHP callable `get_restored_cmid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:402` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:269` | `restore_missing_reaction` | Creates and maps a hidden placeholder for an omitted reaction inside the restore transaction. |
+| `backup/moodle2/restore_videotrack_stepslib.php:305` | `process_videotrack_integrityevent` | PHP callable `process_videotrack_integrityevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:347` | `process_videotrack_acknowledgement` | PHP callable `process_videotrack_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:392` | `get_restored_cmid` | PHP callable `get_restored_cmid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:405` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:43` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:61` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_nonnegative_int.php:36` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -777,10 +777,10 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `classes/event/student_progress_reset.php:91` | `get_objectid_mapping` | PHP callable `get_objectid_mapping`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_bookmark.php:43` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_bookmark.php:57` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/delete_bookmark.php:90` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/delete_bookmark.php:77` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_note.php:43` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_note.php:64` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/delete_note.php:117` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/delete_note.php:98` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_reaction.php:44` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_reaction.php:61` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/delete_reaction.php:132` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1025,6 +1025,10 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Named PHP function/method `can_participate`; see source DocBlock and callers for the current contract. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/personal_item.php:33` | `is_deleted` | Recognise personal items already removed in an older backup or database. |
+| `classes/local/personal_item.php:50` | `erase` | Erase an owned note/bookmark, keeping retries free of duplicate events. |
+| `classes/local/personal_item.php:95` | `require_owner` | Require the stored owner, activity, module and personal item type. |
+| `classes/local/personal_item.php:119` | `trigger_deleted_event` | Log one removal without retaining private text or repeating an old event. |
 | `classes/local/privacy_manager.php:47` | `retention_period_seconds` | PHP callable `retention_period_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:68` | `retention_cutoff_timestamp` | PHP callable `retention_cutoff_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:83` | `timestamp_is_retained` | PHP callable `timestamp_is_retained`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1089,15 +1093,16 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renders privacy-safe acknowledgement aggregates and progress values. |
 | `classes/local/report_summary_view.php:200` | `acknowledgement_values` | Resolves acknowledgement card values under full or progress-only privacy suppression. |
 | `classes/local/report_summary_view.php:233` | `acknowledgement_notice` | Renders acknowledgement availability, privacy and legacy-progress notices. |
-| `classes/local/report_support.php:39` | `user_label` | Formats report-user labels while preserving email visibility. |
-| `classes/local/report_support.php:58` | `user_label_html` | Format the plain user label for an HTML cell or select option. |
-| `classes/local/report_support.php:69` | `dashboard_count_cell` | Render suppressed counts as hidden rather than incorrectly showing zero. |
-| `classes/local/report_support.php:86` | `analytics_prefers_state_fallback` | Selects state fallback by viewer priority and unique-seconds epsilon. |
-| `classes/local/report_support.php:101` | `analytics_highlights` | Selects top-watched, top-replayed and largest-drop Analytics highlights. |
-| `classes/local/report_support.php:141` | `analytics_acknowledgement_timing_counts` | Counts acknowledgement Analytics timing buckets with canonical fallback. |
-| `classes/local/report_support.php:163` | `user_options` | Builds source-priority report-user options with privacy-preserving labels. |
-| `classes/local/report_support.php:195` | `cluster_reaction_events` | Builds bounded reaction clusters with stable student-count and ordering semantics. |
-| `classes/local/report_support.php:264` | `tabs` | Builds capability-dependent teacher-report tabs. |
+| `classes/local/report_support.php:40` | `section_label_html` | Clean formatted section labels supplied by any installed course format. |
+| `classes/local/report_support.php:54` | `user_label` | Formats report-user labels while preserving email visibility. |
+| `classes/local/report_support.php:73` | `user_label_html` | Format the plain user label for an HTML cell or select option. |
+| `classes/local/report_support.php:84` | `dashboard_count_cell` | Render suppressed counts as hidden rather than incorrectly showing zero. |
+| `classes/local/report_support.php:101` | `analytics_prefers_state_fallback` | Selects state fallback by viewer priority and unique-seconds epsilon. |
+| `classes/local/report_support.php:116` | `analytics_highlights` | Selects top-watched, top-replayed and largest-drop Analytics highlights. |
+| `classes/local/report_support.php:156` | `analytics_acknowledgement_timing_counts` | Counts acknowledgement Analytics timing buckets with canonical fallback. |
+| `classes/local/report_support.php:178` | `user_options` | Builds source-priority report-user options with privacy-preserving labels. |
+| `classes/local/report_support.php:210` | `cluster_reaction_events` | Builds bounded reaction clusters with stable student-count and ordering semantics. |
+| `classes/local/report_support.php:279` | `tabs` | Builds capability-dependent teacher-report tabs. |
 | `classes/local/report_time_filter.php:36` | `date_to_timestamp` | Parses a valid ISO date into the user's start-of-day timestamp, otherwise returns zero. |
 | `classes/local/report_time_filter.php:55` | `end_date_to_timestamp` | Parses a valid ISO date into the user's inclusive end-of-day timestamp, otherwise returns zero. |
 | `classes/local/report_time_filter.php:77` | `optional_time_param` | Selects structured request components when present and otherwise preserves legacy colon-form parsing. |
@@ -1125,6 +1130,7 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `classes/local/report_view.php:43` | `analytics_methodology` | Renders the expandable Analytics calculation and privacy explanation. |
 | `classes/local/report_view.php:105` | `privacy_alert` | Renders the dataset-specific Analytics privacy warning. |
 | `classes/local/report_view.php:132` | `analytics_download` | Renders the Analytics table download selector. |
+| `classes/local/resume_storage.php:39` | `key` | Scope a browser hint to this site, user, module and media identity. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:80` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:127` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1169,9 +1175,9 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:1194` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/event_exporter.php:44` | `export` | Streams six separate interaction categories in bounded chunks. |
-| `classes/privacy/event_exporter.php:85` | `prepare_event` | Transforms events and removes internal identifiers. |
-| `classes/privacy/event_exporter.php:109` | `category` | Selects the original reaction, note or bookmark category. |
-| `classes/privacy/event_exporter.php:128` | `write_chunk` | Writes the original translated path and category-specific payload. |
+| `classes/privacy/event_exporter.php:86` | `prepare_event` | Transforms events and removes internal identifiers. |
+| `classes/privacy/event_exporter.php:110` | `category` | Selects the original reaction, note or bookmark category. |
+| `classes/privacy/event_exporter.php:129` | `write_chunk` | Writes the original translated path and category-specific payload. |
 | `classes/privacy/exporter.php:38` | `format_interval_second` | Formats video seconds as MM:SS for the approved learner export. |
 | `classes/privacy/exporter.php:48` | `export_user_data` | Delegates the approved module export in the historical section order. |
 | `classes/privacy/exporter.php:72` | `export_state` | Exports playback state with readable timestamps and intervals. |
@@ -1196,18 +1202,18 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `db/repairlib.php:126` | `videotrack_repair_preproduction_grade_item_has_canonical_context` | Checks instance, course, module context and item number before repairing grade items. |
 | `db/repairlib.php:152` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
 | `db/repairlib.php:182` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:203` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:230` | `videotrack_repair_preproduction_table` | Creates missing tables or recovers an empty table without its id field. |
-| `db/repairlib.php:264` | `videotrack_repair_preproduction_table_fields` | Adds missing fields and normalizes segment request identifiers before indexes. |
-| `db/repairlib.php:288` | `videotrack_repair_preproduction_table_indexes` | Adds missing XMLDB indexes in declaration order after preparing unique data. |
-| `db/repairlib.php:308` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:344` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:365` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:406` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
 | `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Pre-core uninstall cleanup for canonical/malformed grade items, followed by scoped native completion; also cleans completion without grade items. |
 | `db/uninstall.php:90` | `videotrack_uninstall_delete_completion` | Deletes native completion only for course modules owned by the registered VideoTrack module; missing identity performs no deletion. |
-| `db/uninstall.php:111` | `videotrack_uninstall_has_canonical_grade_context` | Checks the original activity and course-module references before deleting a grade item through the Grade API. |
+| `db/uninstall.php:122` | `videotrack_uninstall_has_canonical_grade_context` | Checks the original activity and course-module references before deleting a grade item through the Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `db/upgradelib.php:40` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
+| `db/upgradelib.php:67` | `videotrack_repair_preproduction_table` | Creates missing tables or recovers an empty table without its id field. |
+| `db/upgradelib.php:101` | `videotrack_repair_preproduction_table_fields` | Adds missing fields and normalizes segment request identifiers before indexes. |
+| `db/upgradelib.php:125` | `videotrack_repair_preproduction_table_indexes` | Adds missing XMLDB indexes in declaration order after preparing unique data. |
+| `db/upgradelib.php:145` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
+| `db/upgradelib.php:181` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
+| `db/upgradelib.php:202` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
+| `db/upgradelib.php:243` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:64` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:87` | `videotrack_add_instance` | PHP callable `videotrack_add_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1406,49 +1412,52 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verify retained-user filters and annotations. |
 | `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verify source tables, Forum mapping and file areas. |
 | `tests/backup_structure_contract_test.php:106` | `source` | Read the canonical backup structure source for contract assertions. |
-| `tests/behat/behat_mod_videotrack.php:46` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifies the exact invaliduser response without learner data, then restores the authorised report before normal error hooks. |
-| `tests/behat/behat_mod_videotrack.php:76` | `the_videotrack_report_shows_only_learner` | Checks the selected learner id and exactly one matching rendered progress row independently from available options. |
-| `tests/behat/behat_mod_videotrack.php:107` | `the_videotrack_learner_tracking_policy_is` | Reads the actual page tracking switch for staff preview and learner participation. |
-| `tests/behat/behat_mod_videotrack.php:124` | `preview_creates_no_learner_tracking` | Reads plugin segment/state and native completion to reject learner evidence from staff preview. |
-| `tests/behat/behat_mod_videotrack.php:148` | `i_open_the_videotrack_report_for_learner` | Visits the real report endpoint with resolved fixture ids, including deliberate out-of-scope requests. |
-| `tests/behat/behat_mod_videotrack.php:167` | `the_videotrack_report_learner_choices_are` | Compares actual rendered report option ids with the exact expected learner set. |
-| `tests/behat/behat_mod_videotrack.php:201` | `i_request_videotrack_playback_rate` | Requests a selected native/SDK rate or intentional above-cap probe through the real media surface. |
-| `tests/behat/behat_mod_videotrack.php:225` | `the_videotrack_playback_rate_is` | Observes the actual native/SDK playback rate, including asynchronous Vimeo results. |
-| `tests/behat/behat_mod_videotrack.php:248` | `the_videotrack_player_reaches_its_natural_end` | Waits for the natural 60-second fixture end without a seek or clock override. |
-| `tests/behat/behat_mod_videotrack.php:266` | `an_accepted_end_closes_playback` | Reads an accepted end and closed credit, then snapshots browser-earned coverage for replay assertions. |
-| `tests/behat/behat_mod_videotrack.php:313` | `replaying_watched_footage_adds_no_coverage` | Reads a new accepted replay cycle and checks unchanged unique coverage and completion. |
-| `tests/behat/behat_mod_videotrack.php:350` | `browser_activity_conditions` | Resolves the exact user/activity/course-module scope for read-only browser assertions. |
-| `tests/behat/behat_mod_videotrack.php:371` | `read_browser_playback_cycle` | Reads the latest actual playback start, requested terminal event and aggregate state. |
-| `tests/behat/behat_mod_videotrack.php:391` | `browser_playback_cycle_is_closed` | Checks a positive accepted terminal interval after its same-session handshake with closed credit. |
-| `tests/behat/behat_mod_videotrack.php:408` | `the_videotrack_attention_policy_is` | Read the effective per-activity attention configuration without changing it. |
-| `tests/behat/behat_mod_videotrack.php:430` | `i_use_half_speed_for_the_videotrack_attention_check` | Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end. |
-| `tests/behat/behat_mod_videotrack.php:456` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
-| `tests/behat/behat_mod_videotrack.php:479` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
-| `tests/behat/behat_mod_videotrack.php:502` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:522` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:540` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:566` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:591` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
-| `tests/behat/behat_mod_videotrack.php:610` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
-| `tests/behat/behat_mod_videotrack.php:637` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
-| `tests/behat/behat_mod_videotrack.php:658` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
-| `tests/behat/behat_mod_videotrack.php:680` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
-| `tests/behat/behat_mod_videotrack.php:721` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:785` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
-| `tests/behat/behat_mod_videotrack.php:854` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
-| `tests/behat/behat_mod_videotrack.php:879` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
-| `tests/behat/behat_mod_videotrack.php:948` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
-| `tests/behat/behat_mod_videotrack.php:1032` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
-| `tests/behat/behat_mod_videotrack.php:1054` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
-| `tests/behat/behat_mod_videotrack.php:1116` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:1163` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
-| `tests/behat/behat_mod_videotrack.php:1257` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:1351` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
-| `tests/behat/behat_mod_videotrack.php:1392` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/behat/behat_mod_videotrack.php:1415` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
-| `tests/behat/behat_mod_videotrack.php:1489` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
-| `tests/behat/behat_mod_videotrack.php:1542` | `i_submit_a_videotrack_reset_expecting` | Submits a real authenticated report-reset POST; verifies exact permission denial/preservation or target-only reset and restores a normal page without disabling error hooks. |
-| `tests/behat/behat_mod_videotrack.php:1674` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
+| `tests/behat/behat_mod_videotrack.php:45` | `i_store_a_videotrack_browser_resume_hint` | Store a scoped hint and a conflicting legacy hint without writing tracking evidence. |
+| `tests/behat/behat_mod_videotrack.php:70` | `i_restore_stale_videotrack_browser_hints_before_opening` | Injects known foreign browser hints before the next player initialises, retaining Moodle cache metadata. |
+| `tests/behat/behat_mod_videotrack.php:96` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Confirm a second login leaves the first hint intact but does not read it. |
+| `tests/behat/behat_mod_videotrack.php:125` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifies the exact invaliduser response without learner data, then restores the authorised report before normal error hooks. |
+| `tests/behat/behat_mod_videotrack.php:155` | `the_videotrack_report_shows_only_learner` | Checks the selected learner id and exactly one matching rendered progress row independently from available options. |
+| `tests/behat/behat_mod_videotrack.php:186` | `the_videotrack_learner_tracking_policy_is` | Reads the actual page tracking switch for staff preview and learner participation. |
+| `tests/behat/behat_mod_videotrack.php:203` | `preview_creates_no_learner_tracking` | Reads plugin segment/state and native completion to reject learner evidence from staff preview. |
+| `tests/behat/behat_mod_videotrack.php:227` | `i_open_the_videotrack_report_for_learner` | Visits the real report endpoint with resolved fixture ids, including deliberate out-of-scope requests. |
+| `tests/behat/behat_mod_videotrack.php:246` | `the_videotrack_report_learner_choices_are` | Compares actual rendered report option ids with the exact expected learner set. |
+| `tests/behat/behat_mod_videotrack.php:280` | `i_request_videotrack_playback_rate` | Requests a selected native/SDK rate or intentional above-cap probe through the real media surface. |
+| `tests/behat/behat_mod_videotrack.php:304` | `the_videotrack_playback_rate_is` | Observes the actual native/SDK playback rate, including asynchronous Vimeo results. |
+| `tests/behat/behat_mod_videotrack.php:327` | `the_videotrack_player_reaches_its_natural_end` | Waits for the natural 60-second fixture end without a seek or clock override. |
+| `tests/behat/behat_mod_videotrack.php:345` | `an_accepted_end_closes_playback` | Reads an accepted end and closed credit, then snapshots browser-earned coverage for replay assertions. |
+| `tests/behat/behat_mod_videotrack.php:392` | `replaying_watched_footage_adds_no_coverage` | Reads a new accepted replay cycle and checks unchanged unique coverage and completion. |
+| `tests/behat/behat_mod_videotrack.php:429` | `browser_activity_conditions` | Resolves the exact user/activity/course-module scope for read-only browser assertions. |
+| `tests/behat/behat_mod_videotrack.php:450` | `read_browser_playback_cycle` | Reads the latest actual playback start, requested terminal event and aggregate state. |
+| `tests/behat/behat_mod_videotrack.php:470` | `browser_playback_cycle_is_closed` | Checks a positive accepted terminal interval after its same-session handshake with closed credit. |
+| `tests/behat/behat_mod_videotrack.php:487` | `the_videotrack_attention_policy_is` | Read the effective per-activity attention configuration without changing it. |
+| `tests/behat/behat_mod_videotrack.php:509` | `i_use_half_speed_for_the_videotrack_attention_check` | Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end. |
+| `tests/behat/behat_mod_videotrack.php:535` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
+| `tests/behat/behat_mod_videotrack.php:558` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
+| `tests/behat/behat_mod_videotrack.php:581` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:601` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:619` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:645` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:670` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
+| `tests/behat/behat_mod_videotrack.php:689` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
+| `tests/behat/behat_mod_videotrack.php:716` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
+| `tests/behat/behat_mod_videotrack.php:737` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
+| `tests/behat/behat_mod_videotrack.php:759` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
+| `tests/behat/behat_mod_videotrack.php:800` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:864` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
+| `tests/behat/behat_mod_videotrack.php:933` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
+| `tests/behat/behat_mod_videotrack.php:958` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
+| `tests/behat/behat_mod_videotrack.php:1027` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
+| `tests/behat/behat_mod_videotrack.php:1111` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
+| `tests/behat/behat_mod_videotrack.php:1133` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
+| `tests/behat/behat_mod_videotrack.php:1195` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:1242` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
+| `tests/behat/behat_mod_videotrack.php:1336` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:1430` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:1471` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:1494` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
+| `tests/behat/behat_mod_videotrack.php:1568` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
+| `tests/behat/behat_mod_videotrack.php:1621` | `i_submit_a_videotrack_reset_expecting` | Submits a real authenticated report-reset POST; verifies exact permission denial/preservation or target-only reset and restores a normal page without disabling error hooks. |
+| `tests/behat/behat_mod_videotrack.php:1753` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1588,16 +1597,19 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
-| `tests/lifecycle_integration_test.php:37` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
-| `tests/lifecycle_integration_test.php:63` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
-| `tests/lifecycle_integration_test.php:135` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
-| `tests/lifecycle_integration_test.php:213` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
-| `tests/lifecycle_integration_test.php:264` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Runs the registered cleanup task after real restore: unlimited/finite policy, validated progress, full expiry and repeated execution with shared configuration/files/grades preserved. |
-| `tests/lifecycle_integration_test.php:386` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
-| `tests/lifecycle_integration_test.php:470` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
-| `tests/lifecycle_integration_test.php:530` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
-| `tests/lifecycle_integration_test.php:579` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
-| `tests/lifecycle_integration_test.php:642` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
+| `tests/lifecycle_integration_test.php:37` | `test_removed_personal_items_do_not_survive_user_backup` | Removed personal rows are absent after a real backup/restore with users. |
+| `tests/lifecycle_integration_test.php:67` | `test_legacy_backup_removed_personal_items_are_not_restored` | Older backup XML cannot reintroduce already removed personal text. |
+| `tests/lifecycle_integration_test.php:83` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
+| `tests/lifecycle_integration_test.php:109` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
+| `tests/lifecycle_integration_test.php:181` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
+| `tests/lifecycle_integration_test.php:259` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
+| `tests/lifecycle_integration_test.php:310` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Runs the registered cleanup task after real restore: unlimited/finite policy, validated progress, full expiry and repeated execution with shared configuration/files/grades preserved. |
+| `tests/lifecycle_integration_test.php:432` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
+| `tests/lifecycle_integration_test.php:516` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
+| `tests/lifecycle_integration_test.php:577` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
+| `tests/lifecycle_integration_test.php:627` | `append_removed_items_to_backup` | Add old soft-deleted personal rows to disposable backup XML before real restore. |
+| `tests/lifecycle_integration_test.php:655` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
+| `tests/lifecycle_integration_test.php:718` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1627,10 +1639,10 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Named PHP function/method `test_completion_mutations_synchronise_moodle_state`; see source DocBlock and callers for the current contract. |
 | `tests/player_resume_completion_alert_contract_test.php:120` | `test_completion_transitions_avoid_redundant_events_and_writes` | Named PHP function/method `test_completion_transitions_avoid_redundant_events_and_writes`; see source DocBlock and callers for the current contract. |
 | `tests/player_resume_completion_alert_contract_test.php:136` | `test_persistent_notices_coexist_with_transient_status_messages` | Named PHP function/method `test_persistent_notices_coexist_with_transient_status_messages`; see source DocBlock and callers for the current contract. |
-| `tests/privacy_exporter_test.php:40` | `test_state_segments_and_deleted_event_categories_are_exported_for_approved_user` | Checks user isolation, state, segments and all six event export paths. |
-| `tests/privacy_exporter_test.php:120` | `test_event_chunks_keep_insertion_order_and_separate_counters` | Checks the 500-row boundary and independent category numbering. |
-| `tests/privacy_exporter_test.php:152` | `create_activity` | Creates a real course module context for privacy tests. |
-| `tests/privacy_exporter_test.php:183` | `insert_event` | Inserts an interaction with the requested owner, type and deletion state. |
+| `tests/privacy_exporter_test.php:40` | `test_state_segments_and_reactions_export_without_removed_personal_content` | State and reactions retain their export contract; removed personal items stay excluded. |
+| `tests/privacy_exporter_test.php:126` | `test_event_chunks_keep_insertion_order_and_separate_counters` | Checks the 500-row boundary and independent category numbering. |
+| `tests/privacy_exporter_test.php:158` | `create_activity` | Creates a real course module context for privacy tests. |
+| `tests/privacy_exporter_test.php:189` | `insert_event` | Inserts an interaction with the requested owner, type and deletion state. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | PHP callable `test_cleanup_deletes_expired_rows_and_rebuilds_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:138` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:178` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1754,6 +1766,22 @@ Generated from the VideoTrack 1.7.257 source tree. PHP entries include named fun
 | `tests/save_reaction_test.php:150` | `test_execute_keeps_guard_and_persistence_order` | Protects the complete validation-to-insert orchestration order. |
 | `tests/save_reaction_test.php:177` | `test_post_insert_pipeline_keeps_side_effect_order` | Protects cache, event, aggregate and completion ordering after insert. |
 | `tests/save_reaction_test.php:197` | `test_external_response_wraps_post_insert_service_result` | Protects the stable external response mapping after delegation to the collaborator. |
+| `tests/security_followup_test.php:51` | `setUp` | Create a real enrolled learner and restore the request after each test. |
+| `tests/security_followup_test.php:70` | `tearDown` | Restore the original submitted fields even after an expected exception. |
+| `tests/security_followup_test.php:78` | `test_note_erasure_and_legacy_retry_emit_one_content_free_event` | Notes disappear physically; the legacy argument and repeated request remain supported. |
+| `tests/security_followup_test.php:96` | `test_bookmark_erasure_and_retry_emit_one_event` | Bookmark removal is permanent and its successful response can be replayed. |
+| `tests/security_followup_test.php:111` | `test_legacy_removed_items_are_erased_without_new_events` | A previously removed personal row can be erased without logging its removal twice. |
+| `tests/security_followup_test.php:126` | `test_foreign_learner_item_is_not_erased` | An existing row owned by another learner remains protected. |
+| `tests/security_followup_test.php:141` | `test_wrong_personal_item_type_is_not_erased` | An owned bookmark cannot be removed through the note endpoint. |
+| `tests/security_followup_test.php:155` | `test_foreign_activity_item_is_not_erased` | An existing note from another instance cannot cross the activity boundary. |
+| `tests/security_followup_test.php:170` | `test_missing_item_retry_does_not_bypass_sesskey` | The no-op retry path still requires a valid session key. |
+| `tests/security_followup_test.php:179` | `test_missing_item_retry_requires_participation` | A missing id does not allow a staff preview to bypass participation checks. |
+| `tests/security_followup_test.php:191` | `test_uninstall_completion_api_preserves_neighbouring_activity` | The core completion cleanup keeps neighbouring activities intact and is repeatable. |
+| `tests/security_followup_test.php:211` | `test_orphan_completion_fallback_remains_bounded` | A module whose course is already absent uses only the ownership-scoped fallback. |
+| `tests/security_followup_test.php:228` | `test_resume_storage_keys_isolate_all_identity_components` | Resume keys isolate users, modules, media, providers and Moodle installations. |
+| `tests/security_followup_test.php:255` | `test_analytics_download_form_posts_filters_and_session_key` | Analytics downloads put the session key in a POST body while retaining selected filters. |
+| `tests/security_followup_test.php:273` | `test_course_format_section_labels_are_cleaned_at_output` | Course-format labels retain safe markup while removing executable content. |
+| `tests/security_followup_test.php:291` | `insert_item` | Insert one identifiable personal record without calling write-side rate limiting. |
 | `tests/security_hardening_test.php:44` | `setUp` | Load the actual module save callbacks for each regression. |
 | `tests/security_hardening_test.php:53` | `test_creation_policy_uses_defaults_and_clears_aliases` | Creation uses site defaults rather than forged scalar or checkbox values. |
 | `tests/security_hardening_test.php:79` | `test_update_rejects_forged_values_before_file_side_effects` | Real updates retain locked values and VTT files before caption processing. |

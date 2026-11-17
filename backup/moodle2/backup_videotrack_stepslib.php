@@ -186,7 +186,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                    FROM {videotrack_reactev}
                   WHERE videotrackid = :videotrackid
                     AND userid > 0
-                    AND timecreated >= :cutoff",
+                    AND timecreated >= :cutoff
+                    AND (isdeleted = 0 OR notetype IS NULL OR notetype NOT IN ('note', 'bookmark'))",
                 $retentionparams
             );
             $elements['reactionevent']->annotate_ids('user', 'userid');

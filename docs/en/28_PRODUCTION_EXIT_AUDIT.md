@@ -1,6 +1,30 @@
 # Integrated lifecycle and production evidence
 
-## 1.7.257: security review corrections
+## 1.7.258: security follow-up
+
+Accepted actual baseline257/main d6e8705e:422 matching package files, server PHPCS/lint173
+clean, PHPUnit414/4695 and strict10/0/0 on50/53, unchanged AMD builds, six-job candidate/main
+CI, Behat52/1154 without reruns and three lifecycle lineages on selected50/53MariaDB.
+Package SHA-256:59fff2d7214a6828c1544b896d489ecebb8bbefb1821e72c6a3384ca845cc504.
+
+Candidate258 adds15 PHPUnit methods and two provider browser scenarios, including real
+backup/restore with injected legacy XML. PHP/Moodle are unavailable locally: native
+PHPCS/lint/static/PHPUnit/Behat/lifecycle and actual package/server acceptance remain pending.
+Actual Moodle Grunt AMD Node22 passed; only two sources/four build-map outputs changed.
+AMD smoke and adapter tests pass. Three historical Node scripts fail identically on257/258:
+privacy_static_test and backup_restore_static_test expect obsolete pre-refactor contracts;
+tracker_segment_test lacks a core/str harness dependency. They are existing tooling debt,
+not native passes. A fresh external review is required before claiming a new security grade.
+Native257 PHPMD28 and Psalm740/768 advisories remain recorded; no zero-warning claim.
+
+No schema/savepoint/service/retention-task/OAuth change. No general legacy-data migration
+per maintainer; retain the synthetic demo. Manual5.3 accessibility remains standby; Tiles
+visual checking is pending. After full final acceptance proceed directly to the next roadmap
+patch without reconfirmation. New sources precede the App; App-to-browser trial stays skipped.
+
+[Security follow-up](29_SECURITY_REVIEW.md).
+
+## 1.7.258: security review corrections
 
 The accepted baseline is actual 1.7.256/main 26cf86ed: 418 matching files,
 server PHPCS/lint 171 clean, PHPUnit 396/4581 on Moodle 5.0/5.3, unchanged Grunt build digest,

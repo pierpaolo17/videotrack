@@ -29,6 +29,21 @@ use tabobject;
  */
 final class report_support {
     /**
+     * Clean formatted section labels supplied by any installed course format.
+     *
+     * Keep safe formatting without applying filters twice or trusting raw plugin HTML.
+     *
+     * @param string $label Course-format section label.
+     * @param \context_course $context Course context.
+     * @return string Safe HTML table-cell content.
+     */
+    public static function section_label_html(string $label, \context_course $context): string {
+        return format_text($label, FORMAT_HTML, [
+            'context' => $context, 'filter' => false, 'para' => false, 'noclean' => false,
+        ]);
+    }
+
+    /**
      * Formats a report user label.
      *
      * @param int $userid Moodle user id.

@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.257. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.258. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **355** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
+Voci: **360** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
 
 | File | Responsabilità |
 |---|---|
@@ -363,3 +363,8 @@ Voci: **355** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `tests/security_hardening_test.php` | Regressioni native su permessi, privacy delle coorti, voti, HTML, lifecycle e rollback. |
 | `docs/en/29_SECURITY_REVIEW.md` | Segnalazioni di sicurezza, ambito implementato e validazione nativa richiesta. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
+| `classes/local/personal_item.php` | Cancellazione definitiva del proprietario e retry serializzati. |
+| `classes/local/resume_storage.php` | Identità di ripresa browser per utente, attività e sorgente. |
+| `db/upgradelib.php` | Recupero XMLDB riservato all’upgrade. |
+| `tests/security_followup_test.php` | Regressioni native su accessi, cancellazione, ripresa, POST, completamento e HTML. |
+| `tests/behat/browser_resume_privacy.feature` | Ripresa YouTube/Vimeo tra accessi di studenti diversi. |

@@ -199,6 +199,9 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_reactionevent($data) {
         global $DB;
         $data = (object)$data;
+        if (\mod_videotrack\local\personal_item::is_deleted($data)) {
+            return;
+        }
         $oldid = (int)($data->id ?? 0);
         $timecreated = (int)($data->timecreated ?? time());
         if (
