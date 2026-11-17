@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.258 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.259 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1203 (1196 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1236 (1229 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1025,6 +1025,15 @@ Generated from the VideoTrack 1.7.258 source tree. PHP entries include named fun
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Named PHP function/method `can_participate`; see source DocBlock and callers for the current contract. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/microsoft_graph.php:43` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:57` | `resource_url` | Provider diagnostic callable `resource_url`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:80` | `inspect` | Provider diagnostic callable `inspect`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:128` | `http_status` | Provider diagnostic callable `http_status`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:146` | `drive_metadata` | Provider diagnostic callable `drive_metadata`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:159` | `video_metadata` | Provider diagnostic callable `video_metadata`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph_probe.php:42` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph_probe.php:55` | `run` | Provider diagnostic callable `run`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph_probe.php:103` | `trusted_endpoints` | Provider diagnostic callable `trusted_endpoints`; its DocBlock defines inputs, output and side effects. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Recognise personal items already removed in an older backup or database. |
 | `classes/local/personal_item.php:50` | `erase` | Erase an owned note/bookmark, keeping retries free of duplicate events. |
 | `classes/local/personal_item.php:95` | `require_owner` | Require the stored owner, activity, module and personal item type. |
@@ -1630,6 +1639,30 @@ Generated from the VideoTrack 1.7.258 source tree. PHP entries include named fun
 | `tests/locallib_test.php:308` | `test_build_forum_subject_uses_default_template` | PHP callable `test_build_forum_subject_uses_default_template`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:319` | `test_render_reaction_icon_includes_visible_label` | Verifies that reaction icons always include their visible accessible label. |
 | `tests/locallib_test.php:336` | `test_reaction_collections_use_explicit_deletion_scopes` | Verifies the distinct active-only and complete-lifecycle reaction collections. |
+| `tests/microsoft_graph_test.php:46` | `setUp` | Provider diagnostic callable `setUp`; its DocBlock defines inputs, output and side effects. |
+| `tests/microsoft_graph_test.php:57` | `tearDown` | Provider diagnostic callable `tearDown`; its DocBlock defines inputs, output and side effects. |
+| `tests/microsoft_graph_test.php:66` | `test_explicit_resource_paths_and_selects` | Native regression `test_explicit_resource_paths_and_selects`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:80` | `test_invalid_targets_never_obtain_an_oauth_client` | Native regression `test_invalid_targets_never_obtain_an_oauth_client`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:96` | `test_unconfigured_probe_is_inert` | Native regression `test_unconfigured_probe_is_inert`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:107` | `test_http_site_cannot_refresh_tokens` | Native regression `test_http_site_cannot_refresh_tokens`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:119` | `test_incomplete_issuers_cannot_obtain_clients` | Native regression `test_incomplete_issuers_cannot_obtain_clients`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:131` | `test_untrusted_oauth_destinations_are_refused_before_factory` | Native regression `test_untrusted_oauth_destinations_are_refused_before_factory`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:154` | `test_untrusted_authorization_endpoint_is_refused` | Native regression `test_untrusted_authorization_endpoint_is_refused`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:164` | `test_oauth_unavailable_is_not_graph_success` | Native regression `test_oauth_unavailable_is_not_graph_success`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:179` | `test_oauth_exception_is_redacted` | Native regression `test_oauth_exception_is_redacted`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:194` | `test_ready_probe_uses_core_client_without_activity_writes` | Native regression `test_ready_probe_uses_core_client_without_activity_writes`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:224` | `test_drive_metadata_is_allowlisted` | Native regression `test_drive_metadata_is_allowlisted`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:241` | `test_video_metadata_conversion_and_redaction` | Native regression `test_video_metadata_conversion_and_redaction`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:263` | `test_request_transport_policy` | Native regression `test_request_transport_policy`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:286` | `test_http_failures_do_not_parse_or_echo_provider_errors` | Native regression `test_http_failures_do_not_parse_or_echo_provider_errors`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:305` | `test_transport_errors_override_http_success` | Native regression `test_transport_errors_override_http_success`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:315` | `test_transport_exception_is_redacted` | Native regression `test_transport_exception_is_redacted`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:326` | `test_invalid_responses_are_rejected` | Native regression `test_invalid_responses_are_rejected`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:342` | `test_non_video_and_deleted_items_are_rejected` | Native regression `test_non_video_and_deleted_items_are_rejected`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:359` | `test_invalid_video_numbers_are_rejected` | Native regression `test_invalid_video_numbers_are_rejected`; see its DocBlock for the exercised boundary. |
+| `tests/microsoft_graph_test.php:377` | `inert_probe` | Provider diagnostic callable `inert_probe`; its DocBlock defines inputs, output and side effects. |
+| `tests/microsoft_graph_test.php:391` | `response_client` | Provider diagnostic callable `response_client`; its DocBlock defines inputs, output and side effects. |
+| `tests/microsoft_graph_test.php:406` | `create_issuer` | Provider diagnostic callable `create_issuer`; its DocBlock defines inputs, output and side effects. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Named PHP function/method `test_media_source_errors_preserve_required_inputs`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Named PHP function/method `test_missing_timed_text_files_have_distinct_errors`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Named PHP function/method `test_reaction_file_error_depends_on_enablement`; see source DocBlock and callers for the current contract. |

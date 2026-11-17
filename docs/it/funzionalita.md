@@ -1,5 +1,15 @@
 # Guida per utenti e amministratori
 
+## Diagnostica autenticata dei metadati Microsoft
+
+Gli amministratori possono verificare esplicitamente i metadati drive/video con
+l'account OAuth core di sistema tramite `provider_probe.php`. Può rinnovare credenziali
+core senza scrivere dati attività/demo. Non aggiunge la riproduzione OneDrive/SharePoint.
+[Configurazione, comandi e interpretazione](30_MICROSOFT_GRAPH.md).
+
+Le sezioni di sicurezza seguenti descrivono il comportamento accettato nella 257/258.
+Le evidenze correnti sono nell'[audit documentale](09_DOCUMENTATION_AUDIT.md).
+
 
 ## 1.7.258: completamento delle correzioni di sicurezza
 

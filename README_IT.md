@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.258**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.259**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -38,7 +38,7 @@ Release corrente documentata da questo albero: **1.7.258**. Rami Moodle supporta
 | Accessibilità | Tastiera, focus visibile, regioni di stato, layout responsivo/reflow, forced-colours e completion accessibile. |
 | Privacy | Privacy API Moodle, export/cancellazione proprietario, cancellazione context/user-list, retention a eliminazione e conferma retention illimitata. |
 | Ciclo di vita | Backup/restore con o senza dati utente, reset, cancellazione istanza, riparazione gradebook ed eventi Moodle. |
-| Amministrazione | Default sito, policy player/completion imponibili, preset reazioni, otto lingue, validatore e benchmark Analytics in sola lettura. |
+| Amministrazione | Default sito, policy player/completion imponibili, preset reazioni, otto lingue, validatore/benchmark Analytics in sola lettura e diagnostica Graph autenticata esplicita. |
 | Qualità | GitHub Actions integrato, PHPUnit/Behat, PHPCS/PHPDoc/validazione Moodle, gate AMD canonici, PHPMD revisionato e baseline PHPStan/Psalm Moodle-aware. |
 
 La tabella è una mappa completa, non la specifica operativa. Comportamento, permessi, confini dati e limiti dei
@@ -98,7 +98,11 @@ GNU GPL v3 o successiva, coerentemente con Moodle.
 
 ## Preparazione dei provider autenticati
 
-Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
+Il comando esistente `provider_status.php` verifica la configurazione OAuth locale
+senza contattare Microsoft. La 1.7.259 aggiunge `provider_probe.php` per un GET autenticato
+esplicito dei metadati drive/video attraverso l'account di sistema core. Il core può
+rinnovare/salvare token OAuth; i record VideoTrack/demo restano intatti. La riproduzione
+OneDrive/SharePoint richiede una fase successiva. [Guida Graph](docs/it/30_MICROSOFT_GRAPH.md).
 
 Il manutentore dà ora priorità alle sorgenti autenticate: OneDrive/SharePoint, Zoom Cloud Recording e poi Google Drive; l’App seguirà. La prova App → browser/HTTPS è esplicitamente saltata. L’estensione completa dei sottotitoli multilingua è rinviata perché non è circoscrivibile con sufficiente affidabilità a una sola release tra HTML5 e overlay dei provider. Trascrizioni e sottotitoli esistenti restano disponibili. Il manuale di accessibilità Moodle 5.3 resta in standby.
 

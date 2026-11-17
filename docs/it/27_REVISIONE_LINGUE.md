@@ -1,5 +1,12 @@
 # Review linguistica basata sul codice
 
+## Evidenze correnti
+
+La 1.7.258 reale è accettata; l'[audit corrente](09_DOCUMENTATION_AUDIT.md) registra
+le evidenze complete e il perimetro della candidata 1.7.259. I checkpoint precedenti
+sotto conservano gli stati originari da eseguire come evidenza storica.
+Il manuale di accessibilità Moodle 5.3 resta in standby.
+
 ## 1.7.258: completamento delle correzioni di sicurezza
 
 Baseline reale accettata257/main d6e8705e:422 file corrispondenti, PHPCS/lint server173

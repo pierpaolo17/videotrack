@@ -1,38 +1,29 @@
 # Security follow-up
 
-VideoTrack **1.7.258** (`2026111700`).
+VideoTrack **1.7.259** (`2026111701`).
 
-## Initial258 CI rejection and bounded correction
+## Accepted 1.7.258 baseline
 
-The initial 1.7.258 candidate e70102d6 (run44084042387) failed all six jobs. All451
-repository blobs/modes and12 uploaded CI/faildump archives match the official GitHub
-source and digests. PHPUnit429/4823 reported2errors in the new backup tests (Moodle
-rejects TEXT columns in get_record conditions) and1failure from stale README release
-markers. Strict reported9/0/1 and PHPCS6 boilerplate errors in3 new files.
-The correction reads restored text with a scoped fieldset and compares it in PHP,
-updates both exact current-release markers and restores the canonical header spacing.
+The actual package from main `2df5bb3bee4b77e75a94acd61436071cc2026181` has 427 files;
+every file matches the accepted repository tree. Package SHA-256:
+`695166a99eb2b0b13ddc6526fa2333358d295cf3c1af6ca0d2ff8cb559878521`.
 
-Behat initially passed52/54 scenarios and1188/1192 steps, then both automatic reruns
-still failed the two new resume examples. Available HTML shows Second Learner with
-server resume0 and a correctly scoped current-user key; localStorage values are absent,
-so the aggregate assertion does not establish which condition failed or prove a leak.
-The fixture now injects known foreign/legacy hints after login and before player init,
-preserving Moodle's JS-revision sentinel. All original isolation, absent-current-hint,
-zero-server-resume and actual provider-time assertions remain. Per-condition diagnostics
-replace the ambiguous message. No player code, storage key or build changes here.
+Corrected candidate/main CI passed all six matrix jobs: PHPUnit **429 tests / 4843
+assertions**, Behat **54 scenarios / 1194 steps**, strict validation **10/0/0** and
+canonical AMD builds. The selected Moodle 5.0/5.3 MariaDB jobs passed historical,
+interrupted and previous-release upgrade/repeat/populated-uninstall paths with
+preservation checks. The actual server report confirms clean PHPCS/lint on 177 files
+(176 distributed PHP plus one repository helper), PHPUnit 429/4843 on both branches,
+and unchanged Grunt builds. The maintainer's strict outputs pass 10/0/0 on both sites.
 
-PHPStan/Psalm had no configured errors. Initial258 PHPMD31 has3 additional restore
-complexity advisories versus257's28; Psalm741/769 has1 additional information item per
-branch, with types unprinted. These are recorded, not silently treated as unchanged.
-The selected lifecycle gates were skipped after failures. Fresh corrected native
-canonical/strict/PHPUnit/Behat/lifecycle CI remains mandatory before merge. Local
-fixture-JS syntax/logic checks pass, including four invalid states; this is not Behat.
+PHPStan/Psalm had no configured errors. PHPMD **31** findings and Psalm **741/769**
+information items remain advisory; their types are not printed in the reports.
+This is not a zero-advisory result. Three old Node scripts still fail identically on
+accepted 257/258: obsolete privacy/backup source assertions and a missing core/str
+tracker harness stub. Native gates above passed; those scripts are not counted as passes.
 
-This replacement is incremental from e70102d6 on release/v1.7.258. Version remains
-2026111700. Current inventory has1203 PHP callables (1196 distributed+7 repository-only)
-after adding one Behat preparation step; file counts,15 new PHPUnit methods and two
-new browser scenarios remain unchanged. Accepted actual baseline stays1.7.257.
-
+Manual Moodle 5.3 accessibility remains on standby, and Tiles visual checking and
+a fresh external security scan remain open. The synthetic demo is retained.
 
 Removal physically erases the owned note/bookmark row. AJAX parameters and responses
 remain compatible. Login/context/participation/sesskey checks precede retries: missing ids
@@ -60,32 +51,27 @@ storage with an incomplete identity; HTML5 retains server resume. Browser hints 
 become validated viewing evidence. The activity index cleans course-format section HTML
 without applying filters twice; this is defence in depth, not a reproduced Tiles XSS claim.
 
-| ID | Status / Stato |
+| ID | Accepted implementation / remaining limit |
 |---|---|
-| SH-01/02/03/05/08/09 | Accepted257 with native regressions. |
-| SH-04 | Permanent erasure/retry/Privacy/backup implemented; native258 pending. |
-| SH-06 | DDL upgrade-only; completion API for valid contexts; justified orphan/ambiguous DML retained. |
-| SH-07 | Moodle submitted-data API and existing sesskey guards. |
-| SH-A1/A2 | Scoped resume and POST Analytics implemented; native258 pending. |
-| MS-14 | Course-format output cleaned; no reproduced Tiles XSS claimed. |
-| MS-38 | Transactional recovery regression passed257; DML bodies preserved. |
+| SH-01/02/03/05/08/09 | Accepted 257 with native authorisation/privacy regressions. |
+| SH-04 | Permanent owned erasure, serialised retry, Privacy/backup/legacy restore; native 258 passed. |
+| SH-06 | Upgrade-only DDL and core completion cleanup for valid contexts; justified scoped orphan/ambiguous DML retained. |
+| SH-07 | Submitted-data API with existing sesskey/capability checks; native 258 passed. |
+| SH-A1/A2 | Scoped resume and POST Analytics; native 258 Unit/Behat passed. |
+| MS-14 | Course-format output cleaned; no reproduced Tiles XSS or manual visual pass claimed. |
+| MS-38 | Transactional recovery regression passed; DML bodies preserved in 258. |
 
-Accepted actual baseline257/main d6e8705e:422 matching package files, server PHPCS/lint173
-clean, PHPUnit414/4695 and strict10/0/0 on50/53, unchanged AMD builds, six-job candidate/main
-CI, Behat52/1154 without reruns and three lifecycle lineages on selected50/53MariaDB.
-Package SHA-256:59fff2d7214a6828c1544b896d489ecebb8bbefb1821e72c6a3384ca845cc504.
+## 1.7.259 candidate scope
 
-Candidate258 adds15 PHPUnit methods and two provider browser scenarios, including real
-backup/restore with injected legacy XML. PHP/Moodle are unavailable locally: native
-PHPCS/lint/static/PHPUnit/Behat/lifecycle and actual package/server acceptance remain pending.
-Actual Moodle Grunt AMD Node22 passed; only two sources/four build-map outputs changed.
-AMD smoke and adapter tests pass. Three historical Node scripts fail identically on257/258:
-privacy_static_test and backup_restore_static_test expect obsolete pre-refactor contracts;
-tracker_segment_test lacks a core/str harness dependency. They are existing tooling debt,
-not native passes. A fresh external review is required before claiming a new security grade.
-Native257 PHPMD28 and Psalm740/768 advisories remain recorded; no zero-warning claim.
+This release adds an explicit authenticated Microsoft Graph metadata probe through
+Moodle's existing Microsoft OAuth system account. It does not add a selectable source
+or player adapter. The existing local status command stays inert. Only the new probe
+can refresh core OAuth credentials and issue a fixed-host metadata GET; it never
+downloads video content or writes VideoTrack/demo records.
 
-No schema/savepoint/service/retention-task/OAuth change. No general legacy-data migration
-per maintainer; retain the synthetic demo. Manual5.3 accessibility remains standby; Tiles
-visual checking is pending. After full final acceptance proceed directly to the next roadmap
-patch without reconfirmation. New sources precede the App; App-to-browser trial stays skipped.
+Native PHP/Moodle execution and real tenant access are pending for this candidate.
+The new mocked regressions require no credentials or network. See
+[Microsoft Graph diagnostics](30_MICROSOFT_GRAPH.md) for configuration, output and limits.
+After complete candidate/main and actual-package acceptance, continue with provider
+playback and its activity/user access controls before Zoom, Google Drive and the App.
+The App-to-browser trial remains skipped; multilingual subtitle expansion is deferred.

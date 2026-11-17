@@ -1,5 +1,15 @@
 # User and administrator guide
 
+## Authenticated Microsoft metadata diagnostics
+
+Administrators can explicitly check drive/video metadata with the core system OAuth
+account using `provider_probe.php`. It may refresh core credentials; it does not write
+activity/demo data. This diagnostic does not add OneDrive/SharePoint playback.
+[Setup, commands and interpretation](30_MICROSOFT_GRAPH.md).
+
+The earlier security sections below describe behaviour accepted in 257/258.
+Current release evidence is in [the documentation audit](09_DOCUMENTATION_AUDIT.md).
+
 
 ## 1.7.258: security follow-up
 

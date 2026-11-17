@@ -1,5 +1,14 @@
 # Architecture
 
+## Authenticated provider diagnostic boundary
+
+`provider_connection` owns inert local readiness. `microsoft_graph_probe` validates
+targets/readiness/Microsoft identity endpoints before acquiring the core system client.
+`microsoft_graph` owns the fixed-host metadata GET, bounded transport, response checks
+and scalar allowlist. The new CLI is an explicit administrator/server operation,
+not an AJAX endpoint or learner player path. OAuth state stays in core; activity data
+is untouched. [Protocol and limits](30_MICROSOFT_GRAPH.md).
+
 ## Layers
 
 1. **Moodle entry points** — `view.php`, report pages, forms and lifecycle callbacks perform access checks and prepare server-owned state.

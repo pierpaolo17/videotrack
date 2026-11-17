@@ -96,7 +96,7 @@ SQL Analytics, indici, scope gruppi/cohort o logica di aggregazione.
 
 ## Diagnostica delle connessioni ai provider
 
-Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
+La base esistente offre il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
 
 ```bash
 php mod/videotrack/cli/provider_status.php
@@ -104,3 +104,10 @@ php mod/videotrack/cli/provider_status.php --provider=microsoft --strict
 ```
 
 L’output è sempre JSON. Lo stato è not_configured, issuer_missing, configuration_incomplete o configuration_complete. Non vengono emessi segreti, identificatori account o richieste HTTP ai provider. L’uscita normale è0; --strict termina con2 se la configurazione locale non è completa. Provider/opzioni sconosciuti terminano con2. L’account memorizzato viene confrontato con gli scopi richiesti dal core, senza verificare consenso Microsoft o accesso a un file remoto. network_checked=false e playback_implemented=false restano espliciti anche con configurazione locale completa. La configurazione facoltativa non è richiesta per superare cli/validate.php. Il sito di test richiede HTTPS prima di una vera callback OAuth Microsoft.
+
+## Probe autenticato Microsoft Graph
+
+`provider_probe.php` effettua un GET esplicito dei metadati dopo i controlli locali.
+Diversamente da `provider_status.php`, può rinnovare e salvare credenziali OAuth del core.
+Nessuna scrittura VideoTrack/demo o download del contenuto video. Comandi, stati redatti,
+scopi richiesti e prova sul tenant sono nella [guida Graph](30_MICROSOFT_GRAPH.md).

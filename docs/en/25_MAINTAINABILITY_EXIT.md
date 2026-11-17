@@ -1,5 +1,12 @@
 # U-017 maintainability exit audit
 
+## Current evidence
+
+Actual 1.7.258 is accepted; [the current audit](09_DOCUMENTATION_AUDIT.md) records
+the complete evidence and the bounded 1.7.259 candidate scope. Earlier candidate
+checkpoints below retain their original pending statements as historical evidence.
+Manual Moodle 5.3 accessibility remains on standby.
+
 ## 1.7.258: security follow-up
 
 Accepted actual baseline257/main d6e8705e:422 matching package files, server PHPCS/lint173

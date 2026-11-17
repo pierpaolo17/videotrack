@@ -1,10 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.258. Elenca ogni file non documentale distribuito
-e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
-sono generati.
+Questo inventario è generato sull'albero repository VideoTrack 1.7.259. Elenca
+sorgenti, asset, test e guide di release selezionate, inclusi cinque file CI/tooling
+solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **360** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
+Voci: **366** — 361 file distribuiti e cinque solo repository. L'albero completo ha
+457 file repository / 433 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -368,3 +369,9 @@ Voci: **360** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `db/upgradelib.php` | Recupero XMLDB riservato all’upgrade. |
 | `tests/security_followup_test.php` | Regressioni native su accessi, cancellazione, ripresa, POST, completamento e HTML. |
 | `tests/behat/browser_resume_privacy.feature` | Ripresa YouTube/Vimeo tra accessi di studenti diversi. |
+| `classes/local/microsoft_graph.php` | GET metadati verso host fisso e scalari drive/video validati e redatti. |
+| `classes/local/microsoft_graph_probe.php` | Controlli locali ed endpoint Microsoft prima del client OAuth core di sistema. |
+| `cli/provider_probe.php` | Diagnostica autenticata esplicita; può rinnovare OAuth core, senza scritture demo. |
+| `tests/microsoft_graph_test.php` | Diciannove regressioni native simulate per i confini dei metadati autenticati. |
+| `docs/en/30_MICROSOFT_GRAPH.md` | Protocollo inglese OAuth/Graph e gate su tenant reale. |
+| `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |

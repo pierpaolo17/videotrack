@@ -1,5 +1,14 @@
 # Architettura
 
+## Confine della diagnostica autenticata dei provider
+
+`provider_connection` possiede i controlli locali inerti. `microsoft_graph_probe` valida
+ID, configurazione ed endpoint Microsoft prima di ottenere il client core di sistema.
+`microsoft_graph` gestisce GET verso host fisso, trasporto limitato, controlli della
+risposta e lista di scalari ammessi. La nuova CLI è un'operazione esplicita sul server
+per amministratori, non un endpoint AJAX o un percorso del player studente.
+Stato OAuth nel core e dati attività intatti. [Protocollo e limiti](30_MICROSOFT_GRAPH.md).
+
 ## Livelli
 
 1. **Entry point Moodle** — `view.php`, pagine report, form e callback lifecycle eseguono i controlli e preparano stato posseduto dal server.
