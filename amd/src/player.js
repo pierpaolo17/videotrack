@@ -174,13 +174,14 @@ define([
 
 
     function getResumeStorageKey() {
-        return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
+        return config && typeof config.resumestoragekey === 'string' ? config.resumestoragekey : '';
     }
 
     function readStoredResumePosition() {
         var stored;
         try {
-            stored = window.localStorage ? window.localStorage.getItem(getResumeStorageKey()) : null;
+            stored = getResumeStorageKey() && window.localStorage
+                ? window.localStorage.getItem(getResumeStorageKey()) : null;
         } catch (e) {
             stored = null;
         }
@@ -194,7 +195,7 @@ define([
             return;
         }
         try {
-            if (window.localStorage) {
+            if (getResumeStorageKey() && window.localStorage) {
                 window.localStorage.setItem(getResumeStorageKey(), String(position));
             }
         } catch (e) {

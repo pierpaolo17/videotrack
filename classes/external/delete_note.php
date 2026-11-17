@@ -21,14 +21,14 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
-use mod_videotrack\event\note_deleted;
+use mod_videotrack\local\personal_item;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../lib.php');
 
 /**
- * External function that soft-deletes a personal note owned by the current user.
+ * External function that permanently deletes a personal note owned by the current user.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -49,7 +49,7 @@ class delete_note extends external_api {
     }
 
     /**
-     * Soft-deletes a personal note owned by the current user.
+     * Permanently deletes a personal note owned by the current user.
      *
      * The method is intentionally separate from delete_reaction so AJAX service
      * names and privacy semantics remain explicit. Only records with
@@ -76,26 +76,7 @@ class delete_note extends external_api {
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
 
-        $event = $DB->get_record('videotrack_reactev', [
-            'id' => $noteeventid,
-            'userid' => $USER->id,
-            'videotrackid' => $videotrack->id,
-            'notetype' => 'note',
-        ], '*', MUST_EXIST);
-
-        if (empty($event->isdeleted)) {
-            $event->isdeleted = 1;
-            $event->timemodified = time();
-            $DB->update_record('videotrack_reactev', $event);
-            $moodleevent = note_deleted::create([
-                'objectid' => $event->id,
-                'context' => $context,
-                'other' => [
-                    'reactionlabel' => $event->reactionlabel ?: get_string('studentnotes_title', 'mod_videotrack'),
-                ],
-            ]);
-            $moodleevent->trigger();
-        }
+        personal_item::erase($videotrack, $context, (int)$USER->id, $noteeventid, 'note');
 
         $state = $DB->get_record('videotrack_state', [
             'videotrackid' => $videotrack->id,

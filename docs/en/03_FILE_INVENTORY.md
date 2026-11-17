@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.257 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.258 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **355** — 350 distributed files and five repository-only files excluded from release archives.
+Entries: **360** — 355 distributed files and five repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -363,3 +363,8 @@ Entries: **355** — 350 distributed files and five repository-only files exclud
 | `tests/security_hardening_test.php` | Native authorisation, cohort privacy, grade clearing, HTML, lifecycle and rollback regressions. |
 | `docs/en/29_SECURITY_REVIEW.md` | Security-review findings, implementation scope and native validation requirements. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
+| `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
+| `classes/local/resume_storage.php` | Scoped browser resume identity. |
+| `db/upgradelib.php` | Upgrade-only XMLDB recovery. |
+| `tests/security_followup_test.php` | Native access, erasure, resume, POST, completion and HTML regressions. |
+| `tests/behat/browser_resume_privacy.feature` | YouTube/Vimeo browser hints across learner logins. |

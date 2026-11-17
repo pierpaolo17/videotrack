@@ -1,6 +1,6 @@
 # Media providers and duration
 
-## 1.7.257: provider connection foundation
+## 1.7.258: provider connection foundation
 
 This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
 

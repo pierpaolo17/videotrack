@@ -1,5 +1,20 @@
 # VideoTrack: sintesi privacy e trattamento dei dati
 
+## 1.7.258: completamento delle correzioni di sicurezza
+
+La rimozione elimina fisicamente la riga della nota/segnalibro del proprietario.
+Parametri e risposte AJAX restano compatibili. Login, contesto, partecipazione e sesskey
+precedono i retry: un id assente è un successo senza scritture; righe esistenti di altro
+utente o tipo vengono rifiutate. Un lock Moodle serializza le rimozioni e la transazione
+comprende un solo evento senza testo privato. Una vecchia riga già marcata eliminata viene
+rimossa senza duplicare l'evento.
+
+Backup utente ed export Privacy escludono gli elementi personali eliminati; il ripristino
+scarta quelli marcati eliminati nei vecchi XML. Strumenti attivi e storico reazioni mantengono
+i propri contratti. Backup creati prima della cancellazione possono contenere copie allora
+attive: la loro retention è distinta e il ripristino non può dedurre una cancellazione
+successiva da una vecchia copia attiva. Nessuna migrazione generale o pulizia della demo.
+
 Questo documento descrive il modello dati corrente di VideoTrack e i relativi confini operativi. Integra, ma non sostituisce, l’informativa privacy del sito, la valutazione della base giuridica e la politica di conservazione dell’organizzazione.
 
 Versione inglese: [`PRIVACY.md`](PRIVACY.md).

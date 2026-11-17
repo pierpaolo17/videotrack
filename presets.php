@@ -49,7 +49,7 @@ $action   = optional_param('action', '', PARAM_ALPHA);
 $presetkey = optional_param('presetkey', '', PARAM_ALPHANUMEXT);
 $deleteaction = optional_param('deleteaction', '', PARAM_ALPHA);
 
-if ($deleteaction === 'delete' && !empty($presetkey) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($deleteaction === 'delete' && !empty($presetkey) && data_submitted()) {
     require_sesskey();
     $presets = videotrack_get_all_presets();
     $presets = array_filter($presets, fn($p) => ($p['key'] ?? '') !== $presetkey);
@@ -69,7 +69,7 @@ $isediting = ($action === 'edit' && !empty($editkey)) || ($action === 'add');
 $formdata  = null;
 $presets   = videotrack_get_all_presets();
 
-if ($isediting && $_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($isediting && data_submitted()) {
     require_sesskey();
     $name      = required_param('preset_name', PARAM_TEXT);
     // In edit mode the key is immutable: use $editkey from GET,

@@ -139,7 +139,7 @@ final class report_view {
             $options[$format] = get_string('dataformat', 'dataformat_' . $format);
         }
         $form = html_writer::start_tag('form', [
-            'method' => 'get',
+            'method' => 'post',
             'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
             'class' => 'videotrack-analytics-download-form d-flex flex-wrap align-items-end mb-2',
         ]);

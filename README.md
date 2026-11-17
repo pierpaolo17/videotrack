@@ -130,3 +130,33 @@ idnumber, including when no grade items exist. Grade repair uses a delegated DML
 so an interrupted merge/delete rolls back; DDL is not wrapped in that transaction.
 
 [Security review corrections](docs/en/29_SECURITY_REVIEW.md).
+
+## 1.7.258: security follow-up
+
+Removal physically erases the owned note/bookmark row. AJAX parameters and responses
+remain compatible. Login/context/participation/sesskey checks precede retries: missing ids
+are successful no-ops, existing foreign or wrong-type rows are rejected. A Moodle lock
+serialises removals and the transaction includes one event without private text. An old
+soft-deleted row is erased without duplicating its event.
+
+User backups and Privacy exports exclude removed personal items; restore rejects personal
+rows marked deleted in older XML. Active tools and reaction history retain their contracts.
+Backup files created before deletion may contain then-active copies: their retention is
+separate, and restore cannot infer a later deletion from an older active copy. No general
+migration or demo cleanup runs.
+
+Schema recovery moves to upgrade-only db/upgradelib.php. Install/uninstall retain DML
+grade repair. Valid uninstall completion contexts use completion_info::delete_all_state;
+only orphan module references need scoped completion DML. Ambiguous/orphan pre-production
+grade rows retain tested transactional DML: those malformed rows can break the Grade API's
+context resolution, so replacing that recovery with runtime grading calls is unsafe.
+
+Controllers use data_submitted() with existing sesskey/capability checks. Analytics downloads
+use POST with the selected filters and sesskey in the body; GET downloads are rejected before
+their export event/output. The server generates opaque resume keys for site, participating
+user, module, source and video identity. YouTube/Vimeo ignore old shared keys and disable
+storage with an incomplete identity; HTML5 retains server resume. Browser hints never
+become validated viewing evidence. The activity index cleans course-format section HTML
+without applying filters twice; this is defence in depth, not a reproduced Tiles XSS claim.
+
+[Security follow-up](docs/en/29_SECURITY_REVIEW.md).

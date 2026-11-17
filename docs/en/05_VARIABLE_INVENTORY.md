@@ -473,3 +473,7 @@ The JSON script element created by `view.php` is the single server-to-player con
 ## 1.7.257: security review corrections
 
 `instance_settings_policy` resolves protected creation defaults and persisted update fields. `minusers` is activity-specific and cannot lower an aggregate-only viewer’s configured floor. User labels have separate plain-text and HTML methods. No new persistent field or credential is added.
+
+## 1.7.258: security follow-up
+
+`resumestoragekey` is opaque browser identity, not progress. `personal_item` keeps the lock through event commit. `legacyremoved` exists only in disposable backup tests; no new DB field.

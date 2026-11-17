@@ -33,6 +33,49 @@ use Behat\Mink\Exception\ExpectationException;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_videotrack extends behat_base {
+    /** @var string Previous learner's scoped browser hint, retained across login in one scenario. */
+    private string $previousresumekey = '';
+
+    /**
+     * Store a scoped hint and a conflicting legacy hint without writing tracking evidence.
+     *
+     * @When /^I store a VideoTrack browser resume hint of "([0-9]+)" seconds$/
+     * @param int $seconds Scoped hint position.
+     */
+    public function i_store_a_videotrack_browser_resume_hint(int $seconds): void {
+        $value = json_encode($seconds, JSON_THROW_ON_ERROR);
+        $key = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('[id^=\"mod-videotrack-player-config-\"]');"
+                . "var config = JSON.parse(node.textContent);var key = config.resumestoragekey;"
+                . "if (!/^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key)) {return ''; }"
+                . "localStorage.setItem(key, String(" . $value . "));"
+                . "localStorage.setItem('videotrack:lastposition:' + config.cmid, '45');return key;}())"
+        );
+        if (!is_string($key) || $key === '') {
+            throw new ExpectationException('A scoped browser resume key is required.', $this->getSession());
+        }
+        $this->previousresumekey = $key;
+    }
+
+    /**
+     * Confirm a second login leaves the first hint intact but does not read it.
+     *
+     * @Then /^the VideoTrack browser resume key belongs to a different learner$/
+     */
+    public function the_videotrack_browser_resume_key_belongs_to_a_different_learner(): void {
+        $previous = json_encode($this->previousresumekey, JSON_THROW_ON_ERROR);
+        $valid = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('[id^=\"mod-videotrack-player-config-\"]');"
+                . "var config = JSON.parse(node.textContent);var key = config.resumestoragekey;"
+                . "return /^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key) && key !== " . $previous
+                . " && localStorage.getItem(" . $previous . ") === '30'"
+                . " && localStorage.getItem(key) === null && Number(config.resumeposition) === 0;}())"
+        );
+        if ($valid !== true) {
+            throw new ExpectationException('Browser resume leaked across learner identities.', $this->getSession());
+        }
+    }
+
     /** @var array End-of-video observations used only by read-only replay assertions. */
     private array $endedbaselines = [];
 

@@ -21,7 +21,7 @@ use core_privacy\local\request\content_writer;
 use core_privacy\local\request\writer;
 
 /**
- * Streams the six separate privacy event categories in bounded chunks.
+ * Streams retained privacy event categories in bounded chunks.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -49,9 +49,7 @@ final class event_exporter {
             'active' => ['reactionsheader', 'privacy:reactionsactivechunk', 'events'],
             'deleted' => ['reactionsheader', 'privacy:reactionsdeletedchunk', 'events'],
             'notes' => ['studentnotes_title', 'privacy:notesactivechunk', 'notes'],
-            'deletednotes' => ['studentnotes_title', 'privacy:notesdeletedchunk', 'notes'],
             'bookmarks' => ['bookmarks_title', 'privacy:bookmarksactivechunk', 'bookmarks'],
-            'deletedbookmarks' => ['bookmarks_title', 'privacy:bookmarksdeletedchunk', 'bookmarks'],
         ];
         $batches = array_fill_keys(array_keys($categories), []);
         $chunks = array_fill_keys(array_keys($categories), 1);
@@ -60,6 +58,9 @@ final class event_exporter {
             'userid' => $userid,
         ], 'timecreated ASC');
         foreach ($eventrs as $event) {
+            if (\mod_videotrack\local\personal_item::is_deleted($event)) {
+                continue;
+            }
             $category = self::category($event);
             self::prepare_event($event);
             $batches[$category][] = $event;
@@ -109,10 +110,10 @@ final class event_exporter {
     private static function category(\stdClass $event): string {
         $isdeleted = !empty($event->isdeleted);
         if (($event->notetype ?? '') === 'note') {
-            return $isdeleted ? 'deletednotes' : 'notes';
+            return 'notes';
         }
         if (($event->notetype ?? '') === 'bookmark') {
-            return $isdeleted ? 'deletedbookmarks' : 'bookmarks';
+            return 'bookmarks';
         }
         return $isdeleted ? 'deleted' : 'active';
     }

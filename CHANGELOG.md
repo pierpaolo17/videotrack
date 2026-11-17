@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.258 - 2026-11-17
+
+### Complete reviewed personal-data, request and browser corrections
+
+- Permanently erase owned notes/bookmarks with compatible AJAX responses, serialised
+  retries, access checks and content-free removal events. Exclude removed personal
+  items from backups/Privacy exports and legacy XML restore. Retain demo without migration.
+- Move XMLDB recovery into upgrade-only helpers. Use core completion cleanup for valid
+  uninstall contexts; retain scoped orphan and ambiguous-grade transactional recovery.
+- Use submitted-data APIs and POST Analytics downloads. Scope browser hints by
+  site/user/module/provider/video and clean course-format section HTML at output.
+- Supply15 new PHPUnit methods and two browser scenarios, including real legacy XML
+  backup/restore. Accept actual257/main d6e8705e,422 files, server173 clean PHP files,
+  Unit414/4695, strict10/0/0 and six-job candidate/main CI. Native258 checks are pending.
+- Real Moodle Grunt AMD Node22 passes; ship both changed sources/builds/maps. Three
+  historical Node script failures reproduce on257 and are not counted as native passes.
+- Inventories:451 repository/427 distributed files,176 distributed PHP,1202 named PHP
+  callables (1195 distributed+7 repository helpers),654 AMD callables,8 packs×1006 keys.
+  No schema/savepoint/service/retention/OAuth change. After full final acceptance
+  continue directly to the next patch; manual5.3 stays standby and demo stays retained.
+
 ## 1.7.257 - 2026-11-16
 
 ### Enforce locked settings and dashboard privacy after external review
