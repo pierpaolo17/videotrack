@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.256**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.257**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -101,3 +101,31 @@ GNU GPL v3 o successiva, coerentemente con Moodle.
 Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
 
 Il manutentore dà ora priorità alle sorgenti autenticate: OneDrive/SharePoint, Zoom Cloud Recording e poi Google Drive; l’App seguirà. La prova App → browser/HTTPS è esplicitamente saltata. L’estensione completa dei sottotitoli multilingua è rinviata perché non è circoscrivibile con sufficiente affidabilità a una sola release tra HTML5 e overlay dei provider. Trascrizioni e sottotitoli esistenti restano disponibili. Il manuale di accessibilità Moodle 5.3 resta in standby.
+
+## 1.7.257: correzioni delle revisioni di sicurezza
+
+Questa release corregge i problemi verificati nei permessi delle impostazioni e nella privacy
+delle dashboard. I callback di salvataggio applicano le capability di override del corso prima
+di normalizzazione, scritture e modifiche ai sottotitoli. In modifica conservano i valori bloccati;
+in creazione usano i default sito, compresi zero esplicito e scelte vuote che ereditano dal sito.
+Le dipendenze del completamento non possono essere disabilitate con durata zero, presa visione
+disattivata o rimozione/riordino delle reazioni richieste. Limite di velocità e ripresa, lasciati
+modificabili dal form esistente, mantengono quel contratto.
+
+Le dashboard corso/docente richiedono accesso aggregato alla singola attività. La soglia viene
+risolta per attività: accesso legacy/individuale consente valori esatti; accesso solo aggregato
+impone almeno la soglia sito, anche se un chiamante richiede uno. Stati, periodi, reazioni, note
+e segnalibri applicano la stessa soglia. I conteggi soppressi risultano nascosti, anziché zero.
+Le query per attività restano a blocchi; le nuove misure di benchmark sono da eseguire.
+
+Il voto manuale vuoto usa rawgrade nullo attraverso la Grade API, sia per punti sia per scale.
+I nomi HTML sono escapati separatamente dai CSV testuali e dai valori degli attributi HTML.
+Warning delle reazioni e avviso agli studenti sulle note sono presenti nelle otto lingue.
+L’avviso spiega che gli utenti autorizzati ai report individuali possono leggere ed esportare le note.
+
+Il GET della pagina video non crea né ripara il gruppo eccezioni di focus. La creazione resta
+in add/update/restore/upgrade. La disinstallazione completa elimina solo i gruppi con idnumber
+riservato al plugin, anche senza grade item. Il recupero voti usa una transazione DML delegata
+per annullare merge/eliminazioni interrotti; la transazione non comprende DDL.
+
+[Correzioni delle revisioni di sicurezza](docs/it/29_REVISIONE_SICUREZZA.md).

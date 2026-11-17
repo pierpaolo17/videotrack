@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.256 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.257 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **351** — 346 distributed files and five repository-only files excluded from release archives.
+Entries: **355** — 350 distributed files and five repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -359,3 +359,7 @@ Entries: **351** — 346 distributed files and five repository-only files exclud
 | `classes/local/provider_connection.php` | Read-only local OAuth connection status and matching issuer choices; credentials remain in core. |
 | `cli/provider_status.php` | Read-only JSON diagnostics for optional provider configuration; no remote requests or token refresh. |
 | `tests/provider_connection_test.php` | Native Moodle OAuth fixture tests for missing/disabled/mismatched services, HTTPS, secret redaction and read-only status. |
+| `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
+| `tests/security_hardening_test.php` | Native authorisation, cohort privacy, grade clearing, HTML, lifecycle and rollback regressions. |
+| `docs/en/29_SECURITY_REVIEW.md` | Security-review findings, implementation scope and native validation requirements. |
+| `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |

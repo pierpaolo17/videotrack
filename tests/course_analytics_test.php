@@ -418,18 +418,15 @@ final class course_analytics_test extends advanced_testcase {
     }
 
     /**
-     * The course dashboard uses exact aggregates without the site privacy threshold.
+     * Course counts are rendered through the shared privacy-aware helper.
      */
-    public function test_course_report_controller_requests_exact_aggregates(): void {
+    public function test_course_report_controller_uses_privacy_aware_counts(): void {
         $source = file_get_contents(__DIR__ . '/../reports_course.php');
         $this->assertIsString($source);
-        $this->assertStringContainsString('analytics::EXACT_REPORT_MIN_USERS', $source);
         $this->assertStringContainsString("require_capability('mod/videotrack:viewcoursereport'", $source);
         $this->assertStringContainsString('function videotrack_course_report_percentage_bar_cell(', $source);
-        $this->assertStringNotContainsString('bool $showbar', $source);
-        $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $source);
-        $this->assertStringNotContainsString("get_string('coursereport:privacy_notice'", $source);
-        $this->assertStringNotContainsString("get_string('coursereport:privacy_suppressed'", $source);
+        $this->assertStringContainsString('report_support::dashboard_count_cell(', $source);
+        $this->assertStringContainsString("\$instance->summary['minusers']", $source);
     }
 
     /**

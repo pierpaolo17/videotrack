@@ -1,5 +1,37 @@
 # VideoTrack changelog
 
+## 1.7.257 - 2026-11-16
+
+### Enforce locked settings and dashboard privacy after external review
+
+- Correct the initial candidate CI within 1.7.257: normalise the reaction icon
+  default before reading it, retain the omitted-icon regression and assert emoji.
+  Make the grade-repair source contract independent of indentation and apply the
+  canonical anonymous-class spacing. No tests or CI gates are removed. Initial CI
+  failed; corrected native CI and lifecycle execution remain pending.
+- Enforce course override capabilities in both save callbacks before normalisation,
+  database writes and caption-file changes. Preserve stored settings on update and
+  site defaults on creation, including checkbox aliases and completion dependencies.
+- Require aggregate activity access in course/teacher dashboards and resolve privacy
+  floors per activity. Protect period and interaction summaries, render suppressed
+  counts as hidden and retain batched loading and authorised exact reporting.
+- Clear manual points/scale grades with null through the Grade API. Escape HTML
+  user labels separately from CSV text and HTML attributes. Localise reaction warnings
+  and explain authorised access to notes in all eight language packs.
+- Remove focus-group creation from video GET and clean reserved groups during full
+  uninstall, including the path without grades. Make grade-repair DML atomic.
+- Add 18 native regression methods, including real create/update and injected repair
+  failure. Fixtures create their requested configuration as an administrator and restore
+  the original actor; production callbacks have no form-null permission exemption.
+- Accept actual 1.7.256/main 26cf86ed: 418 matching files, clean server PHPCS/lint 171,
+  PHPUnit 396/4581 on 5.0/5.3, unchanged Grunt builds, strict 10/0/0 and candidate/main CI.
+- This candidate has 446 repository/422 distributed files, 172 distributed PHP files,
+  1175 named PHP callables (1168 distributed), 654 AMD callables and eight packs of 1006
+  keys. Native candidate/main CI and actual ZIP/server acceptance remain pending.
+- Permanent note/bookmark erasure and legacy backups, DDL separation, general request
+  refactoring and the two supplementary browser/export findings remain separate work.
+  Schema, upgrade savepoints, AMD builds, AJAX contracts and OAuth behaviour are unchanged.
+
 ## 1.7.256 - 2026-11-13
 
 ### Prepare authenticated provider connections using Moodle OAuth 2

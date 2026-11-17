@@ -149,7 +149,7 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("itemmodule = :itemmodule", $repairsource);
         $this->assertStringContainsString("delete_records_select('grade_grades'", $repairsource);
         $this->assertStringContainsString("delete_records_select('grade_items'", $repairsource);
-        $this->assertStringContainsString("get_recordset(\n            'course_modules'", $repairsource);
+        $this->assertMatchesRegularExpression("/get_recordset\(\s*'course_modules'/", $repairsource);
         $this->assertStringContainsString('$coursemodulecounts[$contextkey]', $repairsource);
         $this->assertStringNotContainsString('grade_item::', $repairsource);
         $this->assertStringNotContainsString('grade_update(', $repairsource);

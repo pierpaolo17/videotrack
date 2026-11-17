@@ -40,6 +40,7 @@ function xmldb_videotrack_uninstall(): bool {
 
     require_once($CFG->libdir . '/gradelib.php');
     require_once(__DIR__ . '/repairlib.php');
+    \mod_videotrack\local\focus_policy::delete_exception_groups();
 
     $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
     $gradeitems = $DB->get_records('grade_items', [

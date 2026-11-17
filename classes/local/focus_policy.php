@@ -85,6 +85,24 @@ final class focus_policy {
     }
 
     /**
+     * Remove plugin-owned exception groups during full plugin uninstall.
+     *
+     * Normal activity deletion keeps the shared course group. Ownership uses the
+     * reserved idnumber, never the translated or administrator-edited group name.
+     */
+    public static function delete_exception_groups(): void {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot . '/group/lib.php');
+        $groups = $DB->get_records('groups', ['idnumber' => self::EXCEPTION_GROUP_IDNUMBER], 'id ASC', 'id');
+        foreach ($groups as $group) {
+            if (!groups_delete_group((int)$group->id)) {
+                throw new \coding_exception('Unable to delete a VideoTrack-owned focus exception group.');
+            }
+        }
+    }
+
+    /**
      * Return whether a user is a direct member of the course exception group.
      *
      * The direct core relation is intentional. Visibility-aware group helpers

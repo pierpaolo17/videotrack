@@ -41,7 +41,7 @@ class mod_videotrack_generator extends testing_module_generator {
      * @return stdClass The created activity record, including its course-module identifier.
      */
     public function create_instance(mixed $record = null, ?array $options = null) {
-        global $DB;
+        global $DB, $USER;
 
         $record = (array)$record;
         $html5fixture = !empty($record['behathtml5fixture']);
@@ -93,7 +93,15 @@ class mod_videotrack_generator extends testing_module_generator {
             $record['linkedforumid'] = (int)$forum->id;
         }
 
-        $instance = parent::create_instance($record, (array)$options);
+        // Fixtures model a trusted administrator creating their requested configuration.
+        // Production callbacks enforce permissions even when no Moodle form is supplied.
+        $originaluser = $USER;
+        \core\session\manager::set_user(get_admin());
+        try {
+            $instance = parent::create_instance($record, (array)$options);
+        } finally {
+            \core\session\manager::set_user($originaluser);
+        }
 
         if ($html5fixture) {
             $context = context_module::instance((int)$instance->cmid);

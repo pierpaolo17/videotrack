@@ -45,66 +45,74 @@ defined('MOODLE_INTERNAL') || die();
 function videotrack_repair_preproduction_gradebook_rows(): void {
     global $DB;
 
-    $gradeitems = $DB->get_records_select(
-        'grade_items',
-        'itemtype = :itemtype AND itemmodule = :itemmodule',
-        ['itemtype' => 'mod', 'itemmodule' => 'videotrack'],
-        'iteminstance ASC, itemnumber ASC, id ASC',
-        'id, courseid, iteminstance, itemnumber'
-    );
-    if (!$gradeitems) {
-        return;
-    }
-
-    $instances = $DB->get_records('videotrack', null, '', 'id, course');
-    $coursemodulecounts = [];
-    $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
-    if ($moduleid > 0) {
-        $coursemodules = $DB->get_recordset(
-            'course_modules',
-            ['module' => $moduleid],
-            'id ASC',
-            'id, course, instance'
+    $transaction = $DB->start_delegated_transaction();
+    try {
+        $gradeitems = $DB->get_records_select(
+            'grade_items',
+            'itemtype = :itemtype AND itemmodule = :itemmodule',
+            ['itemtype' => 'mod', 'itemmodule' => 'videotrack'],
+            'iteminstance ASC, itemnumber ASC, id ASC',
+            'id, courseid, iteminstance, itemnumber'
         );
-        foreach ($coursemodules as $coursemodule) {
-            $contextkey = (int)$coursemodule->instance . ':' . (int)$coursemodule->course;
-            $coursemodulecounts[$contextkey] = ($coursemodulecounts[$contextkey] ?? 0) + 1;
+        if (!$gradeitems) {
+            $transaction->allow_commit();
+            return;
         }
-        $coursemodules->close();
+
+        $instances = $DB->get_records('videotrack', null, '', 'id, course');
+        $coursemodulecounts = [];
+        $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
+        if ($moduleid > 0) {
+            $coursemodules = $DB->get_recordset(
+                'course_modules',
+                ['module' => $moduleid],
+                'id ASC',
+                'id, course, instance'
+            );
+            foreach ($coursemodules as $coursemodule) {
+                $contextkey = (int)$coursemodule->instance . ':' . (int)$coursemodule->course;
+                $coursemodulecounts[$contextkey] = ($coursemodulecounts[$contextkey] ?? 0) + 1;
+            }
+            $coursemodules->close();
+        }
+        $canonicalbyinstance = [];
+        $deleteids = [];
+
+        foreach ($gradeitems as $gradeitem) {
+            $instanceid = (int)$gradeitem->iteminstance;
+            if (
+                !videotrack_repair_preproduction_grade_item_has_canonical_context(
+                    $gradeitem,
+                    $instances,
+                    $coursemodulecounts
+                )
+            ) {
+                $deleteids[] = (int)$gradeitem->id;
+                continue;
+            }
+
+            $canonicalbyinstance[$instanceid][] = (int)$gradeitem->id;
+        }
+
+        foreach ($canonicalbyinstance as $gradeitemids) {
+            if (count($gradeitemids) <= 1) {
+                continue;
+            }
+
+            sort($gradeitemids, SORT_NUMERIC);
+            $keepid = (int)array_pop($gradeitemids);
+            foreach ($gradeitemids as $duplicateid) {
+                videotrack_repair_preproduction_merge_grade_grades($keepid, (int)$duplicateid);
+                $deleteids[] = (int)$duplicateid;
+            }
+        }
+
+        videotrack_repair_preproduction_delete_grade_items($deleteids);
+        $transaction->allow_commit();
+    } catch (\Throwable $error) {
+        $transaction->rollback($error);
+        throw $error;
     }
-    $canonicalbyinstance = [];
-    $deleteids = [];
-
-    foreach ($gradeitems as $gradeitem) {
-        $instanceid = (int)$gradeitem->iteminstance;
-        if (
-            !videotrack_repair_preproduction_grade_item_has_canonical_context(
-                $gradeitem,
-                $instances,
-                $coursemodulecounts
-            )
-        ) {
-            $deleteids[] = (int)$gradeitem->id;
-            continue;
-        }
-
-        $canonicalbyinstance[$instanceid][] = (int)$gradeitem->id;
-    }
-
-    foreach ($canonicalbyinstance as $gradeitemids) {
-        if (count($gradeitemids) <= 1) {
-            continue;
-        }
-
-        sort($gradeitemids, SORT_NUMERIC);
-        $keepid = (int)array_pop($gradeitemids);
-        foreach ($gradeitemids as $duplicateid) {
-            videotrack_repair_preproduction_merge_grade_grades($keepid, (int)$duplicateid);
-            $deleteids[] = (int)$duplicateid;
-        }
-    }
-
-    videotrack_repair_preproduction_delete_grade_items($deleteids);
 }
 
 /**

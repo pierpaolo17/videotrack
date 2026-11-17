@@ -60,7 +60,7 @@ final class course_analytics_loader {
             }
 
             $context = context_module::instance($cmid, IGNORE_MISSING);
-            if (!$context) {
+            if (!$context || !report_access::can_view_aggregate($context, $viewerid)) {
                 continue;
             }
 
@@ -294,7 +294,7 @@ UNION ALL
                 $summaries[$videotrackid][$key] = analytics::count_summary(
                     (int)($record->eventcount ?? 0),
                     (int)($record->usercount ?? 0),
-                    $minusers
+                    (int)($scopes[$videotrackid]['minusers'] ?? $minusers)
                 );
             }
         }

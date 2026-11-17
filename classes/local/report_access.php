@@ -92,4 +92,22 @@ final class report_access {
         return self::has_legacy_full_access($context, $userid)
             || has_capability('mod/videotrack:exportindividualreport', $context, $userid);
     }
+
+    /**
+     * Resolve the per-activity floor without allowing a caller to lower privacy.
+     *
+     * @param context_module $context Module context.
+     * @param int $userid Viewer id.
+     * @param int $requested Requested minimum, including explicit exact access.
+     * @return int Effective minimum distinct contributors.
+     */
+    public static function minimum_users(context_module $context, int $userid, int $requested): int {
+        $requested = max(analytics::EXACT_REPORT_MIN_USERS, $requested);
+        if (self::can_view_individual($context, $userid)) {
+            return $requested;
+        }
+        $configured = get_config('mod_videotrack', 'analyticsminusers');
+        $minimum = $configured === false || $configured === '' ? 5 : max(2, min(50, (int)$configured));
+        return max($minimum, $requested);
+    }
 }

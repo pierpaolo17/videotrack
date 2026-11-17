@@ -469,3 +469,7 @@ L’elemento script JSON creato da `view.php` è il contratto unico server→pla
 ## Riferimento connessione OAuth Microsoft
 
 - `microsoftissuerid`: ID servizio OAuth Moodle; predefinito0 (Nessuno). Nessuna credenziale viene copiata nei dati attività.
+
+## 1.7.257: correzioni delle revisioni di sicurezza
+
+`instance_settings_policy` risolve default protetti e valori persistiti in modifica. `minusers` è specifico dell’attività e non riduce la soglia di un utente con solo accesso aggregato. Le etichette utenti hanno metodi distinti per testo e HTML. Nessun nuovo campo persistente o credenziale.
