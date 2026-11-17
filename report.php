@@ -2050,7 +2050,7 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
         }
         videotrack_set_user_grade($videotrack, $gradeuserid, (float)$val);
     } else {
-        videotrack_set_user_grade($videotrack, $gradeuserid, -1);
+        videotrack_set_user_grade($videotrack, $gradeuserid, null);
     }
     redirect(
         $PAGE->url,
@@ -2407,7 +2407,7 @@ if ($mode === 'student') {
                 continue;
             }
             $row = [
-                \mod_videotrack\local\report_support::user_label((int)$state->userid, $usermap, $canviewemail),
+                \mod_videotrack\local\report_support::user_label_html((int)$state->userid, $usermap, $canviewemail),
                 videotrack_format_seconds((float)$state->uniquecoveredseconds),
                 format_float((float)$state->completionpercent, 2),
                 videotrack_format_seconds((float)$state->lastposition),
@@ -2613,7 +2613,7 @@ if ($mode === 'student') {
                 'replayend' => $replaytimestamp + $window,
             ]);
             $reactiontable->data[] = [
-                \mod_videotrack\local\report_support::user_label($eventuserid, $usermap, $canviewemail),
+                \mod_videotrack\local\report_support::user_label_html($eventuserid, $usermap, $canviewemail),
                 videotrack_format_seconds($replaytimestamp),
                 html_writer::span($reactionhtml, 'videotrack-report-icon'),
                 html_writer::span(
@@ -2957,7 +2957,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $ntable->attributes['class'] = 'generaltable';
     $ntable->caption = get_string('report:notes_title', 'mod_videotrack');
     foreach ($notes as $note) {
-        $username = \mod_videotrack\local\report_support::user_label((int)$note->userid, $usermap, $canviewemail);
+        $username = \mod_videotrack\local\report_support::user_label_html((int)$note->userid, $usermap, $canviewemail);
         $ntable->data[] = [
             $username,
             videotrack_format_seconds((float)$note->videotime),

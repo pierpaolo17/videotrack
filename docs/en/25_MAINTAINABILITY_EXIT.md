@@ -1,6 +1,25 @@
 # U-017 maintainability exit audit
 
-## 1.7.256: provider connection foundation
+## 1.7.257: security review corrections
+
+The accepted baseline is actual 1.7.256/main 26cf86ed: 418 matching files,
+server PHPCS/lint 171 clean, PHPUnit 396/4581 on Moodle 5.0/5.3, unchanged Grunt build digest,
+strict 10/0/0 on both sites, and six-job candidate/main CI with the selected lifecycle paths.
+Candidate 1.7.257 has 18 additional native regression methods; they have not been run in this
+workspace. Native canonical/static/PHPUnit/Behat/lifecycle and actual package/server acceptance
+remain pending. A new external scan is required before claiming a new review grade.
+
+Permanent note/bookmark erasure and legacy backup handling are still open. Their existing
+soft-delete/retention semantics are unchanged. DDL-helper separation, general request-controller
+refactoring, per-user browser resume keys and POST-only Analytics downloads remain separate work.
+Microsoft OAuth configuration remains local-only, with no remote access or new media playback.
+New sources follow this security work; the App remains afterwards. The App-to-browser trial is
+skipped, multilingual subtitle expansion is deferred, manual Moodle 5.3 remains on standby,
+and the synthetic demo data is retained.
+
+[Security review corrections](29_SECURITY_REVIEW.md).
+
+## 1.7.257: provider connection foundation
 
 Actual255/main36ab70ed is accepted:415 matching files, server PHPCS/lint168 clean, Unit385/4540 on50/53 and strict10/0/0; six-job candidate/main CI passes52/1154 Behat and selected lifecycle paths. The shipped255 benchmark confirms current_userid10 and6/92 median queries in40 samples.
 

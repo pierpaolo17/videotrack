@@ -99,16 +99,13 @@ final class teacher_analytics_test extends \advanced_testcase {
     }
 
     /**
-     * The teacher dashboard controller requests exact aggregates and has no privacy masking UI.
+     * The controller uses the shared privacy-aware renderer rather than exposing raw counts.
      */
-    public function test_teacher_dashboard_controller_requests_exact_aggregates(): void {
+    public function test_teacher_dashboard_controller_uses_privacy_aware_counts(): void {
         $source = file_get_contents(__DIR__ . '/../reports_teacher.php');
         $this->assertIsString($source);
-        $this->assertStringContainsString('analytics::EXACT_REPORT_MIN_USERS', $source);
+        $this->assertStringContainsString('report_support::dashboard_count_cell(', $source);
+        $this->assertStringContainsString("\$row->summary['minusers']", $source);
         $this->assertStringContainsString("'mod/videotrack:viewcoursereport'", $source);
-        $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $source);
-        $this->assertStringNotContainsString("get_string('coursereport:privacy_notice'", $source);
-        $this->assertStringNotContainsString("get_string('coursereport:privacy_suppressed'", $source);
-        $this->assertStringNotContainsString("['datasetsuppressed']", $source);
     }
 }

@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.256** (`2026111301`),
+This is the authoritative English documentation for VideoTrack **1.7.257** (`2026111600`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -58,3 +58,5 @@ denormalised snapshots. Do not infer a physical database constraint from a diagr
 The Italian tree under `docs/it/` has the same scope and document structure. File names differ only
 where an established Italian name is retained. A release is not documentation-complete until both
 trees and the root README pair agree with the current code.
+
+- [Security review corrections](29_SECURITY_REVIEW.md)

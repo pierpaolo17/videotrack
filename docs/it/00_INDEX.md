@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.256** (`2026111301`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.257** (`2026111600`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -58,3 +58,5 @@ e snapshot denormalizzati. Una linea del diagramma non implica da sola un vincol
 L'albero inglese in `docs/en/` ha lo stesso perimetro e la stessa struttura documentale. I nomi dei file
 differiscono solo dove viene mantenuta una denominazione italiana consolidata. Una release non è completa
 finché entrambi gli alberi e le README principali non concordano con il codice corrente.
+
+- [Correzioni delle revisioni di sicurezza](29_REVISIONE_SICUREZZA.md)

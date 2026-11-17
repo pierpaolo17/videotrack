@@ -6,7 +6,7 @@ VideoTrack is a Moodle activity module for HTML5/uploaded, YouTube and Vimeo vid
 server-validated watched progress, study interactions, custom completion, gradebook integration and
 privacy-aware reporting.
 
-Current release documented by this tree: **1.7.256**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.7.257**. Supported Moodle branches: **5.0–5.3**.
 
 - Italian overview: [`README_IT.md`](README_IT.md)
 - Complete English guide: [`docs/en/funzionalita.md`](docs/en/funzionalita.md)
@@ -102,3 +102,31 @@ GNU GPL v3 or later, consistently with Moodle.
 This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
 
 The maintainer now prioritises authenticated sources: OneDrive/SharePoint, Zoom Cloud Recording, then Google Drive; the App comes afterwards. The App-to-browser/HTTPS trial is explicitly skipped. The full multilingual subtitle extension is deferred because it is not bounded reliably to one release across HTML5 and provider overlays. Existing transcripts and captions remain supported. Manual Moodle 5.3 accessibility stays on standby.
+
+## 1.7.257: security review corrections
+
+This release addresses the reviewed settings-authorisation and dashboard privacy gaps.
+The save callbacks enforce the same course-level override capabilities as the form before
+normalisation, database writes or caption-file changes. Existing locked values are preserved;
+new activities use site defaults, including explicit zero and inherited empty choices.
+Completion dependencies cannot be disabled with zero duration, disabled acknowledgement,
+or removal/reordering of required reaction definitions. Rate limit and resume controls that
+the existing form leaves editable retain that contract.
+
+Course and teacher rows require activity aggregate-report access. The effective contributor
+floor is resolved per activity: legacy/individual access may request exact values; aggregate-only
+access uses at least the configured site threshold, even when a caller requests one. All-time,
+period, reaction, note and bookmark summaries use that floor. Suppressed counts display as
+hidden rather than zero. Activity SQL batching is retained; new benchmark timings are pending.
+
+Empty manual grades now use a null raw grade through the Grade API for points and scales.
+HTML names/options are escaped separately from plain CSV labels and HTML attribute values.
+Reaction warnings and the student-facing note visibility notice use all eight language packs.
+The note notice explains that authorised individual-report users may read and export notes.
+
+Video page GET no longer creates or repairs the focus exception group. Creation remains in
+add/update/restore/upgrade. Full uninstall deletes only groups with the plugin's reserved
+idnumber, including when no grade items exist. Grade repair uses a delegated DML transaction
+so an interrupted merge/delete rolls back; DDL is not wrapped in that transaction.
+
+[Security review corrections](docs/en/29_SECURITY_REVIEW.md).

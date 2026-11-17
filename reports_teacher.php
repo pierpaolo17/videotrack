@@ -78,6 +78,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('teacherdashboard:title', 'mod_videotrack'));
 $PAGE->set_heading(get_string('teacherdashboard:title', 'mod_videotrack'));
 
+// The service resolves the effective floor separately for every activity and viewer.
 $exactminusers = analytics::EXACT_REPORT_MIN_USERS;
 $dashboard = teacher_analytics::dashboard_rows(
     (int)$USER->id,
@@ -175,8 +176,8 @@ foreach ($dashboard as $courseblock) {
     }
     $table->head[] = get_string('coursereport:col_actions', 'mod_videotrack');
     foreach ($courseblock['rows'] as $row) {
-        $countcell = static function (array $summary): string {
-            return (string)(int)($summary['eventcount'] ?? 0);
+        $countcell = static function (array $summary) use ($row): string {
+            return \mod_videotrack\local\report_support::dashboard_count_cell($summary, (int)$row->summary['minusers']);
         };
         $percentagecell = static function (?float $value): string {
             return $value === null ? '-' : format_float($value, 1) . '%';

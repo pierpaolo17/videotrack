@@ -86,6 +86,7 @@ function videotrack_whitelist_record(stdClass $data): stdClass {
  */
 function videotrack_add_instance($data, $mform = null) {
     global $DB;
+    \mod_videotrack\local\instance_settings_policy::enforce($data);
     $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
     if ($data->durationseconds <= 0.0) {
         // A zero verified duration means that watched percentage is intentionally unused.
@@ -139,6 +140,7 @@ function videotrack_add_instance($data, $mform = null) {
 function videotrack_update_instance($data, $mform = null) {
     global $DB;
     $previous = $DB->get_record('videotrack', ['id' => $data->instance], '*', MUST_EXIST);
+    \mod_videotrack\local\instance_settings_policy::enforce($data, $previous);
     $previouscompletionsignature = completion_config::signature($previous);
     $data->id          = $data->instance;
     $data->timemodified = time();
@@ -1134,10 +1136,10 @@ function videotrack_update_grades(stdClass $videotrack, int $userid = 0, bool $n
  *
  * @param stdClass  $videotrack  Instance record.
  * @param int       $userid      User being graded.
- * @param float     $gradevalue  Raw grade value (points or scale item id).
+ * @param float|null $gradevalue Raw grade value, or null to clear the grade.
  * @return int                   Result of grade_update().
  */
-function videotrack_set_user_grade(stdClass $videotrack, int $userid, float $gradevalue): int {
+function videotrack_set_user_grade(stdClass $videotrack, int $userid, ?float $gradevalue): int {
     $grades = [
         $userid => (object)[
             'userid'   => $userid,

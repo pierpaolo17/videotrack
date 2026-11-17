@@ -80,7 +80,7 @@ final class reaction_write_service {
                 'item' => 'reaction',
                 'itemid' => (int)$eventid,
                 'warningcode' => 'completionrefreshfailed',
-                'message' => 'Reaction saved, but completion could not be refreshed immediately.',
+                'message' => get_string('warning:reactioncompletionrefreshfailed', 'mod_videotrack'),
             ];
         }
 
@@ -123,7 +123,7 @@ final class reaction_write_service {
                 'item' => 'reaction',
                 'itemid' => (int)$eventid,
                 'warningcode' => 'eventtriggerfailed',
-                'message' => 'Reaction saved, but the Moodle log event could not be triggered.',
+                'message' => get_string('warning:reactioneventtriggerfailed', 'mod_videotrack'),
             ]];
         }
     }

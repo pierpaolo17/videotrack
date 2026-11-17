@@ -34,7 +34,7 @@ final class report_support {
      * @param int $userid Moodle user id.
      * @param array $usermap Real Moodle users keyed by id.
      * @param bool $canviewemail Whether email may be displayed.
-     * @return string Safe display label.
+     * @return string Plain text label; HTML callers must escape it.
      */
     public static function user_label(int $userid, array $usermap, bool $canviewemail): string {
         if ($userid <= 0) {
@@ -44,7 +44,33 @@ final class report_support {
         if (!$user) {
             return '#' . $userid;
         }
-        return fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : '');
+        return fullname($user) . ($canviewemail ? ' (' . $user->email . ')' : '');
+    }
+
+    /**
+     * Format the plain user label for an HTML cell or select option.
+     *
+     * @param int $userid Moodle user id.
+     * @param array $usermap Users keyed by id.
+     * @param bool $canviewemail Whether email may be displayed.
+     * @return string Escaped label, never used for CSV data.
+     */
+    public static function user_label_html(int $userid, array $usermap, bool $canviewemail): string {
+        return s(self::user_label($userid, $usermap, $canviewemail));
+    }
+
+    /**
+     * Render suppressed counts as hidden rather than incorrectly showing zero.
+     *
+     * @param array $summary Privacy-safe count summary.
+     * @param int $minusers Effective privacy threshold for this activity.
+     * @return string Safe HTML table-cell content.
+     */
+    public static function dashboard_count_cell(array $summary, int $minusers): string {
+        if (!empty($summary['suppressed'])) {
+            return \html_writer::span(s(get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers)), 'text-muted');
+        }
+        return (string)(int)($summary['eventcount'] ?? 0);
     }
 
     /**
@@ -145,7 +171,7 @@ final class report_support {
                 if (!isset($usermap[$userid])) {
                     continue;
                 }
-                $options[$userid] = self::user_label($userid, $usermap, $canviewemail);
+                $options[$userid] = self::user_label_html($userid, $usermap, $canviewemail);
             }
         }
         return $options;

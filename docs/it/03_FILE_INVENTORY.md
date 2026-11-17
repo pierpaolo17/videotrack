@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.256. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.257. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **351** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
+Voci: **355** — 343 file distribuiti e cinque file solo repository esclusi dagli archivi release.
 
 | File | Responsabilità |
 |---|---|
@@ -359,3 +359,7 @@ Voci: **351** — 343 file distribuiti e cinque file solo repository esclusi dag
 | `classes/local/provider_connection.php` | Stato OAuth locale in sola lettura e scelta dei servizi compatibili; credenziali gestite dal core. |
 | `cli/provider_status.php` | Diagnostica JSON in sola lettura della configurazione provider; nessuna richiesta remota o rinnovo token. |
 | `tests/provider_connection_test.php` | Test Moodle con fixture OAuth per servizi assenti/disabilitati/non compatibili, HTTPS, omissione segreti e stato in sola lettura. |
+| `classes/local/instance_settings_policy.php` | Policy server sui campi e sulle dipendenze di completamento prima della persistenza. |
+| `tests/security_hardening_test.php` | Regressioni native su permessi, privacy delle coorti, voti, HTML, lifecycle e rollback. |
+| `docs/en/29_SECURITY_REVIEW.md` | Segnalazioni di sicurezza, ambito implementato e validazione nativa richiesta. |
+| `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |

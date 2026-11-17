@@ -55,7 +55,6 @@ $canviewreport = has_capability('mod/videotrack:viewreport', $context);
 // helper disables site-admin do-anything privileges for learner telemetry.
 $islearner = !isguestuser()
     && \mod_videotrack\local\learner_scope::can_participate($context);
-\mod_videotrack\local\focus_policy::ensure_exception_group((int)$course->id);
 
 if ($ackaction === 'confirm') {
     if (!$islearner) {

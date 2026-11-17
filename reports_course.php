@@ -26,16 +26,14 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
 /**
- * Renders an exact aggregate count for an authorised course report viewer.
+ * Renders a privacy-processed aggregate count for an authorised course report viewer.
  *
  * @param array $summary Summary returned by analytics::count_summary().
+ * @param int $minusers Effective per-activity privacy threshold.
  * @return string Rendered table-cell content.
  */
-function videotrack_course_report_count_cell(array $summary): string {
-    if (empty($summary['hasdata'])) {
-        return '0';
-    }
-    return (string)(int)$summary['eventcount'];
+function videotrack_course_report_count_cell(array $summary, int $minusers = 1): string {
+    return \mod_videotrack\local\report_support::dashboard_count_cell($summary, $minusers);
 }
 
 /**
@@ -118,6 +116,7 @@ $coursefullname = format_string($course->fullname, true, ['context' => $context]
 $PAGE->set_title($courseshortname . ': ' . get_string('coursereport:title', 'mod_videotrack'));
 $PAGE->set_heading($coursefullname);
 
+// The service raises this request to the configured floor for aggregate-only viewers.
 $exactminusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;
 $instances = \mod_videotrack\local\course_analytics::get_course_rows(
     $course,
@@ -184,7 +183,7 @@ foreach ($instances as $instance) {
         $activity,
         s($sourcelabel),
         s($duration),
-        videotrack_course_report_count_cell($instance->summary['started']),
+        videotrack_course_report_count_cell($instance->summary['started'], (int)$instance->summary['minusers']),
         videotrack_course_report_percentage_bar_cell(
             $instance->summary['averagepercent'],
             'coursereport:avgcoverage'
@@ -193,15 +192,15 @@ foreach ($instances as $instance) {
             $instance->summary['medianpercent'],
             'coursereport:mediancoverage'
         ),
-        videotrack_course_report_count_cell($instance->summary['completions']),
-        videotrack_course_report_count_cell($instance->summary['noncompleted']),
+        videotrack_course_report_count_cell($instance->summary['completions'], (int)$instance->summary['minusers']),
+        videotrack_course_report_count_cell($instance->summary['noncompleted'], (int)$instance->summary['minusers']),
         videotrack_course_report_drop_cell($instance->summary['maindrop']),
-        videotrack_course_report_count_cell($instance->reactions),
-        videotrack_course_report_count_cell($instance->notes),
+        videotrack_course_report_count_cell($instance->reactions, (int)$instance->summary['minusers']),
+        videotrack_course_report_count_cell($instance->notes, (int)$instance->summary['minusers']),
     ];
     if ($showbookmarks) {
         $row[] = !empty($instance->bookmarksenabled)
-            ? videotrack_course_report_count_cell($instance->bookmarks)
+            ? videotrack_course_report_count_cell($instance->bookmarks, (int)$instance->summary['minusers'])
             : html_writer::span(get_string('coursereport:disabled', 'mod_videotrack'), 'text-muted');
     }
     $row[] = $report;

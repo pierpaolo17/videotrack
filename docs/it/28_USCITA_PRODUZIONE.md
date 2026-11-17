@@ -1,6 +1,25 @@
 # Evidenze integrate sul ciclo di vita e sul gate di produzione
 
-## 1.7.256: base delle connessioni ai provider
+## 1.7.257: correzioni delle revisioni di sicurezza
+
+La baseline accettata è la 1.7.256 reale/main 26cf86ed: 418 file corrispondenti,
+PHPCS/lint server puliti su 171 file, PHPUnit 396/4581 su Moodle 5.0/5.3, build Grunt invariati,
+strict 10/0/0 su entrambe le istanze e CI candidata/main a sei job con i percorsi lifecycle previsti.
+La candidata 1.7.257 aggiunge 18 metodi di regressione nativi, non eseguiti in questo workspace.
+Restano da eseguire controlli canonici/statici/PHPUnit/Behat/lifecycle e accettazione di ZIP/server.
+Una nuova scansione esterna è necessaria prima di attribuire un nuovo punteggio alla release.
+
+Restano aperte la cancellazione definitiva di note/segnalibri e la gestione dei backup precedenti.
+Il loro comportamento di soft-delete/retention non cambia. Separazione degli helper DDL,
+riordino generale dei controller, chiavi browser per utente e download Analytics solo POST restano
+lotti distinti. La configurazione OAuth Microsoft resta locale: nessun accesso remoto o nuovo player.
+Le nuove sorgenti seguiranno questo lotto di sicurezza e l’App verrà dopo. La prova App → browser
+è saltata, l’estensione sottotitoli multilingua è rinviata, il manuale Moodle 5.3 resta in standby
+e i dati sintetici della demo sono conservati.
+
+[Correzioni delle revisioni di sicurezza](29_REVISIONE_SICUREZZA.md).
+
+## 1.7.257: base delle connessioni ai provider
 
 La255 reale/main36ab70ed è accettata:415 file corrispondenti, PHPCS/lint server168 puliti, Unit385/4540 su50/53 e strict10/0/0; CI candidata/main a sei job con52/1154 Behat e storie lifecycle selezionate superate. Il benchmark distribuito255 conferma current_userid10 e6/92 query mediane in40 campioni.
 

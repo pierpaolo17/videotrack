@@ -56,6 +56,11 @@ final class course_analytics {
             return [];
         }
 
+        foreach ($scopes as &$scope) {
+            $scope['minusers'] = report_access::minimum_users($scope['context'], $viewerid, $minusers);
+        }
+        unset($scope);
+
         $eventsummaries = course_analytics_loader::load_event_summaries_for_scopes(
             $scopes,
             $minusers,
@@ -72,6 +77,7 @@ final class course_analytics {
         foreach ($scopes as $videotrackid => $scope) {
             $instance = $scope['instance'];
             $context = $scope['context'];
+            $activityminusers = (int)$scope['minusers'];
             if ($period) {
                 $segments = $segmentsbyactivity[$videotrackid] ?? [];
                 $completionflags = [];
@@ -82,7 +88,7 @@ final class course_analytics {
                     $segments,
                     $completionflags,
                     (float)$instance->durationseconds,
-                    $minusers,
+                    $activityminusers,
                     $timestart,
                     $timeend
                 );
@@ -90,7 +96,7 @@ final class course_analytics {
                 $summary = self::summarise_states(
                     $statesbyactivity[$videotrackid] ?? [],
                     (float)$instance->durationseconds,
-                    $minusers
+                    $activityminusers
                 );
             }
 
@@ -100,7 +106,7 @@ final class course_analytics {
             $row->notes = $eventsummaries[$videotrackid]['notes'];
             $row->bookmarks = !empty($instance->bookmarksenabled)
                 ? $eventsummaries[$videotrackid]['bookmarks']
-                : analytics::count_summary(0, 0, $minusers);
+                : analytics::count_summary(0, 0, $activityminusers);
             $row->canviewactivity = has_capability('mod/videotrack:view', $context, $viewerid);
             $row->canviewreport = report_access::can_view_aggregate($context, $viewerid);
             $rows[$videotrackid] = $row;

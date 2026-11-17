@@ -469,3 +469,7 @@ The JSON script element created by `view.php` is the single server-to-player con
 ## Microsoft OAuth connection reference
 
 - `microsoftissuerid`: Moodle OAuth issuer id; default0 (None). No credentials are copied into activity data.
+
+## 1.7.257: security review corrections
+
+`instance_settings_policy` resolves protected creation defaults and persisted update fields. `minusers` is activity-specific and cannot lower an aggregate-only viewer’s configured floor. User labels have separate plain-text and HTML methods. No new persistent field or credential is added.

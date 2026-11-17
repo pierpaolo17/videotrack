@@ -1,6 +1,47 @@
 # Guida per utenti e amministratori
 
-## 1.7.256: base delle connessioni ai provider
+## 1.7.257: correzioni delle revisioni di sicurezza
+
+Questa release corregge i problemi verificati nei permessi delle impostazioni e nella privacy
+delle dashboard. I callback di salvataggio applicano le capability di override del corso prima
+di normalizzazione, scritture e modifiche ai sottotitoli. In modifica conservano i valori bloccati;
+in creazione usano i default sito, compresi zero esplicito e scelte vuote che ereditano dal sito.
+Le dipendenze del completamento non possono essere disabilitate con durata zero, presa visione
+disattivata o rimozione/riordino delle reazioni richieste. Limite di velocità e ripresa, lasciati
+modificabili dal form esistente, mantengono quel contratto.
+
+Le dashboard corso/docente richiedono accesso aggregato alla singola attività. La soglia viene
+risolta per attività: accesso legacy/individuale consente valori esatti; accesso solo aggregato
+impone almeno la soglia sito, anche se un chiamante richiede uno. Stati, periodi, reazioni, note
+e segnalibri applicano la stessa soglia. I conteggi soppressi risultano nascosti, anziché zero.
+Le query per attività restano a blocchi; le nuove misure di benchmark sono da eseguire.
+
+Il voto manuale vuoto usa rawgrade nullo attraverso la Grade API, sia per punti sia per scale.
+I nomi HTML sono escapati separatamente dai CSV testuali e dai valori degli attributi HTML.
+Warning delle reazioni e avviso agli studenti sulle note sono presenti nelle otto lingue.
+L’avviso spiega che gli utenti autorizzati ai report individuali possono leggere ed esportare le note.
+
+Il GET della pagina video non crea né ripara il gruppo eccezioni di focus. La creazione resta
+in add/update/restore/upgrade. La disinstallazione completa elimina solo i gruppi con idnumber
+riservato al plugin, anche senza grade item. Il recupero voti usa una transazione DML delegata
+per annullare merge/eliminazioni interrotti; la transazione non comprende DDL.
+
+La baseline accettata è la 1.7.256 reale/main 26cf86ed: 418 file corrispondenti,
+PHPCS/lint server puliti su 171 file, PHPUnit 396/4581 su Moodle 5.0/5.3, build Grunt invariati,
+strict 10/0/0 su entrambe le istanze e CI candidata/main a sei job con i percorsi lifecycle previsti.
+La candidata 1.7.257 aggiunge 18 metodi di regressione nativi, non eseguiti in questo workspace.
+Restano da eseguire controlli canonici/statici/PHPUnit/Behat/lifecycle e accettazione di ZIP/server.
+Una nuova scansione esterna è necessaria prima di attribuire un nuovo punteggio alla release.
+
+Restano aperte la cancellazione definitiva di note/segnalibri e la gestione dei backup precedenti.
+Il loro comportamento di soft-delete/retention non cambia. Separazione degli helper DDL,
+riordino generale dei controller, chiavi browser per utente e download Analytics solo POST restano
+lotti distinti. La configurazione OAuth Microsoft resta locale: nessun accesso remoto o nuovo player.
+Le nuove sorgenti seguiranno questo lotto di sicurezza e l’App verrà dopo. La prova App → browser
+è saltata, l’estensione sottotitoli multilingua è rinviata, il manuale Moodle 5.3 resta in standby
+e i dati sintetici della demo sono conservati.
+
+## 1.7.257: base delle connessioni ai provider
 
 Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
 
