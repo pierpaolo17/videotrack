@@ -174,6 +174,9 @@ final class security_hardening_test extends \advanced_testcase {
         $this->assertSame(0, (int)$DB->get_field('videotrack_react', 'requiredforcompletion', [
             'videotrackid' => $activity->id, 'label' => 'Optional',
         ]));
+        $this->assertSame('emoji', $DB->get_field('videotrack_react', 'icontype', [
+            'videotrackid' => $activity->id, 'label' => 'Optional',
+        ]));
     }
 
     /**
@@ -431,7 +434,7 @@ final class security_hardening_test extends \advanced_testcase {
         unset($duplicate->id);
         $duplicateid = $DB->insert_record('grade_items', $duplicate);
         $database = $DB;
-        $DB = new class($database) {
+        $DB = new class ($database) {
             /** @var object Real database used for every operation before the injected failure. */
             private object $database;
 

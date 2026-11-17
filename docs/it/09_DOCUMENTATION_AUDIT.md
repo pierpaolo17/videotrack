@@ -43,6 +43,39 @@ Le nuove sorgenti seguiranno questo lotto di sicurezza e l’App verrà dopo. La
 è saltata, l’estensione sottotitoli multilingua è rinviata, il manuale Moodle 5.3 resta in standby
 e i dati sintetici della demo sono conservati.
 
+## Prima CI della candidata e correzione
+
+La prima candidata 1.7.257, commit `68ca29de`, run `44049397832`, fallisce tutti e sei i job.
+I sei archivi allegati corrispondono agli SHA-256 ufficiali GitHub e i 446 file con i relativi
+permessi Git corrispondono al commit. Ogni PHPUnit riporta 414 test, 4687 asserzioni,
+un errore, un fallimento e un warning. Il test di riordino reazioni scopre un difetto
+preesistente nel default icona: la validazione accetta emoji come ripiego ma legge poi
+un indice assente, passando null a una colonna non nulla. La correzione normalizza prima
+il default e ne verifica il salvataggio, lasciando il campo omesso nella fixture.
+Il contratto sul recordset course_modules ora tollera l'indentazione; lo spazio della
+classe anonima segue la segnalazione PHPCS nativa.
+
+Strict passa 10/0/0 e Grunt termina in tutti i job. Behat passa 52/1154 su cinque job;
+su Moodle 5.1 fallisce inizialmente la nota dopo rollback (51/52 scenari), poi il rerun
+automatico isolato passa 1 scenario/43 passi. Questo non equivale a un primo passaggio
+pulito. Le prove di aggiornamento storico/disinstallazione popolata sono saltate nei
+job selezionati 5.0/5.3 MariaDB dopo il fallimento PHPUnit; il lint non le sostituisce.
+
+PHPStan e Psalm non riportano errori nei job configurati 5.0/5.3. Psalm segnala
+739/767 rilievi informativi, quattro in più per ramo rispetto alla 1.7.256 accettata;
+i singoli tipi non sono stampati. PHPMD riporta 28 rilievi contro 24: quattro nuove
+segnalazioni di complessità nei controlli di privacy per attività (10 ciascuno), nel
+ripristino requisiti reazioni (12) e nel recupero voti transazionale (10). Le guardie
+restano esplicite nei punti di ingresso condivisi, senza soppressioni o cambi soglia.
+L'approfondimento dei rilievi informativi resta aperto. Sono risultati della prima
+candidata, non prove di superamento della correzione.
+
+La patch sostitutiva è incrementale da `68ca29de` sul ramo `release/v1.7.257`.
+Release/versione restano 1.7.257/2026111600. Prima del merge vanno rieseguiti controlli
+canonici/statici/PHPUnit, Behat e lifecycle; l'accettazione di ZIP/server seguirà.
+PHP/Moodle non sono disponibili in questo workspace: le verifiche locali dei sorgenti
+e di applicazione della patch non valgono come prove native.
+
 ## Rifiuto della prima CI 256 e correzione circoscritta
 
 La candidata `81933c95`, run `43490372802`, fallisce tutti i sei job: ogni PHPUnit

@@ -497,9 +497,8 @@ function videotrack_build_reaction_definition_record(
     $descriptions = $data->reactiondescription ?? [];
     $iconvalues = $data->reactioniconvalue ?? [];
     $requireds = $data->reactionrequired ?? [];
-    $icontype = in_array(($icontypes[$idx] ?? 'emoji'), ['emoji', 'fa', 'file'], true)
-        ? $icontypes[$idx]
-        : 'emoji';
+    $icontype = $icontypes[$idx] ?? 'emoji';
+    $icontype = in_array($icontype, ['emoji', 'fa', 'file'], true) ? $icontype : 'emoji';
     $basekey = clean_param(core_text::strtolower(preg_replace('/[^a-zA-Z0-9_]+/', '_', $label)), PARAM_ALPHANUMEXT);
     $basekey = trim($basekey, '_');
     if ($basekey === '') {

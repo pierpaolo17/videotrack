@@ -1223,48 +1223,48 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `lib.php:422` | `videotrack_save_poster_image` | Callable PHP `videotrack_save_poster_image`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:455` | `videotrack_is_valid_reaction_icon_class` | Callable PHP `videotrack_is_valid_reaction_icon_class`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:488` | `videotrack_build_reaction_definition_record` | Prepara il record di una reazione e normalizza l’icona prima della transazione database. |
-| `lib.php:542` | `videotrack_apply_reaction_icon_file_operations` | Esegue le operazioni sulle icone dopo il commit delle definizioni delle reazioni. |
-| `lib.php:580` | `videotrack_queue_reaction_icon_file_operation` | Accoda le operazioni file solo se esiste una bozza o se la reazione abbandona un’icona caricata. |
-| `lib.php:609` | `videotrack_save_reaction_definitions` | Callable PHP `videotrack_save_reaction_definitions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:687` | `videotrack_user_outline` | Callable PHP `videotrack_user_outline`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:716` | `videotrack_user_complete` | Callable PHP `videotrack_user_complete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:757` | `videotrack_extend_settings_navigation` | Callable PHP `videotrack_extend_settings_navigation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:787` | `videotrack_extend_navigation_course` | Callable PHP `videotrack_extend_navigation_course`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:820` | `videotrack_get_html5controls` | Callable PHP `videotrack_get_html5controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:836` | `videotrack_process_html5controls_field` | Callable PHP `videotrack_process_html5controls_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:867` | `videotrack_process_player_behavior_fields` | Callable PHP `videotrack_process_player_behavior_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:905` | `videotrack_get_player_width` | Callable PHP `videotrack_get_player_width`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:920` | `videotrack_get_rewind_step` | Callable PHP `videotrack_get_rewind_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:941` | `videotrack_get_fastforward_step` | Callable PHP `videotrack_get_fastforward_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:962` | `videotrack_get_vtt_url` | Callable PHP `videotrack_get_vtt_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:985` | `videotrack_process_captions_fields` | Callable PHP `videotrack_process_captions_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1028` | `videotrack_process_grade_fields` | Callable PHP `videotrack_process_grade_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1056` | `videotrack_grade_item_update` | Callable PHP `videotrack_grade_item_update`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1130` | `videotrack_update_grades` | Callable PHP `videotrack_update_grades`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1142` | `videotrack_set_user_grade` | Callable PHP `videotrack_set_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1159` | `videotrack_get_user_grade` | Callable PHP `videotrack_get_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1185` | `videotrack_get_poster_url` | Callable PHP `videotrack_get_poster_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1225` | `videotrack_delete_user_progress` | Callable PHP `videotrack_delete_user_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1257` | `videotrack_grade_item_delete` | Callable PHP `videotrack_grade_item_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1278` | `videotrack_delete_instance` | Callable PHP `videotrack_delete_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1334` | `videotrack_get_coursemodule_info` | Callable PHP `videotrack_get_coursemodule_info`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1361` | `videotrack_view` | Callable PHP `videotrack_view`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1387` | `videotrack_get_completion_state` | Funzione/metodo PHP nominato `videotrack_get_completion_state`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `lib.php:1425` | `videotrack_get_completion_active_rule_descriptions` | Callable PHP `videotrack_get_completion_active_rule_descriptions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1457` | `videotrack_update_completion_for_user` | Callable PHP `videotrack_update_completion_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1476` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
-| `lib.php:1486` | `videotrack_reset_course_userdata` | Implementazione reset corso conservata per callback canonico e chiamanti diretti; rispetta flag esplicito e scope corso esistenti. |
-| `lib.php:1535` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1555` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1571` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1661` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
-| `lib.php:1683` | `videotrack_pluginfile_timed_text_available` | Controlla le impostazioni di trascrizioni e capitoli prima di servire i file. |
-| `lib.php:1707` | `videotrack_pluginfile_find_file` | Risolve il file dopo i controlli di accesso, rifiutando percorsi mancanti e directory. |
-| `lib.php:1729` | `videotrack_pluginfile_content_allowed` | Valida estensioni, MIME delle immagini e MIME, dimensioni e contenuto WebVTT. |
-| `lib.php:1772` | `videotrack_pluginfile_send_media` | Applica regole di download e cache al file verificato. |
-| `lib.php:1799` | `videotrack_pluginfile` | Callable PHP `videotrack_pluginfile`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1845` | `videotrack_recalculation_userids` | Individua i learner con dati di tracciamento nelle stesse quattro tabelle di attività. |
-| `lib.php:1887` | `videotrack_recalculate_all_states` | Callable PHP `videotrack_recalculate_all_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:541` | `videotrack_apply_reaction_icon_file_operations` | Esegue le operazioni sulle icone dopo il commit delle definizioni delle reazioni. |
+| `lib.php:579` | `videotrack_queue_reaction_icon_file_operation` | Accoda le operazioni file solo se esiste una bozza o se la reazione abbandona un’icona caricata. |
+| `lib.php:608` | `videotrack_save_reaction_definitions` | Callable PHP `videotrack_save_reaction_definitions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:686` | `videotrack_user_outline` | Callable PHP `videotrack_user_outline`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:715` | `videotrack_user_complete` | Callable PHP `videotrack_user_complete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:756` | `videotrack_extend_settings_navigation` | Callable PHP `videotrack_extend_settings_navigation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:786` | `videotrack_extend_navigation_course` | Callable PHP `videotrack_extend_navigation_course`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:819` | `videotrack_get_html5controls` | Callable PHP `videotrack_get_html5controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:835` | `videotrack_process_html5controls_field` | Callable PHP `videotrack_process_html5controls_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:866` | `videotrack_process_player_behavior_fields` | Callable PHP `videotrack_process_player_behavior_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:904` | `videotrack_get_player_width` | Callable PHP `videotrack_get_player_width`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:919` | `videotrack_get_rewind_step` | Callable PHP `videotrack_get_rewind_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:940` | `videotrack_get_fastforward_step` | Callable PHP `videotrack_get_fastforward_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:961` | `videotrack_get_vtt_url` | Callable PHP `videotrack_get_vtt_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:984` | `videotrack_process_captions_fields` | Callable PHP `videotrack_process_captions_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1027` | `videotrack_process_grade_fields` | Callable PHP `videotrack_process_grade_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1055` | `videotrack_grade_item_update` | Callable PHP `videotrack_grade_item_update`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1129` | `videotrack_update_grades` | Callable PHP `videotrack_update_grades`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1141` | `videotrack_set_user_grade` | Callable PHP `videotrack_set_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1158` | `videotrack_get_user_grade` | Callable PHP `videotrack_get_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1184` | `videotrack_get_poster_url` | Callable PHP `videotrack_get_poster_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1224` | `videotrack_delete_user_progress` | Callable PHP `videotrack_delete_user_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1256` | `videotrack_grade_item_delete` | Callable PHP `videotrack_grade_item_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1277` | `videotrack_delete_instance` | Callable PHP `videotrack_delete_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1333` | `videotrack_get_coursemodule_info` | Callable PHP `videotrack_get_coursemodule_info`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1360` | `videotrack_view` | Callable PHP `videotrack_view`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1386` | `videotrack_get_completion_state` | Funzione/metodo PHP nominato `videotrack_get_completion_state`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `lib.php:1424` | `videotrack_get_completion_active_rule_descriptions` | Callable PHP `videotrack_get_completion_active_rule_descriptions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1456` | `videotrack_update_completion_for_user` | Callable PHP `videotrack_update_completion_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1475` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
+| `lib.php:1485` | `videotrack_reset_course_userdata` | Implementazione reset corso conservata per callback canonico e chiamanti diretti; rispetta flag esplicito e scope corso esistenti. |
+| `lib.php:1534` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1554` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1570` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1660` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
+| `lib.php:1682` | `videotrack_pluginfile_timed_text_available` | Controlla le impostazioni di trascrizioni e capitoli prima di servire i file. |
+| `lib.php:1706` | `videotrack_pluginfile_find_file` | Risolve il file dopo i controlli di accesso, rifiutando percorsi mancanti e directory. |
+| `lib.php:1728` | `videotrack_pluginfile_content_allowed` | Valida estensioni, MIME delle immagini e MIME, dimensioni e contenuto WebVTT. |
+| `lib.php:1771` | `videotrack_pluginfile_send_media` | Applica regole di download e cache al file verificato. |
+| `lib.php:1798` | `videotrack_pluginfile` | Callable PHP `videotrack_pluginfile`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1844` | `videotrack_recalculation_userids` | Individua i learner con dati di tracciamento nelle stesse quattro tabelle di attività. |
+| `lib.php:1886` | `videotrack_recalculate_all_states` | Callable PHP `videotrack_recalculate_all_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:40` | `videotrack_get_config_int` | Callable PHP `videotrack_get_config_int`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:64` | `videotrack_parse_https_media_url` | Normalizza un URL multimediale HTTPS assoluto prima della validazione specifica di host e percorso del provider. |
 | `locallib.php:92` | `videotrack_normalise_youtube_video_id` | Accetta soltanto un identificatore YouTube scalare di 11 caratteri con l'alfabeto del provider. |
@@ -1760,24 +1760,24 @@ Generato dall’albero sorgente VideoTrack 1.7.257. Le voci PHP includono funzio
 | `tests/security_hardening_test.php:116` | `test_authorised_update_still_changes_protected_fields` | Implementa `test_authorised_update_still_changes_protected_fields` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `tests/security_hardening_test.php:135` | `test_zero_duration_cannot_disable_a_locked_percentage` | Implementa `test_zero_duration_cannot_disable_a_locked_percentage` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `tests/security_hardening_test.php:157` | `test_reordered_reactions_preserve_requirements_and_enablement` | Implementa `test_reordered_reactions_preserve_requirements_and_enablement` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:182` | `test_removing_a_required_reaction_is_rejected` | Implementa `test_removing_a_required_reaction_is_rejected` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:198` | `test_locked_acknowledgement_keeps_its_required_dependencies` | Implementa `test_locked_acknowledgement_keeps_its_required_dependencies` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:221` | `test_locked_acknowledgement_rejects_an_empty_statement` | Implementa `test_locked_acknowledgement_rejects_an_empty_statement` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:243` | `test_aggregate_dashboard_cannot_request_exact_small_cohorts` | Implementa `test_aggregate_dashboard_cannot_request_exact_small_cohorts` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:267` | `test_course_only_role_without_activity_report_access_gets_no_rows` | Implementa `test_course_only_role_without_activity_report_access_gets_no_rows` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:280` | `test_mixed_module_permissions_resolve_thresholds_independently` | Implementa `test_mixed_module_permissions_resolve_thresholds_independently` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:295` | `test_points_grade_can_be_cleared_without_recording_zero` | Implementa `test_points_grade_can_be_cleared_without_recording_zero` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:312` | `test_scale_grade_can_be_cleared` | Implementa `test_scale_grade_can_be_cleared` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:328` | `test_user_labels_separate_html_from_plain_export_text` | Implementa `test_user_labels_separate_html_from_plain_export_text` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:348` | `test_uninstall_removes_only_owned_groups_without_grades` | Implementa `test_uninstall_removes_only_owned_groups_without_grades` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:368` | `test_core_creation_without_form_enforces_the_same_policy` | Implementa `test_core_creation_without_form_enforces_the_same_policy` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:391` | `test_period_dashboard_masks_a_single_group_member` | Implementa `test_period_dashboard_masks_a_single_group_member` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:417` | `test_grade_repair_rolls_back_a_mid_batch_failure` | Implementa `test_grade_repair_rolls_back_a_mid_batch_failure` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:443` | `__construct` | Implementa `__construct` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:454` | `__call` | Implementa `__call` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:480` | `restricted_teacher` | Implementa `restricted_teacher` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:500` | `edit_data` | Implementa `edit_data` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
-| `tests/security_hardening_test.php:519` | `analytics_fixture` | Implementa `analytics_fixture` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:185` | `test_removing_a_required_reaction_is_rejected` | Implementa `test_removing_a_required_reaction_is_rejected` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:201` | `test_locked_acknowledgement_keeps_its_required_dependencies` | Implementa `test_locked_acknowledgement_keeps_its_required_dependencies` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:224` | `test_locked_acknowledgement_rejects_an_empty_statement` | Implementa `test_locked_acknowledgement_rejects_an_empty_statement` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:246` | `test_aggregate_dashboard_cannot_request_exact_small_cohorts` | Implementa `test_aggregate_dashboard_cannot_request_exact_small_cohorts` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:270` | `test_course_only_role_without_activity_report_access_gets_no_rows` | Implementa `test_course_only_role_without_activity_report_access_gets_no_rows` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:283` | `test_mixed_module_permissions_resolve_thresholds_independently` | Implementa `test_mixed_module_permissions_resolve_thresholds_independently` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:298` | `test_points_grade_can_be_cleared_without_recording_zero` | Implementa `test_points_grade_can_be_cleared_without_recording_zero` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:315` | `test_scale_grade_can_be_cleared` | Implementa `test_scale_grade_can_be_cleared` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:331` | `test_user_labels_separate_html_from_plain_export_text` | Implementa `test_user_labels_separate_html_from_plain_export_text` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:351` | `test_uninstall_removes_only_owned_groups_without_grades` | Implementa `test_uninstall_removes_only_owned_groups_without_grades` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:371` | `test_core_creation_without_form_enforces_the_same_policy` | Implementa `test_core_creation_without_form_enforces_the_same_policy` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:394` | `test_period_dashboard_masks_a_single_group_member` | Implementa `test_period_dashboard_masks_a_single_group_member` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:420` | `test_grade_repair_rolls_back_a_mid_batch_failure` | Implementa `test_grade_repair_rolls_back_a_mid_batch_failure` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:446` | `__construct` | Implementa `__construct` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:457` | `__call` | Implementa `__call` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:483` | `restricted_teacher` | Implementa `restricted_teacher` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:503` | `edit_data` | Implementa `edit_data` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
+| `tests/security_hardening_test.php:522` | `analytics_fixture` | Implementa `analytics_fixture` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:71` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | Callable PHP `test_period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

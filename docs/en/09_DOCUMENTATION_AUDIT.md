@@ -43,6 +43,38 @@ New sources follow this security work; the App remains afterwards. The App-to-br
 skipped, multilingual subtitle expansion is deferred, manual Moodle 5.3 remains on standby,
 and the synthetic demo data is retained.
 
+## Initial candidate CI and correction
+
+The first 1.7.257 candidate, commit `68ca29de`, run `44049397832`, failed all six jobs.
+All six attached artifacts match GitHub's official SHA-256 digests and the 446 repository
+files/modes match that commit. Each PHPUnit run reported 414 tests, 4687 assertions,
+one error, one failure and one warning. The reordered-reaction regression exposed an
+existing missing-icon default: validation accepted the fallback emoji but then read a
+missing array entry, producing null for a non-null database column. The correction
+normalises the fallback first and asserts the persisted default without filling the
+omitted fixture field. A source contract now tolerates indentation around the same
+course_modules recordset call; anonymous-class spacing follows the native PHPCS finding.
+
+Strict validation passed 10/0/0 and Grunt completed in all six jobs. Behat passed 52/1154
+on five jobs; Moodle 5.1 first failed the post-rollback note assertion (51/52 scenarios),
+then the automatic isolated rerun passed 1 scenario/43 steps. This is not a clean initial
+pass. The historical upgrade/populated-uninstall gates were skipped on the selected
+5.0/5.3 MariaDB jobs after PHPUnit failed; no lifecycle result is inferred from lint.
+
+PHPStan and Psalm reported no errors on the configured 5.0/5.3 jobs. Psalm reported
+739/767 informational issues, four more per branch than accepted 1.7.256; individual
+issue types are not printed. PHPMD reported 28 findings versus 24: four new complexity
+advisories at the per-activity privacy checks (10 each), reaction requirement restoration
+(12) and transactional grade repair (10). These guards remain explicit in their shared
+entry points; no suppressions or threshold changes are added. Informational follow-up
+remains open. These are initial-candidate observations, not proof for the correction.
+
+The replacement patch is incremental from `68ca29de` on `release/v1.7.257`.
+The release/version stay 1.7.257/2026111600. Corrected native canonical/static/PHPUnit,
+Behat and lifecycle checks must be rerun before merge; actual ZIP/server acceptance
+comes afterwards. PHP/Moodle are unavailable in this workspace, so local source and
+patch-application checks do not count as native passes.
+
 ## First 256 candidate CI rejection and bounded correction
 
 Candidate `81933c95`, run `43490372802`, fails all six jobs: each PHPUnit run has

@@ -4,6 +4,11 @@
 
 ### Enforce locked settings and dashboard privacy after external review
 
+- Correct the initial candidate CI within 1.7.257: normalise the reaction icon
+  default before reading it, retain the omitted-icon regression and assert emoji.
+  Make the grade-repair source contract independent of indentation and apply the
+  canonical anonymous-class spacing. No tests or CI gates are removed. Initial CI
+  failed; corrected native CI and lifecycle execution remain pending.
 - Enforce course override capabilities in both save callbacks before normalisation,
   database writes and caption-file changes. Preserve stored settings on update and
   site defaults on creation, including checkbox aliases and completion dependencies.
