@@ -4,6 +4,10 @@
 
 ### Complete reviewed personal-data, request and browser corrections
 
+- Correct initial258 CI: canonical license spacing, exact README markers and
+  portable TEXT assertions in backup tests. Prepare known stale browser hints before
+  the second player starts and report each isolation condition; retain all checks.
+  This incremental correction keeps2026111700; native rerun/lifecycle remain pending.
 - Permanently erase owned notes/bookmarks with compatible AJAX responses, serialised
   retries, access checks and content-free removal events. Exclude removed personal
   items from backups/Privacy exports and legacy XML restore. Retain demo without migration.
@@ -16,8 +20,8 @@
   Unit414/4695, strict10/0/0 and six-job candidate/main CI. Native258 checks are pending.
 - Real Moodle Grunt AMD Node22 passes; ship both changed sources/builds/maps. Three
   historical Node script failures reproduce on257 and are not counted as native passes.
-- Inventories:451 repository/427 distributed files,176 distributed PHP,1202 named PHP
-  callables (1195 distributed+7 repository helpers),654 AMD callables,8 packs×1006 keys.
+- Inventories:451 repository/427 distributed files,176 distributed PHP,1203 named PHP
+  callables (1196 distributed+7 repository helpers),654 AMD callables,8 packs×1006 keys.
   No schema/savepoint/service/retention/OAuth change. After full final acceptance
   continue directly to the next patch; manual5.3 stays standby and demo stays retained.
 

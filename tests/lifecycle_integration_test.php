@@ -52,10 +52,9 @@ final class lifecycle_integration_test extends \advanced_testcase {
         }
         $courseid = $this->restore_course($fixture['course'], true, 0);
         $copy = $this->assert_restored_configuration($fixture, $courseid);
+        $restoredtexts = $DB->get_fieldset('videotrack_reactev', 'notetext', ['videotrackid' => $copy->id]);
         foreach (['note', 'bookmark'] as $type) {
-            $this->assertFalse($DB->record_exists('videotrack_reactev', [
-                'videotrackid' => $copy->id, 'notetext' => 'removed-private-' . $type,
-            ]));
+            $this->assertNotContains('removed-private-' . $type, $restoredtexts);
             $this->assertTrue($DB->record_exists('videotrack_reactev', [
                 'videotrackid' => $copy->id, 'notetype' => $type, 'isdeleted' => 0,
             ]));
@@ -72,10 +71,9 @@ final class lifecycle_integration_test extends \advanced_testcase {
         $fixture = $this->create_fixture();
         $courseid = $this->restore_course($fixture['course'], true, 0, true);
         $copy = $this->assert_restored_configuration($fixture, $courseid);
+        $restoredtexts = $DB->get_fieldset('videotrack_reactev', 'notetext', ['videotrackid' => $copy->id]);
         foreach (['note', 'bookmark'] as $type) {
-            $this->assertFalse($DB->record_exists('videotrack_reactev', [
-                'videotrackid' => $copy->id, 'notetext' => 'legacy-removed-' . $type,
-            ]));
+            $this->assertNotContains('legacy-removed-' . $type, $restoredtexts);
         }
     }
 

@@ -2,6 +2,39 @@
 
 VideoTrack **1.7.258** (`2026111700`).
 
+## Rifiuto della prima CI258 e correzione circoscritta
+
+La prima candidata 1.7.258 e70102d6 (run44084042387) fallisce tutti e sei i job. I451
+file con i relativi permessi Git e i12 archivi CI/faildump corrispondono a sorgente e
+digest ufficiali. PHPUnit429/4823 riporta2errori nei nuovi test di backup (Moodle vieta
+condizioni get_record su colonne TEXT) e1fallimento per i marcatori README obsoleti.
+Strict riporta9/0/1 e PHPCS6 errori di boilerplate in3 nuovi file. La correzione legge
+i testi ripristinati in un fieldset circoscritto e li confronta in PHP, aggiorna entrambi
+i marcatori correnti esatti e ripristina gli spazi del boilerplate canonico.
+
+Behat passa inizialmente52/54 scenari e1188/1192 passi; entrambi i rerun automatici
+continuano a fallire nei due nuovi esempi di ripresa. Gli HTML disponibili mostrano
+Second Learner, ripresa server0 e chiave del suo utente corretta; i valori localStorage
+sono assenti. L'asserzione aggregata non identifica la condizione fallita né dimostra
+una fuga. La fixture ora inserisce chiavi residue note dopo il login e prima del player,
+conservando il marcatore di revisione JS Moodle. Restano tutte le verifiche originarie
+su identità distinta, assenza del suggerimento corrente, ripresa server zero e tempo
+effettivo dei due provider. La diagnostica distingue ogni condizione. Il player,
+la chiave di storage e i build non cambiano in questa correzione.
+
+PHPStan/Psalm non avevano errori nei perimetri configurati. PHPMD31 della prima258
+aggiunge3 rilievi di complessità restore ai28 della257; Psalm741/769 aggiunge1 rilievo
+informativo per ramo, senza stampare i tipi. Sono registrati, non considerati invariati.
+Le prove lifecycle previste sono saltate dopo i fallimenti. Prima del merge serve
+nuova CI nativa canonica/strict/PHPUnit/Behat/lifecycle. Il controllo locale di sintassi
+e logica della fixture JS passa anche quattro stati errati; non equivale a Behat.
+
+La patch sostitutiva è incrementale da e70102d6 sul ramo release/v1.7.258. Versione
+sempre2026111700. L'inventario ora conta1203 funzioni PHP (1196 distribuite+7 del repository)
+per il nuovo step preparatorio Behat; file,15 nuovi metodi PHPUnit e due scenari restano
+invariati. La baseline reale accettata rimane1.7.257.
+
+
 La rimozione elimina fisicamente la riga della nota/segnalibro del proprietario.
 Parametri e risposte AJAX restano compatibili. Login, contesto, partecipazione e sesskey
 precedono i retry: un id assente è un successo senza scritture; righe esistenti di altro

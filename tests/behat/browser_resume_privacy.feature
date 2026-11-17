@@ -33,6 +33,7 @@ Feature: Browser resume hints belong to the current learner
     When I log out
     And I log in as "student2"
     And I am on "Course 1" course homepage
+    And I restore stale VideoTrack browser hints before opening "<Activity>"
     And I click on "<Activity>" "link"
     Then the deterministic VideoTrack "<Provider>" provider is ready
     And the VideoTrack browser resume key belongs to a different learner

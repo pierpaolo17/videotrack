@@ -58,21 +58,57 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Put known foreign hints in storage after login and before the next player initialises.
+     *
+     * Moodle may legitimately purge storage when its JS revision changes, and the
+     * first player's normal position updates need not keep the literal string 30.
+     * Reset only VideoTrack hints, preserving Moodle's own cache revision sentinel.
+     *
+     * @When /^I restore stale VideoTrack browser hints before opening "([^"]+)"$/
+     * @param string $activityname Destination VideoTrack activity.
+     */
+    public function i_restore_stale_videotrack_browser_hints_before_opening(string $activityname): void {
+        global $DB;
+        if ($this->previousresumekey === '') {
+            throw new ExpectationException('The previous learner hint was not recorded.', $this->getSession());
+        }
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', $activity->id, $activity->course, false, MUST_EXIST);
+        $previous = json_encode($this->previousresumekey, JSON_THROW_ON_ERROR);
+        $legacy = json_encode('videotrack:lastposition:' . $cm->id, JSON_THROW_ON_ERROR);
+        $stored = $this->getSession()->evaluateScript(
+            "(function() {Object.keys(localStorage).forEach(function(key) {"
+                . "if (key.indexOf('videotrack:lastposition:') === 0) {localStorage.removeItem(key);}});"
+                . "localStorage.setItem(" . $previous . ", '30');localStorage.setItem(" . $legacy . ", '45');"
+                . "return localStorage.getItem(" . $previous . ") === '30'"
+                . " && localStorage.getItem(" . $legacy . ") === '45';}())"
+        );
+        if ($stored !== true) {
+            throw new ExpectationException('The foreign resume hints were not stored.', $this->getSession());
+        }
+    }
+
+    /**
      * Confirm a second login leaves the first hint intact but does not read it.
      *
      * @Then /^the VideoTrack browser resume key belongs to a different learner$/
      */
     public function the_videotrack_browser_resume_key_belongs_to_a_different_learner(): void {
         $previous = json_encode($this->previousresumekey, JSON_THROW_ON_ERROR);
-        $valid = $this->getSession()->evaluateScript(
+        $raw = $this->getSession()->evaluateScript(
             "(function() {var node = document.querySelector('[id^=\"mod-videotrack-player-config-\"]');"
                 . "var config = JSON.parse(node.textContent);var key = config.resumestoragekey;"
-                . "return /^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key) && key !== " . $previous
-                . " && localStorage.getItem(" . $previous . ") === '30'"
-                . " && localStorage.getItem(key) === null && Number(config.resumeposition) === 0;}())"
+                . "return JSON.stringify({versioned:/^videotrack:lastposition:v2:[a-f0-9]{64}$/.test(key),"
+                . "different:key !== " . $previous . ",previous:localStorage.getItem(" . $previous . "),"
+                . "current:localStorage.getItem(key),server:Number(config.resumeposition)});}())"
         );
-        if ($valid !== true) {
-            throw new ExpectationException('Browser resume leaked across learner identities.', $this->getSession());
+        $observed = is_string($raw) ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR) : [];
+        $expected = ['versioned' => true, 'different' => true, 'previous' => '30', 'current' => null, 'server' => 0];
+        if ($observed !== $expected) {
+            throw new ExpectationException(
+                'Unexpected learner resume state: ' . json_encode($observed, JSON_THROW_ON_ERROR),
+                $this->getSession()
+            );
         }
     }
 

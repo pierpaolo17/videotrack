@@ -2,6 +2,38 @@
 
 VideoTrack **1.7.258** (`2026111700`).
 
+## Initial258 CI rejection and bounded correction
+
+The initial 1.7.258 candidate e70102d6 (run44084042387) failed all six jobs. All451
+repository blobs/modes and12 uploaded CI/faildump archives match the official GitHub
+source and digests. PHPUnit429/4823 reported2errors in the new backup tests (Moodle
+rejects TEXT columns in get_record conditions) and1failure from stale README release
+markers. Strict reported9/0/1 and PHPCS6 boilerplate errors in3 new files.
+The correction reads restored text with a scoped fieldset and compares it in PHP,
+updates both exact current-release markers and restores the canonical header spacing.
+
+Behat initially passed52/54 scenarios and1188/1192 steps, then both automatic reruns
+still failed the two new resume examples. Available HTML shows Second Learner with
+server resume0 and a correctly scoped current-user key; localStorage values are absent,
+so the aggregate assertion does not establish which condition failed or prove a leak.
+The fixture now injects known foreign/legacy hints after login and before player init,
+preserving Moodle's JS-revision sentinel. All original isolation, absent-current-hint,
+zero-server-resume and actual provider-time assertions remain. Per-condition diagnostics
+replace the ambiguous message. No player code, storage key or build changes here.
+
+PHPStan/Psalm had no configured errors. Initial258 PHPMD31 has3 additional restore
+complexity advisories versus257's28; Psalm741/769 has1 additional information item per
+branch, with types unprinted. These are recorded, not silently treated as unchanged.
+The selected lifecycle gates were skipped after failures. Fresh corrected native
+canonical/strict/PHPUnit/Behat/lifecycle CI remains mandatory before merge. Local
+fixture-JS syntax/logic checks pass, including four invalid states; this is not Behat.
+
+This replacement is incremental from e70102d6 on release/v1.7.258. Version remains
+2026111700. Current inventory has1203 PHP callables (1196 distributed+7 repository-only)
+after adding one Behat preparation step; file counts,15 new PHPUnit methods and two
+new browser scenarios remain unchanged. Accepted actual baseline stays1.7.257.
+
+
 Removal physically erases the owned note/bookmark row. AJAX parameters and responses
 remain compatible. Login/context/participation/sesskey checks precede retries: missing ids
 are successful no-ops, existing foreign or wrong-type rows are rejected. A Moodle lock

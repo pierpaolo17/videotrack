@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.258 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1202 (1195 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1203 (1196 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1413,50 +1413,51 @@ Generated from the VideoTrack 1.7.258 source tree. PHP entries include named fun
 | `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verify source tables, Forum mapping and file areas. |
 | `tests/backup_structure_contract_test.php:106` | `source` | Read the canonical backup structure source for contract assertions. |
 | `tests/behat/behat_mod_videotrack.php:45` | `i_store_a_videotrack_browser_resume_hint` | Store a scoped hint and a conflicting legacy hint without writing tracking evidence. |
-| `tests/behat/behat_mod_videotrack.php:65` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Confirm a second login leaves the first hint intact but does not read it. |
-| `tests/behat/behat_mod_videotrack.php:89` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifies the exact invaliduser response without learner data, then restores the authorised report before normal error hooks. |
-| `tests/behat/behat_mod_videotrack.php:119` | `the_videotrack_report_shows_only_learner` | Checks the selected learner id and exactly one matching rendered progress row independently from available options. |
-| `tests/behat/behat_mod_videotrack.php:150` | `the_videotrack_learner_tracking_policy_is` | Reads the actual page tracking switch for staff preview and learner participation. |
-| `tests/behat/behat_mod_videotrack.php:167` | `preview_creates_no_learner_tracking` | Reads plugin segment/state and native completion to reject learner evidence from staff preview. |
-| `tests/behat/behat_mod_videotrack.php:191` | `i_open_the_videotrack_report_for_learner` | Visits the real report endpoint with resolved fixture ids, including deliberate out-of-scope requests. |
-| `tests/behat/behat_mod_videotrack.php:210` | `the_videotrack_report_learner_choices_are` | Compares actual rendered report option ids with the exact expected learner set. |
-| `tests/behat/behat_mod_videotrack.php:244` | `i_request_videotrack_playback_rate` | Requests a selected native/SDK rate or intentional above-cap probe through the real media surface. |
-| `tests/behat/behat_mod_videotrack.php:268` | `the_videotrack_playback_rate_is` | Observes the actual native/SDK playback rate, including asynchronous Vimeo results. |
-| `tests/behat/behat_mod_videotrack.php:291` | `the_videotrack_player_reaches_its_natural_end` | Waits for the natural 60-second fixture end without a seek or clock override. |
-| `tests/behat/behat_mod_videotrack.php:309` | `an_accepted_end_closes_playback` | Reads an accepted end and closed credit, then snapshots browser-earned coverage for replay assertions. |
-| `tests/behat/behat_mod_videotrack.php:356` | `replaying_watched_footage_adds_no_coverage` | Reads a new accepted replay cycle and checks unchanged unique coverage and completion. |
-| `tests/behat/behat_mod_videotrack.php:393` | `browser_activity_conditions` | Resolves the exact user/activity/course-module scope for read-only browser assertions. |
-| `tests/behat/behat_mod_videotrack.php:414` | `read_browser_playback_cycle` | Reads the latest actual playback start, requested terminal event and aggregate state. |
-| `tests/behat/behat_mod_videotrack.php:434` | `browser_playback_cycle_is_closed` | Checks a positive accepted terminal interval after its same-session handshake with closed credit. |
-| `tests/behat/behat_mod_videotrack.php:451` | `the_videotrack_attention_policy_is` | Read the effective per-activity attention configuration without changing it. |
-| `tests/behat/behat_mod_videotrack.php:473` | `i_use_half_speed_for_the_videotrack_attention_check` | Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end. |
-| `tests/behat/behat_mod_videotrack.php:499` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
-| `tests/behat/behat_mod_videotrack.php:522` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
-| `tests/behat/behat_mod_videotrack.php:545` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:565` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:583` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:609` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:634` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
-| `tests/behat/behat_mod_videotrack.php:653` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
-| `tests/behat/behat_mod_videotrack.php:680` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
-| `tests/behat/behat_mod_videotrack.php:701` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
-| `tests/behat/behat_mod_videotrack.php:723` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
-| `tests/behat/behat_mod_videotrack.php:764` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:828` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
-| `tests/behat/behat_mod_videotrack.php:897` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
-| `tests/behat/behat_mod_videotrack.php:922` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
-| `tests/behat/behat_mod_videotrack.php:991` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
-| `tests/behat/behat_mod_videotrack.php:1075` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
-| `tests/behat/behat_mod_videotrack.php:1097` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
-| `tests/behat/behat_mod_videotrack.php:1159` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:1206` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
-| `tests/behat/behat_mod_videotrack.php:1300` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:1394` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
-| `tests/behat/behat_mod_videotrack.php:1435` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/behat/behat_mod_videotrack.php:1458` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
-| `tests/behat/behat_mod_videotrack.php:1532` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
-| `tests/behat/behat_mod_videotrack.php:1585` | `i_submit_a_videotrack_reset_expecting` | Submits a real authenticated report-reset POST; verifies exact permission denial/preservation or target-only reset and restores a normal page without disabling error hooks. |
-| `tests/behat/behat_mod_videotrack.php:1717` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
+| `tests/behat/behat_mod_videotrack.php:70` | `i_restore_stale_videotrack_browser_hints_before_opening` | Injects known foreign browser hints before the next player initialises, retaining Moodle cache metadata. |
+| `tests/behat/behat_mod_videotrack.php:96` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Confirm a second login leaves the first hint intact but does not read it. |
+| `tests/behat/behat_mod_videotrack.php:125` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifies the exact invaliduser response without learner data, then restores the authorised report before normal error hooks. |
+| `tests/behat/behat_mod_videotrack.php:155` | `the_videotrack_report_shows_only_learner` | Checks the selected learner id and exactly one matching rendered progress row independently from available options. |
+| `tests/behat/behat_mod_videotrack.php:186` | `the_videotrack_learner_tracking_policy_is` | Reads the actual page tracking switch for staff preview and learner participation. |
+| `tests/behat/behat_mod_videotrack.php:203` | `preview_creates_no_learner_tracking` | Reads plugin segment/state and native completion to reject learner evidence from staff preview. |
+| `tests/behat/behat_mod_videotrack.php:227` | `i_open_the_videotrack_report_for_learner` | Visits the real report endpoint with resolved fixture ids, including deliberate out-of-scope requests. |
+| `tests/behat/behat_mod_videotrack.php:246` | `the_videotrack_report_learner_choices_are` | Compares actual rendered report option ids with the exact expected learner set. |
+| `tests/behat/behat_mod_videotrack.php:280` | `i_request_videotrack_playback_rate` | Requests a selected native/SDK rate or intentional above-cap probe through the real media surface. |
+| `tests/behat/behat_mod_videotrack.php:304` | `the_videotrack_playback_rate_is` | Observes the actual native/SDK playback rate, including asynchronous Vimeo results. |
+| `tests/behat/behat_mod_videotrack.php:327` | `the_videotrack_player_reaches_its_natural_end` | Waits for the natural 60-second fixture end without a seek or clock override. |
+| `tests/behat/behat_mod_videotrack.php:345` | `an_accepted_end_closes_playback` | Reads an accepted end and closed credit, then snapshots browser-earned coverage for replay assertions. |
+| `tests/behat/behat_mod_videotrack.php:392` | `replaying_watched_footage_adds_no_coverage` | Reads a new accepted replay cycle and checks unchanged unique coverage and completion. |
+| `tests/behat/behat_mod_videotrack.php:429` | `browser_activity_conditions` | Resolves the exact user/activity/course-module scope for read-only browser assertions. |
+| `tests/behat/behat_mod_videotrack.php:450` | `read_browser_playback_cycle` | Reads the latest actual playback start, requested terminal event and aggregate state. |
+| `tests/behat/behat_mod_videotrack.php:470` | `browser_playback_cycle_is_closed` | Checks a positive accepted terminal interval after its same-session handshake with closed credit. |
+| `tests/behat/behat_mod_videotrack.php:487` | `the_videotrack_attention_policy_is` | Read the effective per-activity attention configuration without changing it. |
+| `tests/behat/behat_mod_videotrack.php:509` | `i_use_half_speed_for_the_videotrack_attention_check` | Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end. |
+| `tests/behat/behat_mod_videotrack.php:535` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
+| `tests/behat/behat_mod_videotrack.php:558` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
+| `tests/behat/behat_mod_videotrack.php:581` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:601` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:619` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:645` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:670` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
+| `tests/behat/behat_mod_videotrack.php:689` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
+| `tests/behat/behat_mod_videotrack.php:716` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
+| `tests/behat/behat_mod_videotrack.php:737` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
+| `tests/behat/behat_mod_videotrack.php:759` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
+| `tests/behat/behat_mod_videotrack.php:800` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:864` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
+| `tests/behat/behat_mod_videotrack.php:933` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
+| `tests/behat/behat_mod_videotrack.php:958` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
+| `tests/behat/behat_mod_videotrack.php:1027` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
+| `tests/behat/behat_mod_videotrack.php:1111` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
+| `tests/behat/behat_mod_videotrack.php:1133` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
+| `tests/behat/behat_mod_videotrack.php:1195` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:1242` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
+| `tests/behat/behat_mod_videotrack.php:1336` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:1430` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:1471` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:1494` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
+| `tests/behat/behat_mod_videotrack.php:1568` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
+| `tests/behat/behat_mod_videotrack.php:1621` | `i_submit_a_videotrack_reset_expecting` | Submits a real authenticated report-reset POST; verifies exact permission denial/preservation or target-only reset and restores a normal page without disabling error hooks. |
+| `tests/behat/behat_mod_videotrack.php:1753` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1597,18 +1598,18 @@ Generated from the VideoTrack 1.7.258 source tree. PHP entries include named fun
 | `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
 | `tests/lifecycle_integration_test.php:37` | `test_removed_personal_items_do_not_survive_user_backup` | Removed personal rows are absent after a real backup/restore with users. |
-| `tests/lifecycle_integration_test.php:68` | `test_legacy_backup_removed_personal_items_are_not_restored` | Older backup XML cannot reintroduce already removed personal text. |
-| `tests/lifecycle_integration_test.php:85` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
-| `tests/lifecycle_integration_test.php:111` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
-| `tests/lifecycle_integration_test.php:183` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
-| `tests/lifecycle_integration_test.php:261` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
-| `tests/lifecycle_integration_test.php:312` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Runs the registered cleanup task after real restore: unlimited/finite policy, validated progress, full expiry and repeated execution with shared configuration/files/grades preserved. |
-| `tests/lifecycle_integration_test.php:434` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
-| `tests/lifecycle_integration_test.php:518` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
-| `tests/lifecycle_integration_test.php:579` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
-| `tests/lifecycle_integration_test.php:629` | `append_removed_items_to_backup` | Add old soft-deleted personal rows to disposable backup XML before real restore. |
-| `tests/lifecycle_integration_test.php:657` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
-| `tests/lifecycle_integration_test.php:720` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
+| `tests/lifecycle_integration_test.php:67` | `test_legacy_backup_removed_personal_items_are_not_restored` | Older backup XML cannot reintroduce already removed personal text. |
+| `tests/lifecycle_integration_test.php:83` | `test_restore_without_users_keeps_configuration_and_shared_files` | Runs a real no-user course restore and checks configuration, files, absent learner records and source isolation. |
+| `tests/lifecycle_integration_test.php:109` | `test_restore_with_users_rebuilds_evidence_and_scopes_privacy_erasure` | Runs a real user-data restore under destination retention, then checks rebuilt evidence, export and scoped erasure. |
+| `tests/lifecycle_integration_test.php:181` | `test_standard_course_reset_honours_selection_and_preserves_other_courses` | Calls real Moodle course reset with the option off/on across two activities, checking data, grades, completion and another course. |
+| `tests/lifecycle_integration_test.php:259` | `test_activity_deletion_removes_owned_records_without_touching_its_neighbour` | Runs real synchronous activity deletion and checks owned rows/files/grades/context cleanup while preserving a neighbouring activity. |
+| `tests/lifecycle_integration_test.php:310` | `test_registered_retention_task_cleans_restored_data_and_is_repeatable` | Runs the registered cleanup task after real restore: unlimited/finite policy, validated progress, full expiry and repeated execution with shared configuration/files/grades preserved. |
+| `tests/lifecycle_integration_test.php:432` | `create_fixture` | Builds populated independent or existing course fixtures with shared configuration/files and two learners. |
+| `tests/lifecycle_integration_test.php:516` | `insert_user_records` | Seeds old, retained and unvalidated input records plus stale state/completion for lifecycle regressions. |
+| `tests/lifecycle_integration_test.php:577` | `restore_course` | Executes real Moodle backup/restore controllers into a new course with an explicit user-data and retention policy. |
+| `tests/lifecycle_integration_test.php:627` | `append_removed_items_to_backup` | Add old soft-deleted personal rows to disposable backup XML before real restore. |
+| `tests/lifecycle_integration_test.php:655` | `assert_restored_configuration` | Checks restored configuration, Forum/reaction mappings, grade-item uniqueness and shared file hashes. |
+| `tests/lifecycle_integration_test.php:718` | `snapshot` | Reads ordered plugin learner records for exact source-isolation comparisons. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
