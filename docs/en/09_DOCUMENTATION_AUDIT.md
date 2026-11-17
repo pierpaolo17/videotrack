@@ -2,6 +2,48 @@
 
 Baseline: VideoTrack **1.7.259** (`2026111701`).
 
+## Initial 1.7.259 CI and bounded correction
+
+Run `44120652072`, commit `1b5b2ed1e941e9eb9edeea62516b364b9b8b2ba1`, failed all
+six jobs on the same PHPUnit fixture. All 457 source blobs/modes and six supplied
+artifact digests match the official run. Each suite executed **448 tests / 5054
+assertions / 1 error**: core `persistent::update` rejects the fixture's userinfo URL
+before the VideoTrack endpoint boundary is reached. This is not evidence of a
+successful OAuth request or an endpoint bypass.
+
+The corrected test injects deliberately corrupt stored configuration through the
+test database, without asking core's validated write API to accept an illegal URL.
+All seven destinations remain covered. Userinfo is rejected by local readiness
+(`configuration_incomplete`); the other unsupported Microsoft/custom destinations
+are rejected as `oauth_endpoints_unsupported`. Every case asserts no OAuth refresh
+and no Graph attempt, and the factory still fails if called.
+
+Initial Behat passed **54 scenarios / 1194 steps** without reruns in every job;
+Grunt and strict **10/0/0** also passed all six. The selected Moodle 5.0 quality job
+passed PHPCS/lint on 180 distributed PHP plus the repository lifecycle helper,
+PHPDoc, metadata and 206 upgrade/savepoint contracts. Lifecycle execution was
+**skipped** after the Unit failure; it is not a pass.
+
+Initial PHPStan/Psalm report no configured errors. PHPMD has **33** advisory
+findings, including two new complexity warnings in Graph `inspect` and
+`video_metadata`. This correction extracts the same bounded decoder and video MIME
+validation into focused private helpers; HTTP destinations/options, output fields
+and classifications are retained. A fresh native report must confirm the counts.
+Psalm reports **743/771** information items; Moodle 5.3 also prints 13 core-alias
+deprecations during analyser reflection. These are recorded rather than suppressed
+or called a zero-advisory result.
+
+This patch is **incremental from the failed 1.7.259 commit** on
+`release/v1.7.259`; it is not the original 258-to-259 patch. Release/version stay
+`1.7.259 / 2026111701`. Counts remain 457 repository / 433 distributed files,
+180 distributed PHP, 448 test methods and 19 new Graph methods; named PHP callables
+become 1238 (1231 distributed + 7 repository helpers), with 654 AMD callables.
+
+Corrected native CI, including Unit and the previously skipped lifecycle gates,
+is still required before merge. Actual main/package/server acceptance and live
+Microsoft access remain separate gates. No schema, credentials, scopes, player,
+AMD, AJAX or demo data is changed by this correction.
+
 ## 1.7.259 candidate scope
 
 This release adds an explicit authenticated Microsoft Graph metadata probe through

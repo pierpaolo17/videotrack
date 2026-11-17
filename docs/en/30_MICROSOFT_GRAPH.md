@@ -1,5 +1,12 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
+## Candidate CI correction
+
+Initial native CI found one invalid URL fixture; the corrected test retains all
+seven destinations and rejects userinfo at local readiness. JSON decoding and MIME
+checks have been extracted without changing diagnostic contracts.
+[Complete run evidence and pending gates](09_DOCUMENTATION_AUDIT.md).
+
 VideoTrack **1.7.259** (`2026111701`).
 
 This is the first remote diagnostic for OneDrive/SharePoint preparation. It checks

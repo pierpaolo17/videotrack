@@ -105,11 +105,8 @@ final class microsoft_graph {
                 return $result;
             }
             $result['status'] = 'graph_invalid_response';
-            if (!is_string($body) || strlen($body) > self::MAX_RESPONSE_BYTES) {
-                return $result;
-            }
-            $data = json_decode($body, false, 16, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
-            if (!($data instanceof \stdClass) || !isset($data->id) || !is_string($data->id) || $data->id === '') {
+            $data = self::decode_metadata($body);
+            if ($data === null) {
                 return $result;
             }
             return array_replace($result, $itemid === '' ? self::drive_metadata($data) : self::video_metadata($data));
@@ -117,6 +114,23 @@ final class microsoft_graph {
             // Core exceptions and provider error bodies may contain credentials or private URLs.
             return $result;
         }
+    }
+
+    /**
+     * Decode bounded metadata and require a non-empty string resource identity.
+     *
+     * @param string|false $body Core curl response, retained only during this request.
+     * @return \stdClass|null Decoded object, or null for an unusable response.
+     */
+    private static function decode_metadata(string|false $body): ?\stdClass {
+        if (!is_string($body) || strlen($body) > self::MAX_RESPONSE_BYTES) {
+            return null;
+        }
+        $data = json_decode($body, false, 16, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
+        if (!($data instanceof \stdClass) || !isset($data->id) || !is_string($data->id) || $data->id === '') {
+            return null;
+        }
+        return $data;
     }
 
     /**
@@ -160,11 +174,8 @@ final class microsoft_graph {
         if (isset($data->deleted)) {
             return ['status' => 'graph_item_deleted'];
         }
-        if (!isset($data->file) || !($data->file instanceof \stdClass)) {
-            return ['status' => 'graph_not_video'];
-        }
-        $mime = $data->file->mimeType ?? null;
-        if (!is_string($mime) || !preg_match('~\Avideo/[A-Za-z0-9!#$&^_.+-]{1,80}\z~D', $mime)) {
+        $mime = self::video_mime_type($data);
+        if ($mime === null) {
             return ['status' => 'graph_not_video'];
         }
         $duration = $data->video->duration ?? null;
@@ -174,9 +185,26 @@ final class microsoft_graph {
         }
         return [
             'status' => 'video_accessible',
-            'mime_type' => strtolower($mime),
+            'mime_type' => $mime,
             'duration_seconds' => $duration / 1000,
             'size_bytes' => $size,
         ];
+    }
+
+    /**
+     * Validate the file facet and return only a normalised video MIME type.
+     *
+     * @param \stdClass $data Decoded item metadata.
+     * @return string|null Allowed MIME type, or null for folders/non-video files.
+     */
+    private static function video_mime_type(\stdClass $data): ?string {
+        if (!isset($data->file) || !($data->file instanceof \stdClass)) {
+            return null;
+        }
+        $mime = $data->file->mimeType ?? null;
+        if (!is_string($mime) || !preg_match('~\Avideo/[A-Za-z0-9!#$&^_.+-]{1,80}\z~D', $mime)) {
+            return null;
+        }
+        return strtolower($mime);
     }
 }

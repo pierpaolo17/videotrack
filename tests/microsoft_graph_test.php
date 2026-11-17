@@ -126,25 +126,29 @@ final class microsoft_graph_test extends advanced_testcase {
     }
 
     /**
-     * Even a locally complete custom OAuth service cannot receive credentials.
+     * Untrusted endpoints in stored configuration cannot receive credentials.
      */
     public function test_untrusted_oauth_destinations_are_refused_before_factory(): void {
+        global $DB;
+
         $issuer = $this->create_issuer();
         $token = endpoint::get_record(['issuerid' => $issuer->get('id'), 'name' => 'token_endpoint']);
-        $urls = [
-            'https://login.example.org/common/oauth2/v2.0/token',
-            'https://login.microsoftonline.com.evil.example/common/oauth2/v2.0/token',
-            'https://login.microsoftonline.com@evil.example/common/oauth2/v2.0/token',
-            'https://login.microsoftonline.com/common/oauth2/v2.0/token?redirect=secret',
-            'https://login.microsoftonline.com/common/oauth2/v2.0/token#secret',
-            'https://login.microsoftonline.com/common/oauth2/v2.0/../token',
-            'https://login.microsoftonline.com:444/common/oauth2/v2.0/token',
+        $cases = [
+            ['https://login.example.org/common/oauth2/v2.0/token', 'oauth_endpoints_unsupported'],
+            ['https://login.microsoftonline.com.evil.example/common/oauth2/v2.0/token', 'oauth_endpoints_unsupported'],
+            ['https://login.microsoftonline.com@evil.example/common/oauth2/v2.0/token', 'configuration_incomplete'],
+            ['https://login.microsoftonline.com/common/oauth2/v2.0/token?redirect=secret', 'oauth_endpoints_unsupported'],
+            ['https://login.microsoftonline.com/common/oauth2/v2.0/token#secret', 'oauth_endpoints_unsupported'],
+            ['https://login.microsoftonline.com/common/oauth2/v2.0/../token', 'oauth_endpoints_unsupported'],
+            ['https://login.microsoftonline.com:444/common/oauth2/v2.0/token', 'oauth_endpoints_unsupported'],
         ];
-        foreach ($urls as $url) {
-            $token->set('url', $url)->update();
+        foreach ($cases as [$url, $expected]) {
+            // Simulate stored/imported corruption: PARAM_URL rejects userinfo before persistent::update can save it.
+            $DB->set_field('oauth2_endpoint', 'url', $url, ['id' => $token->get('id')]);
             $result = $this->inert_probe()->run('drive');
-            $this->assertSame('oauth_endpoints_unsupported', $result['status']);
+            $this->assertSame($expected, $result['status']);
             $this->assertFalse($result['oauth_refresh_possible']);
+            $this->assertFalse($result['graph_attempted']);
         }
     }
 

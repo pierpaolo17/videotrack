@@ -4,6 +4,11 @@
 
 ### Add explicit authenticated Microsoft Graph metadata diagnostics
 
+- Correct initial259 CI: inject deliberately corrupt stored URLs in the fixture,
+  retain all seven targets and distinguish local userinfo rejection from unsupported
+  endpoints, asserting no OAuth/Graph attempt. Extract bounded JSON/MIME validation
+  to address the two new PHPMD complexity findings. Keep2026111701; fresh native
+  Unit/lifecycle/canonical analysis is required before merge.
 - Accept actual 1.7.258/main 2df5bb3b: all 427 package files match; server PHPCS/lint
   177 clean, PHPUnit 429/4843 and strict 10/0/0 on Moodle 5.0/5.3, unchanged Grunt
   builds; six-job candidate/main CI, Behat 54/1194 and selected lifecycle paths pass.
@@ -17,8 +22,8 @@
 - Add 19 mocked PHPUnit methods and paired OAuth/Graph operational guides. Native
   candidate execution and real tenant access are pending. No selectable source or
   OneDrive/SharePoint playback is claimed; that access/playback gate comes next.
-- Inventories: 457 repository/433 distributed files, 180 distributed PHP, 1236
-  named PHP callables (1229 distributed + 7 repository helpers), 654 AMD
+- Inventories: 457 repository/433 distributed files, 180 distributed PHP, 1238
+  named PHP callables (1231 distributed + 7 repository helpers), 654 AMD
   callables, eight unchanged packs of 1006 keys. No schema, upgrade, AJAX, AMD or
   retention change. Retain demo; manual Moodle 5.3 accessibility remains on standby.
 
