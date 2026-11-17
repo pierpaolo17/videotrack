@@ -1,5 +1,14 @@
 # VideoTrack privacy and data-handling summary
 
+## 1.7.259: explicit Microsoft metadata diagnostics
+
+The optional CLI probe uses Moodle's Microsoft system OAuth account. Core owns token
+refresh/storage; VideoTrack stores no new credential or activity record. The command
+makes a metadata request to Microsoft and discards resource/user identities, private
+URLs and provider error bodies from its JSON. It never downloads file content or
+sends learner tracking data. Existing local status diagnostics remain network-free.
+[Protocol, output and limits](docs/en/30_MICROSOFT_GRAPH.md).
+
 ## 1.7.258: security follow-up
 
 Removal physically erases the owned note/bookmark row. AJAX parameters and responses

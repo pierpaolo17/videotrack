@@ -1,396 +1,94 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.258** (`2026111700`).
+Baseline: VideoTrack **1.7.259** (`2026111701`).
 
+## Prima CI 1.7.259 e correzione circoscritta
 
+Il run `44120652072`, commit `1b5b2ed1e941e9eb9edeea62516b364b9b8b2ba1`, fallisce
+tutti i sei job sulla stessa fixture PHPUnit. I 457 blob sorgente/permessi e i digest
+dei sei artifact allegati corrispondono al run ufficiale. Ogni suite esegue **448
+test / 5054 asserzioni / 1 errore**: il core `persistent::update` rifiuta l'URL con
+userinfo della fixture prima di raggiungere il controllo endpoint VideoTrack.
+Questo non dimostra una richiesta OAuth riuscita o l'aggiramento del controllo.
 
-## Rifiuto della prima CI258 e correzione circoscritta
+Il test corretto inserisce volutamente la configurazione corrotta nel database di
+test, senza chiedere all'API di scrittura validata del core di accettare un URL
+illegale. Restano tutti i sette endpoint: userinfo viene respinto dalla verifica
+locale (`configuration_incomplete`), gli altri endpoint personalizzati/Microsoft
+non supportati come `oauth_endpoints_unsupported`. Ogni caso verifica assenza di
+rinnovo OAuth e di tentativo Graph; la factory continua a far fallire il test se chiamata.
 
-La prima candidata 1.7.258 e70102d6 (run44084042387) fallisce tutti e sei i job. I451
-file con i relativi permessi Git e i12 archivi CI/faildump corrispondono a sorgente e
-digest ufficiali. PHPUnit429/4823 riporta2errori nei nuovi test di backup (Moodle vieta
-condizioni get_record su colonne TEXT) e1fallimento per i marcatori README obsoleti.
-Strict riporta9/0/1 e PHPCS6 errori di boilerplate in3 nuovi file. La correzione legge
-i testi ripristinati in un fieldset circoscritto e li confronta in PHP, aggiorna entrambi
-i marcatori correnti esatti e ripristina gli spazi del boilerplate canonico.
+Behat iniziale supera **54 scenari / 1194 step** senza retry in ogni job; anche
+Grunt e validazione rigorosa **10/0/0** passano nei sei ambienti. Il job qualità
+Moodle 5.0 selezionato supera PHPCS/lint su 180 PHP distribuiti più l'helper lifecycle
+repository, PHPDoc, metadati e 206 contratti upgrade/savepoint. I lifecycle sono
+**saltati** dopo l'errore Unit, non superati.
 
-Behat passa inizialmente52/54 scenari e1188/1192 passi; entrambi i rerun automatici
-continuano a fallire nei due nuovi esempi di ripresa. Gli HTML disponibili mostrano
-Second Learner, ripresa server0 e chiave del suo utente corretta; i valori localStorage
-sono assenti. L'asserzione aggregata non identifica la condizione fallita né dimostra
-una fuga. La fixture ora inserisce chiavi residue note dopo il login e prima del player,
-conservando il marcatore di revisione JS Moodle. Restano tutte le verifiche originarie
-su identità distinta, assenza del suggerimento corrente, ripresa server zero e tempo
-effettivo dei due provider. La diagnostica distingue ogni condizione. Il player,
-la chiave di storage e i build non cambiano in questa correzione.
+PHPStan/Psalm iniziali non riportano errori nei perimetri configurati. PHPMD conta
+**33** advisory, inclusi due nuovi rilievi di complessità in Graph `inspect` e
+`video_metadata`. La correzione separa gli stessi controlli di decodifica limitata
+e MIME video in helper privati; mantiene destinazioni/opzioni HTTP, campi e stati
+dell'output. Il nuovo report nativo dovrà confermare i conteggi. Psalm riporta
+**743/771** informazioni; Moodle 5.3 stampa inoltre 13 deprecazioni di alias core
+durante la riflessione dell'analizzatore. Restano registrate, senza sopprimerle né
+dichiarare un risultato privo di advisory.
 
-PHPStan/Psalm non avevano errori nei perimetri configurati. PHPMD31 della prima258
-aggiunge3 rilievi di complessità restore ai28 della257; Psalm741/769 aggiunge1 rilievo
-informativo per ramo, senza stampare i tipi. Sono registrati, non considerati invariati.
-Le prove lifecycle previste sono saltate dopo i fallimenti. Prima del merge serve
-nuova CI nativa canonica/strict/PHPUnit/Behat/lifecycle. Il controllo locale di sintassi
-e logica della fixture JS passa anche quattro stati errati; non equivale a Behat.
+Questa patch è **incrementale dal commit 1.7.259 fallito**, sul ramo
+`release/v1.7.259`: non è la precedente patch completa 258→259. Release/versione
+restano `1.7.259 / 2026111701`. Restano 457 file repository / 433 distribuiti,
+180 PHP distribuiti, 448 metodi di test e 19 nuovi metodi Graph; le funzioni PHP
+nominate diventano 1238 (1231 distribuite + 7 helper repository), con 654 callable AMD.
 
-La patch sostitutiva è incrementale da e70102d6 sul ramo release/v1.7.258. Versione
-sempre2026111700. L'inventario ora conta1203 funzioni PHP (1196 distribuite+7 del repository)
-per il nuovo step preparatorio Behat; file,15 nuovi metodi PHPUnit e due scenari restano
-invariati. La baseline reale accettata rimane1.7.257.
+Prima del merge serve la nuova CI nativa, compresi Unit e lifecycle prima saltati.
+Accettazione main/pacchetto/server e accesso Microsoft reale restano gate distinti.
+La correzione non cambia schema, credenziali, scopi, player, AMD, AJAX o dati demo.
 
-## 1.7.258: completamento delle correzioni di sicurezza
+## Perimetro della candidata 1.7.259
 
-La rimozione elimina fisicamente la riga della nota/segnalibro del proprietario.
-Parametri e risposte AJAX restano compatibili. Login, contesto, partecipazione e sesskey
-precedono i retry: un id assente è un successo senza scritture; righe esistenti di altro
-utente o tipo vengono rifiutate. Un lock Moodle serializza le rimozioni e la transazione
-comprende un solo evento senza testo privato. Una vecchia riga già marcata eliminata viene
-rimossa senza duplicare l'evento.
+La release aggiunge una verifica esplicita dei metadati Microsoft Graph mediante
+l'account OAuth Microsoft di sistema già gestito da Moodle. Non aggiunge una sorgente
+selezionabile o un adapter del player. Il comando di stato locale resta inerte. Solo
+il nuovo probe può rinnovare credenziali OAuth del core ed effettuare un GET dei
+metadati verso host fisso; non scarica il video e non scrive record VideoTrack/demo.
 
-Backup utente ed export Privacy escludono gli elementi personali eliminati; il ripristino
-scarta quelli marcati eliminati nei vecchi XML. Strumenti attivi e storico reazioni mantengono
-i propri contratti. Backup creati prima della cancellazione possono contenere copie allora
-attive: la loro retention è distinta e il ripristino non può dedurre una cancellazione
-successiva da una vecchia copia attiva. Nessuna migrazione generale o pulizia della demo.
+L'esecuzione nativa PHP/Moodle e l'accesso a un tenant reale restano da verificare
+per questa candidata. I nuovi test simulati non richiedono credenziali né rete.
+La [guida Microsoft Graph](30_MICROSOFT_GRAPH.md) spiega configurazione, output e limiti.
+Dopo accettazione completa candidata/main e pacchetto reale si prosegue con riproduzione
+e controlli di accesso attività/utente, poi Zoom, Google Drive e App. La prova App →
+browser resta saltata; l'estensione multilingua dei sottotitoli rimane rinviata.
 
-Il recupero dello schema passa in db/upgradelib.php, riservato all'upgrade. Install/uninstall
-conservano il recupero voti DML. Per contesti validi la disinstallazione usa
-completion_info::delete_all_state; solo i moduli orfani richiedono DML di completamento
-circoscritto. Voti ambigui/orfani di pre-produzione conservano il DML transazionale verificato:
-proprio quelle righe malformate possono impedire alla Grade API di risolvere il contesto.
+## Baseline 1.7.258 accettata
 
-I controller usano data_submitted() con i controlli sesskey/capability esistenti. Il download
-Analytics usa POST, con filtri e sesskey nel corpo; GET viene rifiutato prima dell'evento
-e dell'output. Il server genera chiavi opache di ripresa per sito, studente partecipante,
-modulo, sorgente e video. YouTube/Vimeo ignorano le vecchie chiavi condivise e disabilitano
-lo storage per identità incomplete; HTML5 conserva la ripresa server. I suggerimenti del
-browser non diventano evidenza di visione validata. L'indice pulisce l'HTML dei nomi sezione
-senza ripetere i filtri: difesa aggiuntiva, non una XSS Tiles dichiarata come riprodotta.
+Il pacchetto reale da main `2df5bb3bee4b77e75a94acd61436071cc2026181` contiene 427 file;
+ogni file coincide con l'albero repository accettato. SHA-256 del pacchetto:
+`695166a99eb2b0b13ddc6526fa2333358d295cf3c1af6ca0d2ff8cb559878521`.
 
-Baseline reale accettata257/main d6e8705e:422 file corrispondenti, PHPCS/lint server173
-puliti, PHPUnit414/4695 e strict10/0/0 su50/53, build AMD invariati, CI candidata/main a sei
-job, Behat52/1154 senza rerun e tre percorsi lifecycle nei job50/53MariaDB previsti.
-SHA-256 pacchetto:59fff2d7214a6828c1544b896d489ecebb8bbefb1821e72c6a3384ca845cc504.
+La CI corretta candidata/main supera tutti i sei job: PHPUnit **429 test / 4843
+asserzioni**, Behat **54 scenari / 1194 step**, validazione rigorosa **10/0/0** e build
+AMD canonici. I job MariaDB selezionati Moodle 5.0/5.3 superano upgrade/ripetizione e
+uninstall popolato da installazioni storiche, interrotte e precedenti, con controlli di
+conservazione. Il report server reale conferma PHPCS/lint puliti su 177 file (176 PHP
+distribuiti più un helper repository), PHPUnit 429/4843 su entrambi i rami e build Grunt
+invariati. Gli output rigorosi del maintainer sono 10/0/0 su entrambe le istanze.
 
-La candidata258 aggiunge15 metodi PHPUnit e due scenari browser, compreso backup/ripristino
-reale con vecchio XML modificato. PHP/Moodle non disponibili localmente: prove native
-PHPCS/lint/statiche/PHPUnit/Behat/lifecycle e accettazione di ZIP/server restano da eseguire.
-Grunt AMD Moodle reale Node22 superato: solo due sorgenti e quattro build/mappe cambiano.
-Smoke AMD e test adapter passano. Tre script Node storici falliscono ugualmente su257/258:
-privacy_static_test e backup_restore_static_test hanno contratti precedenti ai refactor;
-tracker_segment_test non ha la dipendenza core/str nel suo harness. È debito preesistente,
-non test nativi superati. Un nuovo punteggio di sicurezza richiede una nuova scansione.
-I rilievi nativi257 PHPMD28 e Psalm740/768 restano registrati, senza dichiarare zero warning.
+PHPStan/Psalm non riportano errori nei perimetri configurati. Restano advisory **31**
+rilievi PHPMD e **741/769** informazioni Psalm, di tipo non stampato nei report.
+Non è un risultato privo di advisory. Tre vecchi script Node falliscono ugualmente
+sulle 257/258 accettate: contratti sorgente Privacy/backup obsoleti e stub core/str
+assente nell'harness tracker. I gate nativi passano; questi script non sono contati come PASS.
 
-Nessuna modifica a schema/savepoint/servizi/task retention/OAuth. Nessuna bonifica generale
-dei dati pregressi, come richiesto; dataset demo conservato. Accessibilità manuale5.3 ancora
-in standby; verifica visiva Tiles da eseguire. Dopo l'accettazione finale completa si passa
-direttamente alla patch successiva, senza riconferma. Nuove sorgenti prima dell'App; prova
-App → browser saltata.
+Il manuale di accessibilità Moodle 5.3 resta in standby; verifica visiva Tiles e nuova
+scansione esterna di sicurezza restano aperte. Il dataset demo viene conservato.
 
-## 1.7.258: correzioni delle revisioni di sicurezza
+## Contratti documentali e di release
 
-Questa release corregge i problemi verificati nei permessi delle impostazioni e nella privacy
-delle dashboard. I callback di salvataggio applicano le capability di override del corso prima
-di normalizzazione, scritture e modifiche ai sottotitoli. In modifica conservano i valori bloccati;
-in creazione usano i default sito, compresi zero esplicito e scelte vuote che ereditano dal sito.
-Le dipendenze del completamento non possono essere disabilitate con durata zero, presa visione
-disattivata o rimozione/riordino delle reazioni richieste. Limite di velocità e ripresa, lasciati
-modificabili dal form esistente, mantengono quel contratto.
+Indici inglese/italiano, guide provider/CLI, privacy, architettura e inventari dei file
+e delle funzioni descrivono la candidata. I marcatori DB/ER seguono la release senza
+modificare lo schema a sette tabelle. Gli otto pacchetti lingua conservano 1006 chiavi;
+i byte AMD sorgente/build/map restano identici alla 258 accettata.
 
-Le dashboard corso/docente richiedono accesso aggregato alla singola attività. La soglia viene
-risolta per attività: accesso legacy/individuale consente valori esatti; accesso solo aggregato
-impone almeno la soglia sito, anche se un chiamante richiede uno. Stati, periodi, reazioni, note
-e segnalibri applicano la stessa soglia. I conteggi soppressi risultano nascosti, anziché zero.
-Le query per attività restano a blocchi; le nuove misure di benchmark sono da eseguire.
-
-Il voto manuale vuoto usa rawgrade nullo attraverso la Grade API, sia per punti sia per scale.
-I nomi HTML sono escapati separatamente dai CSV testuali e dai valori degli attributi HTML.
-Warning delle reazioni e avviso agli studenti sulle note sono presenti nelle otto lingue.
-L’avviso spiega che gli utenti autorizzati ai report individuali possono leggere ed esportare le note.
-
-Il GET della pagina video non crea né ripara il gruppo eccezioni di focus. La creazione resta
-in add/update/restore/upgrade. La disinstallazione completa elimina solo i gruppi con idnumber
-riservato al plugin, anche senza grade item. Il recupero voti usa una transazione DML delegata
-per annullare merge/eliminazioni interrotti; la transazione non comprende DDL.
-
-La baseline accettata è la 1.7.256 reale/main 26cf86ed: 418 file corrispondenti,
-PHPCS/lint server puliti su 171 file, PHPUnit 396/4581 su Moodle 5.0/5.3, build Grunt invariati,
-strict 10/0/0 su entrambe le istanze e CI candidata/main a sei job con i percorsi lifecycle previsti.
-La candidata 1.7.257 aggiunge 18 metodi di regressione nativi, non eseguiti in questo workspace.
-Restano da eseguire controlli canonici/statici/PHPUnit/Behat/lifecycle e accettazione di ZIP/server.
-Una nuova scansione esterna è necessaria prima di attribuire un nuovo punteggio alla release.
-
-Restano aperte la cancellazione definitiva di note/segnalibri e la gestione dei backup precedenti.
-Il loro comportamento di soft-delete/retention non cambia. Separazione degli helper DDL,
-riordino generale dei controller, chiavi browser per utente e download Analytics solo POST restano
-lotti distinti. La configurazione OAuth Microsoft resta locale: nessun accesso remoto o nuovo player.
-Le nuove sorgenti seguiranno questo lotto di sicurezza e l’App verrà dopo. La prova App → browser
-è saltata, l’estensione sottotitoli multilingua è rinviata, il manuale Moodle 5.3 resta in standby
-e i dati sintetici della demo sono conservati.
-
-## Prima CI della candidata e correzione
-
-La prima candidata 1.7.257, commit `68ca29de`, run `44049397832`, fallisce tutti e sei i job.
-I sei archivi allegati corrispondono agli SHA-256 ufficiali GitHub e i 446 file con i relativi
-permessi Git corrispondono al commit. Ogni PHPUnit riporta 414 test, 4687 asserzioni,
-un errore, un fallimento e un warning. Il test di riordino reazioni scopre un difetto
-preesistente nel default icona: la validazione accetta emoji come ripiego ma legge poi
-un indice assente, passando null a una colonna non nulla. La correzione normalizza prima
-il default e ne verifica il salvataggio, lasciando il campo omesso nella fixture.
-Il contratto sul recordset course_modules ora tollera l'indentazione; lo spazio della
-classe anonima segue la segnalazione PHPCS nativa.
-
-Strict passa 10/0/0 e Grunt termina in tutti i job. Behat passa 52/1154 su cinque job;
-su Moodle 5.1 fallisce inizialmente la nota dopo rollback (51/52 scenari), poi il rerun
-automatico isolato passa 1 scenario/43 passi. Questo non equivale a un primo passaggio
-pulito. Le prove di aggiornamento storico/disinstallazione popolata sono saltate nei
-job selezionati 5.0/5.3 MariaDB dopo il fallimento PHPUnit; il lint non le sostituisce.
-
-PHPStan e Psalm non riportano errori nei job configurati 5.0/5.3. Psalm segnala
-739/767 rilievi informativi, quattro in più per ramo rispetto alla 1.7.256 accettata;
-i singoli tipi non sono stampati. PHPMD riporta 28 rilievi contro 24: quattro nuove
-segnalazioni di complessità nei controlli di privacy per attività (10 ciascuno), nel
-ripristino requisiti reazioni (12) e nel recupero voti transazionale (10). Le guardie
-restano esplicite nei punti di ingresso condivisi, senza soppressioni o cambi soglia.
-L'approfondimento dei rilievi informativi resta aperto. Sono risultati della prima
-candidata, non prove di superamento della correzione.
-
-La patch sostitutiva è incrementale da `68ca29de` sul ramo `release/v1.7.257`.
-Release/versione restano 1.7.257/2026111600. Prima del merge vanno rieseguiti controlli
-canonici/statici/PHPUnit, Behat e lifecycle; l'accettazione di ZIP/server seguirà.
-PHP/Moodle non sono disponibili in questo workspace: le verifiche locali dei sorgenti
-e di applicazione della patch non valgono come prove native.
-
-## Rifiuto della prima CI 256 e correzione circoscritta
-
-La candidata `81933c95`, run `43490372802`, fallisce tutti i sei job: ogni PHPUnit
-riporta 396 test, 4496 asserzioni, 9 errori per `image` nullo nella fixture OAuth e
-1 fallimento per l’ordine delle chiavi lingua. PHPCS canonico riporta 13 errori
-PHPDoc e 16 warning lingua; PHPStan 3 errori di definizione variabili CLI e Psalm
-1 errore su CFG. PHPMD resta a 24 segnalazioni, identiche byte per byte alla 255
-accettata. I conteggi informativi Psalm sono 737/765 (prima 732/760); i log non
-mostrano i tipi delle voci.
-
-Behat 52/1154, Grunt e strict 10/0/0 passano nei sei job. Il lifecycle è saltato dopo
-il fallimento dei prerequisiti: nessuna storia lifecycle ha un PASS sulla 256.
-La correzione resta 1.7.256/2026111301: image non nullo nella fixture; PHPDoc metodi
-multilinea; stesse quattro nuove stringhe inserite nelle posizioni ordinate;
-annotazione CFG e uscita esplicita nel catch CLI. Restano tutte le asserzioni e
-le regole CI. Runtime provider, schema e gestione credenziali sono invariati.
-Servono nuove prove native candidata/main e pacchetto/server/strict. I controlli
-locali sono su archivi/sorgenti e un modello di vincoli SQLite, non esecuzioni Moodle.
-
-## 1.7.256: base delle connessioni ai provider
-
-La255 reale/main36ab70ed è accettata:415 file corrispondenti, PHPCS/lint server168 puliti, Unit385/4540 su50/53 e strict10/0/0; CI candidata/main a sei job con52/1154 Behat e storie lifecycle selezionate superate. Il benchmark distribuito255 conferma current_userid10 e6/92 query mediane in40 campioni.
-
-Questa candidata aggiunge il riferimento al servizio OAuth Microsoft nelle impostazioni sito (predefinito: Nessuno), un servizio di verifica locale in sola lettura e provider_status.php. Le credenziali restano gestite dal core. I controlli verificano tipo provider, abilitazione/uso per servizi, configurazione client, HTTPS degli endpoint/sito e stato locale dell’account di sistema/scopi core. Non scambiano o rinnovano token e non contattano Microsoft. OneDrive/SharePoint non è ancora una sorgente video selezionabile.
-
-Il manutentore dà ora priorità alle sorgenti autenticate: OneDrive/SharePoint, Zoom Cloud Recording e poi Google Drive; l’App seguirà. La prova App → browser/HTTPS è esplicitamente saltata. L’estensione completa dei sottotitoli multilingua è rinviata perché non è circoscrivibile con sufficiente affidabilità a una sola release tra HTML5 e overlay dei provider. Trascrizioni e sottotitoli esistenti restano disponibili. Il manuale di accessibilità Moodle 5.3 resta in standby.
-
-La validazione nativa della candidata256 resta da eseguire. Inventari attesi:442 file repository/418 distribuiti,170 PHP distribuiti più1 helper repository,1141 callable PHP nominati (1134 distribuiti+7 solo repository),654 callable AMD e8 pacchetti da1001 chiavi. Schema, AMD, AJAX/player/tracking e CI restano invariati. I nuovi11 metodi PHPUnit richiedono esecuzione nativa; nessun PASS App o provider remoto è dichiarato. Le sezioni precedenti in attesa di prove sono checkpoint storici.
-
-
-## Candidata 1.7.256: contesto viewer del benchmark
-
-La baseline accettata e la254 reale/main a42432a (415 file package coincidenti, PHPCS/lint server puliti su 168 PHP,
-Unit 385/4540 su 5.0/5.3, Behat 52/1154 nei sei job candidata/main e percorsi lifecycle selezionati). L'ultima
-correzione helper e accettata; le precedenti attese di quella correzione sotto sono checkpoint storici.
-
-La255 cambia solo CLI benchmark e documentazione/metadati release: carica il viewer attivo completo, lo imposta
-come utente corrente in memoria prima delle misure ed espone current_userid. Analytics, regole capability/gruppi/
-privacy, schema, tracking, lifecycle e AMD restano invariati. Le due guide CLI eliminano l'esempio --json non
-supportato dal benchmark e documentano il suo default privacy indipendente 2.
-
-L'evidenza nativa254 del profiler con minusers 5 conserva tutti i 40 risultati passando dall'utente corrente 0 al
-viewer 10, con 218-a-92 query del corso e 9-a-6 della singola attivita. Questo calibra il contesto CLI, non dimostra
-una ottimizzazione prestazionale del prodotto. Vedere [la guida CLI](21_CLI_DIAGNOSTICS.md) per densita e limiti.
-Nuovi esiti 255 CI/server/strict e riesecuzione del CLI distribuito sono in attesa. Inventari file/callable invariati.
-Il manuale Moodle 5.3 resta in standby; benchmark worst-case/concorrenti e decisione esplicita MoodleApp restano aperti.
-
-
-## Perimetro
-
-La documentazione è stata verificata contro `version.php`, `db/install.xml`, `db/services.php`, `db/access.php`,
-`settings.php`, `mod_form.php`, `classes/local`, `classes/privacy`, backup/restore, coppie sorgente/build AMD e
-suite di test distribuite.
-
-La copertura corrente comprende:
-
-- guida completa funzionale e operativa per utenti/amministratori;
-- architettura, flussi runtime e confini di fiducia;
-- sette tabelle plugin, impostazioni, capability, nove servizi AJAX e file area;
-- comportamento dei provider HTML5, YouTube e Vimeo;
-- tracking, completion, gradebook, report, Analytics ed export;
-- reazioni, note, bookmark, collegamento Forum e presa visione;
-- privacy, retention, reset, backup/restore e diagnostica CLI;
-- contratto di accessibilità, troubleshooting, gate build/release, CI del repository e policy di analisi statica;
-- inventari esaustivi dei file non documentali e dei callable nominati;
-- artefatti database/ER Markdown, Mermaid e SVG accessibile.
-
-## Politica di freschezza e storico
-
-`docs/en/archive` e `docs/it/archive` non sono distribuite. Le narrazioni implementative release per release sono
-state rimosse dalle guide correnti. Il `CHANGELOG.md` principale contiene soltanto sintesi; per il comportamento
-esatto di una versione precedente si usa il relativo tag sorgente e la documentazione inclusa.
-
-Le README principali forniscono una mappa completa delle funzionalità e indirizzano alle guide dettagliate. Non
-duplicano intenzionalmente procedure implementative, dizionari dei campi o lunghe spiegazioni sicurezza/privacy.
-
-## Rilievi sull'albero corrente
-
-- U-017/U-007 restano chiusi. La253 reale è accettata, inclusa retention post-restore tramite task registrato.
-  La CI candidata/main254 supera upgrade storico/uninstall completo; il report server è bloccato da tre
-  errori PHPCS sull’helper. La seconda correzione helper/CI nella stessa254 attende nuove evidenze native.
-  Restano review assistita997 chiavi ed evidenze manuali5.0 circoscritte; manuale5.3 in attesa.
-
-- `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
-  seguiti dalle regole di visibilità delle icone. Il form mantiene conteggio, limiti, registrazione filtro upload
-  e pulsante Aggiungi senza invio, poi delega i blocchi completamento con il conteggio effettivo. Il permesso di
-  completamento resta distinto da quello del player. Test runtime coprono ordine, tipi, target univoci del
-  selettore, opzioni file originali, valori salvati, dipendenze esatte, conteggi del form reale e blocchi su righe reali.
-- `form_playback_settings` possiede il gruppo riproduzione controllato dal sito con un ingresso pubblico e uno
-  stadio privato per le velocità limite. Il fallback false/vuoto conserva lo zero esplicito e il blocco per corso
-  congela gli stessi sette campi; resume/velocità massima restano modificabili. `form_definition` mantiene nove metodi pubblici.
-- La costruzione della durata conserva campo numerico, regioni di stato accessibili, identificatori, limite
-  di 86.400 secondi, token dei messaggi e JSON DOM con escape esadecimale. L'init AMD riceve solo l'identificatore
-  corrispondente sulla pagina fornita dal form; il contratto provider esistente segue la delega esplicita.
-- `form_definition` costruisce durata, player/testo temporizzato, campi CSV, Forum, integrità e presa visione nelle posizioni previste;
-  opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
-  validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
-- Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.255 / 2026111300.
-- L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
-  sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
-- I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
-  helper dedicati; le righe delle reazioni conservano ordine degli errori e requisiti della configurazione;
-  i controlli puri per valore icona e campi obbligatori risiedono in `reaction_form_validation`.
-- `form_preprocessing` mantiene l'ordine dei default per reazioni, completamento, playback, CSV e sito;
-  le bozze VTT e poster restano nel form dopo la chiamata al parent Moodle.
-- L'editor dell'avviso reazioni e il JSON dei preset sono preparati dopo i draft VTT e prima della bozza poster;
-  un editor già presente viene mantenuto quando esiste un avviso salvato.
-- `videotrack_pluginfile()` mantiene firma e ordine dei controlli del callback Moodle; helper dedicati
-  verificano aree, percorsi, estensione/MIME/contenuto WebVTT e regole di download/cache.
-- `privacy_retention_pair` elabora ogni coppia con gli stessi lock, transazione e completamento
-  successivo al commit; `privacy_manager` mantiene le API pubbliche di cancellazione e batch.
-- La facciata Analytics di istanza delega durata, scelta dei bin e aggregazione della timeline
-  da segmenti/stati a `analytics_timeline`; privacy masking e cluster delle reazioni restano nella facciata.
-- Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
-  selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
-- Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
-  periodo ed eventi a `course_analytics_loader`; `course_analytics` conserva riepiloghi e righe protette dalla privacy.
-- Il completamento personalizzato legge le condizioni delle reazioni abilitate tramite
-  `completion_config::reaction_checks()`; le decisioni AND/OR delle reazioni e dell'attività
-  usano entrambe `completion_config::combine_checks()`.
-- La facciata CSV mantiene i metodi pubblici e delega la scelta dei campi in base al contesto a
-  `csv_export_fields` e la formattazione dell’identità a `csv_export_identity`.
-- Il writer CSV riceve un contesto tipizzato per attività e utenti; resta responsabile delle righe e dei filtri
-  sugli utenti. L'export separa la formattazione dei campi attività dalla pulizia dei campi utente;
-  la conferma della presa visione verifica la disponibilità prima di cercare o creare il record learner.
-- Le righe evento CSV trasportano tre timestamp video nullable in un valore tipizzato; il riepilogo dei segnalibri
-  conserva le celle dei tempi vuote e la colonna del numero di studenti.
-- Il servizio segmenti valida i dieci campi originali prima dei controlli sesskey e contesto,
-  persiste tramite la stessa transazione del tracker ed emette eventi e completion solo per i segmenti nuovi accettati.
-- L’export privacy Moodle resta accessibile da `provider::export_user_data()`, che delega
-  a `exporter`; formattazione intervalli, chunk da 500 record e sanitizzazione restano invariati.
-- I metadati privacy elencano i servizi esterni dopo le tabelle database; la retention cancella le righe
-  personali scadute prima di ricalcolare lo stato, nello stesso lock e nella stessa transazione delegata.
-- Il ricalcolo individua i learner tracciati nelle stesse quattro tabelle; la retention ricostruisce lo stato
-  trattenuto con il lock e la transazione esistenti prima di sincronizzare il completamento Moodle.
-- Il tracker riusa lo snapshot esistente e persiste lo stato ricostruito nella transazione delegata;
-  la retention sincronizza il completamento Moodle dopo il commit mentre mantiene il lock dello stato.
-- Le ricostruzioni autonome acquisiscono e rilasciano il lock canonico; la retention passa al medesimo metodo
-  l'oggetto lock già detenuto e ne mantiene la proprietà durante la transazione e la sincronizzazione.
-- L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
-  dalla stessa grafica fornita dal maintainer.
-- `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
-  un indice esatto per ogni foreign key, ma nessun vincolo fisico o cascade nel database.
-- `linkedforumid` e `reactionid` restano riferimenti condizionali documentati perché la sentinella `0` è valida.
-- Il validatore CLI in sola lettura controlla relazioni dichiarate, indici generati, orfani, coerenza del contesto
-  denormalizzato e integrità gradebook.
-- La documentazione lifecycle copre hook anticipato di uninstall gradebook, fallback per record incoerenti, preflight
-  CLI e verifica della disinstallazione a residuo zero. Il runtime CRUD, AJAX, privacy e completion resta invariato.
-- Le guide dell'attività e dei media documentano reazioni opt-in, visibilità effettiva delle sezioni learner e
-  l'equivalente live della durata in `HH:MM:SS`.
-- Il salvataggio di video caricati e poster risolve soltanto contesti modulo legati agli identificatori del form o
-  alla coppia attività/corso persistita. La risoluzione URL rifiuta un modulo corso appartenente a un'altra istanza
-  VideoTrack e l'helper dei campi video valida ogni collaboratore Moodle form non nullo.
-- Le letture delle reazioni hanno scope espliciti: l'helper standard restituisce le definizioni attive, mentre il
-  codice lifecycle può richiedere definizioni attive e soft-deleted senza flag booleani. Prima di insert/update i
-  record attività sono filtrati sulle vere colonne della tabella tramite una cache di metadata per richiesta.
-- Le letture timed text hanno contratti canonici e di compatibilità espliciti. I file dedicati di
-  trascrizione/capitoli mantengono la precedenza e la vecchia area sottotitoli viene usata soltanto dai metodi di
-  fallback nominati selezionati per le attività con video caricato migrate.
-- La guida GitHub Actions documenta trigger, permessi minimi, matrice Moodle/PHP/database a sei job, controlli
-  bloccanti e consultivi, bootstrap deterministico nei layout classico/`public/`, rifiuto dei mirror `.types`,
-  confronto autorevole `moodle-plugin-ci grunt`, log conservati e faildump.
-- I job MariaDB e PostgreSQL al limite superiore selezionano esplicitamente `MOODLE_503_STABLE`. Non usano mai
-  `main` upstream, che può avanzare oltre l'intervallo di supporto 500–503 dichiarato da VideoTrack.
-- PHPStan/Psalm hanno perimetri limitati alla produzione e un bootstrap Moodle installato comune. Il bootstrap
-  carica i grafi di include canonici di backup/restore prima delle librerie step Moodle 2. Uno stub Psalm
-  circoscritto modella soltanto il nome globale di compatibilità `renderable` e il refuso DocBlock upstream
-  `xmlddb_field`. Cinque entry point documentano i globali creati da `config.php` sotto eccezioni PHPCS strettamente
-  circoscritte; nessuna categoria degli analizzatori o percorso di produzione viene ignorato.
-- Psalm disabilita esplicitamente soltanto `ensureOverrideAttribute`: la correzione nativa richiede PHP 8.3, ma la
-  matrice Moodle 5.0 supportata include PHP 8.2. I controlli di ereditarietà e firma restano attivi.
-- I file di produzione che consumano globali o contenitori forniti dai loader Moodle hanno contratti di analisi
-  circoscritti. Le dichiarazioni esistenti rispettano direttamente Moodle PHPCS; i cinque entry point diretti
-  limitano l'eccezione al solo sniff sui DocBlock inline attorno alle loro 20 dichiarazioni PHPStan. Psalm dichiara
-  inoltre il globale tipizzato `$DB` e le variabili dei loader usate da `settings.php` e `version.php`. Due regole
-  PHPStan specifiche per percorso e nome mantengono attivo il controllo degli ignore non più utilizzati.
-- Il `phpmd.xml` attivo elimina il rumore Moodle di naming/framework già revisionato, mantiene le regole runtime
-  selezionate e distingue i finding consultivi dagli errori di analizzatore/configurazione. Il codice usa API
-  esplicite per delimitatori, forma degli export Analytics e rendering delle percentuali di corso.
-  `report_analytics_query`, `report_event_query` e `report_support` possiedono ciascuno sette contratti pubblici coesi
-  rispettivamente per SQL Analytics, SQL eventi e lavoro residuo di presentazione/opzioni/highlight/clustering.
-  `report_time_filter` possiede quattro contratti coesi per date/richiesta/rendering e `report_aggregation` possiede
-  individuazione dei cali di viewer e ordinamento dei cluster. Il rendering Analytics docente è diviso tra servizi
-  per controlli condivisi, timeline, riepiloghi aggregati e stati integrità, tutti sotto la soglia dei metodi
-  pubblici e separati da query e aggregazione. Le fasi dei grafici timeline preservano gap privacy e ordine SVG,
-  mentre le fasi delle prese visione preservano la soppressione completa e del solo progresso. La costruzione
-  dell'export combinato possiede separatamente padding timeline, riepiloghi evento ordinati, fallback integrità e
-  valori delle prese visione, conservando i contratti pubblici delle righe e della privacy. La scoperta dei candidati
-  per lo stesso video è isolata in `analytics_scope_matcher`; le sue fasi conservano identità per id provider, hash
-  upload e URL canonico insieme ai controlli capability aggregati per modulo. Il callback delle
-  feature Moodle usa una tabella, i valori Font
-  Awesome contengono esattamente un nome
-  icona validato e le icone renderizzate includono sempre l'etichetta visibile senza un flag booleano di
-  presentazione. I conteggi esatti si leggono nell'artifact CI della candidata corrente.
-- Le due coppie di build AMD corrette nella 1.7.123 sono output canonico di Moodle Grunt; le source map hanno mapping
-  non vuoti e includono sorgenti byte per byte identici agli AMD distribuiti.
-- Gli helper accessibili renderizzati usano le classi Moodle 5 / Bootstrap 5 `visually-hidden`; i live region del
-  player sono presenti nel markup iniziale e le normali viste attività non usano il fallback Bootstrap 4 `sr-only`.
-- `.github/workflows/ci.yml` e il manifest degli analizzatori fissati sono presenti nel repository ma esclusi dagli
-  archivi Moodle. Configurazioni e bootstrap distribuiti restano disponibili ai maintainer e ai gate server.
-- Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
-  Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
-  insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 415 file legittimi del plugin.
-
-## Controlli di release
-
-Prima della promozione verificare:
-
-1. assenza nel pacchetto di directory o link `archive/` e `reports-*`, oltre agli ZIP CI/server generati;
-2. assenza di narrazioni di versioni obsolete nei documenti correnti;
-3. risoluzione dei link Markdown e parità dei set EN/IT;
-4. identità degli inventari file/callable con l'albero esatto;
-5. corrispondenza dei conteggi XMLDB/ER e delle etichette dei riferimenti condizionali con `db/install.xml`;
-6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
-7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
-
-## Review corrente e fasi successive concordate
-
-La 253 reale/main `511234197069f8f83e23f0da9444fa1d6a5f8030` è accettata: ZIP415 file, due report server,
-PHPUnit384/4516, Behat52/1154, strict10/0/0 e build Grunt stabili. La candidata254 aggiunge gate solo
-repository installazione-upgrade-uninstall da storia precedente/parziale/immediata in due job CI esistenti.
-La correzione completion supera CI candidata/main385/4540 e tutte le sei storie lifecycle. Il report
-server supera Unit/Grunt/lint e gli strict forniti passano10/0/0, ma PHPCS fallisce sull’helper nascosto.
-Correggere boilerplate/bootstrap/commento e aggiungere lint/PHPCS espliciti in CI, conservando i gate
-esistenti. Questa seconda correzione nella stessa254 attende nuove evidenze native. I callable PHP distribuiti sono1116
-più7 helper CI, totale1123; l’inventario file348 comprende343 voci distribuite e5 solo repository.
-Vedere [evidenze produzione](28_USCITA_PRODUZIONE.md) per storie esatte, limiti e gate manuali/benchmark/App residui.
-
-La CI254 iniziale supera Unit384/4516 e Behat52/1154 nei sei job; i due lifecycle falliscono sulla completion
-nativa dopo uninstall completo. La254 corretta attende385 metodi Unit, asserzioni da misurare e tutti i tre
-percorsi nei due job. I metadata file erano confrontati; le verifiche vacue dei contenuti richiedono ora
-un vero file regolare in ciascuna area esplicita della fixture.
+Inventari e applicazione della patch sono prove sul sorgente, non PASS nativi
+PHPCS/lint/PHPUnit. CI candidata, CI main, identità ZIP reale, canonici/Unit/Grunt server
+e validazione rigorosa sono gate distinti. L'accesso reale Microsoft è un ulteriore gate
+provider. Lo storico delle vecchie release resta in CHANGELOG e nei tag sorgente.

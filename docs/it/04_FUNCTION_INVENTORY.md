@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.258. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1203 (1196 distribuiti e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1238 (1231 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1025,6 +1025,17 @@ Generato dall’albero sorgente VideoTrack 1.7.258. Le voci PHP includono funzio
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | Callable PHP `prefix_named_params`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Funzione/metodo PHP nominato `can_participate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | Callable PHP `user_is_visible`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/microsoft_graph.php:43` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:57` | `resource_url` | Funzione diagnostica provider `resource_url`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:80` | `inspect` | Funzione diagnostica provider `inspect`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:125` | `decode_metadata` | Decodifica JSON limitato e verifica l’identità prima della selezione dei metadati. |
+| `classes/local/microsoft_graph.php:142` | `http_status` | Funzione diagnostica provider `http_status`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:160` | `drive_metadata` | Funzione diagnostica provider `drive_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:173` | `video_metadata` | Funzione diagnostica provider `video_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:200` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
+| `classes/local/microsoft_graph_probe.php:42` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph_probe.php:55` | `run` | Funzione diagnostica provider `run`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph_probe.php:103` | `trusted_endpoints` | Funzione diagnostica provider `trusted_endpoints`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
@@ -1630,6 +1641,30 @@ Generato dall’albero sorgente VideoTrack 1.7.258. Le voci PHP includono funzio
 | `tests/locallib_test.php:308` | `test_build_forum_subject_uses_default_template` | Callable PHP `test_build_forum_subject_uses_default_template`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:319` | `test_render_reaction_icon_includes_visible_label` | Verifica che le icone di reazione includano sempre l'etichetta accessibile visibile. |
 | `tests/locallib_test.php:336` | `test_reaction_collections_use_explicit_deletion_scopes` | Verifica le collezioni distinte per reazioni attive e lifecycle completo. |
+| `tests/microsoft_graph_test.php:46` | `setUp` | Funzione diagnostica provider `setUp`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_graph_test.php:57` | `tearDown` | Funzione diagnostica provider `tearDown`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_graph_test.php:66` | `test_explicit_resource_paths_and_selects` | Regressione nativa `test_explicit_resource_paths_and_selects`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:80` | `test_invalid_targets_never_obtain_an_oauth_client` | Regressione nativa `test_invalid_targets_never_obtain_an_oauth_client`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:96` | `test_unconfigured_probe_is_inert` | Regressione nativa `test_unconfigured_probe_is_inert`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:107` | `test_http_site_cannot_refresh_tokens` | Regressione nativa `test_http_site_cannot_refresh_tokens`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:119` | `test_incomplete_issuers_cannot_obtain_clients` | Regressione nativa `test_incomplete_issuers_cannot_obtain_clients`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:131` | `test_untrusted_oauth_destinations_are_refused_before_factory` | Simula endpoint memorizzati corrotti e verifica sette rifiuti locali/endpoint senza OAuth o Graph. |
+| `tests/microsoft_graph_test.php:158` | `test_untrusted_authorization_endpoint_is_refused` | Regressione nativa `test_untrusted_authorization_endpoint_is_refused`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:168` | `test_oauth_unavailable_is_not_graph_success` | Regressione nativa `test_oauth_unavailable_is_not_graph_success`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:183` | `test_oauth_exception_is_redacted` | Regressione nativa `test_oauth_exception_is_redacted`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:198` | `test_ready_probe_uses_core_client_without_activity_writes` | Regressione nativa `test_ready_probe_uses_core_client_without_activity_writes`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:228` | `test_drive_metadata_is_allowlisted` | Regressione nativa `test_drive_metadata_is_allowlisted`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:245` | `test_video_metadata_conversion_and_redaction` | Regressione nativa `test_video_metadata_conversion_and_redaction`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:267` | `test_request_transport_policy` | Regressione nativa `test_request_transport_policy`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:290` | `test_http_failures_do_not_parse_or_echo_provider_errors` | Regressione nativa `test_http_failures_do_not_parse_or_echo_provider_errors`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:309` | `test_transport_errors_override_http_success` | Regressione nativa `test_transport_errors_override_http_success`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:319` | `test_transport_exception_is_redacted` | Regressione nativa `test_transport_exception_is_redacted`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:330` | `test_invalid_responses_are_rejected` | Regressione nativa `test_invalid_responses_are_rejected`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:346` | `test_non_video_and_deleted_items_are_rejected` | Regressione nativa `test_non_video_and_deleted_items_are_rejected`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:363` | `test_invalid_video_numbers_are_rejected` | Regressione nativa `test_invalid_video_numbers_are_rejected`; il DocBlock definisce il confine verificato. |
+| `tests/microsoft_graph_test.php:381` | `inert_probe` | Funzione diagnostica provider `inert_probe`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_graph_test.php:395` | `response_client` | Funzione diagnostica provider `response_client`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_graph_test.php:410` | `create_issuer` | Funzione diagnostica provider `create_issuer`; il DocBlock definisce input, output ed effetti. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |

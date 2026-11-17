@@ -1,5 +1,14 @@
 # VideoTrack: sintesi privacy e trattamento dei dati
 
+## 1.7.259: diagnostica esplicita dei metadati Microsoft
+
+Il probe CLI facoltativo usa l'account OAuth Microsoft di sistema Moodle. Rinnovo e
+salvataggio token restano nel core; VideoTrack non memorizza nuove credenziali o record
+attività. Il comando richiede metadati a Microsoft e scarta dal JSON identità di risorse
+e utenti, URL privati e corpi degli errori provider. Non scarica il contenuto del file
+né invia dati di tracking studenti. Lo stato locale esistente resta senza rete.
+[Protocollo, output e limiti](docs/it/30_MICROSOFT_GRAPH.md).
+
 ## 1.7.258: completamento delle correzioni di sicurezza
 
 La rimozione elimina fisicamente la riga della nota/segnalibro del proprietario.

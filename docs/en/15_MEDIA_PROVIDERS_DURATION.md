@@ -1,8 +1,12 @@
 # Media providers and duration
 
-## 1.7.258: provider connection foundation
+## 1.7.259: authenticated metadata diagnostics
 
-This candidate adds a Microsoft OAuth service reference in site settings (default: None), a read-only configuration service and provider_status.php. Credentials remain owned by core. Checks inspect provider type, enabled/service usage, client configuration, HTTPS endpoints/site and the core system-account/scope state. They do not exchange or refresh tokens or contact Microsoft. OneDrive/SharePoint is not yet a selectable video source.
+The existing `provider_status.php` inspects local OAuth readiness without contacting
+Microsoft. Version 1.7.259 adds `provider_probe.php` for an explicit authenticated GET
+of drive/video metadata through the core system account. Core may refresh/persist
+OAuth tokens; VideoTrack/demo records are untouched. OneDrive/SharePoint playback
+is a later gate. See [Microsoft Graph diagnostics](30_MICROSOFT_GRAPH.md).
 
 The maintainer now prioritises authenticated sources: OneDrive/SharePoint, Zoom Cloud Recording, then Google Drive; the App comes afterwards. The App-to-browser/HTTPS trial is explicitly skipped. The full multilingual subtitle extension is deferred because it is not bounded reliably to one release across HTML5 and provider overlays. Existing transcripts and captions remain supported. Manual Moodle 5.3 accessibility stays on standby.
 

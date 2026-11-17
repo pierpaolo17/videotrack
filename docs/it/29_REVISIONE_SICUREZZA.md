@@ -1,39 +1,29 @@
 # Completamento delle correzioni di sicurezza
 
-VideoTrack **1.7.258** (`2026111700`).
+VideoTrack **1.7.259** (`2026111701`).
 
-## Rifiuto della prima CI258 e correzione circoscritta
+## Baseline 1.7.258 accettata
 
-La prima candidata 1.7.258 e70102d6 (run44084042387) fallisce tutti e sei i job. I451
-file con i relativi permessi Git e i12 archivi CI/faildump corrispondono a sorgente e
-digest ufficiali. PHPUnit429/4823 riporta2errori nei nuovi test di backup (Moodle vieta
-condizioni get_record su colonne TEXT) e1fallimento per i marcatori README obsoleti.
-Strict riporta9/0/1 e PHPCS6 errori di boilerplate in3 nuovi file. La correzione legge
-i testi ripristinati in un fieldset circoscritto e li confronta in PHP, aggiorna entrambi
-i marcatori correnti esatti e ripristina gli spazi del boilerplate canonico.
+Il pacchetto reale da main `2df5bb3bee4b77e75a94acd61436071cc2026181` contiene 427 file;
+ogni file coincide con l'albero repository accettato. SHA-256 del pacchetto:
+`695166a99eb2b0b13ddc6526fa2333358d295cf3c1af6ca0d2ff8cb559878521`.
 
-Behat passa inizialmente52/54 scenari e1188/1192 passi; entrambi i rerun automatici
-continuano a fallire nei due nuovi esempi di ripresa. Gli HTML disponibili mostrano
-Second Learner, ripresa server0 e chiave del suo utente corretta; i valori localStorage
-sono assenti. L'asserzione aggregata non identifica la condizione fallita né dimostra
-una fuga. La fixture ora inserisce chiavi residue note dopo il login e prima del player,
-conservando il marcatore di revisione JS Moodle. Restano tutte le verifiche originarie
-su identità distinta, assenza del suggerimento corrente, ripresa server zero e tempo
-effettivo dei due provider. La diagnostica distingue ogni condizione. Il player,
-la chiave di storage e i build non cambiano in questa correzione.
+La CI corretta candidata/main supera tutti i sei job: PHPUnit **429 test / 4843
+asserzioni**, Behat **54 scenari / 1194 step**, validazione rigorosa **10/0/0** e build
+AMD canonici. I job MariaDB selezionati Moodle 5.0/5.3 superano upgrade/ripetizione e
+uninstall popolato da installazioni storiche, interrotte e precedenti, con controlli di
+conservazione. Il report server reale conferma PHPCS/lint puliti su 177 file (176 PHP
+distribuiti più un helper repository), PHPUnit 429/4843 su entrambi i rami e build Grunt
+invariati. Gli output rigorosi del maintainer sono 10/0/0 su entrambe le istanze.
 
-PHPStan/Psalm non avevano errori nei perimetri configurati. PHPMD31 della prima258
-aggiunge3 rilievi di complessità restore ai28 della257; Psalm741/769 aggiunge1 rilievo
-informativo per ramo, senza stampare i tipi. Sono registrati, non considerati invariati.
-Le prove lifecycle previste sono saltate dopo i fallimenti. Prima del merge serve
-nuova CI nativa canonica/strict/PHPUnit/Behat/lifecycle. Il controllo locale di sintassi
-e logica della fixture JS passa anche quattro stati errati; non equivale a Behat.
+PHPStan/Psalm non riportano errori nei perimetri configurati. Restano advisory **31**
+rilievi PHPMD e **741/769** informazioni Psalm, di tipo non stampato nei report.
+Non è un risultato privo di advisory. Tre vecchi script Node falliscono ugualmente
+sulle 257/258 accettate: contratti sorgente Privacy/backup obsoleti e stub core/str
+assente nell'harness tracker. I gate nativi passano; questi script non sono contati come PASS.
 
-La patch sostitutiva è incrementale da e70102d6 sul ramo release/v1.7.258. Versione
-sempre2026111700. L'inventario ora conta1203 funzioni PHP (1196 distribuite+7 del repository)
-per il nuovo step preparatorio Behat; file,15 nuovi metodi PHPUnit e due scenari restano
-invariati. La baseline reale accettata rimane1.7.257.
-
+Il manuale di accessibilità Moodle 5.3 resta in standby; verifica visiva Tiles e nuova
+scansione esterna di sicurezza restano aperte. Il dataset demo viene conservato.
 
 La rimozione elimina fisicamente la riga della nota/segnalibro del proprietario.
 Parametri e risposte AJAX restano compatibili. Login, contesto, partecipazione e sesskey
@@ -62,33 +52,27 @@ lo storage per identità incomplete; HTML5 conserva la ripresa server. I suggeri
 browser non diventano evidenza di visione validata. L'indice pulisce l'HTML dei nomi sezione
 senza ripetere i filtri: difesa aggiuntiva, non una XSS Tiles dichiarata come riprodotta.
 
-| ID | Status / Stato |
+| ID | Implementazione accettata / limite residuo |
 |---|---|
-| SH-01/02/03/05/08/09 | 257 accettata con regressioni native. |
-| SH-04 | Cancellazione/retry/Privacy/backup implementati; prove native258 da eseguire. |
-| SH-06 | DDL solo upgrade; API completamento nei contesti validi; DML orfani/voti ambigui motivato. |
-| SH-07 | API dati inviati Moodle e guardie sesskey esistenti. |
-| SH-A1/A2 | Ripresa isolata e Analytics POST implementati; prove native258 da eseguire. |
-| MS-14 | Output formato corso pulito; nessuna XSS Tiles dichiarata riprodotta. |
-| MS-38 | Recupero transazionale verificato nella257; corpi DML conservati. |
+| SH-01/02/03/05/08/09 | Accettate nella 257 con regressioni native autorizzazione/privacy. |
+| SH-04 | Cancellazione fisica, retry serializzato, Privacy/backup/restore legacy; prove native 258 superate. |
+| SH-06 | DDL solo upgrade e API completion per contesti validi; resta DML circoscritto e motivato per orfani/ambigui. |
+| SH-07 | API dei dati inviati con sesskey/capability; prove native 258 superate. |
+| SH-A1/A2 | Ripresa isolata e Analytics POST; Unit/Behat nativi 258 superati. |
+| MS-14 | Output course-format pulito; nessuna XSS Tiles dichiarata riprodotta o prova visiva manuale superata. |
+| MS-38 | Regressione transazionale superata; corpi DML conservati nella 258. |
 
-Baseline reale accettata257/main d6e8705e:422 file corrispondenti, PHPCS/lint server173
-puliti, PHPUnit414/4695 e strict10/0/0 su50/53, build AMD invariati, CI candidata/main a sei
-job, Behat52/1154 senza rerun e tre percorsi lifecycle nei job50/53MariaDB previsti.
-SHA-256 pacchetto:59fff2d7214a6828c1544b896d489ecebb8bbefb1821e72c6a3384ca845cc504.
+## Perimetro della candidata 1.7.259
 
-La candidata258 aggiunge15 metodi PHPUnit e due scenari browser, compreso backup/ripristino
-reale con vecchio XML modificato. PHP/Moodle non disponibili localmente: prove native
-PHPCS/lint/statiche/PHPUnit/Behat/lifecycle e accettazione di ZIP/server restano da eseguire.
-Grunt AMD Moodle reale Node22 superato: solo due sorgenti e quattro build/mappe cambiano.
-Smoke AMD e test adapter passano. Tre script Node storici falliscono ugualmente su257/258:
-privacy_static_test e backup_restore_static_test hanno contratti precedenti ai refactor;
-tracker_segment_test non ha la dipendenza core/str nel suo harness. È debito preesistente,
-non test nativi superati. Un nuovo punteggio di sicurezza richiede una nuova scansione.
-I rilievi nativi257 PHPMD28 e Psalm740/768 restano registrati, senza dichiarare zero warning.
+La release aggiunge una verifica esplicita dei metadati Microsoft Graph mediante
+l'account OAuth Microsoft di sistema già gestito da Moodle. Non aggiunge una sorgente
+selezionabile o un adapter del player. Il comando di stato locale resta inerte. Solo
+il nuovo probe può rinnovare credenziali OAuth del core ed effettuare un GET dei
+metadati verso host fisso; non scarica il video e non scrive record VideoTrack/demo.
 
-Nessuna modifica a schema/savepoint/servizi/task retention/OAuth. Nessuna bonifica generale
-dei dati pregressi, come richiesto; dataset demo conservato. Accessibilità manuale5.3 ancora
-in standby; verifica visiva Tiles da eseguire. Dopo l'accettazione finale completa si passa
-direttamente alla patch successiva, senza riconferma. Nuove sorgenti prima dell'App; prova
-App → browser saltata.
+L'esecuzione nativa PHP/Moodle e l'accesso a un tenant reale restano da verificare
+per questa candidata. I nuovi test simulati non richiedono credenziali né rete.
+La [guida Microsoft Graph](30_MICROSOFT_GRAPH.md) spiega configurazione, output e limiti.
+Dopo accettazione completa candidata/main e pacchetto reale si prosegue con riproduzione
+e controlli di accesso attività/utente, poi Zoom, Google Drive e App. La prova App →
+browser resta saltata; l'estensione multilingua dei sottotitoli rimane rinviata.

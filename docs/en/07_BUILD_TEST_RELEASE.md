@@ -66,7 +66,7 @@ Psalm level copies; it must not modify the plugin tree. For a direct run outside
 - Lifecycle: fresh install, upgrade, backup/restore, reset, populated-gradebook uninstall and Privacy API when
   related code/schema changes.
 
-The current distributed suites contain 379 PHPUnit test methods and 50 Behat scenarios / 1,074 steps per supported
+The current distributed suites contain 448 PHPUnit test methods and 54 Behat scenarios / 1,194 steps per supported
 Moodle branch. Assertion totals are run evidence rather than a static contract and must be recorded from the
 candidate CI. These numbers are expectations, not a pass claim.
 
@@ -133,3 +133,9 @@ exercised; they are not retroactively imposed automation prerequisites. U-020 ma
 Candidate 1.7.241 changes documentation/version metadata only and retains the ordinary six-job workflow,
 all runtime/tests and their counts. Record its actual CI and final ZIP/server/strict evidence separately;
 prior package hashes do not identify the new documentary release. No AMD rebuild is needed for unchanged sources.
+
+## Microsoft provider gate
+
+The 19 new Graph regression methods use core-client mocks and fake OAuth records.
+Native success does not replace the explicit tenant probe or future playback testing.
+[Provider guide](30_MICROSOFT_GRAPH.md).
