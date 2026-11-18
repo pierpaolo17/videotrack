@@ -1,6 +1,6 @@
 # Security follow-up
 
-VideoTrack **1.7.260** (`2026111800`).
+VideoTrack **1.7.261** (`2026111801`).
 
 ## Accepted 1.7.258 baseline
 

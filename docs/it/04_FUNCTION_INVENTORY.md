@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.260. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1264 (1257 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1276 (1269 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -836,6 +836,8 @@ Generato dall’albero sorgente VideoTrack 1.7.260. Le voci PHP includono funzio
 | `classes/external/start_playback.php:115` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/form/microsoft_probe_form.php:37` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
+| `classes/form/microsoft_probe_form.php:53` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1672,6 +1674,16 @@ Generato dall’albero sorgente VideoTrack 1.7.260. Le voci PHP includono funzio
 | `tests/microsoft_graph_test.php:381` | `inert_probe` | Funzione diagnostica provider `inert_probe`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:395` | `response_client` | Funzione diagnostica provider `response_client`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:410` | `create_issuer` | Funzione diagnostica provider `create_issuer`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_probe_form_test.php:37` | `setUp` | Regressione nativa della verifica Microsoft: setUp. |
+| `tests/microsoft_probe_form_test.php:46` | `test_valid_identifiers_and_optional_item` | Regressione nativa della verifica Microsoft: test_valid_identifiers_and_optional_item. |
+| `tests/microsoft_probe_form_test.php:58` | `test_invalid_drive_ids_are_not_repaired` | Regressione nativa della verifica Microsoft: test_invalid_drive_ids_are_not_repaired. |
+| `tests/microsoft_probe_form_test.php:68` | `test_invalid_item_has_a_field_error` | Regressione nativa della verifica Microsoft: test_invalid_item_has_a_field_error. |
+| `tests/microsoft_probe_form_test.php:79` | `test_get_cannot_submit_a_probe` | Regressione nativa della verifica Microsoft: test_get_cannot_submit_a_probe. |
+| `tests/microsoft_probe_form_test.php:89` | `test_invalid_sesskey_is_rejected` | Regressione nativa della verifica Microsoft: test_invalid_sesskey_is_rejected. |
+| `tests/microsoft_probe_form_test.php:101` | `test_valid_post_preserves_target` | Regressione nativa della verifica Microsoft: test_valid_post_preserves_target. |
+| `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Regressione nativa della verifica Microsoft: test_invalid_post_returns_no_probe_data. |
+| `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | Regressione nativa della verifica Microsoft: test_admin_node_requires_site_configuration. |
+| `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Regressione nativa della verifica Microsoft: test_controller_checks_precede_probe. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |

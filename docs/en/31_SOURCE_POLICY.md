@@ -1,6 +1,6 @@
 # Site video sources and optional integrations
 
-VideoTrack **1.7.260** (`2026111800`).
+VideoTrack **1.7.261** (`2026111801`).
 
 ## Configure implemented sources
 
@@ -88,7 +88,8 @@ recording lifecycle webhooks. Their credential and token lifecycle differs from
 Moodle's existing delegated Microsoft/Google OAuth flows. A repository does not
 establish native player timing/control support: that remains a separate feasibility
 test. No Zoom plugin, cloud player, credentials or webhook endpoint is delivered
-in 1.7.260. Microsoft Graph diagnostics from 1.7.259 remain unchanged.
+in 1.7.261. The Graph/OAuth service from 1.7.259 is retained; the new
+[administrator web check](32_MICROSOFT_WEB_CHECK.md) reuses it.
 
 ## Primary references
 

@@ -1,5 +1,10 @@
 # Guida per utenti e amministratori
 
+La verifica Microsoft è disponibile anche dalle impostazioni di sito di VideoTrack.
+La pagina legge la configurazione locale all’apertura e avvia la diagnostica remota
+solo dopo l’invio del modulo protetto da parte dell’amministratore.
+[Procedura dalla GUI](32_MICROSOFT_WEB_CHECK.md).
+
 ## Disponibilità delle sorgenti nel sito
 
 L'amministratore può abilitare separatamente YouTube, Vimeo e HTML5/file caricati.

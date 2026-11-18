@@ -24,6 +24,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+if ($hassiteconfig) {
+    $ADMIN->add('modsettings', new admin_externalpage(
+        'mod_videotrack_providercheck',
+        get_string('providercheck:title', 'mod_videotrack'),
+        new moodle_url('/mod/videotrack/provider_check.php'),
+        'moodle/site:config',
+        true
+    ));
+}
+
 if ($ADMIN->fulltree) {
     // Source availability is enforced on save, playback and telemetry requests.
     $settings->add(new admin_setting_heading(
@@ -53,6 +63,14 @@ if ($ADMIN->fulltree) {
         get_string('setting:microsoftissuerid_desc', 'mod_videotrack'),
         0,
         \mod_videotrack\local\provider_connection::issuer_options('microsoft')
+    ));
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/providercheck',
+        '',
+        html_writer::link(
+            new moodle_url('/mod/videotrack/provider_check.php'),
+            get_string('providercheck:title', 'mod_videotrack')
+        )
     ));
 
     // Show a persistent admin warning when GD is not available.

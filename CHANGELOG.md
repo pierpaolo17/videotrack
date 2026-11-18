@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.261 - 2026-11-18
+
+### Add an administrator Microsoft connection check
+
+- Add a site-configuration-only page linked from VideoTrack settings. Opening it
+  reads local readiness only; an explicit POST form with a valid sesskey runs the
+  existing bounded Microsoft Graph drive/video metadata probe.
+- Reject URLs, paths and invalid opaque ids in the form. Escape redacted diagnostic
+  output, disable page caching and keep core OAuth credentials in core. Token
+  refresh can update core credentials; VideoTrack and demo data are retained.
+- Add nine native form/access/CSRF tests and three deterministic browser scenarios,
+  plus ten strings in each of the eight language packs and paired setup guides.
+- Accepted260 main/package/server evidence is recorded in the documentation audit.
+  Native261 checks and a live Microsoft tenant test are pending. This release does
+  not enable OneDrive/SharePoint playback, import media or proxy streaming.
+
 ## 1.7.260 - 2026-11-18
 
 ### Add site-wide video source availability

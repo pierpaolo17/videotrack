@@ -1,8 +1,8 @@
 # Diagnostica autenticata dei metadati Microsoft Graph
 
-VideoTrack **1.7.260** (`2026111800`).
+VideoTrack **1.7.261** (`2026111801`).
 
-La diagnostica introdotta nella 1.7.259 accettata resta invariata. I nuovi interruttori riguardano i tre player implementati; la riproduzione Microsoft resta un gate futuro.
+Il servizio Graph/OAuth introdotto nella 1.7.259 accettata è conservato. La 1.7.261 aggiunge un modulo amministrativo che riutilizza la stessa diagnostica; la riproduzione Microsoft resta un gate futuro.
 
 
 È la prima diagnostica remota per preparare OneDrive/SharePoint. Verifica metadati
@@ -121,3 +121,6 @@ Fonti primarie:
 - [Risorsa video e durata in millisecondi](https://learn.microsoft.com/en-us/graph/api/resources/video?view=graph-rest-1.0)
 - [API OAuth Moodle 5.0 del ramo accettato](https://github.com/moodle/moodle/blob/744cc0c19013e7be831dca24fafd6501d7eb8348/lib/classes/oauth2/api.php)
 - [API OAuth Moodle 5.3 del ramo accettato](https://github.com/moodle/moodle/blob/aa930e26fbdd08dd8ba70f53298838a8d306ee57/public/lib/classes/oauth2/api.php)
+
+La 1.7.261 aggiunge una [pagina amministrativa](32_MICROSOFT_WEB_CHECK.md)
+che riutilizza la stessa diagnostica. La riproduzione Microsoft resta da implementare.
