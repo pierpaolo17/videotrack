@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if ($hassiteconfig) {
+if (has_capability('moodle/site:config', context_system::instance())) {
     $ADMIN->add('modsettings', new admin_externalpage(
         'mod_videotrack_providercheck',
         get_string('providercheck:title', 'mod_videotrack'),

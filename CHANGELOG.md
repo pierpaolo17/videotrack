@@ -4,6 +4,14 @@
 
 ### Add an administrator Microsoft connection check
 
+- Correct the three new static-analysis findings in the initial green six-job CI:
+  read the Moodle configuration through a typed local alias instead of a file-level
+  global declaration, and check the system site-configuration capability directly
+  when registering the administrator page. No analysis suppressions or gate changes.
+- Initial261 CI passed Unit472/5183, Behat61/1268 without reruns, strict10/0/0,
+  canonical185+1 and all three lifecycle lineages on50/53MariaDB. PHPStan1/Psalm2
+  findings require this same-version correction and a fresh candidate run before merge.
+
 - Add a site-configuration-only page linked from VideoTrack settings. Opening it
   reads local readiness only; an explicit POST form with a valid sesskey runs the
   existing bounded Microsoft Graph drive/video metadata probe.
@@ -13,7 +21,7 @@
 - Add nine native form/access/CSRF tests and three deterministic browser scenarios,
   plus ten strings in each of the eight language packs and paired setup guides.
 - Accepted260 main/package/server evidence is recorded in the documentation audit.
-  Native261 checks and a live Microsoft tenant test are pending. This release does
+  A fresh CI run for the correction and a live Microsoft tenant test are pending. This release does
   not enable OneDrive/SharePoint playback, import media or proxy streaming.
 
 ## 1.7.260 - 2026-11-18

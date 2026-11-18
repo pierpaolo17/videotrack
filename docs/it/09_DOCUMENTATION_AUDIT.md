@@ -2,6 +2,34 @@
 
 Baseline: VideoTrack **1.7.261** (`2026111801`).
 
+## Prima CI 1.7.261 e correzione della stessa versione
+
+La run `44388798465`, commit `d8ab79681ecbb5c4b9e30dba3bbbd7f12625b62a`,
+albero `003728bd6ab13fd638a6c5295bdf5b500ba3231f`, mostra tutti i sei job verdi.
+I sei digest degli ZIP caricati coincidono con gli artifact ufficiali; tutti i 468
+blob/modi coincidono con il candidato consegnato. Ogni job supera Unit **472/5183**,
+Behat **61/1268** senza ritentativi, strict **10/0/0** e Grunt. Controlli canonici su
+**185 PHP distribuiti +1 helper repository**, PHPDoc/metadati e 206 contratti savepoint.
+Tutte le tre genealogie lifecycle selezionate passano su 5.0/5.3 MariaDB; ricostruiti
+sei hash degli snapshot e verificate 126 prove effettive dei contenuti file. PHPMD
+conserva i medesimi 31 avvisi revisionati della baseline.
+
+Gli step consultivi di analisi statica riportano un rilievo PHPStan e due errori
+Psalm: `settings.php` dipende da `$hassiteconfig` fornita dal chiamante; il modulo
+caricato dall’autoloader dichiara `global $CFG` a livello file. Psalm riporta inoltre
+746/774 elementi informativi, senza stamparne i tipi. I nuovi errori non sono
+accettati soltanto perché il workflow è verde. La correzione verifica direttamente
+il permesso di sistema e usa un riferimento locale tipizzato a `$GLOBALS['CFG']`
+per caricare la libreria dei moduli di core. Non aggiunge soppressioni, funzioni,
+test, chiavi lingua, cambi schema o eccezioni CI. Conserva integralmente le
+regressioni di modulo, sessione e accesso.
+
+Questa patch è **incrementale da d8ab7968 sul ramo release/v1.7.261**, non la patch
+completa 260-to261. Restano **1.7.261 / 2026111801**, 472 metodi di test e 61 scenari
+browser. Controlli sorgente e confronti patch sono locali; la CI nativa del candidato
+corretto e poi l’accettazione main/ZIP/server sono da svolgere. Nessuna prova su
+tenant Microsoft collegato o telemetria player dichiarata. Conservare la demo.
+
 ## Baseline tecnica 1.7.260 accettata
 
 Il main accettato `4d9fe8b0eb8b4a6587992f4ac86b2bec9d1dcb65` ha albero
@@ -44,8 +72,8 @@ prima della verifica. Nessuna sorgente cloud, integrazione player, rinnovo link,
 nuovo schema, servizio o AMD.
 
 Scritti nove metodi unitari nativi e tre scenari browser deterministici;
-**l’esecuzione nativa 261 è da svolgere**, come l’accesso a un tenant reale collegato.
-I risultati 260 precedenti sono evidenza della baseline, non dei nuovi test.
+**l’esecuzione nativa del candidato 261 corretto è da svolgere**, come l’accesso a un tenant reale collegato.
+La prima esecuzione 261 ha superato le nuove regressioni, ma non esegue questa correzione.
 Controlli sorgente/lessicali/stile, parità lingue, inventari, schema/AMD invariati
 e confronti applicazione/inversione patch sono locali e non sostituiscono PHP/Moodle.
 Servono sei job CI candidato prima del merge, sei main, ZIP reale/report server e

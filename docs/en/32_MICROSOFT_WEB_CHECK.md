@@ -62,6 +62,7 @@ gates; the optional Zoom repository is still an architectural assessment.
 Nine native unit methods cover form identifiers, POST/GET behaviour, sesskey,
 administration-node access and controller guard ordering. Three browser scenarios
 cover local status, invalid URLs and incomplete configuration without live network.
-These are authored regressions; their native 261 execution is pending. No connected
+The initial six-job 261 CI passes these regressions (Unit472/5183, Behat61/1268).
+A fresh run of the same-version static-analysis correction is pending. No connected
 Microsoft tenant or official-player telemetry has been tested in this release.
 Retain the demo; the separate manual Moodle 5.3 accessibility check stays on standby.

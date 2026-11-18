@@ -2,6 +2,33 @@
 
 Baseline: VideoTrack **1.7.261** (`2026111801`).
 
+## Initial 1.7.261 CI and same-version correction
+
+Run `44388798465`, commit `d8ab79681ecbb5c4b9e30dba3bbbd7f12625b62a`,
+source tree `003728bd6ab13fd638a6c5295bdf5b500ba3231f`, reports all six jobs green.
+The six uploaded ZIP digests match the official artifacts; all 468 blobs/modes match
+the delivered candidate. Each job passes Unit **472/5183**, Behat **61/1268** without
+retries, strict **10/0/0** and Grunt. Canonical checks pass **185 distributed PHP +1
+repository helper**, PHPDoc/metadata and 206 savepoint contracts. All three selected
+lifecycle lineages pass on 5.0/5.3 MariaDB; six snapshot hashes were reconstructed
+and 126 actual file-content checks verified. PHPMD remains the same 31 reviewed
+baseline findings.
+
+The advisory static-analysis steps report one PHPStan finding and two Psalm errors:
+`settings.php` depends on the externally supplied `$hassiteconfig`; the autoloaded
+form declares `global $CFG` at file level. Psalm also reports 746/774 informational
+items (types not printed). These new errors are not accepted merely because the
+workflow is green. The correction uses a direct system capability check and a typed
+local reference to `$GLOBALS['CFG']` for loading the core forms library. It adds no
+suppression, new feature, test, language key, schema change or CI exception. Existing
+form/session/access regressions are retained in full.
+
+This is an **incremental patch from d8ab7968 on release/v1.7.261**; it is not the full
+260-to261 patch. Keep **1.7.261 / 2026111801**, 472 test methods and 61 browser
+scenarios. Source checks and patch comparisons can run locally; the corrected
+candidate's native CI, then main/package/server acceptance, are still pending.
+No connected Microsoft tenant or player telemetry is claimed. Retain the demo.
+
 ## Accepted 1.7.260 technical baseline
 
 Accepted main `4d9fe8b0eb8b4a6587992f4ac86b2bec9d1dcb65` has tree
@@ -43,8 +70,8 @@ Escaped redacted diagnostics are non-cacheable. IDs are validated before the pro
 No cloud source, player bridge, link renewal, new schema, service or AMD is added.
 
 Nine native unit methods and three deterministic browser scenarios are authored;
-**native 261 execution is pending**, as is live connected-tenant access. The prior
-260 native results above are baseline evidence, not execution of these regressions.
+**native execution of the corrected 261 candidate is pending**, as is live connected-tenant access.
+The initial 261 execution above passed the new regressions; it does not execute this correction.
 Source/lexical/style, language parity, inventories, unchanged schema/AMD and patch
 apply/reverse comparisons can be checked locally; they do not replace PHP/Moodle.
 Candidate six-job CI must pass before merge, followed by main six-job CI, actual

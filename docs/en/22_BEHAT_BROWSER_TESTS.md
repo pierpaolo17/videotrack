@@ -128,5 +128,6 @@ production/lifecycle/privacy/benchmark gate remain open. An evidenced regression
 
 Three scenarios in `microsoft_provider_check.feature` cover the settings link and
 GET-only local readiness, invalid sharing URLs and a normal unconfigured result.
-All use issuer id zero and make no Microsoft requests. Native execution of these
-new scenarios is pending; they do not prove connected-tenant access or playback.
+All use issuer id zero and make no Microsoft requests. The initial six-job 261 CI
+passes 61 scenarios/1268 steps. The corrected candidate needs a fresh run; this
+does not prove connected-tenant access or playback.

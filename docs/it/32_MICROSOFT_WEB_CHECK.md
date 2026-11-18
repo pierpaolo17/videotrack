@@ -62,6 +62,7 @@ successive; il repository Zoom opzionale è ancora una valutazione architettural
 Nove metodi unitari nativi coprono identificatori, POST/GET, sesskey, accesso al nodo
 amministrativo e ordine dei controlli nel controller. Tre scenari browser coprono
 stato locale, URL non validi e configurazione incompleta senza rete reale. Sono
-regressioni scritte, ancora da eseguire nativamente nella 261. Non sono stati provati
-un tenant Microsoft collegato o la telemetria del player ufficiale. Conservare la
+regressioni superate dalla prima CI 261 a sei job (Unit472/5183, Behat61/1268).
+La nuova CI della correzione di analisi statica della stessa versione è da svolgere.
+Non sono stati provati un tenant Microsoft collegato o la telemetria del player ufficiale. Conservare la
 demo; la verifica manuale separata di accessibilità Moodle 5.3 resta in standby.

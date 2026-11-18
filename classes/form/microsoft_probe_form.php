@@ -20,8 +20,9 @@ use mod_videotrack\local\microsoft_graph;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->libdir . '/formslib.php');
+/** @var \stdClass $videotrackconfig Configuration supplied by Moodle bootstrap in any include scope. */
+$videotrackconfig = $GLOBALS['CFG'];
+require_once($videotrackconfig->libdir . '/formslib.php');
 
 /**
  * Explicit administrator submission for Microsoft metadata diagnostics.
