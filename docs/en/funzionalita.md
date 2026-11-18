@@ -1,5 +1,14 @@
 # User and administrator guide
 
+## Site source availability
+
+Administrators can independently enable YouTube, Vimeo and local HTML5/uploaded
+media. All three default to enabled, including upgraded sites with no stored flags.
+Disabled sources cannot be selected for new activities or used for playback/new
+tracking. Existing records and reports are retained. The editing form identifies
+an existing disabled source without silently replacing it.
+See [site source policy and optional integrations](31_SOURCE_POLICY.md).
+
 ## Authenticated Microsoft metadata diagnostics
 
 Administrators can explicitly check drive/video metadata with the core system OAuth

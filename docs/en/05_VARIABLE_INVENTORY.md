@@ -1,5 +1,16 @@
 # Data and configuration inventory
 
+## Source availability settings
+
+| Key | Default | Scope |
+|---|---|---|
+| `enableyoutube` | `1` | YouTube selection, playback and new tracking. |
+| `enablevimeo` | `1` | Vimeo selection, playback and new tracking. |
+| `enableupload` | `1` | Local HTML5 selection, media delivery and new tracking. |
+
+Missing values also mean enabled. Malformed stored values do not enable a source.
+These site settings are not part of activity backup data. See [source policy](31_SOURCE_POLICY.md).
+
 This document records persistent fields and public configuration contracts. Local implementation variables remain documented by source type declarations, DocBlocks and JSDoc.
 
 `db/install.xml` declares 22 stable XMLDB foreign keys for `videotrackid`, `courseid`, `cmid`, `userid` and the main

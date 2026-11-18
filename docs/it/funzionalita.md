@@ -1,5 +1,14 @@
 # Guida per utenti e amministratori
 
+## Disponibilità delle sorgenti nel sito
+
+L'amministratore può abilitare separatamente YouTube, Vimeo e HTML5/file caricati.
+Le tre sorgenti sono abilitate per impostazione predefinita, anche dopo aggiornamento
+senza valori già salvati. Una sorgente disabilitata non è selezionabile per nuove
+attività e non consente riproduzione/nuovo tracciamento. Dati e report sono conservati.
+Il modulo identifica la sorgente disabilitata esistente senza sostituirla.
+Vedere [policy sorgenti e integrazioni opzionali](31_SOURCE_POLICY.md).
+
 ## Diagnostica autenticata dei metadati Microsoft
 
 Gli amministratori possono verificare esplicitamente i metadati drive/video con

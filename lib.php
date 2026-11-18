@@ -257,10 +257,7 @@ function videotrack_process_video_fields(stdClass $data, $mform = null): void {
         throw new coding_exception('VideoTrack video fields require a Moodle form instance or null.');
     }
     $source = $data->videosource ?? 'youtube';
-    $allowedsources = ['youtube', 'vimeo', 'upload'];
-    if (!in_array($source, $allowedsources, true)) {
-        throw new moodle_exception('invalidvideosource', 'mod_videotrack');
-    }
+    \mod_videotrack\local\video_source_policy::require_enabled((string)$source);
 
     if ($source === 'youtube') {
         $url = trim((string)($data->youtubeurl ?? ''));
@@ -1662,7 +1659,10 @@ function videotrack_pluginfile_area_available($cm, string $filearea): bool {
 
     if (in_array($filearea, ['videocontent', 'subtitles'], true)) {
         $instance = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, videosource, captions', MUST_EXIST);
-        if ((string)$instance->videosource !== 'upload') {
+        if (
+            (string)$instance->videosource !== 'upload'
+            || !\mod_videotrack\local\video_source_policy::is_enabled('upload')
+        ) {
             return false;
         }
         if ($filearea === 'subtitles' && empty($instance->captions)) {

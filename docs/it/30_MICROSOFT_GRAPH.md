@@ -1,13 +1,9 @@
 # Diagnostica autenticata dei metadati Microsoft Graph
 
-## Correzione della CI candidata
+VideoTrack **1.7.260** (`2026111800`).
 
-La prima CI nativa rileva una fixture URL non valida. Il test corretto conserva
-tutti i sette endpoint e respinge userinfo nella verifica locale. Decodifica JSON e
-controlli MIME sono separati senza cambiare il contratto diagnostico.
-[Evidenze complete e gate da eseguire](09_DOCUMENTATION_AUDIT.md).
+La diagnostica introdotta nella 1.7.259 accettata resta invariata. I nuovi interruttori riguardano i tre player implementati; la riproduzione Microsoft resta un gate futuro.
 
-VideoTrack **1.7.259** (`2026111701`).
 
 È la prima diagnostica remota per preparare OneDrive/SharePoint. Verifica metadati
 espliciti di drive/video con l'account OAuth Microsoft di sistema del core.

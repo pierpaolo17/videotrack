@@ -1,5 +1,11 @@
 # CLI validation and Analytics benchmark
 
+## Effective source switches
+
+JSON `critical_config` includes boolean `enableyoutube`, `enablevimeo` and `enableupload`.
+Absent settings resolve to `true`. A deliberately disabled source is valid configuration
+and does not fail strict validation. Benchmark/report historical-data scope is unchanged.
+
 VideoTrack ships three read-only CLI tools. Run them from the Moodle root as the same operating-system user normally
 used for Moodle CLI maintenance.
 

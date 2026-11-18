@@ -1,5 +1,14 @@
 # Runtime flows
 
+## Site source availability
+
+Administrators can independently enable YouTube, Vimeo and local HTML5/uploaded
+media. All three default to enabled, including upgraded sites with no stored flags.
+Disabled sources cannot be selected for new activities or used for playback/new
+tracking. Existing records and reports are retained. The editing form identifies
+an existing disabled source without silently replacing it.
+See [site source policy and optional integrations](31_SOURCE_POLICY.md).
+
 ## Activity view and player boot
 
 `view.php` requires the activity, verifies `mod/videotrack:view`, loads the user state and teacher-supplied files, resolves site/instance policies and writes a JSON configuration element. It then initialises exactly one adapter: HTML5, YouTube or Vimeo. Shared modules attach status, progress, interval bar, reactions, notes, bookmarks, transcript, chapters, forum and focus controls.

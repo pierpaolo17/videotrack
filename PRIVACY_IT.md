@@ -1,5 +1,12 @@
 # VideoTrack: sintesi privacy e trattamento dei dati
 
+## 1.7.260: disponibilità delle sorgenti
+
+Gli interruttori bloccano riproduzione e nuovo tracciamento conservando i dati salvati.
+Retention, esportazioni Privacy e cancellazioni autorizzate mantengono le regole esistenti.
+Non sono introdotti credenziali, connessioni cloud o campi personali.
+Vedere [policy sorgenti](docs/it/31_SOURCE_POLICY.md).
+
 ## 1.7.259: diagnostica esplicita dei metadati Microsoft
 
 Il probe CLI facoltativo usa l'account OAuth Microsoft di sistema Moodle. Rinnovo e

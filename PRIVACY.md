@@ -1,5 +1,12 @@
 # VideoTrack privacy and data-handling summary
 
+## 1.7.260: source availability
+
+Site switches block playback and new tracking while retaining saved personal data.
+Retention, Privacy exports and authorised erasure keep their existing rules.
+No cloud credential, connection or personal field is introduced.
+See [source policy](docs/en/31_SOURCE_POLICY.md).
+
 ## 1.7.259: explicit Microsoft metadata diagnostics
 
 The optional CLI probe uses Moodle's Microsoft system OAuth account. Core owns token

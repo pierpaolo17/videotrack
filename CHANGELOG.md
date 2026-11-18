@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.260 - 2026-11-18
+
+### Add site-wide video source availability
+
+- Add independent administrator switches for YouTube, Vimeo and local HTML5/upload,
+  all enabled by default, with affected-activity counts. Missing settings preserve
+  existing sites; future cloud sources remain unavailable until implemented.
+- Filter new activity choices and choose the first enabled default. Preserve an
+  existing disabled edit value explicitly; reject forged saves and all-off fallback.
+- Enforce disabled sources before activity writes, viewed completion/acknowledgement,
+  player output, new authenticated telemetry and direct local media delivery.
+  Keep reports, saved files/state and authorised owner erasure available.
+- Include effective flags in validator JSON. Add 15 PHPUnit methods and four Behat
+  scenarios; native candidate/main and actual-package/server gates remain pending.
+- Document the optional separate Zoom repository as a future integration boundary,
+  with shared connection/recording selection and a distinct VideoTrack player adapter.
+  No Zoom plugin, credential fields, webhook endpoint or cloud playback is shipped.
+- Start from accepted 1.7.259/main243983ae: actual ZIP433 files match repository457
+  blobs; server Unit448/5071 on Moodle5.0/5.3, PHPCS/lint181 clean, unchanged Grunt
+  builds and strict10/0/0. Candidate/main CI and selected lifecycle paths passed.
+  PHPMD31 advisory findings and Psalm742/770 information items remain recorded.
+- Inventories:462 repository/438 distributed files,182 distributed PHP,1261 named
+  PHP callables (1254 distributed+7 repository helpers),654 AMD callables, eight packs
+  of1013 keys. AMD/schema/upgrade/services and Microsoft diagnostics are unchanged.
+  Retain the demo; manual Moodle5.3 accessibility remains on standby.
+
 ## 1.7.259 - 2026-11-17
 
 ### Add explicit authenticated Microsoft Graph metadata diagnostics

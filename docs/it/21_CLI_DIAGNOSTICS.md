@@ -1,5 +1,11 @@
 # Validazione CLI e benchmark Analytics
 
+## Interruttori effettivi delle sorgenti
+
+Il JSON `critical_config` include i booleani `enableyoutube`, `enablevimeo` e `enableupload`.
+Le impostazioni assenti valgono `true`. Una sorgente volutamente disabilitata è valida
+e non fa fallire la validazione rigorosa. Il perimetro storico di benchmark/report resta invariato.
+
 VideoTrack distribuisce tre strumenti CLI in sola lettura. Eseguirli dalla root Moodle con lo stesso utente di
 sistema normalmente usato per la manutenzione CLI.
 

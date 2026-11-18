@@ -569,6 +569,9 @@ $criticalconfig = [];
 foreach ($criticalsettings as $setting) {
     $criticalconfig[$setting] = property_exists($config, $setting) ? $config->{$setting} : null;
 }
+foreach (\mod_videotrack\local\video_source_policy::SOURCES as $source) {
+    $criticalconfig['enable' . $source] = \mod_videotrack\local\video_source_policy::is_enabled($source);
+}
 $details['critical_config'] = $criticalconfig;
 $addcheck('critical_config', 'pass', 'Selected privacy/performance/tracking configuration captured in the report.');
 

@@ -51,6 +51,8 @@ $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion funct
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 $canviewreport = has_capability('mod/videotrack:viewreport', $context);
+// Apply the site policy before acknowledgement, viewed completion or player output.
+\mod_videotrack\local\video_source_policy::require_enabled((string)($videotrack->videosource ?? 'youtube'));
 // Participation is explicit and independent from report access. The canonical
 // helper disables site-admin do-anything privileges for learner telemetry.
 $islearner = !isguestuser()
