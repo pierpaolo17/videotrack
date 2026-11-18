@@ -211,11 +211,11 @@ tree has 462 repository files / 438 distributed files, including all documentati
 | `classes/local/csv_export_fields.php` | Resolves configured CSV fields, visible identity choices and selected user records. |
 | `classes/local/csv_export_identity.php` | Formats CSV identity columns, Moodle field labels and video links. |
 | `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
-| `classes/local/form_definition.php` | Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement groups. |
+| `classes/local/form_definition.php` | Builds source/duration selectors, player/timed-text, CSV, Forum, integrity and acknowledgement form groups. |
 | `classes/local/form_playback_settings.php` | Builds site-controlled playback fields with exact defaults, course override locks and rate-limit choices. |
 | `classes/local/form_preprocessing.php` | Prepares reaction drafts, notice/preset, completion, playback, CSV and site defaults before form rendering. |
 | `classes/local/form_reaction_settings.php` | Builds general reaction controls and individual row fields/icon visibility, then applies course completion locks after row creation. |
-| `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
+| `classes/local/form_validation.php` | Validates source availability, scalar settings and completion/acknowledgement input contracts. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |

@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.260 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1261 (1254 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1264 (1257 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -790,7 +790,8 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `classes/external/helper.php:87` | `validate_request_id` | PHP callable `validate_request_id`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/helper.php:102` | `validate_end_reason` | PHP callable `validate_end_reason`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/helper.php:124` | `validate_bounded_float` | PHP callable `validate_bounded_float`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/helper.php:138` | `load_and_validate_context` | Validates learner access and site source policy; owner deletion retains access checks without requiring playback. |
+| `classes/external/helper.php:137` | `load_and_validate_context` | Load authenticated learner access and require an enabled source for new playback and writes. |
+| `classes/external/helper.php:152` | `load_and_validate_participant_context` | Validate login, context, view and participation independently of source availability; deletion still checks item ownership. |
 | `classes/external/save_bookmark.php:44` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:64` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:123` | `normalise_label` | Normalises and length-bounds the private bookmark label before persistence. |
@@ -966,17 +967,18 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:93` | `delete_exception_groups` | Remove plugin-owned exception groups during full plugin uninstall. |
 | `classes/local/focus_policy.php:115` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |
 | `classes/local/focus_policy.php:139` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
-| `classes/local/form_definition.php:35` | `add_duration_elements` | Builds duration input/status fields and hex-escaped DOM configuration, registering AMD init on the supplied page. |
-| `classes/local/form_definition.php:132` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
-| `classes/local/form_definition.php:212` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
-| `classes/local/form_definition.php:294` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
-| `classes/local/form_definition.php:386` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
-| `classes/local/form_definition.php:464` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
-| `classes/local/form_definition.php:524` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
-| `classes/local/form_definition.php:589` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
-| `classes/local/form_definition.php:658` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
-| `classes/local/form_definition.php:730` | `add_random_pause_override_elements` | Add optional whole-second bounds using the existing site-setting labels. |
-| `classes/local/form_definition.php:760` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
+| `classes/local/form_definition.php:35` | `add_source_elements` | Build the source selector with enabled defaults and an explicit disabled edit value. |
+| `classes/local/form_definition.php:49` | `add_duration_elements` | Builds duration input/status fields and hex-escaped DOM configuration, registering AMD init on the supplied page. |
+| `classes/local/form_definition.php:146` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
+| `classes/local/form_definition.php:226` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
+| `classes/local/form_definition.php:308` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
+| `classes/local/form_definition.php:400` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
+| `classes/local/form_definition.php:478` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
+| `classes/local/form_definition.php:538` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
+| `classes/local/form_definition.php:603` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
+| `classes/local/form_definition.php:672` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
+| `classes/local/form_definition.php:744` | `add_random_pause_override_elements` | Add optional whole-second bounds using the existing site-setting labels. |
+| `classes/local/form_definition.php:774` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
 | `classes/local/form_playback_settings.php:35` | `add_elements` | Builds site-controlled playback defaults with the original course lock notice and seven-field freeze mask. |
 | `classes/local/form_playback_settings.php:118` | `add_rate_limit_elements` | Builds maximum-rate and blocked-seek-rate choices with their original hundredths-based values. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | PHP callable `reaction_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -991,17 +993,18 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `classes/local/form_reaction_settings.php:236` | `add_row_visibility` | Keeps value/picker/file controls dependent on the same row’s selected icon type. |
 | `classes/local/form_reaction_settings.php:300` | `apply_completion_lock` | Applies the original course completion lock to top-level fields and the actual number of repeated rows. |
 | `classes/local/form_reaction_settings.php:321` | `add_notice_elements` | Builds the context-bound reaction notice editor with attachments and trusted HTML disabled. |
-| `classes/local/form_validation.php:36` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:70` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
-| `classes/local/form_validation.php:92` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |
-| `classes/local/form_validation.php:117` | `reaction_requirement_errors` | Validates the dependency between enabled reaction requirements, minimum count and all-types mode. |
-| `classes/local/form_validation.php:135` | `reaction_preset_errors` | Validates non-empty optional reaction-preset JSON. |
-| `classes/local/form_validation.php:159` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:200` | `completion_rule_enabled` | Combines the explicit percentage, reaction and acknowledgement completion predicates. |
-| `classes/local/form_validation.php:213` | `percentage_completion_rule_enabled` | Detects a positive percentage rule backed by a configured duration. |
-| `classes/local/form_validation.php:228` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
-| `classes/local/form_validation.php:246` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
-| `classes/local/form_validation.php:259` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:35` | `source_availability_errors` | Reject empty, unsupported or disabled source selection before URL/file validation. |
+| `classes/local/form_validation.php:59` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:93` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
+| `classes/local/form_validation.php:115` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |
+| `classes/local/form_validation.php:140` | `reaction_requirement_errors` | Validates the dependency between enabled reaction requirements, minimum count and all-types mode. |
+| `classes/local/form_validation.php:158` | `reaction_preset_errors` | Validates non-empty optional reaction-preset JSON. |
+| `classes/local/form_validation.php:182` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:223` | `completion_rule_enabled` | Combines the explicit percentage, reaction and acknowledgement completion predicates. |
+| `classes/local/form_validation.php:236` | `percentage_completion_rule_enabled` | Detects a positive percentage rule backed by a configured duration. |
+| `classes/local/form_validation.php:251` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
+| `classes/local/form_validation.php:269` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
+| `classes/local/form_validation.php:282` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1331,28 +1334,28 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `locallib.php:1070` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:47` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:242` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:279` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:325` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:362` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:390` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:459` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:471` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:570` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:606` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:637` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:670` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:683` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:696` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:715` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:740` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:765` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:793` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:831` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:854` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:875` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:899` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:953` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:236` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:273` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:319` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:356` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:384` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:453` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:465` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:564` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:600` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:631` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:655` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:668` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:681` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:700` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:725` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:750` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:778` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:816` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:839` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:860` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:884` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:938` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:46` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:65` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |
@@ -1893,25 +1896,25 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:136` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:160` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
-| `tests/video_source_policy_test.php:48` | `setUp` | Isolate configuration changes and load real activity callbacks. |
-| `tests/video_source_policy_test.php:62` | `tearDown` | Restore submitted fields even after an expected rejection. |
-| `tests/video_source_policy_test.php:70` | `test_missing_settings_preserve_defaults` | Missing settings preserve all three supported sources on existing sites. |
-| `tests/video_source_policy_test.php:85` | `test_switches_are_independent_and_fail_closed` | Each toggle is independent and malformed stored values cannot enable it. |
-| `tests/video_source_policy_test.php:101` | `test_options_preserve_existing_disabled_source` | Editing retains the original disabled value without offering it for creation. |
-| `tests/video_source_policy_test.php:117` | `test_all_disabled_sources_have_no_creation_fallback` | All-off has an explicit empty placeholder rather than a disabled fallback. |
-| `tests/video_source_policy_test.php:131` | `test_form_rejects_disabled_and_empty_selections` | Form validation rejects a forged disabled source before media validation. |
-| `tests/video_source_policy_test.php:152` | `test_create_callback_rejects_disabled_source_before_insert` | A direct create callback cannot bypass the policy with no Moodle form. |
-| `tests/video_source_policy_test.php:170` | `test_update_callback_preserves_disabled_activity` | A direct update rejection preserves the entire original activity row. |
-| `tests/video_source_policy_test.php:187` | `test_update_can_switch_to_an_enabled_source` | Teachers can explicitly switch an existing activity to an enabled source. |
-| `tests/video_source_policy_test.php:206` | `test_context_guard_preserves_owner_deletion_access` | Disabled sources reject learner context for writes but retain owner deletion access. |
-| `tests/video_source_policy_test.php:217` | `test_start_playback_is_rejected_before_state_write` | Starting playback after a toggle cannot create learner state. |
-| `tests/video_source_policy_test.php:234` | `test_stale_tab_cannot_submit_segments_after_disabling` | A tab opened before disabling cannot submit new segments or alter saved state. |
-| `tests/video_source_policy_test.php:262` | `test_disabled_source_does_not_prevent_personal_erasure` | Owners can still permanently erase existing personal content while disabled. |
-| `tests/video_source_policy_test.php:296` | `test_uploaded_media_access_follows_policy_without_deleting_files` | Direct media access is blocked while stored video and caption files are retained. |
-| `tests/video_source_policy_test.php:322` | `test_usage_counts_include_disabled_activities` | The administrator sees affected counts even when a source is disabled. |
-| `tests/video_source_policy_test.php:333` | `test_reenable_preserves_media_identity_and_state` | Re-enabling restores access to the same media identity and learner state. |
-| `tests/video_source_policy_test.php:353` | `fixture` | Create a real activity and an enrolled learner with a valid request. |
-| `tests/video_source_policy_test.php:376` | `assert_disabled` | Assert the exact policy rejection rather than an unrelated validation error. |
+| `tests/video_source_policy_test.php:50` | `setUp` | Isolate configuration changes and load real activity callbacks. |
+| `tests/video_source_policy_test.php:64` | `tearDown` | Restore submitted fields even after an expected rejection. |
+| `tests/video_source_policy_test.php:72` | `test_missing_settings_preserve_defaults` | Missing settings preserve all three supported sources on existing sites. |
+| `tests/video_source_policy_test.php:87` | `test_switches_are_independent_and_fail_closed` | Each toggle is independent and malformed stored values cannot enable it. |
+| `tests/video_source_policy_test.php:103` | `test_options_preserve_existing_disabled_source` | Editing retains the original disabled value without offering it for creation. |
+| `tests/video_source_policy_test.php:119` | `test_all_disabled_sources_have_no_creation_fallback` | All-off has an explicit empty placeholder rather than a disabled fallback. |
+| `tests/video_source_policy_test.php:133` | `test_form_rejects_disabled_and_empty_selections` | Form validation rejects a forged disabled source before media validation. |
+| `tests/video_source_policy_test.php:154` | `test_create_callback_rejects_disabled_source_before_insert` | A direct create callback cannot bypass the policy with no Moodle form. |
+| `tests/video_source_policy_test.php:172` | `test_update_callback_preserves_disabled_activity` | A direct update rejection preserves the entire original activity row. |
+| `tests/video_source_policy_test.php:189` | `test_update_can_switch_to_an_enabled_source` | Teachers can explicitly switch an existing activity to an enabled source. |
+| `tests/video_source_policy_test.php:208` | `test_context_guard_preserves_owner_deletion_access` | Disabled sources reject learner context for writes but retain owner deletion access. |
+| `tests/video_source_policy_test.php:219` | `test_start_playback_is_rejected_before_state_write` | Starting playback after a toggle cannot create learner state. |
+| `tests/video_source_policy_test.php:236` | `test_stale_tab_cannot_submit_segments_after_disabling` | A tab opened before disabling cannot submit new segments or alter saved state. |
+| `tests/video_source_policy_test.php:266` | `test_disabled_source_does_not_prevent_personal_erasure` | Owners can still permanently erase existing personal content while disabled. |
+| `tests/video_source_policy_test.php:300` | `test_uploaded_media_access_follows_policy_without_deleting_files` | Direct media access is blocked while stored video and caption files are retained. |
+| `tests/video_source_policy_test.php:326` | `test_usage_counts_include_disabled_activities` | The administrator sees affected counts even when a source is disabled. |
+| `tests/video_source_policy_test.php:337` | `test_reenable_preserves_media_identity_and_state` | Re-enabling restores access to the same media identity and learner state. |
+| `tests/video_source_policy_test.php:357` | `fixture` | Create a real activity and an enrolled learner with a valid request. |
+| `tests/video_source_policy_test.php:380` | `assert_disabled` | Assert the exact policy rejection rather than an unrelated validation error. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Named PHP function/method `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Named PHP function/method `test_blocked_seek_clears_forward_guard_after_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Named PHP function/method `test_blocked_seek_resume_retries_never_reseek`; see source DocBlock and callers for the current contract. |

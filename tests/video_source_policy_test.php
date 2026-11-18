@@ -33,6 +33,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(video_source_policy::class)]
+#[CoversClass(\mod_videotrack\local\form_definition::class)]
+#[CoversClass(\mod_videotrack\local\form_validation::class)]
 #[CoversClass(helper::class)]
 #[CoversClass(start_playback::class)]
 #[CoversClass(save_segment::class)]
@@ -207,7 +209,7 @@ final class video_source_policy_test extends \advanced_testcase {
         $activity = $this->fixture();
         set_config('enableyoutube', 0, 'mod_videotrack');
         $this->assert_disabled(static fn() => helper::load_and_validate_context((int)$activity->cmid));
-        $loaded = helper::load_and_validate_context((int)$activity->cmid, false);
+        $loaded = helper::load_and_validate_participant_context((int)$activity->cmid);
         $this->assertSame((int)$activity->id, (int)$loaded['videotrack']->id);
     }
 
@@ -238,6 +240,8 @@ final class video_source_policy_test extends \advanced_testcase {
         start_playback::execute((int)$activity->cmid, md5('source-policy-session'), md5('source-policy-open'), 0.0);
         $before = $DB->get_records('videotrack_state', ['videotrackid' => $activity->id]);
         $this->assertNotEmpty($before);
+        $segmentsbefore = $DB->get_records('videotrack_seg', ['videotrackid' => $activity->id]);
+        $this->assertNotEmpty($segmentsbefore);
         set_config('enableyoutube', 0, 'mod_videotrack');
         $end = (int)round(microtime(true) * 1000);
         $this->assert_disabled(static fn() => save_segment::execute(
@@ -252,7 +256,7 @@ final class video_source_policy_test extends \advanced_testcase {
             'heartbeat',
             120.0
         ));
-        $this->assertSame(0, $DB->count_records('videotrack_seg', ['videotrackid' => $activity->id]));
+        $this->assertEquals($segmentsbefore, $DB->get_records('videotrack_seg', ['videotrackid' => $activity->id]));
         $this->assertEquals($before, $DB->get_records('videotrack_state', ['videotrackid' => $activity->id]));
     }
 

@@ -49,6 +49,11 @@ accesso e cache.
 La policy si applica alle richieste successive di pagine, file e servizi. Questo
 interruttore non interrompe da remoto i contenuti già caricati in una scheda aperta.
 
+La vista di indisponibilità corretta usa un avviso normale con ritorno al corso,
+senza pagina di errore fatale Moodle né avvio del player. L'accesso ai dati per le
+cancellazioni personali resta separato dall'accesso alla riproduzione abilitata.
+Vedere [rilievi della prima CI e correzione](09_DOCUMENTATION_AUDIT.md).
+
 ## Verifiche e stato della release
 
 La candidata aggiunge 15 metodi PHPUnit e quattro scenari Behat: valori predefiniti,

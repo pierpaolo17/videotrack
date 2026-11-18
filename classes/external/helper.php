@@ -129,13 +129,27 @@ class helper extends external_api {
     }
 
     /**
-     * Loads the activity and validates login, context and view capability.
+     * Load learner access and require a currently enabled video source.
      *
      * @param int $cmid Course module id.
-     * @param bool $requireenabled Require a playable source; false only for owner deletion.
      * @return array Course, activity, course-module and context records.
      */
-    public static function load_and_validate_context(int $cmid, bool $requireenabled = true): array {
+    public static function load_and_validate_context(int $cmid): array {
+        $loaded = self::load_and_validate_participant_context($cmid);
+        $source = (string)($loaded['videotrack']->videosource ?? 'youtube');
+        \mod_videotrack\local\video_source_policy::require_enabled($source);
+        return $loaded;
+    }
+
+    /**
+     * Load learner access independently of source availability for owner deletion.
+     *
+     * Deletion functions must still validate the requested item's ownership.
+     *
+     * @param int $cmid Course module id.
+     * @return array Course, activity, course-module and context records.
+     */
+    public static function load_and_validate_participant_context(int $cmid): array {
         global $DB;
 
         $cmraw = get_coursemodule_from_id('videotrack', $cmid, 0, false, MUST_EXIST);
@@ -152,10 +166,6 @@ class helper extends external_api {
         // learners while keeping ordinary teacher/admin previews non-tracking.
         if (!\mod_videotrack\local\learner_scope::can_participate($context)) {
             throw new \moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
-        }
-
-        if ($requireenabled) {
-            \mod_videotrack\local\video_source_policy::require_enabled((string)($videotrack->videosource ?? 'youtube'));
         }
 
         return [

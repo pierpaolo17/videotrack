@@ -57,14 +57,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
-        // Video source selector.
-        $mform->addElement('header', 'videosourceheader', get_string('videosource', 'mod_videotrack'));
-
         $currentsource = !empty($this->_instance) ? (string)($this->current->videosource ?? '') : '';
-        $sourceoptions = \mod_videotrack\local\video_source_policy::options($currentsource);
-        $mform->addElement('select', 'videosource', get_string('videosource', 'mod_videotrack'), $sourceoptions);
-        $mform->setType('videosource', PARAM_ALPHA);
-        $mform->setDefault('videosource', (string)array_key_first($sourceoptions));
+        \mod_videotrack\local\form_definition::add_source_elements($mform, $currentsource);
 
         // YouTube URL.
         $mform->addElement('text', 'youtubeurl', get_string('youtubeurl', 'mod_videotrack'), ['size' => '80']);
@@ -636,18 +630,9 @@ JS);
      */
     protected function source_errors(array $data): array {
         $source = $data['videosource'] ?? 'youtube';
-        if ($source === '') {
-            return ['videosource' => get_string('source:noneenabled', 'mod_videotrack')];
-        }
-        if (
-            in_array($source, \mod_videotrack\local\video_source_policy::SOURCES, true)
-            && !\mod_videotrack\local\video_source_policy::is_enabled($source)
-        ) {
-            return ['videosource' => get_string(
-                'error:videosourcedisabled',
-                'mod_videotrack',
-                get_string('source:' . $source, 'mod_videotrack')
-            )];
+        $errors = \mod_videotrack\local\form_validation::source_availability_errors((string)$source);
+        if ($errors) {
+            return $errors;
         }
         if ($source === 'youtube') {
             return self::youtube_source_errors($data);

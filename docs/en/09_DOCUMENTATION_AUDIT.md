@@ -2,6 +2,46 @@
 
 Baseline: VideoTrack **1.7.260** (`2026111800`).
 
+## Initial 1.7.260 CI and correction
+
+Run `44349419297`, commit `fcaa45fe518633cd55323f5eaf51311ed914ca6a`, failed all
+six jobs. All 462 source blobs/modes, six CI artifact digests and six faildump
+digests match the official run. Each suite executed **463 tests / 5141 assertions /
+1 failure** and **58 Behat scenarios / 1236 steps**, with one failed scenario and
+two skipped steps. Both automatic reruns failed the same scenario. The 18 HTML
+snapshots show the intended disabled-source denial as a Moodle fatal-error page,
+with no provider iframe.
+
+The stale-tab PHPUnit assertion incorrectly expected no segment after opening
+playback. The normal startup handshake already creates a `playstart` audit row.
+The corrected regression snapshots all existing segments/state before disabling
+and asserts exact preservation after the rejected write; it retains the policy
+rejection assertion. The view now renders a normal warning/return-to-course page
+before viewed completion, acknowledgement processing and player initialisation.
+The browser scenario retains its assertions and also verifies no player/fatal
+error DOM and a working return to the course. API/write rejection remains strict.
+
+The selected quality job passes PHPCS/lint on 182 distributed PHP plus the
+repository helper, PHPDoc/metadata and 206 savepoint contracts. All six jobs pass
+Grunt and strict **10/0/0**. Lifecycle execution is skipped after the failures and
+is not a pass. PHPStan/Psalm report no configured errors; Psalm has 742/770
+information items. PHPMD reports **33** advisories, two more than accepted 259:
+the context loader's boolean flag and the form's new dependency.
+
+The correction replaces that flag with explicit playback/participant context
+entry points, retaining login/context/view/participation and deletion ownership
+checks. Source selector/availability validation now live in the existing form
+definition/validation helpers. The two new PHPMD findings are addressed in source;
+a fresh native report must confirm the resulting count. Rules, baselines and CI
+gates are not relaxed.
+
+This patch is **incremental from the failed 1.7.260 commit** on `release/v1.7.260`,
+not the earlier 259-to-260 patch. Release/version remain **1.7.260 / 2026111800**.
+There are still 462 repository/438 distributed files, 182 distributed PHP and
+463 PHPUnit methods; named PHP callables become 1264 (1257 distributed + 7 helpers).
+Fresh native candidate CI, main CI and actual-package/server acceptance are pending.
+The demo is retained. No AMD/schema/service/credential change is introduced.
+
 ## Accepted 1.7.259 baseline
 
 The baseline is main `243983ae3cc93af7c8a702014d4e58cad0d0f53f`, tree
@@ -42,7 +82,7 @@ and service contracts are unchanged.
 ## Inventory and evidence boundary
 
 The tree has 462 repository / 438 distributed files, 182 distributed PHP files plus
-one repository lifecycle helper, 1261 named PHP callables (1254 distributed + 7 helper
+one repository lifecycle helper, 1264 named PHP callables (1257 distributed + 7 helper
 callables), 654 AMD callables and eight packs of 1013 matching keys/placeholders.
 The curated inventory has 371 entries (366 distributed + five repository-only).
 There are 463 PHPUnit methods (15 new) and four new browser scenarios; the expected

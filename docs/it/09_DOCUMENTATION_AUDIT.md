@@ -2,6 +2,46 @@
 
 Baseline: VideoTrack **1.7.260** (`2026111800`).
 
+## Prima CI 1.7.260 e correzione
+
+Il run `44349419297`, commit `fcaa45fe518633cd55323f5eaf51311ed914ca6a`, fallisce
+tutti i sei job. I 462 blob/permessi sorgente, i sei digest CI e i sei digest faildump
+coincidono con il run ufficiale. Ogni suite esegue **463 test / 5141 asserzioni /
+1 fallimento** e **58 scenari Behat / 1236 step**, con uno scenario fallito e due
+step saltati. I due retry automatici falliscono sullo stesso scenario. I 18 snapshot
+HTML mostrano il blocco previsto della sorgente come pagina di errore fatale Moodle,
+senza iframe del fornitore.
+
+Il test della scheda precedente ipotizzava erroneamente l'assenza di segmenti dopo
+l'avvio: l'handshake normale crea già un record di audit `playstart`. La regressione
+corretta fotografa tutti i segmenti/stati prima della disabilitazione e ne verifica
+la conservazione esatta dopo il rifiuto, mantenendo l'asserzione sul blocco.
+La vista presenta ora un avviso normale con ritorno al corso, prima di completamento
+su apertura, presa visione e avvio del player. Lo scenario mantiene i controlli e
+verifica anche assenza di player/errori fatali nel DOM e ritorno funzionante al
+corso. Il rifiuto di API/scritture rimane rigoroso.
+
+Il job qualità supera PHPCS/lint su 182 PHP distribuiti più l'helper repository,
+PHPDoc/metadati e 206 contratti savepoint. Grunt e strict **10/0/0** passano nei sei
+job. I lifecycle sono saltati dopo i fallimenti, non superati. PHPStan/Psalm non
+riportano errori configurati; Psalm conta 742/770 informazioni. PHPMD riporta **33**
+advisory, due in più della 259: parametro booleano del caricamento contesto e nuova
+dipendenza del modulo.
+
+La correzione sostituisce il flag con ingressi espliciti per riproduzione/accesso
+del partecipante, conservando login/contesto/capability/partecipazione e proprietà
+nelle cancellazioni. Selettore e validazione disponibilità passano agli helper di
+definizione/validazione del modulo già esistenti. I due nuovi rilievi PHPMD sono
+affrontati nel sorgente; il nuovo report nativo dovrà confermare il conteggio.
+Regole, baseline e gate CI non vengono allentati.
+
+Questa patch è **incrementale dal commit 1.7.260 fallito**, su `release/v1.7.260`,
+non la precedente patch 259→260. Release/versione restano **1.7.260 / 2026111800**.
+Restano 462 file repository/438 distribuiti, 182 PHP distribuiti e 463 metodi
+PHPUnit; i callable PHP diventano 1264 (1257 distribuiti + 7 helper). Servono nuova
+CI candidata, CI main e accettazione del pacchetto reale/server. Il dataset demo
+resta conservato. Nessuna modifica ad AMD/schema/servizi/credenziali.
+
 ## Baseline 1.7.259 accettata
 
 La baseline è main `243983ae3cc93af7c8a702014d4e58cad0d0f53f`, albero
@@ -43,7 +83,7 @@ servizi rimangono invariati.
 ## Inventari e confini delle evidenze
 
 L'albero ha 462 file repository / 438 distribuiti, 182 PHP distribuiti più un helper
-lifecycle repository, 1261 callable PHP nominati (1254 distribuiti + 7 helper),
+lifecycle repository, 1264 callable PHP nominati (1257 distribuiti + 7 helper),
 654 callable AMD e otto lingue con 1013 chiavi/placeholder corrispondenti.
 L'inventario selezionato ha 371 voci (366 distribuite + cinque solo repository).
 I metodi PHPUnit sono 463 (15 nuovi), con quattro scenari browser nuovi e 58 scenari

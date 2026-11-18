@@ -47,6 +47,11 @@ Feature: Site source policy controls activity choices and playback
     When I click on "Source policy video" "link"
     Then I should see "The video source (YouTube) is disabled by the site administrator."
     And I should not see "My notes"
+    And ".videotrack-source-unavailable" "css_element" should exist
+    And ".videotrack-player-wrap" "css_element" should not exist
+    And "[data-rel=fatalerror]" "css_element" should not exist
+    When I press "Continue"
+    Then I should see "Course 1"
 
   Scenario: Disabling every source never silently replaces an existing activity source
     Given the following config values are set as admin:

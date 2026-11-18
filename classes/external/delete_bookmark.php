@@ -61,7 +61,7 @@ class delete_bookmark extends external_api {
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $bookmarkeventid = helper::validate_positive_id((int)$params['bookmarkeventid'], 'bookmarkeventid');
         helper::require_ajax_sesskey();
-        $loaded = helper::load_and_validate_context((int)$params['cmid'], false);
+        $loaded = helper::load_and_validate_participant_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
         personal_item::erase($videotrack, $context, (int)$USER->id, $bookmarkeventid, 'bookmark');

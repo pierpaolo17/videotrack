@@ -4,6 +4,13 @@
 
 ### Add site-wide video source availability
 
+- Correct initial260 CI: preserve the existing playback handshake in stale-tab
+  assertions and render disabled-source availability as a normal warning page.
+  Retain all browser checks and add absent-player/fatal-error and course-return checks.
+- Replace the context boolean flag with explicit access entry points and delegate
+  source form definition/validation to existing helpers, addressing the two new
+  PHPMD findings without rule changes. Keep2026111800; fresh native CI is required.
+
 - Add independent administrator switches for YouTube, Vimeo and local HTML5/upload,
   all enabled by default, with affected-activity counts. Missing settings preserve
   existing sites; future cloud sources remain unavailable until implemented.
@@ -21,8 +28,8 @@
   blobs; server Unit448/5071 on Moodle5.0/5.3, PHPCS/lint181 clean, unchanged Grunt
   builds and strict10/0/0. Candidate/main CI and selected lifecycle paths passed.
   PHPMD31 advisory findings and Psalm742/770 information items remain recorded.
-- Inventories:462 repository/438 distributed files,182 distributed PHP,1261 named
-  PHP callables (1254 distributed+7 repository helpers),654 AMD callables, eight packs
+- Inventories:462 repository/438 distributed files,182 distributed PHP,1264 named
+  PHP callables (1257 distributed+7 repository helpers),654 AMD callables, eight packs
   of1013 keys. AMD/schema/upgrade/services and Microsoft diagnostics are unchanged.
   Retain the demo; manual Moodle5.3 accessibility remains on standby.
 

@@ -211,11 +211,11 @@ Voci: **371** — 366 file distribuiti e cinque solo repository. L'albero comple
 | `classes/local/csv_export_fields.php` | Risolve campi CSV configurati, identità visibili e record utente selezionati. |
 | `classes/local/csv_export_identity.php` | Formatta colonne di identità CSV, etichette Moodle e link video. |
 | `classes/local/focus_policy.php` | Eccezione di accessibilità al focus rigido per corso basata su un gruppo core Moodle nascosto. |
-| `classes/local/form_definition.php` | Costruisce durata, impostazioni player/testo temporizzato, gruppi CSV, Forum, integrità e presa visione. |
+| `classes/local/form_definition.php` | Costruisce selettori sorgente/durata e gruppi player/testo temporizzato, CSV, Forum, integrità e presa visione. |
 | `classes/local/form_playback_settings.php` | Costruisce campi riproduzione controllati dal sito con default esatti, blocchi per corso e opzioni dei limiti di velocità. |
 | `classes/local/form_preprocessing.php` | Prepara bozze reazioni e default di avviso/preset, completamento, playback, CSV e sito prima del rendering del form. |
 | `classes/local/form_reaction_settings.php` | Costruisce controlli reaction generali e campi/visibilità icone delle singole righe, poi applica i blocchi completamento per corso. |
-| `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
+| `classes/local/form_validation.php` | Valida disponibilità sorgenti, impostazioni scalari e contratti di completamento/presa visione. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/instance_settings_policy.php` | Policy server sui campi e sulle dipendenze di completamento prima della persistenza. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |

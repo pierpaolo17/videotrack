@@ -46,6 +46,11 @@ its existing access and caching rules.
 The policy takes effect on subsequent page, file and server requests. Media already
 loaded in an open browser tab is not remotely stopped by this setting.
 
+The corrected unavailable view uses a normal warning with a return-to-course
+button, without a Moodle fatal-error page or player initialisation. Learner data
+access for owner deletion remains separate from enabled-source playback access.
+See [initial CI findings and correction](09_DOCUMENTATION_AUDIT.md).
+
 ## Verification and release status
 
 The candidate adds 15 PHPUnit regression methods and four Behat scenarios. They
