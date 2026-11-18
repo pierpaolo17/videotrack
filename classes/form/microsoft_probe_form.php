@@ -14,13 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+/**
+ * Bootstrap the administrator Microsoft metadata form.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace mod_videotrack\form;
 
 use mod_videotrack\local\microsoft_graph;
 
 defined('MOODLE_INTERNAL') || die();
 
-/** @var \stdClass $videotrackconfig Configuration supplied by Moodle bootstrap in any include scope. */
+/** @var \stdClass $videotrackconfig */
 $videotrackconfig = $GLOBALS['CFG'];
 require_once($videotrackconfig->libdir . '/formslib.php');
 

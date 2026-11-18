@@ -2,6 +2,46 @@
 
 Baseline: VideoTrack **1.7.261** (`2026111801`).
 
+## Corrected 261 run and PHPDoc-only follow-up
+
+Run `44395198345`, commit `f834ffd16269662389acbf87ab59d3bf48e3bef7`,
+tree `a658e256119dd0971b96c604708d2d354496ead9`, has five successful jobs and
+one failed 5.0/MariaDB job. All **seven official artifact digests**, including the
+faildump, match the uploaded ZIPs; **468 blobs/modes** match the delivered correction.
+All six PHPUnit suites pass **472/5183**, strict **10/0/0** and Grunt. PHPStan/Psalm
+report **no configured errors** on both selected branches, removing the previous
+three findings; Psalm informational counts remain **746/774**, types not printed.
+PHPMD retains exactly the same **31** reviewed baseline identities.
+
+The canonical job reports **five PHPCS errors** in the first bootstrap variable
+comment: its first-docblock position lacks file description/package/copyright/license,
+and its trailing prose disqualifies the inline type hint. Lint185+1, helperPHPCS,
+PHPDoc checker, metadata and 206 savepoint contracts still pass. This follow-up adds
+a complete file PHPDoc before the namespace and makes the existing type hint end
+with its variable. This follows the [actual Moodle CS3.7.0 rule](https://github.com/moodlehq/moodle-cs/blob/v3.7.0/moodle/Sniffs/Commenting/InlineCommentSniff.php).
+Every executable PHP token, existing test, setting, schema, language, AMD, version
+and CI gate is retained. No suppression is introduced. Local checks are lexical
+and source comparisons, not native PHPCS/Psalm execution of this follow-up.
+
+Five jobs pass Behat **61/1268**, without reruns. The 5.0/MariaDB log has **33 passed /
+28 failed scenarios**, **877 passed /1 failed /390 skipped steps**, then two reruns
+that cannot reach `http://localhost:8000`. Both faildump files show the HTML5-ready
+step; the HTML is Chromium's `ERR_CONNECTION_REFUSED` page, not a Moodle exception.
+The local HTTP service is unavailable; the reason it stopped is **undetermined**
+from these artifacts. No server/OOM/root-cause claim or workaround is inferred.
+A fresh CI run must re-execute the browser suite; the failed job is not accepted.
+
+All three lifecycle lineages pass on **5.3/MariaDB**, with three independently
+reconstructed snapshot hashes and 63 actual file-content checks. **5.0/MariaDB
+lifecycle is skipped**, not passed. Historical success from the earlier run is
+separate evidence and does not fill this gap.
+
+This is an **incremental PHPDoc correction from f834ffd1**, retaining **1.7.261 /
+2026111801**, 472 unit methods, 61 scenarios, 468/444 files and 8×1023 language keys.
+Fresh six-job candidate CI, then main, actual package/server and both strict outputs
+remain required. The actual accepted baseline remains260. Retain the demo; manual53
+accessibility stays on standby. The assistant makes no remote Git changes.
+
 ## Initial 1.7.261 CI and same-version correction
 
 Run `44388798465`, commit `d8ab79681ecbb5c4b9e30dba3bbbd7f12625b62a`,

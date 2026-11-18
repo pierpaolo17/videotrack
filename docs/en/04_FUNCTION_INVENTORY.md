@@ -836,8 +836,8 @@ Generated from the VideoTrack 1.7.261 source tree. PHP entries include named fun
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/form/microsoft_probe_form.php:38` | `definition` | Define identifiers without silently stripping invalid target characters. |
-| `classes/form/microsoft_probe_form.php:54` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
+| `classes/form/microsoft_probe_form.php:46` | `definition` | Define identifiers without silently stripping invalid target characters. |
+| `classes/form/microsoft_probe_form.php:62` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |

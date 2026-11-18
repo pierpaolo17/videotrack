@@ -4,6 +4,15 @@
 
 ### Add an administrator Microsoft connection check
 
+- Correct the bootstrap comments after run44395198345: provide a complete file
+  PHPDoc before the namespace and keep the variable type hint free of trailing
+  prose, as required by Moodle CodeSniffer3.7.0. Executable tokens are unchanged.
+  PHPStan/Psalm now have no configured errors; all Unit472/5183 and strict10/0/0 pass.
+  Five browser jobs pass61/1268;50MariaDB lost its local HTTP server during Behat
+  (connection refused;two reruns unavailable), so its lifecycle was skipped.
+  This comment-only correction requires fresh CI; no runtime cause for the server
+  outage is established, and no checks, assertions or CI gates are weakened.
+
 - Correct the three new static-analysis findings in the initial green six-job CI:
   read the Moodle configuration through a typed local alias instead of a file-level
   global declaration, and check the system site-configuration capability directly

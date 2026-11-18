@@ -2,6 +2,47 @@
 
 Baseline: VideoTrack **1.7.261** (`2026111801`).
 
+## Run 261 corretta e seguito limitato ai PHPDoc
+
+La run `44395198345`, commit `f834ffd16269662389acbf87ab59d3bf48e3bef7`,
+albero `a658e256119dd0971b96c604708d2d354496ead9`, ha cinque job superati e
+5.0/MariaDB fallito. Tutti i **sette digest ufficiali**, faildump incluso, coincidono
+con gli ZIP caricati; **468 blob/modi** coincidono con la correzione consegnata.
+Tutte le sei suite Unit passano **472/5183**, strict **10/0/0** e Grunt. PHPStan/Psalm
+sono **senza errori configurati** sui due rami selezionati: rimossi i tre rilievi
+precedenti. Psalm resta a **746/774** elementi informativi, senza tipi stampati.
+PHPMD conserva esattamente le medesime **31** identità revisionate della baseline.
+
+Il job canonico riporta **cinque errori PHPCS** nel primo commento della variabile
+di bootstrap: come primo docblock mancano descrizione/package/copyright/license del
+file e il testo dopo la variabile non è ammesso nel suggerimento di tipo inline.
+Lint185+1, helperPHPCS, checker PHPDoc, metadati e 206 contratti savepoint passano.
+Il seguito aggiunge un PHPDoc file completo prima del namespace e termina il
+suggerimento di tipo con la variabile, secondo la [regola effettiva Moodle CS3.7.0](https://github.com/moodlehq/moodle-cs/blob/v3.7.0/moodle/Sniffs/Commenting/InlineCommentSniff.php).
+Conserva ogni token PHP eseguibile, test, impostazione, schema, lingua, AMD, versione
+e gate CI. Nessuna soppressione aggiunta. I controlli locali sono lessicali e
+confronti sorgente, non esecuzione nativa PHPCS/Psalm di questo seguito.
+
+Cinque job superano Behat **61/1268**, senza ritentativi. Il log 5.0/MariaDB riporta
+**33 scenari superati /28 falliti**, **877 passi superati /1 fallito /390 saltati**,
+poi due ritentativi che non raggiungono `http://localhost:8000`. Entrambi i file del
+faildump riguardano il passo di disponibilità HTML5; l’HTML è la pagina Chromium
+`ERR_CONNECTION_REFUSED`, non un’eccezione Moodle. Il servizio HTTP locale non è
+raggiungibile; il motivo dell’arresto **non è determinabile** dagli artifact.
+Nessuna causa server/OOM o soluzione ipotetica dichiarata. La nuova CI deve ripetere
+la suite browser; il job fallito non è accettato.
+
+Le tre genealogie lifecycle passano su **5.3/MariaDB**, con tre hash degli snapshot
+ricostruiti autonomamente e 63 prove effettive dei contenuti file. Il lifecycle
+**5.0/MariaDB è saltato**, non superato. Il successo storico della run precedente
+resta evidenza separata e non colma questo passaggio.
+
+È una **correzione PHPDoc incrementale da f834ffd1**: restano **1.7.261 /2026111801**,
+472 metodi unitari, 61 scenari, 468/444 file e 8×1023 chiavi lingua. Servono una nuova
+CI candidato a sei job, poi main, ZIP reale/report server e due strict. La baseline
+effettivamente accettata resta260. Conservare la demo; accessibilità manuale53 in
+standby. Nessuna modifica Git remota dall’assistente.
+
 ## Prima CI 1.7.261 e correzione della stessa versione
 
 La run `44388798465`, commit `d8ab79681ecbb5c4b9e30dba3bbbd7f12625b62a`,

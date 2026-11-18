@@ -836,8 +836,8 @@ Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzio
 | `classes/external/start_playback.php:115` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/form/microsoft_probe_form.php:38` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
-| `classes/form/microsoft_probe_form.php:54` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:46` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
+| `classes/form/microsoft_probe_form.php:62` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
