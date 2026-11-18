@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.259**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.260**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -43,6 +43,15 @@ Release corrente documentata da questo albero: **1.7.259**. Rami Moodle supporta
 
 La tabella è una mappa completa, non la specifica operativa. Comportamento, permessi, confini dati e limiti dei
 provider sono descritti una sola volta nella [guida completa](docs/it/funzionalita.md) e nei riferimenti tecnici.
+
+## Disponibilità delle sorgenti nel sito
+
+L'amministratore può abilitare separatamente YouTube, Vimeo e HTML5/file caricati.
+Le tre sorgenti sono abilitate per impostazione predefinita, anche dopo aggiornamento
+senza valori già salvati. Una sorgente disabilitata non è selezionabile per nuove
+attività e non consente riproduzione/nuovo tracciamento. Dati e report sono conservati.
+Il modulo identifica la sorgente disabilitata esistente senza sostituirla.
+Vedere [policy sorgenti e integrazioni opzionali](docs/it/31_SOURCE_POLICY.md).
 
 ## Requisiti e installazione
 

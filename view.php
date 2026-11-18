@@ -51,6 +51,28 @@ $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion funct
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 $canviewreport = has_capability('mod/videotrack:viewreport', $context);
+$PAGE->set_url('/mod/videotrack/view.php', ['id' => $cm->id]);
+$PAGE->set_context($context);
+$PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
+$PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
+// A disabled source is an expected availability state, before any viewed completion or player output.
+$source = (string)($videotrack->videosource ?? 'youtube');
+if (!\mod_videotrack\local\video_source_policy::is_enabled($source)) {
+    $sourcelabel = in_array($source, \mod_videotrack\local\video_source_policy::SOURCES, true)
+        ? get_string('source:' . $source, 'mod_videotrack')
+        : get_string('videosource', 'mod_videotrack');
+    echo $OUTPUT->header();
+    echo html_writer::div(
+        $OUTPUT->notification(
+            get_string('error:videosourcedisabled', 'mod_videotrack', $sourcelabel),
+            \core\output\notification::NOTIFY_WARNING
+        ),
+        'videotrack-source-unavailable'
+    );
+    echo $OUTPUT->continue_button(new moodle_url('/course/view.php', ['id' => $course->id]));
+    echo $OUTPUT->footer();
+    exit;
+}
 // Participation is explicit and independent from report access. The canonical
 // helper disables site-admin do-anything privileges for learner telemetry.
 $islearner = !isguestuser()
@@ -135,10 +157,6 @@ if ($hasactivereactions && !empty($videotrack->showreactionnotice)) {
     }
 }
 
-$PAGE->set_url('/mod/videotrack/view.php', ['id' => $cm->id]);
-$PAGE->set_context($context);
-$PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
-$PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
 $replaystart = optional_param('replaystart', -1, PARAM_INT);
 $replayend   = optional_param('replayend', -1, PARAM_INT);
 $durationseconds = max(0, (int)($videotrack->durationseconds ?? 0));
@@ -153,7 +171,6 @@ if ($durationseconds > 0) {
         $replayend = $replaystart;
     }
 }
-$source      = $videotrack->videosource ?? 'youtube';
 $speeds      = videotrack_get_playback_speeds($videotrack);
 $html5ctrl   = videotrack_get_html5controls($videotrack);
 $playerwidth = videotrack_get_player_width($videotrack);

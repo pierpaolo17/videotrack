@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.260. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1238 (1231 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1264 (1257 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -790,7 +790,8 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `classes/external/helper.php:87` | `validate_request_id` | Callable PHP `validate_request_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/helper.php:102` | `validate_end_reason` | Callable PHP `validate_end_reason`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/helper.php:124` | `validate_bounded_float` | Callable PHP `validate_bounded_float`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:137` | `load_and_validate_context` | Callable PHP `load_and_validate_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:137` | `load_and_validate_context` | Carica l’accesso del partecipante e richiede una sorgente abilitata per riproduzione e scritture. |
+| `classes/external/helper.php:152` | `load_and_validate_participant_context` | Valida login, contesto, vista e partecipazione indipendentemente dalla sorgente; la cancellazione verifica la proprietà. |
 | `classes/external/save_bookmark.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:123` | `normalise_label` | Normalizza e limita la lunghezza dell'etichetta privata prima della persistenza. |
@@ -966,17 +967,18 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `classes/local/focus_policy.php:93` | `delete_exception_groups` | Implementa `delete_exception_groups` per le correzioni di sicurezza e i test dedicati; vedere PHPDoc e chiamanti. |
 | `classes/local/focus_policy.php:115` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |
 | `classes/local/focus_policy.php:139` | `effective_policy` | Riduce soltanto il blur strict per i membri autorizzati del gruppo. |
-| `classes/local/form_definition.php:35` | `add_duration_elements` | Costruisce input/stati durata e configurazione DOM con escape esadecimale, registrando l'init AMD sulla pagina fornita. |
-| `classes/local/form_definition.php:132` | `add_caption_elements` | Costruisce sottotitoli/testo temporizzato con default sito originali, dipendenze provider e permessi di override per corso. |
-| `classes/local/form_definition.php:212` | `add_transcript_and_chapter_elements` | Costruisce campi trascrizioni/capitoli indipendenti dal provider con opzioni file WebVTT canoniche. |
-| `classes/local/form_definition.php:294` | `add_player_behavior_elements` | Costruisce il comportamento player con default booleani sito, ereditarietà numerica, nota larghezza accessibile e permessi per corso. |
-| `classes/local/form_definition.php:386` | `add_html5_control_elements` | Costruisce i controlli HTML5 consentiti dal sito con visibilità per upload e permessi di override per corso. |
-| `classes/local/form_definition.php:464` | `add_playback_speed_elements` | Costruisce le velocità consentite dal sito con valori piatti e permessi di override per corso. |
-| `classes/local/form_definition.php:524` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
-| `classes/local/form_definition.php:589` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
-| `classes/local/form_definition.php:658` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
-| `classes/local/form_definition.php:730` | `add_random_pause_override_elements` | Crea due campi raw facoltativi con etichette di sito, aiuto e descrizione accessibile comune. |
-| `classes/local/form_definition.php:760` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
+| `classes/local/form_definition.php:35` | `add_source_elements` | Costruisce il selettore sorgenti con valori abilitati e valore disabilitato esplicito in modifica. |
+| `classes/local/form_definition.php:49` | `add_duration_elements` | Costruisce input/stati durata e configurazione DOM con escape esadecimale, registrando l'init AMD sulla pagina fornita. |
+| `classes/local/form_definition.php:146` | `add_caption_elements` | Costruisce sottotitoli/testo temporizzato con default sito originali, dipendenze provider e permessi di override per corso. |
+| `classes/local/form_definition.php:226` | `add_transcript_and_chapter_elements` | Costruisce campi trascrizioni/capitoli indipendenti dal provider con opzioni file WebVTT canoniche. |
+| `classes/local/form_definition.php:308` | `add_player_behavior_elements` | Costruisce il comportamento player con default booleani sito, ereditarietà numerica, nota larghezza accessibile e permessi per corso. |
+| `classes/local/form_definition.php:400` | `add_html5_control_elements` | Costruisce i controlli HTML5 consentiti dal sito con visibilità per upload e permessi di override per corso. |
+| `classes/local/form_definition.php:478` | `add_playback_speed_elements` | Costruisce le velocità consentite dal sito con valori piatti e permessi di override per corso. |
+| `classes/local/form_definition.php:538` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
+| `classes/local/form_definition.php:603` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
+| `classes/local/form_definition.php:672` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
+| `classes/local/form_definition.php:744` | `add_random_pause_override_elements` | Crea due campi raw facoltativi con etichette di sito, aiuto e descrizione accessibile comune. |
+| `classes/local/form_definition.php:774` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
 | `classes/local/form_playback_settings.php:35` | `add_elements` | Costruisce default riproduzione controllati dal sito con avviso di blocco e maschera dei sette campi originali per corso. |
 | `classes/local/form_playback_settings.php:118` | `add_rate_limit_elements` | Costruisce le scelte di velocità massima e seek bloccato con i valori originali in centesimi. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | Callable PHP `reaction_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -991,17 +993,18 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `classes/local/form_reaction_settings.php:236` | `add_row_visibility` | Mantiene controlli valore/selettore/file dipendenti dal tipo icona selezionato nella stessa riga. |
 | `classes/local/form_reaction_settings.php:300` | `apply_completion_lock` | Applica il blocco originale di completamento per corso ai campi generali e al numero effettivo delle righe. |
 | `classes/local/form_reaction_settings.php:321` | `add_notice_elements` | Costruisce l'editor avviso nel contesto originale con allegati e HTML fidato disabilitati. |
-| `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:70` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
-| `classes/local/form_validation.php:92` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
-| `classes/local/form_validation.php:117` | `reaction_requirement_errors` | Valida la dipendenza tra requisiti reazioni abilitati, numero minimo e modalità tutti-i-tipi. |
-| `classes/local/form_validation.php:135` | `reaction_preset_errors` | Valida il JSON opzionale non vuoto del preset reazioni. |
-| `classes/local/form_validation.php:159` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:200` | `completion_rule_enabled` | Combina i predicati espliciti di completamento percentuale, reazioni e presa visione. |
-| `classes/local/form_validation.php:213` | `percentage_completion_rule_enabled` | Rileva una regola percentuale positiva sostenuta da una durata configurata. |
-| `classes/local/form_validation.php:228` | `reaction_completion_rule_enabled` | Rileva regole attive su minimo, tutti i tipi o singole reazioni obbligatorie. |
-| `classes/local/form_validation.php:246` | `acknowledgement_completion_rule_enabled` | Rileva una regola attiva di completamento per presa visione. |
-| `classes/local/form_validation.php:259` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:35` | `source_availability_errors` | Rifiuta scelte vuote, non supportate o disabilitate prima della validazione di URL/file. |
+| `classes/local/form_validation.php:59` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:93` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
+| `classes/local/form_validation.php:115` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
+| `classes/local/form_validation.php:140` | `reaction_requirement_errors` | Valida la dipendenza tra requisiti reazioni abilitati, numero minimo e modalità tutti-i-tipi. |
+| `classes/local/form_validation.php:158` | `reaction_preset_errors` | Valida il JSON opzionale non vuoto del preset reazioni. |
+| `classes/local/form_validation.php:182` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:223` | `completion_rule_enabled` | Combina i predicati espliciti di completamento percentuale, reazioni e presa visione. |
+| `classes/local/form_validation.php:236` | `percentage_completion_rule_enabled` | Rileva una regola percentuale positiva sostenuta da una durata configurata. |
+| `classes/local/form_validation.php:251` | `reaction_completion_rule_enabled` | Rileva regole attive su minimo, tutti i tipi o singole reazioni obbligatorie. |
+| `classes/local/form_validation.php:269` | `acknowledgement_completion_rule_enabled` | Rileva una regola attiva di completamento per presa visione. |
+| `classes/local/form_validation.php:282` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | Callable PHP `resolve_destination`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | Callable PHP `get_group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | Callable PHP `can_choose_subscription`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1185,6 +1188,10 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `classes/local/tracker.php:1061` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:1194` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/video_source_policy.php:39` | `is_enabled` | Verifica se la sorgente implementata è abilitata nel sito. |
+| `classes/local/video_source_policy.php:52` | `require_enabled` | Rifiuta sorgenti disabilitate o non supportate prima degli effetti. |
+| `classes/local/video_source_policy.php:75` | `options` | Filtra le sorgenti e conserva il valore disabilitato esistente. |
+| `classes/local/video_source_policy.php:93` | `usage_counts` | Conta le attività per sorgente nella pagina amministrativa. |
 | `classes/privacy/event_exporter.php:44` | `export` | Esporta sei categorie di interazioni in blocchi limitati. |
 | `classes/privacy/event_exporter.php:86` | `prepare_event` | Trasforma gli eventi ed elimina gli identificatori interni. |
 | `classes/privacy/event_exporter.php:110` | `category` | Sceglie la categoria originale di reazioni, note o segnalibri. |
@@ -1232,49 +1239,49 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `lib.php:209` | `videotrack_process_forum_fields` | Callable PHP `videotrack_process_forum_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:228` | `videotrack_process_acknowledgement_fields` | Callable PHP `videotrack_process_acknowledgement_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:255` | `videotrack_process_video_fields` | Callable PHP `videotrack_process_video_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:300` | `videotrack_process_playbackspeeds_field` | Callable PHP `videotrack_process_playbackspeeds_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:329` | `videotrack_save_uploaded_video` | Callable PHP `videotrack_save_uploaded_video`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:350` | `videotrack_delete_upload_source_files` | Callable PHP `videotrack_delete_upload_source_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:367` | `videotrack_get_upload_url` | Callable PHP `videotrack_get_upload_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:399` | `videotrack_get_module_context_from_data` | Callable PHP `videotrack_get_module_context_from_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:422` | `videotrack_save_poster_image` | Callable PHP `videotrack_save_poster_image`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:455` | `videotrack_is_valid_reaction_icon_class` | Callable PHP `videotrack_is_valid_reaction_icon_class`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:488` | `videotrack_build_reaction_definition_record` | Prepara il record di una reazione e normalizza l’icona prima della transazione database. |
-| `lib.php:541` | `videotrack_apply_reaction_icon_file_operations` | Esegue le operazioni sulle icone dopo il commit delle definizioni delle reazioni. |
-| `lib.php:579` | `videotrack_queue_reaction_icon_file_operation` | Accoda le operazioni file solo se esiste una bozza o se la reazione abbandona un’icona caricata. |
-| `lib.php:608` | `videotrack_save_reaction_definitions` | Callable PHP `videotrack_save_reaction_definitions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:686` | `videotrack_user_outline` | Callable PHP `videotrack_user_outline`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:715` | `videotrack_user_complete` | Callable PHP `videotrack_user_complete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:756` | `videotrack_extend_settings_navigation` | Callable PHP `videotrack_extend_settings_navigation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:786` | `videotrack_extend_navigation_course` | Callable PHP `videotrack_extend_navigation_course`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:819` | `videotrack_get_html5controls` | Callable PHP `videotrack_get_html5controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:835` | `videotrack_process_html5controls_field` | Callable PHP `videotrack_process_html5controls_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:866` | `videotrack_process_player_behavior_fields` | Callable PHP `videotrack_process_player_behavior_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:904` | `videotrack_get_player_width` | Callable PHP `videotrack_get_player_width`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:919` | `videotrack_get_rewind_step` | Callable PHP `videotrack_get_rewind_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:940` | `videotrack_get_fastforward_step` | Callable PHP `videotrack_get_fastforward_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:961` | `videotrack_get_vtt_url` | Callable PHP `videotrack_get_vtt_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:984` | `videotrack_process_captions_fields` | Callable PHP `videotrack_process_captions_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1027` | `videotrack_process_grade_fields` | Callable PHP `videotrack_process_grade_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1055` | `videotrack_grade_item_update` | Callable PHP `videotrack_grade_item_update`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1129` | `videotrack_update_grades` | Callable PHP `videotrack_update_grades`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1141` | `videotrack_set_user_grade` | Callable PHP `videotrack_set_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1158` | `videotrack_get_user_grade` | Callable PHP `videotrack_get_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1184` | `videotrack_get_poster_url` | Callable PHP `videotrack_get_poster_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1224` | `videotrack_delete_user_progress` | Callable PHP `videotrack_delete_user_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1256` | `videotrack_grade_item_delete` | Callable PHP `videotrack_grade_item_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1277` | `videotrack_delete_instance` | Callable PHP `videotrack_delete_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1333` | `videotrack_get_coursemodule_info` | Callable PHP `videotrack_get_coursemodule_info`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1360` | `videotrack_view` | Callable PHP `videotrack_view`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1386` | `videotrack_get_completion_state` | Funzione/metodo PHP nominato `videotrack_get_completion_state`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `lib.php:1424` | `videotrack_get_completion_active_rule_descriptions` | Callable PHP `videotrack_get_completion_active_rule_descriptions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1456` | `videotrack_update_completion_for_user` | Callable PHP `videotrack_update_completion_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1475` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
-| `lib.php:1485` | `videotrack_reset_course_userdata` | Implementazione reset corso conservata per callback canonico e chiamanti diretti; rispetta flag esplicito e scope corso esistenti. |
-| `lib.php:1534` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1554` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1570` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `lib.php:1660` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
+| `lib.php:297` | `videotrack_process_playbackspeeds_field` | Callable PHP `videotrack_process_playbackspeeds_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:326` | `videotrack_save_uploaded_video` | Callable PHP `videotrack_save_uploaded_video`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:347` | `videotrack_delete_upload_source_files` | Callable PHP `videotrack_delete_upload_source_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:364` | `videotrack_get_upload_url` | Callable PHP `videotrack_get_upload_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:396` | `videotrack_get_module_context_from_data` | Callable PHP `videotrack_get_module_context_from_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:419` | `videotrack_save_poster_image` | Callable PHP `videotrack_save_poster_image`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:452` | `videotrack_is_valid_reaction_icon_class` | Callable PHP `videotrack_is_valid_reaction_icon_class`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:485` | `videotrack_build_reaction_definition_record` | Prepara il record di una reazione e normalizza l’icona prima della transazione database. |
+| `lib.php:538` | `videotrack_apply_reaction_icon_file_operations` | Esegue le operazioni sulle icone dopo il commit delle definizioni delle reazioni. |
+| `lib.php:576` | `videotrack_queue_reaction_icon_file_operation` | Accoda le operazioni file solo se esiste una bozza o se la reazione abbandona un’icona caricata. |
+| `lib.php:605` | `videotrack_save_reaction_definitions` | Callable PHP `videotrack_save_reaction_definitions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:683` | `videotrack_user_outline` | Callable PHP `videotrack_user_outline`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:712` | `videotrack_user_complete` | Callable PHP `videotrack_user_complete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:753` | `videotrack_extend_settings_navigation` | Callable PHP `videotrack_extend_settings_navigation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:783` | `videotrack_extend_navigation_course` | Callable PHP `videotrack_extend_navigation_course`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:816` | `videotrack_get_html5controls` | Callable PHP `videotrack_get_html5controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:832` | `videotrack_process_html5controls_field` | Callable PHP `videotrack_process_html5controls_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:863` | `videotrack_process_player_behavior_fields` | Callable PHP `videotrack_process_player_behavior_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:901` | `videotrack_get_player_width` | Callable PHP `videotrack_get_player_width`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:916` | `videotrack_get_rewind_step` | Callable PHP `videotrack_get_rewind_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:937` | `videotrack_get_fastforward_step` | Callable PHP `videotrack_get_fastforward_step`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:958` | `videotrack_get_vtt_url` | Callable PHP `videotrack_get_vtt_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:981` | `videotrack_process_captions_fields` | Callable PHP `videotrack_process_captions_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1024` | `videotrack_process_grade_fields` | Callable PHP `videotrack_process_grade_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1052` | `videotrack_grade_item_update` | Callable PHP `videotrack_grade_item_update`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1126` | `videotrack_update_grades` | Callable PHP `videotrack_update_grades`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1138` | `videotrack_set_user_grade` | Callable PHP `videotrack_set_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1155` | `videotrack_get_user_grade` | Callable PHP `videotrack_get_user_grade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1181` | `videotrack_get_poster_url` | Callable PHP `videotrack_get_poster_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1221` | `videotrack_delete_user_progress` | Callable PHP `videotrack_delete_user_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1253` | `videotrack_grade_item_delete` | Callable PHP `videotrack_grade_item_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1274` | `videotrack_delete_instance` | Callable PHP `videotrack_delete_instance`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1330` | `videotrack_get_coursemodule_info` | Callable PHP `videotrack_get_coursemodule_info`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1357` | `videotrack_view` | Callable PHP `videotrack_view`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1383` | `videotrack_get_completion_state` | Funzione/metodo PHP nominato `videotrack_get_completion_state`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `lib.php:1421` | `videotrack_get_completion_active_rule_descriptions` | Callable PHP `videotrack_get_completion_active_rule_descriptions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1453` | `videotrack_update_completion_for_user` | Callable PHP `videotrack_update_completion_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1472` | `videotrack_reset_userdata` | Callback canonico Moodle del reset corso: delega all’implementazione conservata senza cambiare opzione esplicita o scope dati. |
+| `lib.php:1482` | `videotrack_reset_course_userdata` | Implementazione reset corso conservata per callback canonico e chiamanti diretti; rispetta flag esplicito e scope corso esistenti. |
+| `lib.php:1531` | `videotrack_reset_course_form_definition` | Callable PHP `videotrack_reset_course_form_definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1551` | `videotrack_reset_course_form_defaults` | Callable PHP `videotrack_reset_course_form_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1567` | `videotrack_resize_reaction_icon` | Callable PHP `videotrack_resize_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `lib.php:1657` | `videotrack_pluginfile_area_available` | Verifica sorgente e impostazioni del testo temporizzato prima della ricerca del file. |
 | `lib.php:1682` | `videotrack_pluginfile_timed_text_available` | Controlla le impostazioni di trascrizioni e capitoli prima di servire i file. |
 | `lib.php:1706` | `videotrack_pluginfile_find_file` | Risolve il file dopo i controlli di accesso, rifiutando percorsi mancanti e directory. |
 | `lib.php:1728` | `videotrack_pluginfile_content_allowed` | Valida estensioni, MIME delle immagini e MIME, dimensioni e contenuto WebVTT. |
@@ -1327,28 +1334,28 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `locallib.php:1070` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:47` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:245` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:282` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:328` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:365` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:393` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:462` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:474` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:573` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:609` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:640` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:660` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:673` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:686` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:705` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:730` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:755` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:783` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:821` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:844` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:865` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:889` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:943` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:236` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:273` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:319` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:356` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:384` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:453` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:465` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:564` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:600` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:631` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:655` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:668` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:681` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:700` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:725` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:750` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:778` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:816` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:839` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:860` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:884` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:938` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:46` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:65` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
@@ -1371,22 +1378,22 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `tests/admin_settings_test.php:99` | `test_retention_transition_is_persisted_after_confirmation` | Callable PHP `test_retention_transition_is_persisted_after_confirmation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/ajax_contract_test.php:35` | `test_ajax_service_allowlist_matches_declared_services` | Callable PHP `test_ajax_service_allowlist_matches_declared_services`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/ajax_contract_test.php:65` | `test_static_amd_api_calls_are_declared` | Callable PHP `test_static_amd_api_calls_are_declared`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/ajax_contract_test.php:94` | `test_sesskey_is_checked_before_context_loading` | Callable PHP `test_sesskey_is_checked_before_context_loading`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/ajax_contract_test.php:121` | `test_segment_rate_validation_uses_tracking_speed_contract` | Funzione/metodo PHP nominato `test_segment_rate_validation_uses_tracking_speed_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:131` | `test_interaction_progress_flushes_do_not_swallow_ajax_failures` | Funzione/metodo PHP nominato `test_interaction_progress_flushes_do_not_swallow_ajax_failures`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:146` | `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero` | Funzione/metodo PHP nominato `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:163` | `test_blocked_forward_seek_persists_frontier_before_rollback` | Funzione/metodo PHP nominato `test_blocked_forward_seek_persists_frontier_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:199` | `test_forum_timestamp_waits_for_progress_flush` | Funzione/metodo PHP nominato `test_forum_timestamp_waits_for_progress_flush`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:227` | `test_progress_ui_preserves_monotonic_percentage` | Funzione/metodo PHP nominato `test_progress_ui_preserves_monotonic_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:239` | `test_blocked_forward_seek_shows_policy_notice` | Funzione/metodo PHP nominato `test_blocked_forward_seek_shows_policy_notice`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:259` | `test_status_alert_uses_single_bootstrap_close_icon` | Funzione/metodo PHP nominato `test_status_alert_uses_single_bootstrap_close_icon`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:270` | `test_compact_player_notices_keep_close_button_in_flow` | Funzione/metodo PHP nominato `test_compact_player_notices_keep_close_button_in_flow`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:298` | `test_resume_respects_server_validated_frontier` | Funzione/metodo PHP nominato `test_resume_respects_server_validated_frontier`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:315` | `test_closed_segment_keeps_wallclock_start_for_ajax` | Funzione/metodo PHP nominato `test_closed_segment_keeps_wallclock_start_for_ajax`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:339` | `test_seek_closes_segment_at_known_pre_seek_boundary` | Funzione/metodo PHP nominato `test_seek_closes_segment_at_known_pre_seek_boundary`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:362` | `test_interactions_use_safe_time_during_blocked_seek` | Funzione/metodo PHP nominato `test_interactions_use_safe_time_during_blocked_seek`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:376` | `test_reaction_runtime_contract_contains_no_raw_html_field` | Callable PHP `test_reaction_runtime_contract_contains_no_raw_html_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/ajax_contract_test.php:390` | `test_interaction_writes_use_policy_aware_timestamp_validation` | Funzione/metodo PHP nominato `test_interaction_writes_use_policy_aware_timestamp_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:94` | `test_sesskey_is_checked_before_context_loading` | Verifica che ogni endpoint AJAX dichiarato usi il caricamento contesto previsto dopo il controllo sesskey. |
+| `tests/ajax_contract_test.php:134` | `test_segment_rate_validation_uses_tracking_speed_contract` | Funzione/metodo PHP nominato `test_segment_rate_validation_uses_tracking_speed_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:144` | `test_interaction_progress_flushes_do_not_swallow_ajax_failures` | Funzione/metodo PHP nominato `test_interaction_progress_flushes_do_not_swallow_ajax_failures`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:159` | `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero` | Funzione/metodo PHP nominato `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:176` | `test_blocked_forward_seek_persists_frontier_before_rollback` | Funzione/metodo PHP nominato `test_blocked_forward_seek_persists_frontier_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:212` | `test_forum_timestamp_waits_for_progress_flush` | Funzione/metodo PHP nominato `test_forum_timestamp_waits_for_progress_flush`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:240` | `test_progress_ui_preserves_monotonic_percentage` | Funzione/metodo PHP nominato `test_progress_ui_preserves_monotonic_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:252` | `test_blocked_forward_seek_shows_policy_notice` | Funzione/metodo PHP nominato `test_blocked_forward_seek_shows_policy_notice`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:272` | `test_status_alert_uses_single_bootstrap_close_icon` | Funzione/metodo PHP nominato `test_status_alert_uses_single_bootstrap_close_icon`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:283` | `test_compact_player_notices_keep_close_button_in_flow` | Funzione/metodo PHP nominato `test_compact_player_notices_keep_close_button_in_flow`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:311` | `test_resume_respects_server_validated_frontier` | Funzione/metodo PHP nominato `test_resume_respects_server_validated_frontier`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:328` | `test_closed_segment_keeps_wallclock_start_for_ajax` | Funzione/metodo PHP nominato `test_closed_segment_keeps_wallclock_start_for_ajax`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:352` | `test_seek_closes_segment_at_known_pre_seek_boundary` | Funzione/metodo PHP nominato `test_seek_closes_segment_at_known_pre_seek_boundary`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:375` | `test_interactions_use_safe_time_during_blocked_seek` | Funzione/metodo PHP nominato `test_interactions_use_safe_time_during_blocked_seek`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:389` | `test_reaction_runtime_contract_contains_no_raw_html_field` | Callable PHP `test_reaction_runtime_contract_contains_no_raw_html_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/ajax_contract_test.php:403` | `test_interaction_writes_use_policy_aware_timestamp_validation` | Funzione/metodo PHP nominato `test_interaction_writes_use_policy_aware_timestamp_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Funzione/metodo PHP nominato `test_teacher_activity_options_use_lightweight_modinfo_path`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Funzione/metodo PHP nominato `test_course_dashboard_batches_event_summaries_and_group_scope`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Funzione/metodo PHP nominato `test_course_dashboard_batches_state_and_period_reads`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1889,6 +1896,25 @@ Generato dall’albero sorgente VideoTrack 1.7.259. Le voci PHP includono funzio
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:136` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:160` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/video_source_policy_test.php:50` | `setUp` | Verifica nativa della policy sorgenti: setUp. |
+| `tests/video_source_policy_test.php:64` | `tearDown` | Verifica nativa della policy sorgenti: tearDown. |
+| `tests/video_source_policy_test.php:72` | `test_missing_settings_preserve_defaults` | Verifica nativa della policy sorgenti: test_missing_settings_preserve_defaults. |
+| `tests/video_source_policy_test.php:87` | `test_switches_are_independent_and_fail_closed` | Verifica nativa della policy sorgenti: test_switches_are_independent_and_fail_closed. |
+| `tests/video_source_policy_test.php:103` | `test_options_preserve_existing_disabled_source` | Verifica nativa della policy sorgenti: test_options_preserve_existing_disabled_source. |
+| `tests/video_source_policy_test.php:119` | `test_all_disabled_sources_have_no_creation_fallback` | Verifica nativa della policy sorgenti: test_all_disabled_sources_have_no_creation_fallback. |
+| `tests/video_source_policy_test.php:133` | `test_form_rejects_disabled_and_empty_selections` | Verifica nativa della policy sorgenti: test_form_rejects_disabled_and_empty_selections. |
+| `tests/video_source_policy_test.php:154` | `test_create_callback_rejects_disabled_source_before_insert` | Verifica nativa della policy sorgenti: test_create_callback_rejects_disabled_source_before_insert. |
+| `tests/video_source_policy_test.php:172` | `test_update_callback_preserves_disabled_activity` | Verifica nativa della policy sorgenti: test_update_callback_preserves_disabled_activity. |
+| `tests/video_source_policy_test.php:189` | `test_update_can_switch_to_an_enabled_source` | Verifica nativa della policy sorgenti: test_update_can_switch_to_an_enabled_source. |
+| `tests/video_source_policy_test.php:208` | `test_context_guard_preserves_owner_deletion_access` | Verifica nativa della policy sorgenti: test_context_guard_preserves_owner_deletion_access. |
+| `tests/video_source_policy_test.php:219` | `test_start_playback_is_rejected_before_state_write` | Verifica nativa della policy sorgenti: test_start_playback_is_rejected_before_state_write. |
+| `tests/video_source_policy_test.php:236` | `test_stale_tab_cannot_submit_segments_after_disabling` | Verifica nativa della policy sorgenti: test_stale_tab_cannot_submit_segments_after_disabling. |
+| `tests/video_source_policy_test.php:266` | `test_disabled_source_does_not_prevent_personal_erasure` | Verifica nativa della policy sorgenti: test_disabled_source_does_not_prevent_personal_erasure. |
+| `tests/video_source_policy_test.php:300` | `test_uploaded_media_access_follows_policy_without_deleting_files` | Verifica nativa della policy sorgenti: test_uploaded_media_access_follows_policy_without_deleting_files. |
+| `tests/video_source_policy_test.php:326` | `test_usage_counts_include_disabled_activities` | Verifica nativa della policy sorgenti: test_usage_counts_include_disabled_activities. |
+| `tests/video_source_policy_test.php:337` | `test_reenable_preserves_media_identity_and_state` | Verifica nativa della policy sorgenti: test_reenable_preserves_media_identity_and_state. |
+| `tests/video_source_policy_test.php:357` | `fixture` | Verifica nativa della policy sorgenti: fixture. |
+| `tests/video_source_policy_test.php:380` | `assert_disabled` | Verifica nativa della policy sorgenti: assert_disabled. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Funzione/metodo PHP nominato `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Funzione/metodo PHP nominato `test_blocked_seek_clears_forward_guard_after_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Funzione/metodo PHP nominato `test_blocked_seek_resume_retries_never_reseek`; vedere DocBlock e chiamanti per il contratto corrente. |

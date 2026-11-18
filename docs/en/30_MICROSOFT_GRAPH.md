@@ -1,13 +1,9 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
-## Candidate CI correction
+VideoTrack **1.7.260** (`2026111800`).
 
-Initial native CI found one invalid URL fixture; the corrected test retains all
-seven destinations and rejects userinfo at local readiness. JSON decoding and MIME
-checks have been extracted without changing diagnostic contracts.
-[Complete run evidence and pending gates](09_DOCUMENTATION_AUDIT.md).
+The diagnostic introduced in accepted 1.7.259 is unchanged. The new switches apply to the three implemented players; Microsoft playback remains a future gate.
 
-VideoTrack **1.7.259** (`2026111701`).
 
 This is the first remote diagnostic for OneDrive/SharePoint preparation. It checks
 explicit drive/video metadata using the existing core Microsoft system OAuth account.

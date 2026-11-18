@@ -25,6 +25,22 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
+    // Source availability is enforced on save, playback and telemetry requests.
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_sources',
+        get_string('setting:heading_sources', 'mod_videotrack'),
+        get_string('setting:heading_sources_desc', 'mod_videotrack')
+    ));
+    $sourcecounts = \mod_videotrack\local\video_source_policy::usage_counts();
+    foreach (\mod_videotrack\local\video_source_policy::SOURCES as $source) {
+        $settings->add(new admin_setting_configcheckbox(
+            'mod_videotrack/enable' . $source,
+            get_string('setting:enablesource', 'mod_videotrack', get_string('source:' . $source, 'mod_videotrack')),
+            get_string('setting:enablesource_desc', 'mod_videotrack', $sourcecounts[$source]),
+            1
+        ));
+    }
+
     // Reference Moodle's existing OAuth services; credentials remain owned by core.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_providerconnections',

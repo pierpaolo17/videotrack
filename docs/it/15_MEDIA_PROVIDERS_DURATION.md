@@ -1,5 +1,14 @@
 # Provider multimediali e durata
 
+## Disponibilità delle sorgenti nel sito
+
+L'amministratore può abilitare separatamente YouTube, Vimeo e HTML5/file caricati.
+Le tre sorgenti sono abilitate per impostazione predefinita, anche dopo aggiornamento
+senza valori già salvati. Una sorgente disabilitata non è selezionabile per nuove
+attività e non consente riproduzione/nuovo tracciamento. Dati e report sono conservati.
+Il modulo identifica la sorgente disabilitata esistente senza sostituirla.
+Vedere [policy sorgenti e integrazioni opzionali](31_SOURCE_POLICY.md).
+
 ## 1.7.259: diagnostica autenticata dei metadati
 
 Il comando esistente `provider_status.php` verifica la configurazione OAuth locale

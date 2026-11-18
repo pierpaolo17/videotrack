@@ -27,6 +27,29 @@ namespace mod_videotrack\local;
  */
 final class form_validation {
     /**
+     * Validate source availability before inspecting URLs or files.
+     *
+     * @param string $source Submitted source key.
+     * @return array Empty array or the source-field validation error.
+     */
+    public static function source_availability_errors(string $source): array {
+        if ($source === '') {
+            return ['videosource' => get_string('source:noneenabled', 'mod_videotrack')];
+        }
+        if (!in_array($source, video_source_policy::SOURCES, true)) {
+            return ['videosource' => get_string('invalidvideosource', 'mod_videotrack')];
+        }
+        if (video_source_policy::is_enabled($source)) {
+            return [];
+        }
+        return ['videosource' => get_string(
+            'error:videosourcedisabled',
+            'mod_videotrack',
+            get_string('source:' . $source, 'mod_videotrack')
+        )];
+    }
+
+    /**
      * Validate scalar settings that do not depend on files, database state or course context.
      *
      * @param array $data Submitted form data.

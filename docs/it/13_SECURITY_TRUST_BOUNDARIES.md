@@ -1,5 +1,13 @@
 # Sicurezza e confini di fiducia
 
+## Controlli sulle sorgenti del sito
+
+La policy viene verificata prima di salvataggio, output player/completamento su
+apertura, file locali e nuova telemetria autenticata. I ruoli amministratore/docente
+non aggirano la disabilitazione. Le cancellazioni personali restano disponibili con
+i controlli di sessione, partecipazione, contesto e proprietà già previsti.
+Vedere [policy sorgenti](31_SOURCE_POLICY.md).
+
 VideoTrack considera browser e SDK dei provider pubblici client non attendibili. Possono richiedere operazioni e
 comunicare stato, ma soltanto servizi Moodle autenticati ed evidenze lato server avanzano il progresso autorevole.
 

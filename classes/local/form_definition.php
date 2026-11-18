@@ -19,13 +19,27 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement form groups.
+ * Builds source, duration, player/timed-text, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add the source selector with enabled defaults and an explicit disabled edit value.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param string $current Existing source, or empty when creating an activity.
+     */
+    public static function add_source_elements(\MoodleQuickForm $mform, string $current = ''): void {
+        $mform->addElement('header', 'videosourceheader', get_string('videosource', 'mod_videotrack'));
+        $options = video_source_policy::options($current);
+        $mform->addElement('select', 'videosource', get_string('videosource', 'mod_videotrack'), $options);
+        $mform->setType('videosource', PARAM_ALPHA);
+        $mform->setDefault('videosource', (string)array_key_first($options));
+    }
+
     /**
      * Add duration fields and register the matching DOM JSON configuration on the supplied page.
      *

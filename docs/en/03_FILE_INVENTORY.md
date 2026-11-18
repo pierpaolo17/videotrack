@@ -1,25 +1,21 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.259 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.260 repository tree. It lists
 sources, assets, tests and selected release guides, including five repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **366** — 361 distributed files and five repository-only files. The complete
-tree has 457 repository files / 433 distributed files, including all documentation.
+Entries: **371** — 366 distributed files and five repository-only files. The complete
+tree has 462 repository files / 438 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
-| `.gitignore` | Keeps generated CI and server-test evidence out of repository commits; excluded from release archives. |
 | `.gitattributes` | Repository text/binary attributes. |
-| `.moodleignore` | Files excluded by Moodle packaging, including generated CI/server evidence. |
-| `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
 | `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
 | `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
+| `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
-| `phpmd.xml` | Reviewed PHPMD production ruleset; Moodle naming remains governed by PHPCS. |
-| `phpcs.xml.dist` | Canonical PHPCS release-gate configuration using the full Moodle Extra ruleset with no VideoTrack-specific exclusions. |
-| `phpstan.neon.dist` | Moodle-aware PHPStan production scope and initial level. |
-| `psalm.xml` | Moodle-aware Psalm production scope and initial level. |
+| `.gitignore` | Keeps generated CI and server-test evidence out of repository commits; excluded from release archives. |
+| `.moodleignore` | Files excluded by Moodle packaging, including generated CI/server evidence. |
 | `amd/build/completion_requirements.min.js` | Generated minified AMD build for the grouped completion-requirements presentation; produced by Moodle Grunt. |
 | `amd/build/completion_requirements.min.js.map` | Generated source map for the `completion_requirements` AMD build; never edit manually. |
 | `amd/build/core/adapter.min.js` | Generated minified AMD build for `core/adapter`; produced by Moodle Grunt. |
@@ -215,36 +211,46 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `classes/local/csv_export_fields.php` | Resolves configured CSV fields, visible identity choices and selected user records. |
 | `classes/local/csv_export_identity.php` | Formats CSV identity columns, Moodle field labels and video links. |
 | `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
-| `classes/local/form_definition.php` | Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement groups. |
+| `classes/local/form_definition.php` | Builds source/duration selectors, player/timed-text, CSV, Forum, integrity and acknowledgement form groups. |
 | `classes/local/form_playback_settings.php` | Builds site-controlled playback fields with exact defaults, course override locks and rate-limit choices. |
 | `classes/local/form_preprocessing.php` | Prepares reaction drafts, notice/preset, completion, playback, CSV and site defaults before form rendering. |
 | `classes/local/form_reaction_settings.php` | Builds general reaction controls and individual row fields/icon visibility, then applies course completion locks after row creation. |
-| `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
+| `classes/local/form_validation.php` | Validates source availability, scalar settings and completion/acknowledgement input contracts. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
+| `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
+| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and redacted validated drive/video scalars. |
+| `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
+| `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
 | `classes/local/privacy_retention_pair.php` | Rebuilds derived state and deletes expired personal rows for one learner and activity while holding the state lock. |
-| `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
+| `classes/local/provider_connection.php` | Read-only local OAuth connection status and matching issuer choices; credentials remain in core. |
+| `classes/local/random_pause_policy.php` | Resolves duration-derived attention intervals, independently optional teacher bounds and safe import values. |
 | `classes/local/reaction_form_validation.php` | Pure reaction icon-value and required-field validation policy for activity form rows. |
 | `classes/local/reaction_write_service.php` | Runs post-persistence reaction cache invalidation, event delivery, aggregate counting and completion refresh with bounded warnings. |
+| `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
 | `classes/local/report_analytics_query.php` | Capability-safe SQL builders for Analytics, provider and current-acknowledgement teacher-report queries. |
 | `classes/local/report_event_query.php` | SQL builders for event loading and learner discovery in the teacher report. |
 | `classes/local/report_integrity_view.php` | Privacy-safe enabled, disabled and control-only integrity presentation states. |
-| `classes/local/report_support.php` | Teacher-report presentation, option, highlight and reaction-clustering support. |
 | `classes/local/report_summary_view.php` | Privacy-safe reaction, bookmark and acknowledgement presentation summaries. |
+| `classes/local/report_support.php` | Teacher-report presentation, option, highlight and reaction-clustering support. |
 | `classes/local/report_time_filter.php` | Date boundaries, structured/legacy request parsing and accessible duration controls for teacher reports. |
 | `classes/local/report_timeline_view.php` | Teacher Analytics interval, chart, legend and reaction-cluster presentation. |
 | `classes/local/report_view.php` | Shared teacher Analytics methodology, privacy-warning and download controls. |
+| `classes/local/resume_storage.php` | Scoped browser resume identity. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Resolves canonical WebVTT transcript/chapter files and explicit legacy subtitle fallbacks. |
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
+| `classes/local/video_source_policy.php` | Enforces site source availability, filters form choices and counts affected activities without provider requests. |
 | `classes/privacy/event_exporter.php` | Streams active/deleted reactions, notes and bookmarks in six independent, 500-row privacy chunks. |
 | `classes/privacy/exporter.php` | Streams the approved learner data through Moodle Privacy API with the existing chunking and sanitisation rules. |
 | `classes/privacy/provider.php` | Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements. |
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
 | `cli/benchmark_course_analytics.php` | Read-only CLI benchmark for batched course Analytics query and timing behaviour. |
+| `cli/provider_probe.php` | Explicit authenticated metadata diagnostics; may refresh core OAuth, never writes demo data. |
+| `cli/provider_status.php` | Read-only JSON diagnostics for optional provider configuration; no remote requests or token refresh. |
 | `cli/validate.php` | Read-only CLI validator for installed version, XMLDB, reference/gradebook integrity, services, languages, AMD and critical configuration. |
 | `db/access.php` | Capabilities and role archetype defaults. |
 | `db/install.php` | Current database/install/upgrade support file distributed with the plugin. |
@@ -255,6 +261,13 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `db/tasks.php` | Scheduled task declaration. |
 | `db/uninstall.php` | Early uninstall hook preserving Grade API cleanup and deleting only owned native completion before core loses course-module ownership. |
 | `db/upgrade.php` | Incremental XMLDB upgrades and savepoints. |
+| `db/upgradelib.php` | Upgrade-only XMLDB recovery. |
+| `docs/en/29_SECURITY_REVIEW.md` | Security-review findings, implementation scope and native validation requirements. |
+| `docs/en/30_MICROSOFT_GRAPH.md` | English Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
+| `docs/en/31_SOURCE_POLICY.md` | English source-policy guide and optional Zoom repository assessment. |
+| `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
+| `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
+| `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -269,9 +282,13 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `lib.php` | Moodle module lifecycle, feature support, gradebook, completion, File API and reset callbacks. |
 | `locallib.php` | Shared procedural helpers for URLs, timestamps, state, reports, file areas and configuration. |
 | `mod_form.php` | Activity settings form, validation, file managers and custom completion fields. |
+| `phpcs.xml.dist` | Canonical PHPCS release-gate configuration using the full Moodle Extra ruleset with no VideoTrack-specific exclusions. |
+| `phpmd.xml` | Reviewed PHPMD production ruleset; Moodle naming remains governed by PHPCS. |
+| `phpstan.neon.dist` | Moodle-aware PHPStan production scope and initial level. |
 | `pix/icon.png` | Full-colour Moodle activity icon supplied for this release. |
 | `pix/icon.svg` | Self-contained transparent counterpart of the selected PNG, used by Moodle course formats and Boost activity containers. |
 | `presets.php` | Teacher/admin interface for reusable reaction presets. |
+| `psalm.xml` | Moodle-aware Psalm production scope and initial level. |
 | `report.php` | Instance teacher report and exact authorised Analytics page, including CSV/Excel/ODS export. |
 | `reports_course.php` | Course-level teacher dashboard across VideoTrack activities. |
 | `reports_teacher.php` | Teacher-centric dashboard across accessible courses and activities. |
@@ -288,6 +305,10 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `tests/backup_structure_contract_test.php` | Source contracts for backup-stage order, privacy filters, identifiers and file areas. |
 | `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 and provider readiness, controls, timestamps, rollback and bounded watched-evidence assertions. |
 | `tests/behat/browser_allowed_seek_tracking.feature` | Unseeded allowed-seek browser cases requiring separate validated playback intervals and no completion from skipped gaps. |
+| `tests/behat/browser_ended_replay_rate.feature` | Unseeded natural end, watched replay, authorised 2x and above-cap fallback for HTML5/YouTube/Vimeo. |
+| `tests/behat/browser_report_groups.feature` | Actual browser-earned evidence, exact report learner choices and separate-group direct-request boundaries. |
+| `tests/behat/browser_resume_privacy.feature` | YouTube/Vimeo browser hints across learner logins. |
+| `tests/behat/browser_role_tracking.feature` | Unseeded staff-preview exclusion and dual-role earned completion for HTML5/YouTube/Vimeo. |
 | `tests/behat/browser_rollback_interactions.feature` | Unseeded browser viewing completion followed by paused rollback, persisted learner actions and a safe Forum composer timestamp. |
 | `tests/behat/browser_tracking_completion.feature` | Unseeded HTML5/YouTube/Vimeo browser playback scenarios requiring accepted pauses and native viewing completion. |
 | `tests/behat/completion_requirements_layout.feature` | Browser regression for grouping the composite VideoTrack logic label above a shared Moodle completion-requirements list. |
@@ -297,7 +318,9 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `tests/behat/html5_playback_contract.feature` | Deterministic browser regression for validated HTML5 resume, allowed backward seek and real play/pause state. |
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
+| `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
+| `tests/behat/video_source_policy.feature` | Browser scenarios for default choices, disabled edit values, blocked playback and all-off editing. |
 | `tests/behat/vimeo_provider_contract.feature` | Public-network-independent browser contract for the unchanged production Vimeo adapter. |
 | `tests/behat/youtube_provider_contract.feature` | Public-network-independent browser contract for the unchanged production YouTube adapter. |
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
@@ -323,12 +346,15 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
 | `tests/lifecycle_integration_test.php` | Real framework backup/restore/privacy, registered retention-task, standard course-reset and synchronous activity-deletion integration tests. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
+| `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
 | `tests/mod_form_validation_test.php` | PHPUnit coverage for rejected media, missing timed text and reaction file requirements. |
 | `tests/player_resume_completion_alert_contract_test.php` | Cross-provider resume, completion and alert contracts; completion assertions follow the current mutation owner, including the reaction post-write service. |
 | `tests/privacy_exporter_test.php` | PHPUnit writer checks for export paths, personal-data filtering and the 500-row boundary. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |
+| `tests/provider_connection_test.php` | Native Moodle OAuth fixture tests for missing/disabled/mismatched services, HTTPS, secret redaction and read-only status. |
 | `tests/provider_loader_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/provider_seek_snapshot_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/random_pause_policy_test.php` | Behavioural policy/form/save tests and actual Moodle activity duplication for attention settings. |
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_access_test.php` | Behavioural PHPUnit coverage for aggregate/individual report-view and export capability separation. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
@@ -339,39 +365,18 @@ tree has 457 repository files / 433 distributed files, including all documentati
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for note parameters, timestamp bounds, guard order and the cross-session rate-limit contract. |
 | `tests/save_reaction_test.php` | Source contracts for reaction duplicate windows, cross-session limiting, locking, collaborator delegation, stable response mapping and complete pre/post-insert ordering. |
+| `tests/security_followup_test.php` | Native access, erasure, resume, POST, completion and HTML regressions. |
+| `tests/security_hardening_test.php` | Native authorisation, cohort privacy, grade clearing, HTML, lifecycle and rollback regressions. |
 | `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
 | `tests/timed_text_test.php` | PHPUnit coverage for VTT validation, canonical File API areas and legacy fallback precedence. |
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
 | `tests/tracking_effects_test.php` | Persisted-effect tests for budget/seek rejection retries, live interval-cap rebuilding and authenticated completion/event idempotence. |
 | `tests/upgrade_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/video_source_policy_test.php` | Native regressions for source defaults, forged writes, stale tracking, retained files/state and personal erasure. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |
 | `tools/static-analysis/bootstrap.php` | Shared analyser bootstrap loading the selected Moodle and the stable legacy parent APIs required by the production scope. |
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only static declaration of Moodle 5.0's global `renderable` compatibility name. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
-| `classes/local/random_pause_policy.php` | Resolves duration-derived attention intervals, independently optional teacher bounds and safe import values. |
-| `tests/random_pause_policy_test.php` | Behavioural policy/form/save tests and actual Moodle activity duplication for attention settings. |
-| `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
-| `tests/behat/browser_ended_replay_rate.feature` | Unseeded natural end, watched replay, authorised 2x and above-cap fallback for HTML5/YouTube/Vimeo. |
-| `tests/behat/browser_role_tracking.feature` | Unseeded staff-preview exclusion and dual-role earned completion for HTML5/YouTube/Vimeo. |
-| `tests/behat/browser_report_groups.feature` | Actual browser-earned evidence, exact report learner choices and separate-group direct-request boundaries. |
-| `classes/local/provider_connection.php` | Read-only local OAuth connection status and matching issuer choices; credentials remain in core. |
-| `cli/provider_status.php` | Read-only JSON diagnostics for optional provider configuration; no remote requests or token refresh. |
-| `tests/provider_connection_test.php` | Native Moodle OAuth fixture tests for missing/disabled/mismatched services, HTTPS, secret redaction and read-only status. |
-| `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
-| `tests/security_hardening_test.php` | Native authorisation, cohort privacy, grade clearing, HTML, lifecycle and rollback regressions. |
-| `docs/en/29_SECURITY_REVIEW.md` | Security-review findings, implementation scope and native validation requirements. |
-| `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
-| `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
-| `classes/local/resume_storage.php` | Scoped browser resume identity. |
-| `db/upgradelib.php` | Upgrade-only XMLDB recovery. |
-| `tests/security_followup_test.php` | Native access, erasure, resume, POST, completion and HTML regressions. |
-| `tests/behat/browser_resume_privacy.feature` | YouTube/Vimeo browser hints across learner logins. |
-| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and redacted validated drive/video scalars. |
-| `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
-| `cli/provider_probe.php` | Explicit authenticated metadata diagnostics; may refresh core OAuth, never writes demo data. |
-| `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
-| `docs/en/30_MICROSOFT_GRAPH.md` | English Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
-| `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |

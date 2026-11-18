@@ -1,5 +1,16 @@
 # Inventario dati e configurazione
 
+## Impostazioni disponibilità sorgenti
+
+| Chiave | Predefinito | Perimetro |
+|---|---|---|
+| `enableyoutube` | `1` | Selezione, riproduzione e nuovo tracciamento YouTube. |
+| `enablevimeo` | `1` | Selezione, riproduzione e nuovo tracciamento Vimeo. |
+| `enableupload` | `1` | Selezione, distribuzione file e nuovo tracciamento HTML5 locale. |
+
+I valori assenti valgono abilitazione; quelli salvati alterati non abilitano sorgenti.
+Sono impostazioni del sito, escluse dal backup delle attività. Vedere [policy sorgenti](31_SOURCE_POLICY.md).
+
 Questo documento registra campi persistenti e contratti di configurazione pubblici. Le variabili locali restano documentate da tipi, DocBlock e JSDoc del sorgente.
 
 `db/install.xml` dichiara 22 foreign key XMLDB stabili per `videotrackid`, `courseid`, `cmid`, `userid` e il campo

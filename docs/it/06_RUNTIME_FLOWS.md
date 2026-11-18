@@ -1,5 +1,14 @@
 # Flussi runtime
 
+## Disponibilità delle sorgenti nel sito
+
+L'amministratore può abilitare separatamente YouTube, Vimeo e HTML5/file caricati.
+Le tre sorgenti sono abilitate per impostazione predefinita, anche dopo aggiornamento
+senza valori già salvati. Una sorgente disabilitata non è selezionabile per nuove
+attività e non consente riproduzione/nuovo tracciamento. Dati e report sono conservati.
+Il modulo identifica la sorgente disabilitata esistente senza sostituirla.
+Vedere [policy sorgenti e integrazioni opzionali](31_SOURCE_POLICY.md).
+
 ## Apertura attività e avvio player
 
 `view.php` carica l’attività, verifica `mod/videotrack:view`, legge lo stato dell’utente e i file del docente, risolve policy sito/istanza e scrive una configurazione JSON. Inizializza poi un solo adapter: HTML5, YouTube o Vimeo. I moduli condivisi collegano stato, progresso, barra intervalli, reazioni, note, segnalibri, trascrizione, capitoli, forum e controlli focus.

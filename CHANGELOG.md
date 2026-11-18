@@ -1,5 +1,44 @@
 # VideoTrack changelog
 
+## 1.7.260 - 2026-11-18
+
+### Add site-wide video source availability
+
+- Correct the remaining second260 CI assertion: pin each of the nine AJAX endpoints
+  to its intended context loader, retain sesskey-before-context checks and assert
+  complete declared-service coverage. Browser58/1241, strict10/0/0 and canonical
+  checks already pass; PHPMD is back to31. Keep2026111800 and all runtime code;
+  fresh native CI, including previously skipped lifecycle paths, is still required.
+
+- Correct initial260 CI: preserve the existing playback handshake in stale-tab
+  assertions and render disabled-source availability as a normal warning page.
+  Retain all browser checks and add absent-player/fatal-error and course-return checks.
+- Replace the context boolean flag with explicit access entry points and delegate
+  source form definition/validation to existing helpers, addressing the two new
+  PHPMD findings without rule changes. Keep2026111800; fresh native CI is required.
+
+- Add independent administrator switches for YouTube, Vimeo and local HTML5/upload,
+  all enabled by default, with affected-activity counts. Missing settings preserve
+  existing sites; future cloud sources remain unavailable until implemented.
+- Filter new activity choices and choose the first enabled default. Preserve an
+  existing disabled edit value explicitly; reject forged saves and all-off fallback.
+- Enforce disabled sources before activity writes, viewed completion/acknowledgement,
+  player output, new authenticated telemetry and direct local media delivery.
+  Keep reports, saved files/state and authorised owner erasure available.
+- Include effective flags in validator JSON. Add 15 PHPUnit methods and four Behat
+  scenarios; native candidate/main and actual-package/server gates remain pending.
+- Document the optional separate Zoom repository as a future integration boundary,
+  with shared connection/recording selection and a distinct VideoTrack player adapter.
+  No Zoom plugin, credential fields, webhook endpoint or cloud playback is shipped.
+- Start from accepted 1.7.259/main243983ae: actual ZIP433 files match repository457
+  blobs; server Unit448/5071 on Moodle5.0/5.3, PHPCS/lint181 clean, unchanged Grunt
+  builds and strict10/0/0. Candidate/main CI and selected lifecycle paths passed.
+  PHPMD31 advisory findings and Psalm742/770 information items remain recorded.
+- Inventories:462 repository/438 distributed files,182 distributed PHP,1264 named
+  PHP callables (1257 distributed+7 repository helpers),654 AMD callables, eight packs
+  of1013 keys. AMD/schema/upgrade/services and Microsoft diagnostics are unchanged.
+  Retain the demo; manual Moodle5.3 accessibility remains on standby.
+
 ## 1.7.259 - 2026-11-17
 
 ### Add explicit authenticated Microsoft Graph metadata diagnostics

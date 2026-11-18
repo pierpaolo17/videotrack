@@ -1,5 +1,13 @@
 # Security and trust boundaries
 
+## Site source enforcement
+
+The source policy is enforced before activity saves, player output/viewed completion,
+local media delivery and new authenticated telemetry. Administrator/teacher roles
+do not bypass a disabled source. Owner deletion retains session, participation,
+context and ownership checks without requiring an enabled source.
+See [source policy](31_SOURCE_POLICY.md).
+
 VideoTrack treats the browser and public provider SDKs as untrusted clients. They may request operations and
 report state, but only authenticated Moodle services and server-side evidence can advance authoritative progress.
 

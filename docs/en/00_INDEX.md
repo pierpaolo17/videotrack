@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.259** (`2026111701`),
+This is the authoritative English documentation for VideoTrack **1.7.260** (`2026111800`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -62,3 +62,5 @@ trees and the root README pair agree with the current code.
 - [Security review corrections](29_SECURITY_REVIEW.md)
 
 31. [`30_MICROSOFT_GRAPH.md`](30_MICROSOFT_GRAPH.md) — explicit authenticated metadata diagnostics; playback remains a later gate.
+
+32. [`31_SOURCE_POLICY.md`](31_SOURCE_POLICY.md) — site source switches, enforcement and optional Zoom repository assessment.

@@ -93,22 +93,35 @@ final class ajax_contract_test extends advanced_testcase {
      */
     public function test_sesskey_is_checked_before_context_loading(): void {
         $endpoints = [
-            'start_playback.php',
-            'save_segment.php',
-            'save_reaction.php',
-            'delete_reaction.php',
-            'save_note.php',
-            'delete_note.php',
-            'save_bookmark.php',
-            'delete_bookmark.php',
-            'save_integrity_event.php',
+            'start_playback.php' => 'load_and_validate_context',
+            'save_segment.php' => 'load_and_validate_context',
+            'save_reaction.php' => 'load_and_validate_context',
+            'delete_reaction.php' => 'load_and_validate_participant_context',
+            'save_note.php' => 'load_and_validate_context',
+            'delete_note.php' => 'load_and_validate_participant_context',
+            'save_bookmark.php' => 'load_and_validate_context',
+            'delete_bookmark.php' => 'load_and_validate_participant_context',
+            'save_integrity_event.php' => 'load_and_validate_context',
         ];
 
-        foreach ($endpoints as $endpoint) {
+        $functions = [];
+        require(__DIR__ . '/../db/services.php');
+        $declared = [];
+        foreach ($functions as $definition) {
+            if (!empty($definition['ajax'])) {
+                $declared[] = basename(str_replace('\\', '/', $definition['classname'])) . '.php';
+            }
+        }
+        $expected = array_keys($endpoints);
+        sort($declared);
+        sort($expected);
+        $this->assertSame($declared, $expected, 'Every declared AJAX endpoint must retain the sesskey/context contract.');
+
+        foreach ($endpoints as $endpoint => $contextloader) {
             $source = file_get_contents(__DIR__ . '/../classes/external/' . $endpoint);
             $this->assertIsString($source);
             $sesskeyposition = strpos($source, 'helper::require_ajax_sesskey();');
-            $contextposition = strpos($source, 'helper::load_and_validate_context');
+            $contextposition = strpos($source, 'helper::' . $contextloader . '(');
             $this->assertNotFalse($sesskeyposition, "Missing sesskey check in {$endpoint}");
             $this->assertNotFalse($contextposition, "Missing context validation in {$endpoint}");
             $this->assertLessThan($contextposition, $sesskeyposition, "Late sesskey check in {$endpoint}");
