@@ -123,3 +123,11 @@ The original U-007 matrix and boundary-version milestone are complete on 1.7.240
 iframes, consent/cookies and assistive-technology results are recorded separately when exercised; none are
 inferred from Chrome/SDK doubles. U-020 manual audit, semantic translation review and the final integrated
 production/lifecycle/privacy/benchmark gate remain open. An evidenced regression can reopen the affected cell.
+
+## Microsoft administration check
+
+Three scenarios in `microsoft_provider_check.feature` cover the settings link and
+GET-only local readiness, invalid sharing URLs and a normal unconfigured result.
+All use issuer id zero and make no Microsoft requests. The initial six-job 261 CI
+passes 61 scenarios/1268 steps. The corrected candidate needs a fresh run; this
+does not prove connected-tenant access or playback.

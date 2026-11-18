@@ -1,127 +1,122 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.260** (`2026111800`).
+Baseline: VideoTrack **1.7.261** (`2026111801`).
 
-## Seconda CI 1.7.260 e correzione del contratto AJAX
+## Run 261 corretta e seguito limitato ai PHPDoc
 
-Il run `44358218951`, commit `d9a4bcb23b37b4b4155b091f34d812a341047dc5`, corrisponde
-ai 462 blob/permessi sorgente e ai sei digest degli artifact allegati. Ogni job
-supera **58 scenari Behat / 1241 step**, senza retry, Grunt e strict **10/0/0**.
-Passano le regressioni su conservazione handshake e avviso di indisponibilità.
-Il job qualità supera PHPCS/lint su 182 PHP distribuiti più l'helper repository,
-PHPDoc/metadati e 206 contratti savepoint.
+La run `44395198345`, commit `f834ffd16269662389acbf87ab59d3bf48e3bef7`,
+albero `a658e256119dd0971b96c604708d2d354496ead9`, ha cinque job superati e
+5.0/MariaDB fallito. Tutti i **sette digest ufficiali**, faildump incluso, coincidono
+con gli ZIP caricati; **468 blob/modi** coincidono con la correzione consegnata.
+Tutte le sei suite Unit passano **472/5183**, strict **10/0/0** e Grunt. PHPStan/Psalm
+sono **senza errori configurati** sui due rami selezionati: rimossi i tre rilievi
+precedenti. Psalm resta a **746/774** elementi informativi, senza tipi stampati.
+PHPMD conserva esattamente le medesime **31** identità revisionate della baseline.
 
-Ogni suite PHPUnit esegue **463 test / 5122 asserzioni / 1 fallimento**, in
-`ajax_contract_test::test_sesskey_is_checked_before_context_loading`. Il contratto
-statico cerca ancora il vecchio nome del caricamento contesto nelle cancellazioni.
-Il controllo sesskey e il caricamento esplicito del partecipante sono presenti
-nell'ordine corretto. Il contratto aggiornato assegna a ciascuno dei nove endpoint
-il metodo previsto e verifica che la mappa copra tutti i servizi AJAX dichiarati.
-Conserva tutte le asserzioni di presenza/ordine per ciascun endpoint.
+Il job canonico riporta **cinque errori PHPCS** nel primo commento della variabile
+di bootstrap: come primo docblock mancano descrizione/package/copyright/license del
+file e il testo dopo la variabile non è ammesso nel suggerimento di tipo inline.
+Lint185+1, helperPHPCS, checker PHPDoc, metadati e 206 contratti savepoint passano.
+Il seguito aggiunge un PHPDoc file completo prima del namespace e termina il
+suggerimento di tipo con la variabile, secondo la [regola effettiva Moodle CS3.7.0](https://github.com/moodlehq/moodle-cs/blob/v3.7.0/moodle/Sniffs/Commenting/InlineCommentSniff.php).
+Conserva ogni token PHP eseguibile, test, impostazione, schema, lingua, AMD, versione
+e gate CI. Nessuna soppressione aggiunta. I controlli locali sono lessicali e
+confronti sorgente, non esecuzione nativa PHPCS/Psalm di questo seguito.
 
-PHPMD torna a **31** advisory: i due nuovi rilievi della 260 sono rimossi e le altre
-identità normalizzate corrispondono alla 259 accettata. PHPStan/Psalm non riportano
-errori configurati; Psalm elenca **743/771** informazioni (una in più per ramo
-rispetto alla 259, di tipo non stampato). I lifecycle sono saltati dopo il fallimento
-Unit, non superati.
+Cinque job superano Behat **61/1268**, senza ritentativi. Il log 5.0/MariaDB riporta
+**33 scenari superati /28 falliti**, **877 passi superati /1 fallito /390 saltati**,
+poi due ritentativi che non raggiungono `http://localhost:8000`. Entrambi i file del
+faildump riguardano il passo di disponibilità HTML5; l’HTML è la pagina Chromium
+`ERR_CONNECTION_REFUSED`, non un’eccezione Moodle. Il servizio HTTP locale non è
+raggiungibile; il motivo dell’arresto **non è determinabile** dagli artifact.
+Nessuna causa server/OOM o soluzione ipotetica dichiarata. La nuova CI deve ripetere
+la suite browser; il job fallito non è accettato.
 
-Questa patch incrementale parte dal secondo commit fallito sopra indicato, su
-`release/v1.7.260`. Cambia soltanto il test statico e le evidenze/inventari funzioni
-paralleli; codice applicativo, AMD, lingue, schema, servizi, gate CI, versione e dati
-sono identici byte per byte. Restano **1.7.260 / 2026111800**, 463 metodi di test e
-1264 callable PHP nominati. Serve nuova CI candidata prima del merge; seguono
-accettazione main/pacchetto/server. Conservare il dataset demo.
+Le tre genealogie lifecycle passano su **5.3/MariaDB**, con tre hash degli snapshot
+ricostruiti autonomamente e 63 prove effettive dei contenuti file. Il lifecycle
+**5.0/MariaDB è saltato**, non superato. Il successo storico della run precedente
+resta evidenza separata e non colma questo passaggio.
 
-## Prima CI 1.7.260 e correzione
+È una **correzione PHPDoc incrementale da f834ffd1**: restano **1.7.261 /2026111801**,
+472 metodi unitari, 61 scenari, 468/444 file e 8×1023 chiavi lingua. Servono una nuova
+CI candidato a sei job, poi main, ZIP reale/report server e due strict. La baseline
+effettivamente accettata resta260. Conservare la demo; accessibilità manuale53 in
+standby. Nessuna modifica Git remota dall’assistente.
 
-Il run `44349419297`, commit `fcaa45fe518633cd55323f5eaf51311ed914ca6a`, fallisce
-tutti i sei job. I 462 blob/permessi sorgente, i sei digest CI e i sei digest faildump
-coincidono con il run ufficiale. Ogni suite esegue **463 test / 5141 asserzioni /
-1 fallimento** e **58 scenari Behat / 1236 step**, con uno scenario fallito e due
-step saltati. I due retry automatici falliscono sullo stesso scenario. I 18 snapshot
-HTML mostrano il blocco previsto della sorgente come pagina di errore fatale Moodle,
-senza iframe del fornitore.
+## Prima CI 1.7.261 e correzione della stessa versione
 
-Il test della scheda precedente ipotizzava erroneamente l'assenza di segmenti dopo
-l'avvio: l'handshake normale crea già un record di audit `playstart`. La regressione
-corretta fotografa tutti i segmenti/stati prima della disabilitazione e ne verifica
-la conservazione esatta dopo il rifiuto, mantenendo l'asserzione sul blocco.
-La vista presenta ora un avviso normale con ritorno al corso, prima di completamento
-su apertura, presa visione e avvio del player. Lo scenario mantiene i controlli e
-verifica anche assenza di player/errori fatali nel DOM e ritorno funzionante al
-corso. Il rifiuto di API/scritture rimane rigoroso.
+La run `44388798465`, commit `d8ab79681ecbb5c4b9e30dba3bbbd7f12625b62a`,
+albero `003728bd6ab13fd638a6c5295bdf5b500ba3231f`, mostra tutti i sei job verdi.
+I sei digest degli ZIP caricati coincidono con gli artifact ufficiali; tutti i 468
+blob/modi coincidono con il candidato consegnato. Ogni job supera Unit **472/5183**,
+Behat **61/1268** senza ritentativi, strict **10/0/0** e Grunt. Controlli canonici su
+**185 PHP distribuiti +1 helper repository**, PHPDoc/metadati e 206 contratti savepoint.
+Tutte le tre genealogie lifecycle selezionate passano su 5.0/5.3 MariaDB; ricostruiti
+sei hash degli snapshot e verificate 126 prove effettive dei contenuti file. PHPMD
+conserva i medesimi 31 avvisi revisionati della baseline.
 
-Il job qualità supera PHPCS/lint su 182 PHP distribuiti più l'helper repository,
-PHPDoc/metadati e 206 contratti savepoint. Grunt e strict **10/0/0** passano nei sei
-job. I lifecycle sono saltati dopo i fallimenti, non superati. PHPStan/Psalm non
-riportano errori configurati; Psalm conta 742/770 informazioni. PHPMD riporta **33**
-advisory, due in più della 259: parametro booleano del caricamento contesto e nuova
-dipendenza del modulo.
+Gli step consultivi di analisi statica riportano un rilievo PHPStan e due errori
+Psalm: `settings.php` dipende da `$hassiteconfig` fornita dal chiamante; il modulo
+caricato dall’autoloader dichiara `global $CFG` a livello file. Psalm riporta inoltre
+746/774 elementi informativi, senza stamparne i tipi. I nuovi errori non sono
+accettati soltanto perché il workflow è verde. La correzione verifica direttamente
+il permesso di sistema e usa un riferimento locale tipizzato a `$GLOBALS['CFG']`
+per caricare la libreria dei moduli di core. Non aggiunge soppressioni, funzioni,
+test, chiavi lingua, cambi schema o eccezioni CI. Conserva integralmente le
+regressioni di modulo, sessione e accesso.
 
-La correzione sostituisce il flag con ingressi espliciti per riproduzione/accesso
-del partecipante, conservando login/contesto/capability/partecipazione e proprietà
-nelle cancellazioni. Selettore e validazione disponibilità passano agli helper di
-definizione/validazione del modulo già esistenti. I due nuovi rilievi PHPMD sono
-affrontati nel sorgente; il nuovo report nativo dovrà confermare il conteggio.
-Regole, baseline e gate CI non vengono allentati.
+Questa patch è **incrementale da d8ab7968 sul ramo release/v1.7.261**, non la patch
+completa 260-to261. Restano **1.7.261 / 2026111801**, 472 metodi di test e 61 scenari
+browser. Controlli sorgente e confronti patch sono locali; la CI nativa del candidato
+corretto e poi l’accettazione main/ZIP/server sono da svolgere. Nessuna prova su
+tenant Microsoft collegato o telemetria player dichiarata. Conservare la demo.
 
-Questa patch è **incrementale dal commit 1.7.260 fallito**, su `release/v1.7.260`,
-non la precedente patch 259→260. Release/versione restano **1.7.260 / 2026111800**.
-Restano 462 file repository/438 distribuiti, 182 PHP distribuiti e 463 metodi
-PHPUnit; i callable PHP diventano 1264 (1257 distribuiti + 7 helper). Servono nuova
-CI candidata, CI main e accettazione del pacchetto reale/server. Il dataset demo
-resta conservato. Nessuna modifica ad AMD/schema/servizi/credenziali.
+## Baseline tecnica 1.7.260 accettata
 
-## Baseline 1.7.259 accettata
+Il main accettato `4d9fe8b0eb8b4a6587992f4ac86b2bec9d1dcb65` ha albero
+`6b4041b583a66db1ebbe5d623b7b1e0ab0156a12`, identico al candidato
+`a98ef230429373259943b7bc9634dafe5512ea2c`. Le run candidato `44365252939`
+e main `44374062516` superano tutti i sei job ciascuna. Verificati i sei digest
+ufficiali degli artifact e i 462 blob/modi sorgente per run. PHPUnit **463/5144**
+su entrambi i rami; Behat **58/1241** senza ritentativi. Strict **10/0/0** e Grunt
+completato. Controlli canonici su 182 PHP distribuiti più helper repository. Tutte
+le tre genealogie lifecycle selezionate passano su 5.0/5.3 MariaDB, con upgrade
+reale, ripetizione e disinstallazione popolata. Ogni run riproduce sei hash degli
+snapshot e 126 verifiche effettive dei contenuti file.
 
-La baseline è main `243983ae3cc93af7c8a702014d4e58cad0d0f53f`, albero
-`4aaddc578a96e73680853d7edb1768fd36124246`. Lo ZIP reale ha 433 file corrispondenti
-ai blob relativi; tutti i 457 blob/permessi repository corrispondono alla baseline
-isolata. SHA-256 del pacchetto:
-`30b8c99c21fc01be2e4e51ddef40fa9458e3ccf908d54ec7ff465d03903e82c8`.
+Lo ZIP reale 260 contiene **438 file**, tutti corrispondenti al main accettato;
+commento archivio uguale al commit, SHA-256
+`f2557bf69f15af618d4a4c1a20045f3b44ddad32c59ac354a889fc87fee1b9d5`.
+Il report `report_completo_videotrack_1.7.260_20261118_203639.zip` ha SHA-256
+`9ef587aa5bca60361fa066a4c34efdf8d4c98447ca23a2caf3a8dd7c5bdc072e`,
+dieci log e otto comandi richiesti superati. Unit server **463/5144** su entrambi
+i siti; PHPCS/lint **183 puliti** in una verifica condivisa del codice identico,
+non due esecuzioni canoniche distinte. Gli hash Grunt registrati prima/dopo sono
+uguali e le mappe corrispondono ai sorgenti; non si dichiara ricostruzione autonoma
+dell’hash aggregato server. Gli strict del manutentore passano **10/0/0** su entrambi,
+con elementi/righe voto **0/0** e **34/34**. Schema: 7 tabelle/151 campi/22 indici
+espliciti/22 chiavi esterne; nove AJAX, otto lingue da 1013 chiavi e 48 gruppi AMD.
 
-CI candidata corretta e main accettate superano i sei job, PHPUnit 448/5071,
-Behat 54/1194, strict 10/0/0 e i percorsi selezionati di upgrade storico/interrotto/
-release precedente, ripetizione e uninstall popolato. Il report server reale
-conferma PHPCS/lint 181 puliti, Unit 448/5071 su Moodle 5.0/5.3 e build Grunt invariati.
-Gli output rigorosi del maintainer sono 10/0/0 sui due siti. Sono risultati della
-baseline, non esecuzione delle nuove regressioni.
+Restano 31 avvisi PHPMD revisionati; PHPStan/Psalm senza errori configurati. Psalm
+mostra 743/771 elementi informativi. Il debito dei vecchi harness Node autonomi e
+l’avviso Browserslist restano registrati, non risolti. La verifica manuale separata
+di accessibilità Moodle 5.3 resta **STANDBY**. Conservare il dataset demo.
 
-Restano advisory 31 rilievi PHPMD e 742/770 informazioni Psalm; PHPStan/Psalm non
-riportano errori nei perimetri configurati. Restano tre vecchi harness Node falliti:
-assert Privacy/backup obsoleti e stub core/str assente nel tracker. Il manuale
-accessibilità Moodle 5.3 resta in standby. Conservare il dataset demo.
+## Perimetro 1.7.261 e limiti dell’evidenza
 
-Una verifica locale estesa dei 19 harness Node storici produce due PASS e 17
-fallimenti identici alla 1.7.259 accettata dopo normalizzazione dei percorsi. Questi
-fallimenti storici non sono risultati nativi Moodle né regressioni introdotte.
+La nuova [verifica Microsoft dalla GUI](32_MICROSOFT_WEB_CHECK.md) richiede il
+permesso di configurazione sito nel sistema e un modulo POST/sesskey. GET legge
+solo lo stato locale. Riutilizza il servizio Graph/OAuth: core può aggiornare le
+credenziali, senza importare/trasmettere file o modificare attività e demo.
+Diagnostica ridotta con escape e pagina non memorizzabile in cache. ID validati
+prima della verifica. Nessuna sorgente cloud, integrazione player, rinnovo link,
+nuovo schema, servizio o AMD.
 
-## Perimetro della candidata corrente
-
-Tre interruttori indipendenti, abilitati per impostazione predefinita, si applicano
-a modulo, callback, ingresso vista/completamento, nuova telemetria e file locali.
-Il valore disabilitato esistente resta esplicito in modifica. Tutte le sorgenti
-disabilitate non producono ripieghi alla creazione. Report e dati sono conservati;
-le cancellazioni mantengono i controlli di accesso e il validatore registra i valori
-effettivi. Vedere [policy sorgenti](31_SOURCE_POLICY.md).
-
-Il repository Zoom separato e opzionale è una valutazione architetturale.
-Tempi/controlli del player, autorizzazioni e distribuzione fornitore → browser
-restano gate futuri. Diagnostica Microsoft, AMD, schema, upgrade e contratti dei
-servizi rimangono invariati.
-
-## Inventari e confini delle evidenze
-
-L'albero ha 462 file repository / 438 distribuiti, 182 PHP distribuiti più un helper
-lifecycle repository, 1264 callable PHP nominati (1257 distribuiti + 7 helper),
-654 callable AMD e otto lingue con 1013 chiavi/placeholder corrispondenti.
-L'inventario selezionato ha 371 voci (366 distribuite + cinque solo repository).
-I metodi PHPUnit sono 463 (15 nuovi), con quattro scenari browser nuovi e 58 scenari
-Behat espansi attesi, da confermare mediante esecuzione nativa.
-
-I controlli locali sorgente/patch/inventari non dimostrano il comportamento PHP.
-PHPCS, lint, PHPUnit, Behat, lifecycle e analizzatori devono essere eseguiti nella
-CI candidata; seguono CI main, identità del pacchetto reale, controlli server e
-validazione rigorosa. Non si dichiara un risultato nativo della candidata né accesso
-a un fornitore reale. Guide e inventari paralleli descrivono la candidata.
-La cronologia appartiene a CHANGELOG e ai relativi tag.
+Scritti nove metodi unitari nativi e tre scenari browser deterministici;
+**l’esecuzione nativa del candidato 261 corretto è da svolgere**, come l’accesso a un tenant reale collegato.
+La prima esecuzione 261 ha superato le nuove regressioni, ma non esegue questa correzione.
+Controlli sorgente/lessicali/stile, parità lingue, inventari, schema/AMD invariati
+e confronti applicazione/inversione patch sono locali e non sostituiscono PHP/Moodle.
+Servono sei job CI candidato prima del merge, sei main, ZIP reale/report server e
+due strict. Nessuna modifica Git remota dall’assistente. Repository Zoom, Google
+e App restano tappe successive.

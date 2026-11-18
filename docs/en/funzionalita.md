@@ -1,5 +1,9 @@
 # User and administrator guide
 
+The Microsoft check is also available from the VideoTrack site settings.
+The page reads local readiness on opening and runs the remote probe only after
+an administrator submits the protected form. [Web procedure](32_MICROSOFT_WEB_CHECK.md).
+
 ## Site source availability
 
 Administrators can independently enable YouTube, Vimeo and local HTML5/uploaded

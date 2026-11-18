@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.260 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.261 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1264 (1257 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1276 (1269 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -836,6 +836,8 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/form/microsoft_probe_form.php:46` | `definition` | Define identifiers without silently stripping invalid target characters. |
+| `classes/form/microsoft_probe_form.php:62` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1672,6 +1674,16 @@ Generated from the VideoTrack 1.7.260 source tree. PHP entries include named fun
 | `tests/microsoft_graph_test.php:381` | `inert_probe` | Provider diagnostic callable `inert_probe`; its DocBlock defines inputs, output and side effects. |
 | `tests/microsoft_graph_test.php:395` | `response_client` | Provider diagnostic callable `response_client`; its DocBlock defines inputs, output and side effects. |
 | `tests/microsoft_graph_test.php:410` | `create_issuer` | Provider diagnostic callable `create_issuer`; its DocBlock defines inputs, output and side effects. |
+| `tests/microsoft_probe_form_test.php:37` | `setUp` | Start each case with an isolated administrator request. |
+| `tests/microsoft_probe_form_test.php:46` | `test_valid_identifiers_and_optional_item` | Drive-only and video targets preserve the supported opaque-id alphabet. |
+| `tests/microsoft_probe_form_test.php:58` | `test_invalid_drive_ids_are_not_repaired` | Paths, URLs, separators, Unicode and overlong drive ids fail locally. |
+| `tests/microsoft_probe_form_test.php:68` | `test_invalid_item_has_a_field_error` | An invalid item identifies its own field and cannot change the drive. |
+| `tests/microsoft_probe_form_test.php:79` | `test_get_cannot_submit_a_probe` | Opening the page with GET fields, even a form marker, is not a submission. |
+| `tests/microsoft_probe_form_test.php:89` | `test_invalid_sesskey_is_rejected` | Core rejects a forged session token before submitted fields can be read. |
+| `tests/microsoft_probe_form_test.php:101` | `test_valid_post_preserves_target` | Valid POST data survives without silently normalising the target identity. |
+| `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Server-side validation rejects an invalid POST instead of returning a target. |
+| `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | The registered administration node excludes course teachers and guests. |
+| `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Keep the controller's permission and CSRF checks before network-capable code. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Named PHP function/method `test_media_source_errors_preserve_required_inputs`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Named PHP function/method `test_missing_timed_text_files_have_distinct_errors`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Named PHP function/method `test_reaction_file_error_depends_on_enablement`; see source DocBlock and callers for the current contract. |

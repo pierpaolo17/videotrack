@@ -21,7 +21,7 @@ use core\oauth2\client;
 use core\oauth2\issuer;
 
 /**
- * Explicit CLI probe using Moodle's existing Microsoft system OAuth account.
+ * Explicit probe using Moodle's existing Microsoft system OAuth account.
  *
  * Core may refresh and persist OAuth credentials. VideoTrack does not store
  * credentials, change scopes, write activity data or enable a new player source.

@@ -1,8 +1,10 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
-VideoTrack **1.7.260** (`2026111800`).
+VideoTrack **1.7.261** (`2026111801`).
 
-The diagnostic introduced in accepted 1.7.259 is unchanged. The new switches apply to the three implemented players; Microsoft playback remains a future gate.
+The Graph/OAuth implementation introduced in accepted 1.7.259 is retained.
+Release 1.7.261 adds an [administrator web form](32_MICROSOFT_WEB_CHECK.md)
+using the same diagnostic. Microsoft playback remains a future gate.
 
 
 This is the first remote diagnostic for OneDrive/SharePoint preparation. It checks

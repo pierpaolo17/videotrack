@@ -123,3 +123,11 @@ Matrice originaria U-007 e milestone multi-versione sono complete sulla 1.7.240.
 consenso/cookie e tecnologie assistive si registrano separatamente quando provati, senza dedurli da Chrome/
 SDK double. U-020 manuale, review semantica traduzioni e gate integrato produzione/lifecycle/privacy/benchmark
 restano aperti. Una regressione comprovata può riaprire la cella interessata.
+
+## Verifica amministrativa Microsoft
+
+Tre scenari in `microsoft_provider_check.feature` coprono il collegamento dalle
+impostazioni e la sola configurazione locale su GET, URL di condivisione non validi
+e l’esito normale senza servizio configurato. Usano issuer id zero senza richieste
+a Microsoft. La prima CI 261 a sei job supera 61 scenari/1268 passi. Il candidato
+corretto richiede una nuova run; non prova accesso a un tenant collegato né riproduzione.

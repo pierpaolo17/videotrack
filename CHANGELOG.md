@@ -1,5 +1,38 @@
 # VideoTrack changelog
 
+## 1.7.261 - 2026-11-18
+
+### Add an administrator Microsoft connection check
+
+- Correct the bootstrap comments after run44395198345: provide a complete file
+  PHPDoc before the namespace and keep the variable type hint free of trailing
+  prose, as required by Moodle CodeSniffer3.7.0. Executable tokens are unchanged.
+  PHPStan/Psalm now have no configured errors; all Unit472/5183 and strict10/0/0 pass.
+  Five browser jobs pass61/1268;50MariaDB lost its local HTTP server during Behat
+  (connection refused;two reruns unavailable), so its lifecycle was skipped.
+  This comment-only correction requires fresh CI; no runtime cause for the server
+  outage is established, and no checks, assertions or CI gates are weakened.
+
+- Correct the three new static-analysis findings in the initial green six-job CI:
+  read the Moodle configuration through a typed local alias instead of a file-level
+  global declaration, and check the system site-configuration capability directly
+  when registering the administrator page. No analysis suppressions or gate changes.
+- Initial261 CI passed Unit472/5183, Behat61/1268 without reruns, strict10/0/0,
+  canonical185+1 and all three lifecycle lineages on50/53MariaDB. PHPStan1/Psalm2
+  findings require this same-version correction and a fresh candidate run before merge.
+
+- Add a site-configuration-only page linked from VideoTrack settings. Opening it
+  reads local readiness only; an explicit POST form with a valid sesskey runs the
+  existing bounded Microsoft Graph drive/video metadata probe.
+- Reject URLs, paths and invalid opaque ids in the form. Escape redacted diagnostic
+  output, disable page caching and keep core OAuth credentials in core. Token
+  refresh can update core credentials; VideoTrack and demo data are retained.
+- Add nine native form/access/CSRF tests and three deterministic browser scenarios,
+  plus ten strings in each of the eight language packs and paired setup guides.
+- Accepted260 main/package/server evidence is recorded in the documentation audit.
+  A fresh CI run for the correction and a live Microsoft tenant test are pending. This release does
+  not enable OneDrive/SharePoint playback, import media or proxy streaming.
+
 ## 1.7.260 - 2026-11-18
 
 ### Add site-wide video source availability

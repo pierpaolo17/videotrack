@@ -1,6 +1,6 @@
 # Sorgenti video del sito e integrazioni opzionali
 
-VideoTrack **1.7.260** (`2026111800`).
+VideoTrack **1.7.261** (`2026111801`).
 
 ## Configurare le sorgenti implementate
 
@@ -91,8 +91,9 @@ Per l'account Zoom interno vanno valutati Server-to-Server OAuth e webhook firma
 sul ciclo di vita delle registrazioni. Credenziali e rinnovo dei token differiscono
 dai flussi OAuth delegati Microsoft/Google già gestiti dal core Moodle. Un repository
 non dimostra il supporto dei tempi e dei controlli del player nativo: resta una
-verifica di fattibilità distinta. La 1.7.260 non consegna plugin Zoom, player cloud,
-credenziali o endpoint webhook. La diagnostica Microsoft Graph della 1.7.259 resta invariata.
+verifica di fattibilità distinta. La 1.7.261 non consegna plugin Zoom, player cloud,
+credenziali o endpoint webhook. Il servizio Graph/OAuth della 1.7.259 è conservato; la nuova
+[verifica amministrativa dalla GUI](32_MICROSOFT_WEB_CHECK.md) lo riutilizza.
 
 ## Riferimenti primari
 
