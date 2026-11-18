@@ -4,6 +4,12 @@
 
 ### Add site-wide video source availability
 
+- Correct the remaining second260 CI assertion: pin each of the nine AJAX endpoints
+  to its intended context loader, retain sesskey-before-context checks and assert
+  complete declared-service coverage. Browser58/1241, strict10/0/0 and canonical
+  checks already pass; PHPMD is back to31. Keep2026111800 and all runtime code;
+  fresh native CI, including previously skipped lifecycle paths, is still required.
+
 - Correct initial260 CI: preserve the existing playback handshake in stale-tab
   assertions and render disabled-source availability as a normal warning page.
   Retain all browser checks and add absent-player/fatal-error and course-return checks.

@@ -2,6 +2,36 @@
 
 Baseline: VideoTrack **1.7.260** (`2026111800`).
 
+## Second 1.7.260 CI and AJAX contract correction
+
+Run `44358218951`, commit `d9a4bcb23b37b4b4155b091f34d812a341047dc5`, matches all
+462 source blobs/modes and the six uploaded artifact digests. Every job passes
+**58 Behat scenarios / 1241 steps**, without reruns, Grunt and strict **10/0/0**.
+The handshake-preservation and normal unavailable-page regressions pass.
+The selected quality job passes PHPCS/lint on 182 distributed PHP plus the
+repository helper, PHPDoc/metadata and 206 savepoint contracts.
+
+Each PHPUnit suite executes **463 tests / 5122 assertions / 1 failure** in
+`ajax_contract_test::test_sesskey_is_checked_before_context_loading`. That static
+contract still searches for the old context-loader literal in deletion endpoints.
+The exact sesskey check and the explicit participant-context loader are present
+in the correct order. The updated contract pins each of the nine endpoints to
+its intended loader and asserts that the map covers every declared AJAX service.
+It retains all per-endpoint presence/order assertions.
+
+PHPMD returns to **31** reviewed advisories: both new 260 findings are removed and
+the remaining normalised identities match accepted 259. PHPStan/Psalm report no
+configured errors; Psalm lists **743/771** information items (one more per branch
+than accepted 259, types not printed). Lifecycle execution is skipped after the
+Unit failure, not passed.
+
+This incremental patch starts from the second failed commit above on
+`release/v1.7.260`. It changes the static test and paired evidence/function
+inventories only; production code, AMD, languages, schema, services, CI gates,
+version and data are byte-identical. Keep **1.7.260 / 2026111800**, 463 test methods
+and 1264 named PHP callables. Fresh native candidate CI is required before merge;
+main/package/server acceptance still follows. Retain the demo.
+
 ## Initial 1.7.260 CI and correction
 
 Run `44349419297`, commit `fcaa45fe518633cd55323f5eaf51311ed914ca6a`, failed all

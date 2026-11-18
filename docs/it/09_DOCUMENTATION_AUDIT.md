@@ -2,6 +2,36 @@
 
 Baseline: VideoTrack **1.7.260** (`2026111800`).
 
+## Seconda CI 1.7.260 e correzione del contratto AJAX
+
+Il run `44358218951`, commit `d9a4bcb23b37b4b4155b091f34d812a341047dc5`, corrisponde
+ai 462 blob/permessi sorgente e ai sei digest degli artifact allegati. Ogni job
+supera **58 scenari Behat / 1241 step**, senza retry, Grunt e strict **10/0/0**.
+Passano le regressioni su conservazione handshake e avviso di indisponibilità.
+Il job qualità supera PHPCS/lint su 182 PHP distribuiti più l'helper repository,
+PHPDoc/metadati e 206 contratti savepoint.
+
+Ogni suite PHPUnit esegue **463 test / 5122 asserzioni / 1 fallimento**, in
+`ajax_contract_test::test_sesskey_is_checked_before_context_loading`. Il contratto
+statico cerca ancora il vecchio nome del caricamento contesto nelle cancellazioni.
+Il controllo sesskey e il caricamento esplicito del partecipante sono presenti
+nell'ordine corretto. Il contratto aggiornato assegna a ciascuno dei nove endpoint
+il metodo previsto e verifica che la mappa copra tutti i servizi AJAX dichiarati.
+Conserva tutte le asserzioni di presenza/ordine per ciascun endpoint.
+
+PHPMD torna a **31** advisory: i due nuovi rilievi della 260 sono rimossi e le altre
+identità normalizzate corrispondono alla 259 accettata. PHPStan/Psalm non riportano
+errori configurati; Psalm elenca **743/771** informazioni (una in più per ramo
+rispetto alla 259, di tipo non stampato). I lifecycle sono saltati dopo il fallimento
+Unit, non superati.
+
+Questa patch incrementale parte dal secondo commit fallito sopra indicato, su
+`release/v1.7.260`. Cambia soltanto il test statico e le evidenze/inventari funzioni
+paralleli; codice applicativo, AMD, lingue, schema, servizi, gate CI, versione e dati
+sono identici byte per byte. Restano **1.7.260 / 2026111800**, 463 metodi di test e
+1264 callable PHP nominati. Serve nuova CI candidata prima del merge; seguono
+accettazione main/pacchetto/server. Conservare il dataset demo.
+
 ## Prima CI 1.7.260 e correzione
 
 Il run `44349419297`, commit `fcaa45fe518633cd55323f5eaf51311ed914ca6a`, fallisce
