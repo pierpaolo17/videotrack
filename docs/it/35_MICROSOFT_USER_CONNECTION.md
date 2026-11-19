@@ -70,8 +70,11 @@ completamenti sono simulati; nessuno scambio token provider viene eseguito dai t
 Un nuovo scenario browser non ha issuer configurato né richieste esterne. Tutti508i
 metodi unitari e66scenari precedenti restano identici nei byte.
 
-Test nativi264 candidato/main/server e ritorno completo con browser Microsoft collegato
-restano da eseguire. Controlli locali sorgenti/stile/patch non sono pass PHP/Moodle.
+I test iniziali264 hanno superato530/5611 e67/1327, ma PHPCS ha rilevato4errori nelle
+intestazioni e PHPMD un nuovo flag booleano. La correzione usa il solo nonce nel metodo
+di completamento e legge l’errore callback dopo la verifica della richiesta. Test
+nativi corretti candidato/main/server e ritorno completo con browser Microsoft
+restano da eseguire: vedere l’[audit](09_DOCUMENTATION_AUDIT.md). Controlli locali sorgenti/stile/patch non sono pass PHP/Moodle.
 Baseline263 accettata: Unit508/5490, Behat66/1318,6job candidato/main ciascuno, ZIP reale
 454file, server e due strict10/0/0. Conservare la demo; manuale53 in standby.
 

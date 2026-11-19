@@ -39,7 +39,8 @@ on a normal GET or a shared-account fallback exists. Reduced notifications and a
 local redirect omit raw provider errors and OAuth response data from rendered diagnostics.
 
 New22native methods/1scenario are authored; all508existing methods/66scenarios are
-unchanged. Native264 and the live complete Microsoft browser round trip remain pending.
+unchanged. Initial264 runtime evidence is recorded below; corrected native264 and the
+live complete Microsoft browser round trip remain pending.
 Local lexical/style/API/source/patch checks are not PHP/Moodle execution. The expected
 candidate counts are483repository/459distributed files,191distributedPHP,1376PHPcallables
 (1369distributed+7CIhelpers),654AMDcallables,530unit methods,67expanded scenarios and
@@ -50,3 +51,32 @@ No schema, upgrade, AJAX, AMD, source-policy, provider metadata/page-link servic
 CLI or demo changes are made. Tracked Microsoft playback, a learner auth endpoint and
 an automatic activity launch resolver remain future gates. Candidate6jobs, main6jobs,
 actual ZIP/server and both strict outputs are required before acceptance.
+
+
+## Initial264 CI and incremental correction
+
+Candidatee07044204677edd6aba4d79714aa6f6ed41fd810, tree
+9916212a915080c6c471ab3dd38ea70d107fa4ba, was executed in
+[run44564025744](https://github.com/pierpaolo17/videotrack/actions/runs/44564025744).
+All6official artifact digests and483repository blobs/modes match. Each matrix job
+passes Unit530/5611, Behat67/1327 without reruns, strict10/0/0 and Grunt. Five jobs
+succeed;50MariaDB fails only Moodle Code Checker:4boilerplate whitespace errors in
+microsoft_user_connection.php and its unit test. Lint191+1helper, PHPDoc/metadata/
+savepoints206 pass. Lifecycle50 is skipped after failure;53 passes all3lineages,
+with3reconstructed snapshot hashes/63actual file-content checks. No50lifecycle pass
+is inferred from the functional results.
+
+PHPMD has32findings: the31accepted263 baseline plus BooleanArgumentFlag on the
+complete method's denied argument. The correction restores exact accepted boilerplate
+and gives complete a nonce-only signature. It reads the callback error indication
+itself, after capability/sesskey/one-use validation and consumption, before OAuth work.
+The controller no longer parses/passes the flag. The existing denial test now supplies
+a real request error and also checks replay rejection. No method/scenario is removed;
+530methods/67scenarios and1376PHPcallables remain. All508baseline263 unit methods stay
+byte-identical. Version2026111901, schema, data, AMD and CI rules stay unchanged.
+
+PHPStan/Psalm report no configured errors, with750/778Psalm information items:4more
+than263. Their types are not printed, so no attribution or resolution is claimed.
+Corrected native candidate CI, main CI, actual package/server and both maintainer
+strict outputs remain pending. The header/source/patch checks are local evidence,
+not a native PHPCS/PHPMD pass. Live Microsoft is unexecuted; retain demo/manual53standby.

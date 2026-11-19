@@ -39,7 +39,8 @@ sul normale GET o ripiego su sistema. Avvisi ridotti e redirect locale pulito es
 testo provider e dati di risposta OAuth dalla diagnostica resa.
 
 Scritti22metodi nativi/1scenario; tutti508metodi/66scenari precedenti sono identici.
-Prove native264 e ritorno completo con browser Microsoft reale restano da svolgere.
+L’evidenza iniziale264 è riportata sotto; prove native corrette e ritorno completo
+con browser Microsoft reale restano da svolgere.
 Controlli locali lessicali/stile/API/sorgenti/patch non sono esecuzione PHP/Moodle.
 Conteggi attesi:483file repository/459distribuiti,191PHPdistribuiti,1376funzioni PHP
 (1369distribuite+7helperCI),654elementiAMD,530metodi unitari,67scenari espansi,8×1040chiavi.
@@ -50,3 +51,31 @@ Nessuna modifica a schema, upgrade, AJAX, AMD, policy sorgenti, servizi metadati
 CLI sistema o demo. Player Microsoft tracciato, endpoint autenticazione studente e
 risoluzione automatica all’avvio restano gate futuri. Prima dell’accettazione servono
 6job candidato,6main, ZIP reale/server e due strict.
+
+
+## CI iniziale264 e correzione incrementale
+
+Candidatoe07044204677edd6aba4d79714aa6f6ed41fd810, albero
+9916212a915080c6c471ab3dd38ea70d107fa4ba, eseguito nel
+[run44564025744](https://github.com/pierpaolo17/videotrack/actions/runs/44564025744).
+Coincidono6digest ufficiali e483blob/modi repository. Ogni job supera Unit530/5611,
+Behat67/1327 senza rerun, strict10/0/0 e Grunt. Cinque job superati;50MariaDB fallisce
+solo Moodle Code Checker:4errori di spaziatura boilerplate nel servizio personale e
+nel relativo test. Lint191+1helper, PHPDoc/metadati/savepoint206 superati. Lifecycle50
+saltato dopo il fallimento;53 supera3genealogie con3hash ricostruiti e63prove effettive
+dei contenuti file. I test funzionali non costituiscono un pass del lifecycle50.
+
+PHPMD ha32rilievi: i31della baseline263 più BooleanArgumentFlag sul parametro denied
+di complete. La correzione ripristina il boilerplate accettato e lascia a complete
+il solo parametro nonce. Il gestore legge l’indicazione di errore del callback dopo
+permesso/sesskey/verifica e consumo monouso, prima di OAuth. Il controller non legge
+né passa più il flag. Il test di rifiuto esistente fornisce ora l’errore nella richiesta
+e verifica anche il replay. Nessun metodo/scenario rimosso: restano530metodi/67scenari
+e1376funzioni PHP. I508metodi della baseline263 sono identici nei byte. Versione
+2026111901, schema, dati, AMD e regole CI invariati.
+
+PHPStan/Psalm senza errori configurati, con750/778informazioni Psalm:4in più della263.
+I tipi non sono stampati, quindi non si attribuisce né dichiara risolto quel delta.
+Servono ancora CI nativa della candidata corretta, CI main, pacchetto/server e due
+strict. Confronti locali intestazioni/sorgenti/patch non sono pass PHPCS/PHPMD nativi.
+Microsoft reale non eseguito; conservare demo e manuale53standby.

@@ -19,6 +19,14 @@
 - Accept actual263:454 package files matching main9d1cd700, server190canonical PHP
   clean, Unit508/5490 on50/53 and both strict10/0/0. Corrected candidate/main all6CI,
   Behat66/1318 and lifecycle pass; PHPMD31 baseline retained, form finding resolved.
+- Initial264 candidatee0704420 passes Unit530/5611, Behat67/1327, strict10/0/0
+  and Grunt in all6jobs. Its50MariaDB job fails4boilerplate spacing errors in2new
+  files;50lifecycle is skipped.53lifecycle and other quality gates complete.
+- Correct the two headers to the accepted Moodle boilerplate. Complete the callback
+  with a nonce-only API; read its error indication after request validation/consumption
+  instead of passing a boolean argument from the controller. Retain denial/replay
+  protection and strengthen the existing denial regression. Keep2026111901 and all
+  CI rules unchanged; a fresh corrected native run is pending before merge.
 - Native264 and a complete live Microsoft tenant/browser round trip are pending.
   Keep schema, AJAX, AMD, source policy, demo and manual53 standby state unchanged.
 

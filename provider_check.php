@@ -41,10 +41,7 @@ if ($connectpersonal || $oauthreturn) {
         }
         $connectionstatus = $connection->status();
     } else {
-        $connectionstatus = $connection->complete(
-            optional_param('connectnonce', '', PARAM_ALPHANUMEXT),
-            optional_param('error', '', PARAM_RAW) !== ''
-        );
+        $connectionstatus = $connection->complete(optional_param('connectnonce', '', PARAM_ALPHANUMEXT));
     }
     $connected = in_array($connectionstatus, ['connected', 'already_connected'], true);
     $messagekey = match ($connectionstatus) {

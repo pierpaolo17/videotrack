@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack\local;
 
@@ -101,10 +101,9 @@ final class microsoft_user_connection {
      * Consume a matching request before core handles the returned authorisation.
      *
      * @param string $nonce One-use marker returned through core's local state URL.
-     * @param bool $denied Whether core returned a provider error; its contents are ignored.
      * @return string Reduced connection outcome, never evidence of video access.
      */
-    public function complete(string $nonce, bool $denied = false): string {
+    public function complete(string $nonce): string {
         global $SESSION;
 
         require_capability('moodle/site:config', \context_system::instance());
@@ -114,7 +113,7 @@ final class microsoft_user_connection {
             return $this->status = 'connection_expired';
         }
         unset($SESSION->{self::SESSION_KEY});
-        if ($denied) {
+        if (optional_param('error', '', PARAM_RAW) !== '') {
             return $this->status = 'connection_cancelled';
         }
         try {

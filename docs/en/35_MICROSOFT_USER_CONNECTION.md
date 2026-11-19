@@ -71,8 +71,11 @@ exceptions. HTTP clients used for completion are mocked; no provider token excha
 is executed by those tests. One new browser scenario has no configured issuer or
 external request. All508 prior unit methods and66 scenarios remain byte-identical.
 
-Native264 candidate/main/server tests and the complete connected Microsoft browser
-round trip remain unexecuted. Local source/style/patch checks are not native PHP/
+Initial264 runtime tests passed530/5611 and67/1327, but PHPCS failed4header errors
+and PHPMD reported a new boolean-argument finding. The incremental correction uses
+a nonce-only completion API with callback error handling after request validation.
+Corrected native candidate/main/server tests and the complete connected Microsoft
+browser round trip remain pending; see the [audit](09_DOCUMENTATION_AUDIT.md). Local source/style/patch checks are not native PHP/
 Moodle passes. Accepted263: Unit508/5490, Behat66/1318, all6candidate/main jobs, actual
 454file ZIP, server and both strict10/0/0. Retain the demo; manual53 stays on standby.
 
