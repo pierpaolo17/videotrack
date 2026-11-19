@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.263** (`2026111900`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.264** (`2026111901`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -70,3 +70,5 @@ finché entrambi gli alberi e le README principali non concordano con il codice 
 34. [`33_MICROSOFT_USER_ACCESS.md`](33_MICROSOFT_USER_ACCESS.md) — diagnostica separata sistema/utente corrente e confine dell’autorizzazione studente.
 
 35. [`34_MICROSOFT_PROVIDER_PAGE.md`](34_MICROSOFT_PROVIDER_PAGE.md) — apertura della pagina provider personale, URL privato e confine dell’identità browser.
+
+36. [`35_MICROSOFT_USER_CONNECTION.md`](35_MICROSOFT_USER_CONNECTION.md) — collegamento OAuth core personale esplicito e ritorno monouso.

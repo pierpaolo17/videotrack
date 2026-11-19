@@ -1,6 +1,6 @@
 # Diagnostica autenticata dei metadati Microsoft Graph
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 Il servizio Graph/OAuth introdotto nella 1.7.259 accettata è conservato. La 1.7.261 aggiunge un modulo amministrativo che riutilizza la stessa diagnostica; la riproduzione Microsoft resta un gate futuro.
 

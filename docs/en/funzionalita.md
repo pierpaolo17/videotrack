@@ -1,5 +1,9 @@
 # User and administrator guide
 
+Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
+to the existing administrator page. It starts core OAuth only after an explicit
+protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+
 Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
 It requires the personal account and a video id. The provider page opens separately;
 VideoTrack does not credit viewing in that browser tab.

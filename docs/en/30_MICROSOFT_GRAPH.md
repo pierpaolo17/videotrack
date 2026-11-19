@@ -1,6 +1,6 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 The Graph/OAuth implementation introduced in accepted 1.7.259 is retained.
 Release 1.7.261 adds an [administrator web form](32_MICROSOFT_WEB_CHECK.md)

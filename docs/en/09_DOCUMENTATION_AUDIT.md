@@ -1,72 +1,52 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.263** (`2026111900`).
+Baseline: VideoTrack **1.7.264** (`2026111901`).
 
-## Accepted262 actual baseline
+## Accepted263 baseline
 
-Main `04e73f59dcb71329f67b2a4340758a2ac0a780ba`, tree
-`b87d83052dd902707c725fce3ab14598d89bfb64`, is identical to candidate
-`191e8bb3a6b0ad916ee34387f920709af63af7c2`. Candidate44495960787 and main44501246381
-pass all6 jobs: Unit488/5267, Behat63/1287 without retries, strict10/0/0 and Grunt.
-Each run matches6 official artifact digests and473 repository blobs/modes. Canonical
-187distributedPHP+1helper/PHPDoc/metadata/savepoints206 pass. All3 selected lifecycle
-lineages pass on50/53MariaDB; per run6 reconstructed snapshot hashes/126actual file
-content checks. Existing personal checks have no system fallback; no live tenant proof.
+Corrected candidate2e9ccdae362a71b380c54dfe2f61d8c7e258f12b and main
+9d1cd70091967b2cc1ced8929088eea86dddc89f have identical tree
+e15f133ebfc48022e6d0208f0b4c0a530bc3fcbb. Runs44544150177/44550849950
+pass all6jobs each: Unit508/5490, Behat66/1318 without reruns, strict10/0/0, Grunt,
+canonical189PHP+1helper, PHPDoc/metadata/savepoints206. Each run's6official digests
+and478repository blobs/modes match. All3 historical/partial/previous lifecycle
+lineages pass on50/53MariaDB; per run6reconstructed hashes/126actual file-content checks.
 
-Actual `videotrack-1.7.262.zip` has449files/187PHP matching accepted main; archive
-comment matches the commit. SHA256:
-`4237efdf1606102e4e6ab4c909aa3fbaf868b8a77c32b735859f07a5fbc9f895`.
-Server `report_completo_videotrack_1.7.262_20261119_122857.zip` SHA256:
-`5ff304ef1bb3ba0263e687b494d55747b195b3c3a285de7261c2c382f07f2c5a`.
-Ten logs/eight requested commands pass: Unit488/5267 on50/53, shared identical-source
-PHPCS/lint188clean (not two canonical executions), recorded Grunt hashes unchanged
-and source maps matching source. No fresh server aggregate-hash reconstruction is
-claimed. Maintainer strict10/0/0 each, grade items/rows0/0 and34/34. Schema7/151/22/22,
-9AJAX,8×1027language keys and48AMD sets remain consistent.
+Actual `videotrack-1.7.263.zip`:454files/189PHP, matching accepted main and archive
+comment9d1cd700. SHA256:
+`f1c76e1c941aef353af1a41b6b9bdec122160dbc1626ac60cdb68913265d3ecc`.
+Server `report_completo_videotrack_1.7.263_20261119_164020.zip` SHA256:
+`486d5cea5a3b6098cc089dff3b3d89a67002115a31965e7ddc54476df3b2fb07`.
+All8requested commands pass: shared identical-source PHPCS/lint190clean, Unit508/5490
+on50/53, recorded Grunt before/after hashes unchanged and source maps matching source.
+No fresh aggregate server-hash reconstruction is claimed. Maintainer strict10/0/0 each,
+grade items/rows0/0 and34/34. Schema7/151/22/22,9AJAX,8×1034language keys,48AMD sets.
 
-PHPStan/Psalm have no configured errors; PHPMD31 reviewed advisories and Psalm746/774
-information items remain. Historical Node harness debt and Browserslist advisory
-are not declared fixed. Manual53 accessibility staysSTANDBY. Retain the demo.
+Initial263 had32PHPMD findings; the incremental form extraction removed the new
+complexity10 finding. The accepted corrected candidate/main retain31reviewed baseline
+findings. PHPStan/Psalm have no configured errors; Psalm746/774information and existing
+core-autoloader/tooling notices remain. No live Microsoft tenant/browser proof exists.
+Manual53 remainsSTANDBY; retain the demo and existing historical Node harness debt.
 
-## Current263 scope and evidence limits
+## Current264 candidate
 
-The admin form adds a personal-account provider-page action, with mandatory video
-item and POST/sesskey/site capability. Existing metadata/system CLI semantics remain.
-The Graph service shares exactly the bounded metadata transport; one additional
-selection returns webUrl only after validating the video facets. A result object
-separates the validated private page URL from its allowlisted diagnostic/JSON. The
-external link is explicit, new-tab, noopener/noreferrer/no-referrer; no automatic
-redirect, iframe, media fetch, grant, persistence or watched credit is introduced.
+The administrator can explicitly connect the current personal Microsoft core account
+from the existing diagnostic. Its button is local-readiness gated and POST/sesskey
+protected. Core owns URL, consent, callback and credential handling. A one-use ten-minute
+session nonce binds the response to the current user/issuer. Configuration/endpoints
+are rechecked; critical login parameters cannot be overridden. No automatic connection
+on a normal GET or a shared-account fallback exists. Reduced notifications and a clean
+local redirect omit raw provider errors and OAuth response data from rendered diagnostics.
 
-Existing488unit methods/63scenarios are retained;20native methods/3scenarios are
-authored. The initial263 native run is recorded below; the corrected candidate and
-live tenant/browser execution are pending. Local lexical/style,
-API review, URI contracts and patch comparisons are not native PHP/Moodle execution.
-Require candidate6jobs, main6jobs, actual ZIP/server and both strict outputs. The
-provider's browser sign-in can differ from the checked delegated account. Native
-embedding/authentication/telemetry remain future gates; see the provider-page guide.
-No schema, service, AMD, source-policy, demo or manual53 state changes are made.
+New22native methods/1scenario are authored; all508existing methods/66scenarios are
+unchanged. Native264 and the live complete Microsoft browser round trip remain pending.
+Local lexical/style/API/source/patch checks are not PHP/Moodle execution. The expected
+candidate counts are483repository/459distributed files,191distributedPHP,1376PHPcallables
+(1369distributed+7CIhelpers),654AMDcallables,530unit methods,67expanded scenarios and
+8×1040language keys. Core50/53 sources for API/client, oauthlib, callback and POST button
+were checked at the pinned commits linked in the [connection guide](35_MICROSOFT_USER_CONNECTION.md).
 
-
-## Initial263 CI and form-complexity correction
-
-Candidate8dac0008329656bec692a9da6c7cc55276670d95, tree
-cc8a7de0046ad325414c78f3cee951b3fab456a5, passed all6jobs in
-[run44536546111](https://github.com/pierpaolo17/videotrack/actions/runs/44536546111).
-All6 uploaded artifact digests match GitHub and478repository blobs/modes match the
-candidate. Each job passes Unit508/5490, Behat66/1318 without reruns, strict10/0/0
-and Grunt. Canonical189distributedPHP+1helper, PHPDoc/metadata/savepoints206 pass.
-All3 lifecycle lineages pass on50/53MariaDB:6reconstructed snapshot hashes and126
-actual shared-file content checks. PHPStan/Psalm have no configured errors; Psalm
-746/774information and its existing core-autoloader notices remain.
-
-PHPMD nevertheless reports32findings: the same31accepted262findings plus
-microsoft_probe_form::validation() at cyclomatic complexity10. The incremental
-correction extracts only provider-page field requirements into provider_link_errors().
-It retains exact errors, precedence, defaults, existing508tests/66scenarios and the
-version code2026111900. Function inventories now list1338PHPcallables (1331distributed
-and7CIhelpers); file counts remain478repository/454distributed. No CI threshold,
-exclusion, baseline, schema, AJAX, AMD or demo data is changed. Source/patch checks
-are local evidence only. Corrected native candidate CI, main CI and actual-package/
-server/maintainer strict gates remain pending. No merge approval is inferred from
-the earlier green run. Live Microsoft remains unexecuted; manual53 stays on standby.
+No schema, upgrade, AJAX, AMD, source-policy, provider metadata/page-link service, system
+CLI or demo changes are made. Tracked Microsoft playback, a learner auth endpoint and
+an automatic activity launch resolver remain future gates. Candidate6jobs, main6jobs,
+actual ZIP/server and both strict outputs are required before acceptance.

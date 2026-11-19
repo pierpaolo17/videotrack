@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.263. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.264. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1338 (1331 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1376 (1369 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1050,6 +1050,15 @@ Generato dall’albero sorgente VideoTrack 1.7.263. Le voci PHP includono funzio
 | `classes/local/microsoft_link_result.php:97` | `is_supported_url` | Gestisce il contratto della pagina Microsoft: is_supported_url. |
 | `classes/local/microsoft_link_result.php:114` | `is_supported_origin` | Gestisce il contratto della pagina Microsoft: is_supported_origin. |
 | `classes/local/microsoft_link_result.php:132` | `has_bearer_query` | Gestisce il contratto della pagina Microsoft: has_bearer_query. |
+| `classes/local/microsoft_user_connection.php:48` | `__construct` | Gestisce il collegamento OAuth personale: __construct. |
+| `classes/local/microsoft_user_connection.php:59` | `begin` | Gestisce il collegamento OAuth personale: begin. |
+| `classes/local/microsoft_user_connection.php:107` | `complete` | Gestisce il collegamento OAuth personale: complete. |
+| `classes/local/microsoft_user_connection.php:138` | `status` | Gestisce il collegamento OAuth personale: status. |
+| `classes/local/microsoft_user_connection.php:145` | `require_start_request` | Gestisce il collegamento OAuth personale: require_start_request. |
+| `classes/local/microsoft_user_connection.php:161` | `configured_issuer` | Gestisce il collegamento OAuth personale: configured_issuer. |
+| `classes/local/microsoft_user_connection.php:185` | `return_url` | Gestisce il collegamento OAuth personale: return_url. |
+| `classes/local/microsoft_user_connection.php:201` | `supported_login` | Gestisce il collegamento OAuth personale: supported_login. |
+| `classes/local/microsoft_user_connection.php:217` | `matching_request` | Gestisce il collegamento OAuth personale: matching_request. |
 | `classes/local/microsoft_user_probe.php:42` | `__construct` | Gestisce il contratto Microsoft personale: __construct. |
 | `classes/local/microsoft_user_probe.php:60` | `run` | Gestisce il contratto Microsoft personale: run. |
 | `classes/local/microsoft_user_probe.php:71` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
@@ -1700,6 +1709,35 @@ Generato dall’albero sorgente VideoTrack 1.7.263. Le voci PHP includono funzio
 | `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Regressione nativa della verifica Microsoft: test_invalid_post_returns_no_probe_data. |
 | `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | Regressione nativa della verifica Microsoft: test_admin_node_requires_site_configuration. |
 | `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Regressione nativa della verifica Microsoft: test_controller_checks_precede_probe. |
+| `tests/microsoft_user_connection_test.php:50` | `setUp` | Verifica nativa del collegamento personale: setUp. |
+| `tests/microsoft_user_connection_test.php:71` | `tearDown` | Verifica nativa del collegamento personale: tearDown. |
+| `tests/microsoft_user_connection_test.php:89` | `test_default_factory_uses_core_login_and_a_private_request_marker` | Verifica nativa del collegamento personale: test_default_factory_uses_core_login_and_a_private_request_marker. |
+| `tests/microsoft_user_connection_test.php:121` | `test_get_start_is_rejected_before_the_factory` | Verifica nativa del collegamento personale: test_get_start_is_rejected_before_the_factory. |
+| `tests/microsoft_user_connection_test.php:130` | `test_bad_sesskey_is_rejected_before_the_factory` | Verifica nativa del collegamento personale: test_bad_sesskey_is_rejected_before_the_factory. |
+| `tests/microsoft_user_connection_test.php:139` | `test_start_rejects_injected_authorisation_responses` | Verifica nativa del collegamento personale: test_start_rejects_injected_authorisation_responses. |
+| `tests/microsoft_user_connection_test.php:148` | `test_non_administrator_is_denied_before_configuration` | Verifica nativa del collegamento personale: test_non_administrator_is_denied_before_configuration. |
+| `tests/microsoft_user_connection_test.php:157` | `test_guest_completion_is_denied_before_pending_state` | Verifica nativa del collegamento personale: test_guest_completion_is_denied_before_pending_state. |
+| `tests/microsoft_user_connection_test.php:166` | `test_missing_and_deleted_configuration_is_inert` | Verifica nativa del collegamento personale: test_missing_and_deleted_configuration_is_inert. |
+| `tests/microsoft_user_connection_test.php:178` | `test_incomplete_configuration_cannot_construct_a_client` | Verifica nativa del collegamento personale: test_incomplete_configuration_cannot_construct_a_client. |
+| `tests/microsoft_user_connection_test.php:199` | `test_untrusted_endpoint_cannot_construct_a_client` | Verifica nativa del collegamento personale: test_untrusted_endpoint_cannot_construct_a_client. |
+| `tests/microsoft_user_connection_test.php:214` | `test_already_connected_account_does_not_start_a_round_trip` | Verifica nativa del collegamento personale: test_already_connected_account_does_not_start_a_round_trip. |
+| `tests/microsoft_user_connection_test.php:227` | `test_matching_completion_uses_personal_core_and_consumes_the_marker` | Verifica nativa del collegamento personale: test_matching_completion_uses_personal_core_and_consumes_the_marker. |
+| `tests/microsoft_user_connection_test.php:248` | `test_completed_callback_cannot_be_replayed` | Verifica nativa del collegamento personale: test_completed_callback_cannot_be_replayed. |
+| `tests/microsoft_user_connection_test.php:260` | `test_callback_still_requires_a_valid_sesskey` | Verifica nativa del collegamento personale: test_callback_still_requires_a_valid_sesskey. |
+| `tests/microsoft_user_connection_test.php:273` | `test_wrong_nonce_is_inert_and_preserves_the_legitimate_request` | Verifica nativa del collegamento personale: test_wrong_nonce_is_inert_and_preserves_the_legitimate_request. |
+| `tests/microsoft_user_connection_test.php:286` | `test_expired_or_different_user_markers_are_inert` | Verifica nativa del collegamento personale: test_expired_or_different_user_markers_are_inert. |
+| `tests/microsoft_user_connection_test.php:302` | `test_denied_callback_never_redeems_or_refreshes_tokens` | Verifica nativa del collegamento personale: test_denied_callback_never_redeems_or_refreshes_tokens. |
+| `tests/microsoft_user_connection_test.php:314` | `test_changed_issuer_is_rejected_before_the_factory` | Verifica nativa del collegamento personale: test_changed_issuer_is_rejected_before_the_factory. |
+| `tests/microsoft_user_connection_test.php:327` | `test_disabled_issuer_is_rechecked_on_return` | Verifica nativa del collegamento personale: test_disabled_issuer_is_rechecked_on_return. |
+| `tests/microsoft_user_connection_test.php:340` | `test_oauth_exceptions_are_redacted` | Verifica nativa del collegamento personale: test_oauth_exceptions_are_redacted. |
+| `tests/microsoft_user_connection_test.php:359` | `test_login_url_protocol_fields_cannot_be_overridden` | Verifica nativa del collegamento personale: test_login_url_protocol_fields_cannot_be_overridden. |
+| `tests/microsoft_user_connection_test.php:384` | `test_new_attempt_invalidates_the_earlier_round_trip` | Verifica nativa del collegamento personale: test_new_attempt_invalidates_the_earlier_round_trip. |
+| `tests/microsoft_user_connection_test.php:399` | `test_unconnected_callback_is_not_reported_as_success` | Verifica nativa del collegamento personale: test_unconnected_callback_is_not_reported_as_success. |
+| `tests/microsoft_user_connection_test.php:414` | `inert_service` | Verifica nativa del collegamento personale: inert_service. |
+| `tests/microsoft_user_connection_test.php:425` | `connected_service` | Verifica nativa del collegamento personale: connected_service. |
+| `tests/microsoft_user_connection_test.php:435` | `response_client` | Verifica nativa del collegamento personale: response_client. |
+| `tests/microsoft_user_connection_test.php:449` | `start` | Verifica nativa del collegamento personale: start. |
+| `tests/microsoft_user_connection_test.php:461` | `create_issuer` | Verifica nativa del collegamento personale: create_issuer. |
 | `tests/microsoft_user_probe_test.php:47` | `setUp` | Verifica nativa Microsoft personale: setUp. |
 | `tests/microsoft_user_probe_test.php:60` | `tearDown` | Verifica nativa Microsoft personale: tearDown. |
 | `tests/microsoft_user_probe_test.php:70` | `test_user_readiness_does_not_require_a_system_account` | Verifica nativa Microsoft personale: test_user_readiness_does_not_require_a_system_account. |

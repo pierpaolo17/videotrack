@@ -1,10 +1,14 @@
 # Microsoft metadata under the current user's identity
 
+Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
+to the existing administrator page. It starts core OAuth only after an explicit
+protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+
 Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
 It requires the personal account and a video id. The provider page opens separately;
 VideoTrack does not credit viewing in that browser tab.
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Choose the identity explicitly
 
@@ -26,11 +30,11 @@ No new CLI option or stored VideoTrack setting is added for the account choice.
 
 ## Reuse the existing Moodle connection
 
-Configure the service as in [the Graph guide](30_MICROSOFT_GRAPH.md). If the personal
-account is not connected, use Moodle's Microsoft repository/OAuth workflow with the
-**same issuer**, then return to this page. The connection must already have the
-permissions required to read the resource. VideoTrack adds no scopes, consent screen,
-login URL or token-storage implementation and does not link another Moodle user's account.
+Configure the service as in [the Graph guide](30_MICROSOFT_GRAPH.md). In264, the
+explicit [personal connection action](35_MICROSOFT_USER_CONNECTION.md) can use the same
+core issuer directly from this diagnostic. A connection already established by a
+Moodle repository remains reusable. Core owns login/consent, configured scopes and
+tokens; VideoTrack adds no extra scopes, credential store or other-user selector.
 
 Only an explicit valid POST/sesskey invokes the selected probe. Opaque drive/item
 validation is unchanged. The personal path validates configuration and the supported

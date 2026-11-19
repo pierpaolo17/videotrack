@@ -1,5 +1,9 @@
 # Verifica Microsoft dall’amministrazione del sito
 
+La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
+alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
+il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
+
 La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft](34_MICROSOFT_PROVIDER_PAGE.md).
 Richiede account personale e ID video. La pagina provider si apre separatamente;
 VideoTrack non accredita la visione in quella scheda.
@@ -8,7 +12,7 @@ La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microso
 personale collegato dell’amministratore. L’assenza di accesso personale non attiva
 il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Apertura e configurazione
 

@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.263** (`2026111900`),
+This is the authoritative English documentation for VideoTrack **1.7.264** (`2026111901`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -70,3 +70,5 @@ trees and the root README pair agree with the current code.
 34. [`33_MICROSOFT_USER_ACCESS.md`](33_MICROSOFT_USER_ACCESS.md) — separate system/current-user diagnostics and the learner-authorisation boundary.
 
 35. [`34_MICROSOFT_PROVIDER_PAGE.md`](34_MICROSOFT_PROVIDER_PAGE.md) — personal provider-page handoff, private URL and browser identity boundary.
+
+36. [`35_MICROSOFT_USER_CONNECTION.md`](35_MICROSOFT_USER_CONNECTION.md) — explicit personal core OAuth connection and one-use return boundary.
