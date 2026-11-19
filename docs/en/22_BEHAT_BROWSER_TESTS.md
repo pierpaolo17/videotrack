@@ -131,3 +131,10 @@ GET-only local readiness, invalid sharing URLs and a normal unconfigured result.
 All use issuer id zero and make no Microsoft requests. The initial six-job 261 CI
 passes 61 scenarios/1268 steps. The corrected candidate needs a fresh run; this
 does not prove connected-tenant access or playback.
+
+## Personal Microsoft context in262
+
+Two new deterministic scenarios in `microsoft_account_context.feature` check the
+system default and preserved current-user context with no selected issuer. They
+make no external calls. The candidate has63 expanded scenarios; native262 execution
+is pending. These scenarios do not prove live OAuth, user token isolation or playback.

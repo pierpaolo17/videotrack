@@ -1,6 +1,6 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
-VideoTrack **1.7.261** (`2026111801`).
+VideoTrack **1.7.262** (`2026111802`).
 
 The Graph/OAuth implementation introduced in accepted 1.7.259 is retained.
 Release 1.7.261 adds an [administrator web form](32_MICROSOFT_WEB_CHECK.md)
@@ -124,3 +124,6 @@ Primary references:
 - [Video resource and millisecond duration](https://learn.microsoft.com/en-us/graph/api/resources/video?view=graph-rest-1.0)
 - [Moodle 5.0 OAuth API used for the accepted branch](https://github.com/moodle/moodle/blob/744cc0c19013e7be831dca24fafd6501d7eb8348/lib/classes/oauth2/api.php)
 - [Moodle 5.3 OAuth API used for the accepted branch](https://github.com/moodle/moodle/blob/aa930e26fbdd08dd8ba70f53298838a8d306ee57/public/lib/classes/oauth2/api.php)
+
+The web form also offers [current-user diagnostics](33_MICROSOFT_USER_ACCESS.md).
+The CLI remains system-account-only; no account-context CLI flag is introduced.

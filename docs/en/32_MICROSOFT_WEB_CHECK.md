@@ -1,6 +1,10 @@
 # Microsoft check from site administration
 
-VideoTrack **1.7.261** (`2026111801`).
+Release 1.7.262 adds an explicit account selector: the existing system account
+or the administrator’s own connected Microsoft account. Missing personal access
+never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).
+
+VideoTrack **1.7.262** (`2026111802`).
 
 ## Open and configure
 

@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.261. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.262. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi cinque file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **377** — 372 file distribuiti e cinque solo repository. L'albero completo ha
-468 file repository / 444 distribuiti, includendo tutta la documentazione.
+Voci: **382** — 377 file distribuiti e cinque solo repository. L'albero completo ha
+473 file repository / 449 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -223,6 +223,7 @@ Voci: **377** — 372 file distribuiti e cinque solo repository. L'albero comple
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
 | `classes/local/microsoft_graph.php` | GET metadati verso host fisso e scalari drive/video validati e redatti. |
 | `classes/local/microsoft_graph_probe.php` | Controlli locali ed endpoint Microsoft prima del client OAuth core di sistema. |
+| `classes/local/microsoft_user_probe.php` | Diagnostica amministrativa con utente OAuth core corrente, senza ripiego sistema. |
 | `classes/local/personal_item.php` | Cancellazione definitiva del proprietario e retry serializzati. |
 | `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
 | `classes/local/privacy_retention_pair.php` | Elimina i dati personali scaduti e ricostruisce lo stato di un utente e attività sotto il lock canonico. |
@@ -267,10 +268,12 @@ Voci: **377** — 372 file distribuiti e cinque solo repository. L'albero comple
 | `docs/en/30_MICROSOFT_GRAPH.md` | Protocollo inglese OAuth/Graph e gate su tenant reale. |
 | `docs/en/31_SOURCE_POLICY.md` | Guida inglese alla policy sorgenti e valutazione del repository Zoom opzionale. |
 | `docs/en/32_MICROSOFT_WEB_CHECK.md` | Guida inglese alla diagnostica Microsoft dalla GUI amministrativa. |
+| `docs/en/33_MICROSOFT_USER_ACCESS.md` | Guida inglese alla diagnostica Microsoft personale e ai confini di autorizzazione. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
 | `docs/it/32_MICROSOFT_WEB_CHECK.md` | Guida italiana alla diagnostica Microsoft dalla GUI amministrativa. |
+| `docs/it/33_MICROSOFT_USER_ACCESS.md` | Guida italiana alla diagnostica Microsoft personale e ai confini di autorizzazione. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -322,6 +325,7 @@ Voci: **377** — 372 file distribuiti e cinque solo repository. L'albero comple
 | `tests/behat/html5_playback_contract.feature` | Regressione browser deterministica per resume HTML5 validato, seek indietro consentito e stato reale play/pause. |
 | `tests/behat/html5_seek_policy.feature` | Regressione browser per seek avanti HTML5 consentito e bloccato senza dipendenze di rete pubblica. |
 | `tests/behat/learner_role_controls.feature` | Regressione Behat dello scope ruoli per controlli learner, docente e dual-role. |
+| `tests/behat/microsoft_account_context.feature` | Verifiche browser deterministiche sulla scelta esplicita dell’account condiviso/personale. |
 | `tests/behat/microsoft_provider_check.feature` | Tre scenari amministrativi deterministici senza connessione Microsoft. |
 | `tests/behat/random_attention_policy.feature` | Configurazione effettiva e contratti di pausa automatica/ripresa HTML5/YouTube/Vimeo con un minuto reale. |
 | `tests/behat/student_personal_sections.feature` | Regressione browser Behat per le sezioni personali collassabili del learner. |
@@ -353,6 +357,7 @@ Voci: **377** — 372 file distribuiti e cinque solo repository. L'albero comple
 | `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
 | `tests/microsoft_graph_test.php` | Diciannove regressioni native simulate per i confini dei metadati autenticati. |
 | `tests/microsoft_probe_form_test.php` | Regressioni native per modulo, sessione, metodo HTTP e accesso amministrativo. |
+| `tests/microsoft_user_probe_test.php` | Regressioni native per configurazione, accesso, login, fallback e modulo senza rete reale. |
 | `tests/mod_form_validation_test.php` | Copertura PHPUnit per sorgenti non valide, file VTT mancanti e requisiti delle icone delle reazioni. |
 | `tests/player_resume_completion_alert_contract_test.php` | Contratti cross-provider per resume, completion e avvisi; le asserzioni completion seguono il proprietario corrente della mutazione, incluso il servizio post-scrittura reazioni. |
 | `tests/privacy_exporter_test.php` | Verifica PHPUnit dei percorsi export, filtro utente e limite dei blocchi da 500. |

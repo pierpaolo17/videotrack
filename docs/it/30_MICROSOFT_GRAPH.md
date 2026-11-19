@@ -1,6 +1,6 @@
 # Diagnostica autenticata dei metadati Microsoft Graph
 
-VideoTrack **1.7.261** (`2026111801`).
+VideoTrack **1.7.262** (`2026111802`).
 
 Il servizio Graph/OAuth introdotto nella 1.7.259 accettata è conservato. La 1.7.261 aggiunge un modulo amministrativo che riutilizza la stessa diagnostica; la riproduzione Microsoft resta un gate futuro.
 
@@ -124,3 +124,6 @@ Fonti primarie:
 
 La 1.7.261 aggiunge una [pagina amministrativa](32_MICROSOFT_WEB_CHECK.md)
 che riutilizza la stessa diagnostica. La riproduzione Microsoft resta da implementare.
+
+Il modulo web offre anche la [verifica utente corrente](33_MICROSOFT_USER_ACCESS.md).
+La CLI resta dedicata all’account di sistema: non viene introdotta un’opzione di contesto account.

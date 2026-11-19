@@ -131,3 +131,10 @@ impostazioni e la sola configurazione locale su GET, URL di condivisione non val
 e l’esito normale senza servizio configurato. Usano issuer id zero senza richieste
 a Microsoft. La prima CI 261 a sei job supera 61 scenari/1268 passi. Il candidato
 corretto richiede una nuova run; non prova accesso a un tenant collegato né riproduzione.
+
+## Contesto Microsoft personale nella262
+
+Due scenari deterministici in `microsoft_account_context.feature` verificano default
+sistema e contesto utente corrente conservato senza issuer selezionato, senza rete
+esterna. La candidata contiene63 scenari espansi; l’esecuzione nativa262 è da svolgere.
+Non sono prove di OAuth reale, isolamento token reali o riproduzione.

@@ -30,23 +30,33 @@ require_capability('moodle/site:config', context_system::instance());
 $PAGE->set_cacheable(false);
 
 $configuration = \mod_videotrack\local\provider_connection::configuration_status('microsoft');
+$userconfiguration = \mod_videotrack\local\provider_connection::user_configuration_status('microsoft');
 $form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, null, 'post');
 $result = null;
 if ($data = $form->get_data()) {
     require_sesskey();
-    $probe = new \mod_videotrack\local\microsoft_graph_probe();
+    $probe = match ($data->accountcontext) {
+        'current_user' => new \mod_videotrack\local\microsoft_user_probe(),
+        'system' => new \mod_videotrack\local\microsoft_graph_probe(),
+        default => throw new invalid_parameter_exception('Invalid provider account context.'),
+    };
     $result = $probe->run($data->driveid, $data->itemid);
+    $result['account_context'] = $data->accountcontext;
 }
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('providercheck:title', 'mod_videotrack'));
 echo $OUTPUT->notification(get_string('providercheck:notice', 'mod_videotrack'), 'info');
+echo $OUTPUT->notification(get_string('providercheck:usernotice', 'mod_videotrack'), 'info');
 echo html_writer::link(
     new moodle_url('/' . $CFG->admin . '/settings.php', ['section' => 'modsettingvideotrack']),
     get_string('settings')
 );
 echo $OUTPUT->heading(get_string('providercheck:configuration', 'mod_videotrack'), 3);
+echo $OUTPUT->heading(get_string('providercheck:systemaccount', 'mod_videotrack'), 4);
 echo html_writer::tag('pre', s(json_encode($configuration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
+echo $OUTPUT->heading(get_string('providercheck:currentuser', 'mod_videotrack'), 4);
+echo html_writer::tag('pre', s(json_encode($userconfiguration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
 $form->display();
 if ($result !== null) {
     echo $OUTPUT->heading(get_string('providercheck:result', 'mod_videotrack'), 3);

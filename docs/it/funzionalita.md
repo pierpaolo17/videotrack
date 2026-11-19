@@ -1,5 +1,9 @@
 # Guida per utenti e amministratori
 
+La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microsoft
+personale collegato dell’amministratore. L’assenza di accesso personale non attiva
+il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
+
 La verifica Microsoft è disponibile anche dalle impostazioni di sito di VideoTrack.
 La pagina legge la configurazione locale all’apertura e avvia la diagnostica remota
 solo dopo l’invio del modulo protetto da parte dell’amministratore.

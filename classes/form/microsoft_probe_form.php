@@ -45,6 +45,17 @@ final class microsoft_probe_form extends \moodleform {
      */
     public function definition(): void {
         $form = $this->_form;
+        $form->addElement(
+            'select',
+            'accountcontext',
+            get_string('providercheck:accountcontext', 'mod_videotrack'),
+            [
+                'system' => get_string('providercheck:systemaccount', 'mod_videotrack'),
+                'current_user' => get_string('providercheck:currentuser', 'mod_videotrack'),
+            ]
+        );
+        $form->setDefault('accountcontext', 'system');
+        $form->setType('accountcontext', PARAM_RAW);
         foreach (['driveid', 'itemid'] as $field) {
             $form->addElement('text', $field, get_string('providercheck:' . $field, 'mod_videotrack'), ['maxlength' => 256]);
             $form->setType($field, PARAM_RAW_TRIMMED);
@@ -61,6 +72,9 @@ final class microsoft_probe_form extends \moodleform {
      */
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
+        if (!in_array($data['accountcontext'] ?? 'system', ['system', 'current_user'], true)) {
+            $errors['accountcontext'] = get_string('invaliddata', 'error');
+        }
         foreach (['driveid', 'itemid'] as $field) {
             $value = (string)($data[$field] ?? '');
             if ($field === 'itemid' && $value === '') {
