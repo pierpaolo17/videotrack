@@ -76,7 +76,9 @@ This release only opens the original page and does not call preview/content APIs
 Twenty new native unit methods cover URI boundaries, serialization/redaction, one
 bounded metadata GET, video validation, failures, personal/permission guards, retained
 data and form/controller contracts. Three browser scenarios have no selected issuer
-or external network. Native263 and live tenant/browser checks are pending. The accepted
+or external network. Initial263 CI passed Unit508/5490 and Behat66/1318; the form
+complexity correction needs a fresh native run. Live tenant/browser checks remain
+pending; see the [audit](09_DOCUMENTATION_AUDIT.md). The accepted
 262 baseline is Unit488/5267, Behat63/1287, server and both strict10/0/0; those results
 are not execution of263. Retain the demo; manual53 remains on standby.
 

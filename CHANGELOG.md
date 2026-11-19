@@ -20,7 +20,13 @@
   an iframe player. No preview/content/sharing endpoint or permission grant is used.
 - Accept actual262:449matching package files, server PHPCS/lint188clean,
   Unit488/5267 on50/53, strict10/0/0, candidate/main all6CI and lifecycle PASS.
-  Native263 and live tenant/browser checks remain pending. Retain the demo.
+  Main/package/server acceptance for263 and live tenant/browser checks remain pending.
+- Initial263 candidate8dac0008 passes all6CI jobs, Unit508/5490, Behat66/1318
+  without retries, strict10/0/0 and lifecycle. PHPMD reports32findings: the31
+  accepted baseline findings plus form validation cyclomatic complexity10.
+- Extract provider-link field requirements into a small private form helper, keeping
+  error values/precedence and metadata defaults. Keep2026111900; corrected native CI
+  is pending before merge. No thresholds, exclusions, tests or demo data are changed.
 
 ## 1.7.262 - 2026-11-18
 

@@ -85,3 +85,8 @@ Conservare la demo; manuale53 in standby.
 - [Proprietà driveItem webUrl](https://learn.microsoft.com/en-us/graph/api/resources/driveitem?view=graph-rest-1.0)
 - [GET metadati Graph](https://learn.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0)
 - [Annuncio Microsoft transizione autenticazione preview,8ottobre2026](https://devblogs.microsoft.com/microsoft365dev/pre-authenticated-tempauth-urls-are-retiring-move-to-microsoft-entra-id-tokens-before-april-1-2027/)
+
+
+La prima candidata263 ha superato Unit508/5490 e Behat66/1318. La successiva correzione
+della complessità del modulo richiede un nuovo run nativo prima del merge; tenant/browser
+reali restano da verificare. Vedere l’[audit](09_DOCUMENTATION_AUDIT.md).

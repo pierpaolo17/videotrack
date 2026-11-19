@@ -39,9 +39,34 @@ external link is explicit, new-tab, noopener/noreferrer/no-referrer; no automati
 redirect, iframe, media fetch, grant, persistence or watched credit is introduced.
 
 Existing488unit methods/63scenarios are retained;20native methods/3scenarios are
-authored. Native263 and live tenant/browser execution are pending. Local lexical/style,
+authored. The initial263 native run is recorded below; the corrected candidate and
+live tenant/browser execution are pending. Local lexical/style,
 API review, URI contracts and patch comparisons are not native PHP/Moodle execution.
 Require candidate6jobs, main6jobs, actual ZIP/server and both strict outputs. The
 provider's browser sign-in can differ from the checked delegated account. Native
 embedding/authentication/telemetry remain future gates; see the provider-page guide.
 No schema, service, AMD, source-policy, demo or manual53 state changes are made.
+
+
+## Initial263 CI and form-complexity correction
+
+Candidate8dac0008329656bec692a9da6c7cc55276670d95, tree
+cc8a7de0046ad325414c78f3cee951b3fab456a5, passed all6jobs in
+[run44536546111](https://github.com/pierpaolo17/videotrack/actions/runs/44536546111).
+All6 uploaded artifact digests match GitHub and478repository blobs/modes match the
+candidate. Each job passes Unit508/5490, Behat66/1318 without reruns, strict10/0/0
+and Grunt. Canonical189distributedPHP+1helper, PHPDoc/metadata/savepoints206 pass.
+All3 lifecycle lineages pass on50/53MariaDB:6reconstructed snapshot hashes and126
+actual shared-file content checks. PHPStan/Psalm have no configured errors; Psalm
+746/774information and its existing core-autoloader notices remain.
+
+PHPMD nevertheless reports32findings: the same31accepted262findings plus
+microsoft_probe_form::validation() at cyclomatic complexity10. The incremental
+correction extracts only provider-page field requirements into provider_link_errors().
+It retains exact errors, precedence, defaults, existing508tests/66scenarios and the
+version code2026111900. Function inventories now list1338PHPcallables (1331distributed
+and7CIhelpers); file counts remain478repository/454distributed. No CI threshold,
+exclusion, baseline, schema, AJAX, AMD or demo data is changed. Source/patch checks
+are local evidence only. Corrected native candidate CI, main CI and actual-package/
+server/maintainer strict gates remain pending. No merge approval is inferred from
+the earlier green run. Live Microsoft remains unexecuted; manual53 stays on standby.

@@ -102,12 +102,24 @@ final class microsoft_probe_form extends \moodleform {
             }
         }
         if ($operation === 'provider_link') {
-            if (($data['accountcontext'] ?? 'system') !== 'current_user') {
-                $errors['accountcontext'] = get_string('providercheck:personalrequired', 'mod_videotrack');
-            }
-            if (($data['itemid'] ?? '') === '') {
-                $errors['itemid'] = get_string('providercheck:itemrequired', 'mod_videotrack');
-            }
+            $errors = array_replace($errors, $this->provider_link_errors($data));
+        }
+        return $errors;
+    }
+
+    /**
+     * Require a personal account and video item for the original-page action.
+     *
+     * @param array $data Submitted form fields.
+     * @return array Field errors specific to opening a Microsoft page.
+     */
+    private function provider_link_errors(array $data): array {
+        $errors = [];
+        if (($data['accountcontext'] ?? 'system') !== 'current_user') {
+            $errors['accountcontext'] = get_string('providercheck:personalrequired', 'mod_videotrack');
+        }
+        if (($data['itemid'] ?? '') === '') {
+            $errors['itemid'] = get_string('providercheck:itemrequired', 'mod_videotrack');
         }
         return $errors;
     }

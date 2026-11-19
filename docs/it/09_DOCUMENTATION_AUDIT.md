@@ -37,10 +37,34 @@ con metadati video validi. L’oggetto esito separa URL privato validato e diagn
 consentiti. Link esterno esplicito in nuova scheda con noopener/noreferrer/no-referrer:
 nessun redirect automatico, iframe, fetch media, concessione, persistenza o credito visione.
 
-Conservati488metodi unitari/63scenari; scritti20metodi/3scenari. Esecuzione nativa263 e
-tenant/browser reali da verificare. Controlli locali lessicali/stile, lettura API,
+Conservati488metodi unitari/63scenari; scritti20metodi/3scenari. Il primo run nativo263
+è documentato sotto; candidata corretta e tenant/browser reali restano da verificare. Controlli locali lessicali/stile, lettura API,
 contratti URI e confronti patch non sono esecuzione PHP/Moodle. Servono6job candidato,
 6main, ZIP reale/report server e due strict. L’identità Microsoft del browser può
 differire dal delegato verificato. Autenticazione/incorporamento/telemetria nativi restano
 gate futuri: vedere la guida pagina provider. Nessuna modifica a schema, servizi, AMD,
 policy sorgenti, demo o stato del manuale53.
+
+
+## CI iniziale263 e correzione della complessità del modulo
+
+Candidato8dac0008329656bec692a9da6c7cc55276670d95, albero
+cc8a7de0046ad325414c78f3cee951b3fab456a5:6job superati nel
+[run44536546111](https://github.com/pierpaolo17/videotrack/actions/runs/44536546111).
+Tutti6i digest degli artifact caricati coincidono con GitHub;478blob/modi repository
+corrispondono al candidato. Ogni job supera Unit508/5490, Behat66/1318 senza rerun,
+strict10/0/0 e Grunt. Canonici189PHPdistribuiti+1helper, PHPDoc/metadati/savepoint206
+superati. Le3genealogie lifecycle passano su50/53MariaDB:6hash di snapshot ricostruiti
+e126prove effettive dei contenuti condivisi. PHPStan/Psalm senza errori configurati;
+restano746/774informazioni Psalm e gli avvisi esistenti dell’autoloader core.
+
+PHPMD segnala però32rilievi: gli stessi31accettati nella262 e la complessità ciclomatica10
+di microsoft_probe_form::validation(). La correzione incrementale estrae soltanto i
+requisiti dei campi pagina provider in provider_link_errors(). Conserva messaggi,
+precedenza, default,508test/66scenari e codice versione2026111900. Gli inventari
+funzioni elencano1338elementi PHP (1331distribuiti e7helperCI); restano478file repository/
+454distribuiti. Nessuna modifica a soglie, esclusioni, baseline CI, schema, AJAX, AMD
+o dati demo. Controlli sorgenti/patch sono evidenza locale. CI della candidata corretta,
+CI main e gate ZIP reale/server/strict del manutentore restano da svolgere. Il primo
+run verde non vale come approvazione al merge. Microsoft reale non eseguito; manuale53
+sempre in standby.
