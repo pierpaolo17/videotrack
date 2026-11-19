@@ -107,6 +107,42 @@ final class provider_connection {
     }
 
     /**
+     * Inspect user-client readiness without requiring a shared system account.
+     *
+     * This is local configuration only, not a check of the current user's token.
+     *
+     * @param string $provider Supported provider registry key.
+     * @return array Redacted readiness for a delegated current-user client.
+     */
+    public static function user_configuration_status(string $provider): array {
+        $result = self::configuration_status($provider);
+        $result['account_context'] = 'current_user';
+        unset($result['checks']['system_account_configured']);
+        if (in_array($result['status'], ['configuration_complete', 'configuration_incomplete'], true)) {
+            $complete = $result['site_https'] && !in_array(false, $result['checks'], true);
+            $result['status'] = $complete ? 'configuration_complete' : 'configuration_incomplete';
+        }
+        return $result;
+    }
+
+    /**
+     * Check supported Microsoft identity endpoints before either OAuth factory.
+     *
+     * @param issuer $issuer Configured Microsoft service.
+     * @return bool Both endpoints belong to the supported public-cloud identity host.
+     */
+    public static function microsoft_endpoints_supported(issuer $issuer): bool {
+        foreach (['authorization' => 'authorize', 'token' => 'token'] as $name => $action) {
+            $url = (string)$issuer->get_endpoint_url($name);
+            $pattern = '~\Ahttps://login\.microsoftonline\.com/[A-Za-z0-9._-]+/oauth2/(?:v2\.0/)?' . $action . '\z~D';
+            if (!preg_match($pattern, $url)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Resolve the deliberately bounded provider registry.
      *
      * @param string $provider Provider key.

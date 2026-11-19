@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.262 - 2026-11-18
+
+### Distinguish personal Microsoft access from the shared system account
+
+- Add a current-user account choice to the protected administrator metadata form.
+  Reuse Moodle's public user OAuth API and its session/refresh handling for the
+  selected service. Never fall back to the system client on missing login or denial.
+- Derive separate local user readiness without requiring a shared system account;
+  retain every other configuration check. Share the same fixed Microsoft identity
+  endpoint guard between system and user probes before either client factory.
+- Require site-configuration capability in the personal probe, validate targets
+  before OAuth, check the current client's login state before Graph and return only
+  redacted metadata. Core can update user credentials; VideoTrack/demo data is retained.
+- Add16 native unit methods and2 deterministic browser scenarios, with4 new strings
+  per language. Existing system CLI semantics and all261 regression methods remain.
+- Accept actual261:444matching package files, server PHPCS/lint186 clean,
+  Unit472/5183 on50/53, strict10/0/0, candidate/main all6 CI and lifecycle PASS.
+- Native262 and live connected-tenant tests remain pending. This admin check is not
+  learner playback authorisation. No new player, login/consent flow, cloud file
+  import, Moodle streaming proxy, schema, service or AMD is introduced.
+
 ## 1.7.261 - 2026-11-18
 
 ### Add an administrator Microsoft connection check

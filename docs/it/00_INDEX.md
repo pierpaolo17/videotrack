@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.261** (`2026111801`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.262** (`2026111802`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -66,3 +66,5 @@ finché entrambi gli alberi e le README principali non concordano con il codice 
 32. [`31_SOURCE_POLICY.md`](31_SOURCE_POLICY.md) — interruttori sorgenti, controlli e valutazione del repository Zoom opzionale.
 
 33. [`32_MICROSOFT_WEB_CHECK.md`](32_MICROSOFT_WEB_CHECK.md) — pagina diagnostica Microsoft per amministratori e verifica esplicita dei metadati.
+
+34. [`33_MICROSOFT_USER_ACCESS.md`](33_MICROSOFT_USER_ACCESS.md) — diagnostica separata sistema/utente corrente e confine dell’autorizzazione studente.

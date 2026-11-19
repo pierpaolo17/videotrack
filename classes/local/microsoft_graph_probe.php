@@ -73,7 +73,7 @@ final class microsoft_graph_probe {
                 return $result;
             }
             $issuer = api::get_issuer($configuration['issuerid']);
-            if (!self::trusted_endpoints($issuer)) {
+            if (!provider_connection::microsoft_endpoints_supported($issuer)) {
                 $result['status'] = 'oauth_endpoints_unsupported';
                 return $result;
             }
@@ -89,25 +89,5 @@ final class microsoft_graph_probe {
             $result['status'] = $result['phase'] === 'oauth' ? 'oauth_failed' : 'configuration_failed';
             return $result;
         }
-    }
-
-    /**
-     * Refuse custom OAuth destinations before core can send credentials to them.
-     *
-     * This first public-cloud probe excludes national clouds and custom endpoints.
-     * Readiness checks remain local and less restrictive for configuration repair.
-     *
-     * @param issuer $issuer Configured Microsoft service.
-     * @return bool Both endpoints are supported Microsoft identity endpoints.
-     */
-    private static function trusted_endpoints(issuer $issuer): bool {
-        foreach (['authorization' => 'authorize', 'token' => 'token'] as $name => $action) {
-            $url = (string)$issuer->get_endpoint_url($name);
-            $pattern = '~\Ahttps://login\.microsoftonline\.com/[A-Za-z0-9._-]+/oauth2/(?:v2\.0/)?' . $action . '\z~D';
-            if (!preg_match($pattern, $url)) {
-                return false;
-            }
-        }
-        return true;
     }
 }

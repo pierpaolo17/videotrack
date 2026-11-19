@@ -1,6 +1,10 @@
 # Verifica Microsoft dall’amministrazione del sito
 
-VideoTrack **1.7.261** (`2026111801`).
+La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microsoft
+personale collegato dell’amministratore. L’assenza di accesso personale non attiva
+il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
+
+VideoTrack **1.7.262** (`2026111802`).
 
 ## Apertura e configurazione
 

@@ -1,0 +1,75 @@
+# Microsoft metadata under the current user's identity
+
+VideoTrack **1.7.262** (`2026111802`).
+
+## Choose the identity explicitly
+
+Open **Site administration → Plugins → Activity modules → VideoTrack → Microsoft
+connection check**. The page remains restricted to `moodle/site:config` in system
+context. Teachers/learners do not gain a new diagnostic endpoint or playback right.
+
+**Account to check** offers:
+
+| Choice | OAuth identity | Local prerequisite |
+|---|---|---|
+| Moodle system account | The selected service's existing core system client | Complete existing system readiness, including a stored system account |
+| My connected Microsoft account | The current Moodle user's core user client for the same service | HTTPS/service/client/endpoints ready; no system account required |
+
+System is the explicit default, preserving the existing workflow. The two readiness
+objects shown on GET are local-only; neither checks user login or starts a client.
+The CLI `provider_status.php`/`provider_probe.php` retain their system-account meaning.
+No new CLI option or stored VideoTrack setting is added for the account choice.
+
+## Reuse the existing Moodle connection
+
+Configure the service as in [the Graph guide](30_MICROSOFT_GRAPH.md). If the personal
+account is not connected, use Moodle's Microsoft repository/OAuth workflow with the
+**same issuer**, then return to this page. The connection must already have the
+permissions required to read the resource. VideoTrack adds no scopes, consent screen,
+login URL or token-storage implementation and does not link another Moodle user's account.
+
+Only an explicit valid POST/sesskey invokes the selected probe. Opaque drive/item
+validation is unchanged. The personal path validates configuration and the supported
+Microsoft identity endpoints before calling `core\oauth2\api::get_user_oauth_client`.
+Its return URL is a fixed local diagnostic page; extra scopes are empty. Core user
+autorefresh is enabled and core owns session/refresh tokens. The code does not read
+another plugin's private token tables. Login checking may refresh, rotate or invalidate
+core user credentials; it is not a database-wide read-only operation.
+
+If the core client is not logged in, the result is `user_oauth_not_connected` and
+Graph is not attempted. A valid client gets the existing single bounded metadata GET.
+A 403 stays `graph_forbidden`; it is never retried with the system identity. Missing,
+expired or denied personal access never authorises a shared-account fallback.
+
+Results retain `account_context: current_user` (or `system` for the shared web probe),
+configuration/OAuth/Graph phase and existing redacted status/metadata. No names, resource
+ids, tokens, download URLs or raw exception text are returned. Both configuration and
+result JSON are escaped; the page remains non-cacheable. VideoTrack records, demo data,
+content files, grades and watched progress are not changed by either check.
+
+## What this establishes and what remains open
+
+A successful personal result proves only that **this current administrator's Microsoft
+identity** can read metadata at that time. It does not test a different student's
+identity, grant access, add OneDrive/SharePoint to the activity selector, renew a
+playback URL or validate native player telemetry. A Graph preview URL acts as its
+caller's identity; a shared account's success must not be used as learner authorisation.
+
+Future learner access requires its own authenticated activity/participation checks,
+provider identity, resource authorisation and measurable player contract. The preferred
+provider-to-browser delivery path remains; no file is imported or streamed by Moodle.
+Microsoft remains before Zoom and Google, and the App remains later in the roadmap.
+
+Sixteen native unit methods cover local guards, endpoint/factory ordering, current
+client login, no fallback, redaction, no activity writes, restricted access and form
+contexts. Two browser scenarios use no selected issuer and no provider network.
+These are authored regressions: native262 execution and a live tenant test are pending.
+The accepted261 baseline passed candidate/main all6, server and both strict outputs;
+its results do not execute this new code. Retain the demo; manual53 stays on standby.
+
+## Primary core contracts
+
+- [Moodle 5.0 core user OAuth factory](https://github.com/moodle/moodle/blob/744cc0c19013e7be831dca24fafd6501d7eb8348/lib/classes/oauth2/api.php)
+- [Moodle 5.3 core user OAuth factory](https://github.com/moodle/moodle/blob/aa930e26fbdd08dd8ba70f53298838a8d306ee57/public/lib/classes/oauth2/api.php)
+- [Core client token identity and user refresh](https://github.com/moodle/moodle/blob/744cc0c19013e7be831dca24fafd6501d7eb8348/lib/classes/oauth2/client.php)
+- [Graph preview caller identity warning](https://learn.microsoft.com/en-us/graph/api/driveitem-preview?view=graph-rest-1.0)

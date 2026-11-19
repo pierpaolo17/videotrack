@@ -1,5 +1,9 @@
 # User and administrator guide
 
+Release 1.7.262 adds an explicit account selector: the existing system account
+or the administrator’s own connected Microsoft account. Missing personal access
+never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).
+
 The Microsoft check is also available from the VideoTrack site settings.
 The page reads local readiness on opening and runs the remote probe only after
 an administrator submits the protected form. [Web procedure](32_MICROSOFT_WEB_CHECK.md).

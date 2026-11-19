@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.262. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1276 (1269 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1300 (1293 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -837,7 +837,7 @@ Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzio
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/microsoft_probe_form.php:46` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
-| `classes/form/microsoft_probe_form.php:62` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:73` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1040,7 +1040,8 @@ Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzio
 | `classes/local/microsoft_graph.php:200` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Funzione diagnostica provider `run`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph_probe.php:103` | `trusted_endpoints` | Funzione diagnostica provider `trusted_endpoints`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_user_probe.php:42` | `__construct` | Gestisce il contratto Microsoft personale: __construct. |
+| `classes/local/microsoft_user_probe.php:60` | `run` | Gestisce il contratto Microsoft personale: run. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
@@ -1065,8 +1066,10 @@ Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzio
 | `classes/local/privacy_retention_pair.php:391` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/provider_connection.php:47` | `issuer_options` | Callable `issuer_options` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
 | `classes/local/provider_connection.php:67` | `configuration_status` | Callable `configuration_status` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
-| `classes/local/provider_connection.php:115` | `definition` | Callable `definition` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
-| `classes/local/provider_connection.php:128` | `is_https_url` | Callable `is_https_url` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `classes/local/provider_connection.php:117` | `user_configuration_status` | Gestisce il contratto Microsoft personale: user_configuration_status. |
+| `classes/local/provider_connection.php:134` | `microsoft_endpoints_supported` | Gestisce il contratto Microsoft personale: microsoft_endpoints_supported. |
+| `classes/local/provider_connection.php:151` | `definition` | Callable `definition` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
+| `classes/local/provider_connection.php:164` | `is_https_url` | Callable `is_https_url` per verifica locale della configurazione OAuth e relative regressioni; nessuna operazione HTTP provider. |
 | `classes/local/random_pause_policy.php:33` | `parse_override` | Valida secondi interi facoltativi: vuoto/zero automatico, valori espliciti 60–7200, input non valido rifiutato. |
 | `classes/local/random_pause_policy.php:57` | `normalise_overrides` | Normalizza i due valori salvati/importati conservando gli zeri automatici e ordinando coppie esplicite invertite. |
 | `classes/local/random_pause_policy.php:77` | `activity_bounds` | Risolve terzi della durata o riserva sito e applica ciascun limite docente senza invertire quello automatico. |
@@ -1684,6 +1687,27 @@ Generato dall’albero sorgente VideoTrack 1.7.261. Le voci PHP includono funzio
 | `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Regressione nativa della verifica Microsoft: test_invalid_post_returns_no_probe_data. |
 | `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | Regressione nativa della verifica Microsoft: test_admin_node_requires_site_configuration. |
 | `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Regressione nativa della verifica Microsoft: test_controller_checks_precede_probe. |
+| `tests/microsoft_user_probe_test.php:47` | `setUp` | Verifica nativa Microsoft personale: setUp. |
+| `tests/microsoft_user_probe_test.php:60` | `tearDown` | Verifica nativa Microsoft personale: tearDown. |
+| `tests/microsoft_user_probe_test.php:70` | `test_user_readiness_does_not_require_a_system_account` | Verifica nativa Microsoft personale: test_user_readiness_does_not_require_a_system_account. |
+| `tests/microsoft_user_probe_test.php:88` | `test_user_readiness_retains_service_guards` | Verifica nativa Microsoft personale: test_user_readiness_retains_service_guards. |
+| `tests/microsoft_user_probe_test.php:106` | `test_http_site_is_rejected_before_oauth` | Verifica nativa Microsoft personale: test_http_site_is_rejected_before_oauth. |
+| `tests/microsoft_user_probe_test.php:119` | `test_missing_and_deleted_issuers_are_inert` | Verifica nativa Microsoft personale: test_missing_and_deleted_issuers_are_inert. |
+| `tests/microsoft_user_probe_test.php:129` | `test_invalid_targets_are_inert` | Verifica nativa Microsoft personale: test_invalid_targets_are_inert. |
+| `tests/microsoft_user_probe_test.php:141` | `test_untrusted_identity_endpoint_is_inert` | Verifica nativa Microsoft personale: test_untrusted_identity_endpoint_is_inert. |
+| `tests/microsoft_user_probe_test.php:156` | `test_missing_personal_client_never_falls_back_to_system` | Verifica nativa Microsoft personale: test_missing_personal_client_never_falls_back_to_system. |
+| `tests/microsoft_user_probe_test.php:179` | `test_unconnected_user_never_queries_graph` | Verifica nativa Microsoft personale: test_unconnected_user_never_queries_graph. |
+| `tests/microsoft_user_probe_test.php:194` | `test_connected_user_video_metadata_is_redacted` | Verifica nativa Microsoft personale: test_connected_user_video_metadata_is_redacted. |
+| `tests/microsoft_user_probe_test.php:224` | `test_graph_denial_does_not_retry_another_account` | Verifica nativa Microsoft personale: test_graph_denial_does_not_retry_another_account. |
+| `tests/microsoft_user_probe_test.php:237` | `test_oauth_exception_is_redacted` | Verifica nativa Microsoft personale: test_oauth_exception_is_redacted. |
+| `tests/microsoft_user_probe_test.php:251` | `test_course_teacher_is_rejected_before_configuration` | Verifica nativa Microsoft personale: test_course_teacher_is_rejected_before_configuration. |
+| `tests/microsoft_user_probe_test.php:263` | `test_guest_is_rejected_before_configuration` | Verifica nativa Microsoft personale: test_guest_is_rejected_before_configuration. |
+| `tests/microsoft_user_probe_test.php:272` | `test_form_account_context_is_allowlisted` | Verifica nativa Microsoft personale: test_form_account_context_is_allowlisted. |
+| `tests/microsoft_user_probe_test.php:288` | `test_personal_account_post_preserves_choice` | Verifica nativa Microsoft personale: test_personal_account_post_preserves_choice. |
+| `tests/microsoft_user_probe_test.php:298` | `test_default_factory_does_not_reference_system_credentials` | Verifica nativa Microsoft personale: test_default_factory_does_not_reference_system_credentials. |
+| `tests/microsoft_user_probe_test.php:318` | `inert_probe` | Verifica nativa Microsoft personale: inert_probe. |
+| `tests/microsoft_user_probe_test.php:331` | `response_client` | Verifica nativa Microsoft personale: response_client. |
+| `tests/microsoft_user_probe_test.php:347` | `create_issuer` | Verifica nativa Microsoft personale: create_issuer. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |
