@@ -1,6 +1,6 @@
 # Authenticated Microsoft Graph metadata diagnostics
 
-VideoTrack **1.7.262** (`2026111802`).
+VideoTrack **1.7.263** (`2026111900`).
 
 The Graph/OAuth implementation introduced in accepted 1.7.259 is retained.
 Release 1.7.261 adds an [administrator web form](32_MICROSOFT_WEB_CHECK.md)
@@ -127,3 +127,6 @@ Primary references:
 
 The web form also offers [current-user diagnostics](33_MICROSOFT_USER_ACCESS.md).
 The CLI remains system-account-only; no account-context CLI flag is introduced.
+
+The [provider-page action](34_MICROSOFT_PROVIDER_PAGE.md) separately selects webUrl.
+Existing system/user metadata diagnostics and system-only CLI output omit that URL.

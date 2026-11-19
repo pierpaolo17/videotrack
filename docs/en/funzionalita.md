@@ -1,5 +1,9 @@
 # User and administrator guide
 
+Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
+It requires the personal account and a video id. The provider page opens separately;
+VideoTrack does not credit viewing in that browser tab.
+
 Release 1.7.262 adds an explicit account selector: the existing system account
 or the administrator’s own connected Microsoft account. Missing personal access
 never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).

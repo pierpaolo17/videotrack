@@ -1,51 +1,47 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.262** (`2026111802`).
+Baseline: VideoTrack **1.7.263** (`2026111900`).
 
-## Accepted261 actual baseline
+## Accepted262 actual baseline
 
-Main `f1c6ac091e47dda9f442b63ecea3a6ace04f7ef2` has tree
-`77f3216a72a1882a85594141140b6918de4c5cf3`, identical to approved candidate
-`cb7771434856fee5f4b02ffb3dd24a50a46f2588`. Candidate44402463270 and main44407303639
-pass all6 jobs: Unit472/5183, Behat61/1268 without retries, strict10/0/0 and GruntDone.
-Each run matches6 official artifact digests and468 repository blobs/modes. Canonical
-185distributedPHP+1helper, PHPDoc/metadata/savepoints206 pass. All3 selected lifecycle
-lineages pass on50/53MariaDB, each run6 reconstructed snapshot hashes and126 actual
-file-content checks. Initial261 static scope errors and subsequent PHPDoc errors
-are corrected; a transient unavailable local HTTP server is not assigned a root cause.
+Main `04e73f59dcb71329f67b2a4340758a2ac0a780ba`, tree
+`b87d83052dd902707c725fce3ab14598d89bfb64`, is identical to candidate
+`191e8bb3a6b0ad916ee34387f920709af63af7c2`. Candidate44495960787 and main44501246381
+pass all6 jobs: Unit488/5267, Behat63/1287 without retries, strict10/0/0 and Grunt.
+Each run matches6 official artifact digests and473 repository blobs/modes. Canonical
+187distributedPHP+1helper/PHPDoc/metadata/savepoints206 pass. All3 selected lifecycle
+lineages pass on50/53MariaDB; per run6 reconstructed snapshot hashes/126actual file
+content checks. Existing personal checks have no system fallback; no live tenant proof.
 
-Actual `videotrack-1.7.261.zip` contains444files,185PHP, all matching approved main;
-archive comment matches the commit. SHA256:
-`bd9bac921d5324909070b2f214b92d36f2e5a628a34ce178b2a90c143af535f8`.
-Server `report_completo_videotrack_1.7.261_20261118_233506.zip` SHA256:
-`473684f51ed027361ceb6bd670b9132e94ffbbed678f145442d7c8899e81e111`.
-Ten logs/eight requested commands pass: Unit472/5183 on50/53, shared identical-source
-PHPCS/lint186clean (not two independent canonical runs), Grunt recorded hashes
-unchanged and source-map content matching. No fresh server aggregate-hash reconstruction
-is claimed. Maintainer strict passes10/0/0 each, grade items/rows0/0 and34/34.
-Schema7/151/22/22,9AJAX,8×1023keys and48AMD sets are consistent.
+Actual `videotrack-1.7.262.zip` has449files/187PHP matching accepted main; archive
+comment matches the commit. SHA256:
+`4237efdf1606102e4e6ab4c909aa3fbaf868b8a77c32b735859f07a5fbc9f895`.
+Server `report_completo_videotrack_1.7.262_20261119_122857.zip` SHA256:
+`5ff304ef1bb3ba0263e687b494d55747b195b3c3a285de7261c2c382f07f2c5a`.
+Ten logs/eight requested commands pass: Unit488/5267 on50/53, shared identical-source
+PHPCS/lint188clean (not two canonical executions), recorded Grunt hashes unchanged
+and source maps matching source. No fresh server aggregate-hash reconstruction is
+claimed. Maintainer strict10/0/0 each, grade items/rows0/0 and34/34. Schema7/151/22/22,
+9AJAX,8×1027language keys and48AMD sets remain consistent.
 
 PHPStan/Psalm have no configured errors; PHPMD31 reviewed advisories and Psalm746/774
 information items remain. Historical Node harness debt and Browserslist advisory
-are not claimed fixed. Manual53 accessibility remainsSTANDBY. Retain the demo.
+are not declared fixed. Manual53 accessibility staysSTANDBY. Retain the demo.
 
-## Current262 scope and limits
+## Current263 scope and evidence limits
 
-The administrator web form explicitly chooses system or current-user OAuth.
-User readiness removes only the shared-account prerequisite; both factories share
-exactly the supported Microsoft identity endpoint check. The personal client uses
-core's public API, empty extra scopes and core user refresh. It is checked for login
-before the existing bounded metadata GET. Missing or denied personal access never
-falls back to system credentials. Both local states onGET remain inert; POST/sesskey,
-system capability, escaped redacted output and non-cacheable response are retained.
+The admin form adds a personal-account provider-page action, with mandatory video
+item and POST/sesskey/site capability. Existing metadata/system CLI semantics remain.
+The Graph service shares exactly the bounded metadata transport; one additional
+selection returns webUrl only after validating the video facets. A result object
+separates the validated private page URL from its allowlisted diagnostic/JSON. The
+external link is explicit, new-tab, noopener/noreferrer/no-referrer; no automatic
+redirect, iframe, media fetch, grant, persistence or watched credit is introduced.
 
-Sixteen native unit methods and2 browser scenarios are authored; native262 and live
-tenant execution are pending. Existing261 tests are retained. No learner endpoint,
-player source, login/consent flow, scope grant, media import/proxy, schema, service,
-AMD or demo migration is added. CLI system-account semantics are retained.
-
-Local lexical/style checks, primary-core API review, exact inventories/languages,
-unchanged contracts and patch apply/reverse checks do not replace native PHP/Moodle.
-Require candidate6jobs, main6jobs, actual ZIP/server and both strict outputs before
-acceptance. Future learner authorisation and measurable official-player integration
-remain separate roadmap gates before Zoom, Google and App.
+Existing488unit methods/63scenarios are retained;20native methods/3scenarios are
+authored. Native263 and live tenant/browser execution are pending. Local lexical/style,
+API review, URI contracts and patch comparisons are not native PHP/Moodle execution.
+Require candidate6jobs, main6jobs, actual ZIP/server and both strict outputs. The
+provider's browser sign-in can differ from the checked delegated account. Native
+embedding/authentication/telemetry remain future gates; see the provider-page guide.
+No schema, service, AMD, source-policy, demo or manual53 state changes are made.

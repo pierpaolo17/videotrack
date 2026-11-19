@@ -1,5 +1,27 @@
 # VideoTrack changelog
 
+## 1.7.263 - 2026-11-19
+
+### Resolve the original Microsoft video page under the personal account
+
+- Add an explicit provider-page action to the protected administrator form. Require
+  the current personal account and an item id; never use the shared system account.
+- Resolve a validated video with one fixed-host Graph metadata GET selecting webUrl.
+  Keep the private URL separate from allowlisted JSON diagnostics, including object
+  serialisation. Accept only supported HTTPS SharePoint public-cloud destinations,
+  reject unsafe components/known bearer query keys and preserve opaque URL bytes.
+- Render a new-tab provider-page link with noopener/noreferrer and no-referrer policy.
+  The browser Microsoft identity may differ from the delegated account. No viewing,
+  completion, grade, content import or Moodle streaming is added; playback stays false.
+- Share existing metadata transport and personal-account guards without changing
+  system CLI semantics, selectors, timeouts, redirects or token ownership. Retain
+  all488 previous native unit methods and63 scenarios; add20 methods/3 scenarios.
+- Document the external preview-auth transition as a future integration gate, not
+  an iframe player. No preview/content/sharing endpoint or permission grant is used.
+- Accept actual262:449matching package files, server PHPCS/lint188clean,
+  Unit488/5267 on50/53, strict10/0/0, candidate/main all6CI and lifecycle PASS.
+  Native263 and live tenant/browser checks remain pending. Retain the demo.
+
 ## 1.7.262 - 2026-11-18
 
 ### Distinguish personal Microsoft access from the shared system account

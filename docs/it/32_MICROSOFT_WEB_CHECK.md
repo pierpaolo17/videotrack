@@ -1,10 +1,14 @@
 # Verifica Microsoft dall’amministrazione del sito
 
+La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft](34_MICROSOFT_PROVIDER_PAGE.md).
+Richiede account personale e ID video. La pagina provider si apre separatamente;
+VideoTrack non accredita la visione in quella scheda.
+
 La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microsoft
 personale collegato dell’amministratore. L’assenza di accesso personale non attiva
 il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.262** (`2026111802`).
+VideoTrack **1.7.263** (`2026111900`).
 
 ## Apertura e configurazione
 
@@ -63,12 +67,7 @@ collegamento supportato al player per tempo/play/pausa/seek devono ancora essere
 implementati e validati prima di accreditare visione. Zoom e Google restano tappe
 successive; il repository Zoom opzionale è ancora una valutazione architetturale.
 
-Nove metodi unitari nativi coprono identificatori, POST/GET, sesskey, accesso al nodo
-amministrativo e ordine dei controlli nel controller. Tre scenari browser coprono
-stato locale, URL non validi e configurazione incompleta senza rete reale. Sono
-regressioni superate dalla prima CI 261 a sei job (Unit472/5183, Behat61/1268).
-La run successiva risolve PHPStan/Psalm, ma richiede una correzione PHPDoc e nuova
-CI dopo l’indisponibilità del servizio HTTP 5.0/MariaDB. L’[audit documentale](09_DOCUMENTATION_AUDIT.md)
-riporta le evidenze esatte.
-Non sono stati provati un tenant Microsoft collegato o la telemetria del player ufficiale. Conservare la
-demo; la verifica manuale separata di accessibilità Moodle 5.3 resta in standby.
+La fondazione diagnostica fino alla262 è accettata (candidato/main a6job, Unit server
+488/5267 e due strict10/0/0). L’esecuzione nativa263 è da svolgere: vedere l’[audit
+documentale](09_DOCUMENTATION_AUDIT.md). Nessun tenant collegato o telemetria del player
+ufficiale dichiarati. Conservare la demo; accessibilità manuale53 in standby.

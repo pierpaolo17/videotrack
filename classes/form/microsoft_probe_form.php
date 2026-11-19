@@ -47,6 +47,17 @@ final class microsoft_probe_form extends \moodleform {
         $form = $this->_form;
         $form->addElement(
             'select',
+            'operation',
+            get_string('providercheck:operation', 'mod_videotrack'),
+            [
+                'metadata' => get_string('providercheck:metadata', 'mod_videotrack'),
+                'provider_link' => get_string('providercheck:providerlink', 'mod_videotrack'),
+            ]
+        );
+        $form->setDefault('operation', 'metadata');
+        $form->setType('operation', PARAM_RAW);
+        $form->addElement(
+            'select',
             'accountcontext',
             get_string('providercheck:accountcontext', 'mod_videotrack'),
             [
@@ -72,6 +83,10 @@ final class microsoft_probe_form extends \moodleform {
      */
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
+        $operation = $data['operation'] ?? 'metadata';
+        if (!in_array($operation, ['metadata', 'provider_link'], true)) {
+            $errors['operation'] = get_string('invaliddata', 'error');
+        }
         if (!in_array($data['accountcontext'] ?? 'system', ['system', 'current_user'], true)) {
             $errors['accountcontext'] = get_string('invaliddata', 'error');
         }
@@ -84,6 +99,14 @@ final class microsoft_probe_form extends \moodleform {
                 microsoft_graph::resource_url($value);
             } catch (\invalid_parameter_exception $error) {
                 $errors[$field] = get_string('providercheck:invalidid', 'mod_videotrack');
+            }
+        }
+        if ($operation === 'provider_link') {
+            if (($data['accountcontext'] ?? 'system') !== 'current_user') {
+                $errors['accountcontext'] = get_string('providercheck:personalrequired', 'mod_videotrack');
+            }
+            if (($data['itemid'] ?? '') === '') {
+                $errors['itemid'] = get_string('providercheck:itemrequired', 'mod_videotrack');
             }
         }
         return $errors;

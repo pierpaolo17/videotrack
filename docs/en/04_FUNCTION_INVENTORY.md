@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.262 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.263 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1300 (1293 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1337 (1330 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -837,7 +837,7 @@ Generated from the VideoTrack 1.7.262 source tree. PHP entries include named fun
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/microsoft_probe_form.php:46` | `definition` | Define identifiers without silently stripping invalid target characters. |
-| `classes/form/microsoft_probe_form.php:73` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
+| `classes/form/microsoft_probe_form.php:84` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1030,18 +1030,30 @@ Generated from the VideoTrack 1.7.262 source tree. PHP entries include named fun
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Named PHP function/method `can_participate`; see source DocBlock and callers for the current contract. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/microsoft_graph.php:43` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:57` | `resource_url` | Provider diagnostic callable `resource_url`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:80` | `inspect` | Provider diagnostic callable `inspect`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:125` | `decode_metadata` | Decodes bounded JSON and validates resource identity before metadata projection. |
-| `classes/local/microsoft_graph.php:142` | `http_status` | Provider diagnostic callable `http_status`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:160` | `drive_metadata` | Provider diagnostic callable `drive_metadata`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:173` | `video_metadata` | Provider diagnostic callable `video_metadata`; its DocBlock defines inputs, output and side effects. |
-| `classes/local/microsoft_graph.php:200` | `video_mime_type` | Validates the file/video MIME boundary and returns only the normalised type. |
+| `classes/local/microsoft_graph.php:44` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:58` | `resource_url` | Provider diagnostic callable `resource_url`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:81` | `inspect` | Provider diagnostic callable `inspect`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:97` | `video_link` | Resolve the original page of a validated video without requesting its bytes. |
+| `classes/local/microsoft_graph.php:120` | `get_metadata` | Read bounded Graph metadata and keep raw data private to this service. |
+| `classes/local/microsoft_graph.php:161` | `decode_metadata` | Decodes bounded JSON and validates resource identity before metadata projection. |
+| `classes/local/microsoft_graph.php:178` | `http_status` | Provider diagnostic callable `http_status`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:196` | `drive_metadata` | Provider diagnostic callable `drive_metadata`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:209` | `video_metadata` | Provider diagnostic callable `video_metadata`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph.php:236` | `video_mime_type` | Validates the file/video MIME boundary and returns only the normalised type. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Provider diagnostic callable `run`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_link_result.php:42` | `__construct` | Retain a diagnostic and optionally validate a provider resource-page URL. |
+| `classes/local/microsoft_link_result.php:66` | `diagnostic` | Return only the redacted diagnostic, suitable for escaped administrator JSON. |
+| `classes/local/microsoft_link_result.php:75` | `url` | Return the private page link for this authorised response only. |
+| `classes/local/microsoft_link_result.php:84` | `jsonSerialize` | Prevent accidental JSON serialisation from exposing the private URL. |
+| `classes/local/microsoft_link_result.php:97` | `is_supported_url` | Restrict browser destinations and reject known bearer-link query parameters. |
+| `classes/local/microsoft_link_result.php:114` | `is_supported_origin` | Restrict the destination authority to the supported Microsoft public cloud. |
+| `classes/local/microsoft_link_result.php:132` | `has_bearer_query` | Reject familiar bearer query keys without changing the opaque original URL. |
 | `classes/local/microsoft_user_probe.php:42` | `__construct` | Retain the public core API for the current user's selected OAuth service. |
 | `classes/local/microsoft_user_probe.php:60` | `run` | Inspect one explicit resource through the administrator's own Microsoft account. |
+| `classes/local/microsoft_user_probe.php:71` | `video_link` | Resolve a private provider page using only the current user's core account. |
+| `classes/local/microsoft_user_probe.php:83` | `execute` | Apply the same permission, target and OAuth guards to either explicit action. |
+| `classes/local/microsoft_user_probe.php:135` | `valid_target` | Validate the target before inspecting configuration or starting OAuth. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Recognise personal items already removed in an older backup or database. |
 | `classes/local/personal_item.php:50` | `erase` | Erase an owned note/bookmark, keeping retries free of duplicate events. |
 | `classes/local/personal_item.php:95` | `require_owner` | Require the stored owner, activity, module and personal item type. |
@@ -1708,6 +1720,31 @@ Generated from the VideoTrack 1.7.262 source tree. PHP entries include named fun
 | `tests/microsoft_user_probe_test.php:318` | `inert_probe` | Return a probe whose OAuth boundary must never be crossed. |
 | `tests/microsoft_user_probe_test.php:331` | `response_client` | Mock a connected user client with exactly one bounded metadata response. |
 | `tests/microsoft_user_probe_test.php:347` | `create_issuer` | Create a selected local Microsoft issuer without a system account. |
+| `tests/microsoft_video_link_test.php:47` | `setUp` | Use an isolated administrator HTTPS context with no real credentials. |
+| `tests/microsoft_video_link_test.php:60` | `tearDown` | Restore the runner after both successful and rejected requests. |
+| `tests/microsoft_video_link_test.php:70` | `test_supported_page_urls_are_not_rewritten` | Supported opaque page links preserve casing, encoding and query ordering. |
+| `tests/microsoft_video_link_test.php:86` | `test_unsafe_page_destinations_are_rejected` | Browser destinations reject unsafe authorities and unsupported cloud hosts. |
+| `tests/microsoft_video_link_test.php:107` | `test_bearer_query_parameters_are_rejected` | Known credential-bearing query keys are rejected even when encoded. |
+| `tests/microsoft_video_link_test.php:118` | `test_serialisation_never_exposes_the_private_url` | Serialisation omits both the private URL and unknown provider fields. |
+| `tests/microsoft_video_link_test.php:134` | `test_graph_link_uses_one_bounded_metadata_get` | Resolving a page requests one fixed-host metadata resource and never content. |
+| `tests/microsoft_video_link_test.php:148` | `test_graph_link_requires_a_video_item` | A missing item cannot accidentally request a drive as though it were a video. |
+| `tests/microsoft_video_link_test.php:158` | `test_graph_link_rejects_invalid_target_before_http` | Resource URLs and paths are not accepted as opaque identifiers. |
+| `tests/microsoft_video_link_test.php:168` | `test_graph_link_requires_valid_video_metadata` | Deleted, non-video and incomplete items cannot produce a page button. |
+| `tests/microsoft_video_link_test.php:184` | `test_missing_or_non_string_web_url_is_unavailable` | Missing or non-string webUrl remains unavailable rather than an arbitrary link. |
+| `tests/microsoft_video_link_test.php:196` | `test_graph_link_validates_the_returned_destination` | A provider response cannot hand the browser an unsupported destination. |
+| `tests/microsoft_video_link_test.php:207` | `test_graph_errors_keep_the_existing_diagnostic_contract` | Denials, redirects, throttling and service errors do not get followed or retried. |
+| `tests/microsoft_video_link_test.php:224` | `test_invalid_and_oversized_graph_responses_are_rejected` | Invalid, oversized and unsuccessful transport responses retain no URL. |
+| `tests/microsoft_video_link_test.php:238` | `test_personal_link_guards_are_inert` | Missing ids and absent configuration cannot cross the personal OAuth boundary. |
+| `tests/microsoft_video_link_test.php:251` | `test_personal_link_never_falls_back_after_a_denial` | A personal Graph denial stays denied rather than switching accounts. |
+| `tests/microsoft_video_link_test.php:269` | `test_personal_link_retains_activity_data_and_no_tracking_claim` | A successful page resolution does not change plugin learner or configuration data. |
+| `tests/microsoft_video_link_test.php:295` | `test_non_administrators_cannot_resolve_provider_links` | A course teacher is denied before link resolution. |
+| `tests/microsoft_video_link_test.php:307` | `test_guests_are_denied_before_target_validation` | Guests cannot query link readiness even with an invalid target. |
+| `tests/microsoft_video_link_test.php:316` | `test_personal_oauth_failure_keeps_the_link_private` | Core OAuth exceptions stay redacted in the link result and its JSON. |
+| `tests/microsoft_video_link_test.php:330` | `test_form_link_action_has_stricter_requirements` | Provider-page actions require a personal account and an explicit item. |
+| `tests/microsoft_video_link_test.php:346` | `test_controller_keeps_the_handoff_separate_from_json_and_tracking` | The controller exposes only a guarded external page link, never an embedded player. |
+| `tests/microsoft_video_link_test.php:364` | `create_issuer` | Create a supported fake service without a shared system account. |
+| `tests/microsoft_video_link_test.php:387` | `video_body` | Produce valid video metadata with explicitly controlled returned fields. |
+| `tests/microsoft_video_link_test.php:403` | `response_client` | Require exactly one fixed-host request with unchanged transport restrictions. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Named PHP function/method `test_media_source_errors_preserve_required_inputs`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Named PHP function/method `test_missing_timed_text_files_have_distinct_errors`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Named PHP function/method `test_reaction_file_error_depends_on_enablement`; see source DocBlock and callers for the current contract. |
