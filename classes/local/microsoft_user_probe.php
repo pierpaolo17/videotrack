@@ -58,6 +58,29 @@ final class microsoft_user_probe {
      * @return array Redacted diagnostic; core may refresh the current user's tokens.
      */
     public function run(string $driveid, string $itemid = ''): array {
+        return $this->execute($driveid, $itemid, 'metadata')->diagnostic();
+    }
+
+    /**
+     * Resolve a private provider page using only the current user's core account.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Required video item id.
+     * @return microsoft_link_result Private page link and redacted diagnostics.
+     */
+    public function video_link(string $driveid, string $itemid): microsoft_link_result {
+        return $this->execute($driveid, $itemid, 'provider_link');
+    }
+
+    /**
+     * Apply the same permission, target and OAuth guards to either explicit action.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Optional metadata or required provider-link video item id.
+     * @param string $action Internal action selected by a public method, never raw request data.
+     * @return microsoft_link_result Reduced result, with a URL only for a validated page link.
+     */
+    private function execute(string $driveid, string $itemid, string $action): microsoft_link_result {
         require_capability('moodle/site:config', \context_system::instance());
         $result = [
             'provider' => 'microsoft',
@@ -68,33 +91,56 @@ final class microsoft_user_probe {
             'oauth_refresh_possible' => false,
             'playback_implemented' => false,
         ];
-        try {
-            microsoft_graph::resource_url($driveid, $itemid);
-        } catch (\invalid_parameter_exception $error) {
-            return $result;
+        if (!self::valid_target($driveid, $itemid, $action)) {
+            return new microsoft_link_result($result);
         }
         try {
             $configuration = provider_connection::user_configuration_status('microsoft');
             $result['status'] = $configuration['status'];
             if ($configuration['status'] !== 'configuration_complete') {
-                return $result;
+                return new microsoft_link_result($result);
             }
             $issuer = api::get_issuer($configuration['issuerid']);
             if (!provider_connection::microsoft_endpoints_supported($issuer)) {
                 $result['status'] = 'oauth_endpoints_unsupported';
-                return $result;
+                return new microsoft_link_result($result);
             }
             $result['phase'] = 'oauth';
             $result['status'] = 'user_oauth_not_connected';
             $result['oauth_refresh_possible'] = true;
             $client = ($this->clientfactory)($issuer);
             if (!($client instanceof client) || !$client->is_logged_in()) {
-                return $result;
+                return new microsoft_link_result($result);
             }
-            return array_replace($result, (new microsoft_graph($client))->inspect($driveid, $itemid));
+            $graph = new microsoft_graph($client);
+            if ($action === 'provider_link') {
+                $link = $graph->video_link($driveid, $itemid);
+                return new microsoft_link_result(array_replace($result, $link->diagnostic()), $link->url());
+            }
+            return new microsoft_link_result(array_replace($result, $graph->inspect($driveid, $itemid)));
         } catch (\Throwable $error) {
             $result['status'] = $result['phase'] === 'oauth' ? 'oauth_failed' : 'configuration_failed';
-            return $result;
+            return new microsoft_link_result($result);
         }
+    }
+
+    /**
+     * Validate the target before inspecting configuration or starting OAuth.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Optional metadata or required page-link item id.
+     * @param string $action Internal action selected by the public method.
+     * @return bool Resource ids meet the selected action's contract.
+     */
+    private static function valid_target(string $driveid, string $itemid, string $action): bool {
+        if ($action === 'provider_link' && $itemid === '') {
+            return false;
+        }
+        try {
+            microsoft_graph::resource_url($driveid, $itemid);
+        } catch (\invalid_parameter_exception $error) {
+            return false;
+        }
+        return true;
     }
 }

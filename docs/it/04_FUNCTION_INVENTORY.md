@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.262. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.263. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1300 (1293 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1338 (1331 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -837,7 +837,8 @@ Generato dall’albero sorgente VideoTrack 1.7.262. Le voci PHP includono funzio
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/microsoft_probe_form.php:46` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
-| `classes/form/microsoft_probe_form.php:73` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:84` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:116` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1030,18 +1031,30 @@ Generato dall’albero sorgente VideoTrack 1.7.262. Le voci PHP includono funzio
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | Callable PHP `prefix_named_params`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Funzione/metodo PHP nominato `can_participate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | Callable PHP `user_is_visible`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/microsoft_graph.php:43` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:57` | `resource_url` | Funzione diagnostica provider `resource_url`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:80` | `inspect` | Funzione diagnostica provider `inspect`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:125` | `decode_metadata` | Decodifica JSON limitato e verifica l’identità prima della selezione dei metadati. |
-| `classes/local/microsoft_graph.php:142` | `http_status` | Funzione diagnostica provider `http_status`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:160` | `drive_metadata` | Funzione diagnostica provider `drive_metadata`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:173` | `video_metadata` | Funzione diagnostica provider `video_metadata`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:200` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
+| `classes/local/microsoft_graph.php:44` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:58` | `resource_url` | Funzione diagnostica provider `resource_url`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:81` | `inspect` | Funzione diagnostica provider `inspect`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:97` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
+| `classes/local/microsoft_graph.php:120` | `get_metadata` | Gestisce il contratto della pagina Microsoft: get_metadata. |
+| `classes/local/microsoft_graph.php:161` | `decode_metadata` | Decodifica JSON limitato e verifica l’identità prima della selezione dei metadati. |
+| `classes/local/microsoft_graph.php:178` | `http_status` | Funzione diagnostica provider `http_status`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:196` | `drive_metadata` | Funzione diagnostica provider `drive_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:209` | `video_metadata` | Funzione diagnostica provider `video_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:236` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Funzione diagnostica provider `run`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_link_result.php:42` | `__construct` | Gestisce il contratto della pagina Microsoft: __construct. |
+| `classes/local/microsoft_link_result.php:66` | `diagnostic` | Gestisce il contratto della pagina Microsoft: diagnostic. |
+| `classes/local/microsoft_link_result.php:75` | `url` | Gestisce il contratto della pagina Microsoft: url. |
+| `classes/local/microsoft_link_result.php:84` | `jsonSerialize` | Gestisce il contratto della pagina Microsoft: jsonSerialize. |
+| `classes/local/microsoft_link_result.php:97` | `is_supported_url` | Gestisce il contratto della pagina Microsoft: is_supported_url. |
+| `classes/local/microsoft_link_result.php:114` | `is_supported_origin` | Gestisce il contratto della pagina Microsoft: is_supported_origin. |
+| `classes/local/microsoft_link_result.php:132` | `has_bearer_query` | Gestisce il contratto della pagina Microsoft: has_bearer_query. |
 | `classes/local/microsoft_user_probe.php:42` | `__construct` | Gestisce il contratto Microsoft personale: __construct. |
 | `classes/local/microsoft_user_probe.php:60` | `run` | Gestisce il contratto Microsoft personale: run. |
+| `classes/local/microsoft_user_probe.php:71` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
+| `classes/local/microsoft_user_probe.php:83` | `execute` | Gestisce il contratto della pagina Microsoft: execute. |
+| `classes/local/microsoft_user_probe.php:135` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
@@ -1708,6 +1721,31 @@ Generato dall’albero sorgente VideoTrack 1.7.262. Le voci PHP includono funzio
 | `tests/microsoft_user_probe_test.php:318` | `inert_probe` | Verifica nativa Microsoft personale: inert_probe. |
 | `tests/microsoft_user_probe_test.php:331` | `response_client` | Verifica nativa Microsoft personale: response_client. |
 | `tests/microsoft_user_probe_test.php:347` | `create_issuer` | Verifica nativa Microsoft personale: create_issuer. |
+| `tests/microsoft_video_link_test.php:47` | `setUp` | Verifica nativa pagina Microsoft: setUp. |
+| `tests/microsoft_video_link_test.php:60` | `tearDown` | Verifica nativa pagina Microsoft: tearDown. |
+| `tests/microsoft_video_link_test.php:70` | `test_supported_page_urls_are_not_rewritten` | Verifica nativa pagina Microsoft: test_supported_page_urls_are_not_rewritten. |
+| `tests/microsoft_video_link_test.php:86` | `test_unsafe_page_destinations_are_rejected` | Verifica nativa pagina Microsoft: test_unsafe_page_destinations_are_rejected. |
+| `tests/microsoft_video_link_test.php:107` | `test_bearer_query_parameters_are_rejected` | Verifica nativa pagina Microsoft: test_bearer_query_parameters_are_rejected. |
+| `tests/microsoft_video_link_test.php:118` | `test_serialisation_never_exposes_the_private_url` | Verifica nativa pagina Microsoft: test_serialisation_never_exposes_the_private_url. |
+| `tests/microsoft_video_link_test.php:134` | `test_graph_link_uses_one_bounded_metadata_get` | Verifica nativa pagina Microsoft: test_graph_link_uses_one_bounded_metadata_get. |
+| `tests/microsoft_video_link_test.php:148` | `test_graph_link_requires_a_video_item` | Verifica nativa pagina Microsoft: test_graph_link_requires_a_video_item. |
+| `tests/microsoft_video_link_test.php:158` | `test_graph_link_rejects_invalid_target_before_http` | Verifica nativa pagina Microsoft: test_graph_link_rejects_invalid_target_before_http. |
+| `tests/microsoft_video_link_test.php:168` | `test_graph_link_requires_valid_video_metadata` | Verifica nativa pagina Microsoft: test_graph_link_requires_valid_video_metadata. |
+| `tests/microsoft_video_link_test.php:184` | `test_missing_or_non_string_web_url_is_unavailable` | Verifica nativa pagina Microsoft: test_missing_or_non_string_web_url_is_unavailable. |
+| `tests/microsoft_video_link_test.php:196` | `test_graph_link_validates_the_returned_destination` | Verifica nativa pagina Microsoft: test_graph_link_validates_the_returned_destination. |
+| `tests/microsoft_video_link_test.php:207` | `test_graph_errors_keep_the_existing_diagnostic_contract` | Verifica nativa pagina Microsoft: test_graph_errors_keep_the_existing_diagnostic_contract. |
+| `tests/microsoft_video_link_test.php:224` | `test_invalid_and_oversized_graph_responses_are_rejected` | Verifica nativa pagina Microsoft: test_invalid_and_oversized_graph_responses_are_rejected. |
+| `tests/microsoft_video_link_test.php:238` | `test_personal_link_guards_are_inert` | Verifica nativa pagina Microsoft: test_personal_link_guards_are_inert. |
+| `tests/microsoft_video_link_test.php:251` | `test_personal_link_never_falls_back_after_a_denial` | Verifica nativa pagina Microsoft: test_personal_link_never_falls_back_after_a_denial. |
+| `tests/microsoft_video_link_test.php:269` | `test_personal_link_retains_activity_data_and_no_tracking_claim` | Verifica nativa pagina Microsoft: test_personal_link_retains_activity_data_and_no_tracking_claim. |
+| `tests/microsoft_video_link_test.php:295` | `test_non_administrators_cannot_resolve_provider_links` | Verifica nativa pagina Microsoft: test_non_administrators_cannot_resolve_provider_links. |
+| `tests/microsoft_video_link_test.php:307` | `test_guests_are_denied_before_target_validation` | Verifica nativa pagina Microsoft: test_guests_are_denied_before_target_validation. |
+| `tests/microsoft_video_link_test.php:316` | `test_personal_oauth_failure_keeps_the_link_private` | Verifica nativa pagina Microsoft: test_personal_oauth_failure_keeps_the_link_private. |
+| `tests/microsoft_video_link_test.php:330` | `test_form_link_action_has_stricter_requirements` | Verifica nativa pagina Microsoft: test_form_link_action_has_stricter_requirements. |
+| `tests/microsoft_video_link_test.php:346` | `test_controller_keeps_the_handoff_separate_from_json_and_tracking` | Verifica nativa pagina Microsoft: test_controller_keeps_the_handoff_separate_from_json_and_tracking. |
+| `tests/microsoft_video_link_test.php:364` | `create_issuer` | Verifica nativa pagina Microsoft: create_issuer. |
+| `tests/microsoft_video_link_test.php:387` | `video_body` | Verifica nativa pagina Microsoft: video_body. |
+| `tests/microsoft_video_link_test.php:403` | `response_client` | Verifica nativa pagina Microsoft: response_client. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |

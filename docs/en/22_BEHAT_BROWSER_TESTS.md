@@ -138,3 +138,10 @@ Two new deterministic scenarios in `microsoft_account_context.feature` check the
 system default and preserved current-user context with no selected issuer. They
 make no external calls. The candidate has63 expanded scenarios; native262 execution
 is pending. These scenarios do not prove live OAuth, user token isolation or playback.
+
+## Provider page action in263
+
+Three deterministic scenarios in `microsoft_provider_page.feature` cover the default
+metadata action, personal-account/item requirements and missing configuration with
+no provider link. The candidate has66 expanded scenarios; native execution is pending.
+No live provider request or external tab is opened by these scenarios.

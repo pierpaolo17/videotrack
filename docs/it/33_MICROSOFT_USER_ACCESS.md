@@ -1,6 +1,10 @@
 # Metadati Microsoft con l’identità dell’utente corrente
 
-VideoTrack **1.7.262** (`2026111802`).
+La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft](34_MICROSOFT_PROVIDER_PAGE.md).
+Richiede account personale e ID video. La pagina provider si apre separatamente;
+VideoTrack non accredita la visione in quella scheda.
+
+VideoTrack **1.7.263** (`2026111900`).
 
 ## Scegliere esplicitamente l’identità
 
@@ -60,12 +64,9 @@ partecipazione, identità provider, autorizzazione risorsa e contratto player mi
 Resta preferita la distribuzione provider → browser; Moodle non importa né trasmette il
 file. Microsoft precede Zoom e Google; l’App resta successiva nella roadmap.
 
-Sedici metodi unitari nativi coprono controlli locali, ordine endpoint/factory, login
-client corrente, assenza di fallback, riservatezza, nessuna scrittura attività, accesso
-riservato e contesti del modulo. Due scenari browser non selezionano issuer e non usano
-rete provider. Sono regressioni scritte: esecuzione nativa262 e tenant reale da verificare.
-La baseline261 ha superato candidato/main a sei job, server e due strict; quei risultati
-non eseguono questo nuovo codice. Conservare la demo; manuale53 in standby.
+La diagnostica personale262 ha superato6job candidato/main, Unit488/5267, Behat63/1287
+e i gate reali server/strict. La gestione del link263 è distinta, con prove native e
+provider reale da svolgere. Conservare la demo; manuale53 in standby.
 
 ## Contratti core primari
 

@@ -33,14 +33,27 @@ $configuration = \mod_videotrack\local\provider_connection::configuration_status
 $userconfiguration = \mod_videotrack\local\provider_connection::user_configuration_status('microsoft');
 $form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, null, 'post');
 $result = null;
+$providerlink = null;
 if ($data = $form->get_data()) {
     require_sesskey();
-    $probe = match ($data->accountcontext) {
-        'current_user' => new \mod_videotrack\local\microsoft_user_probe(),
-        'system' => new \mod_videotrack\local\microsoft_graph_probe(),
-        default => throw new invalid_parameter_exception('Invalid provider account context.'),
-    };
-    $result = $probe->run($data->driveid, $data->itemid);
+    if ($data->operation === 'provider_link') {
+        if ($data->accountcontext !== 'current_user') {
+            throw new invalid_parameter_exception('A personal Microsoft account is required.');
+        }
+        $probe = new \mod_videotrack\local\microsoft_user_probe();
+        $linkresult = $probe->video_link($data->driveid, $data->itemid);
+        $result = $linkresult->diagnostic();
+        $providerlink = $linkresult->url();
+    } else if ($data->operation === 'metadata') {
+        $probe = match ($data->accountcontext) {
+            'current_user' => new \mod_videotrack\local\microsoft_user_probe(),
+            'system' => new \mod_videotrack\local\microsoft_graph_probe(),
+            default => throw new invalid_parameter_exception('Invalid provider account context.'),
+        };
+        $result = $probe->run($data->driveid, $data->itemid);
+    } else {
+        throw new invalid_parameter_exception('Invalid Microsoft operation.');
+    }
     $result['account_context'] = $data->accountcontext;
 }
 
@@ -60,11 +73,21 @@ echo html_writer::tag('pre', s(json_encode($userconfiguration, JSON_PRETTY_PRINT
 $form->display();
 if ($result !== null) {
     echo $OUTPUT->heading(get_string('providercheck:result', 'mod_videotrack'), 3);
-    $success = in_array($result['status'], ['drive_accessible', 'video_accessible'], true);
+    $success = in_array($result['status'], ['drive_accessible', 'video_accessible', 'provider_link_ready'], true);
     echo $OUTPUT->notification(
         get_string($success ? 'providercheck:success' : 'providercheck:failure', 'mod_videotrack'),
         $success ? 'success' : 'warning'
     );
     echo html_writer::tag('pre', s(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
+}
+if ($providerlink !== null) {
+    echo $OUTPUT->notification(get_string('providercheck:linknotice', 'mod_videotrack'), 'info');
+    echo html_writer::tag('a', get_string('providercheck:open', 'mod_videotrack'), [
+        'href' => $providerlink,
+        'target' => '_blank',
+        'rel' => 'noopener noreferrer',
+        'referrerpolicy' => 'no-referrer',
+        'class' => 'btn btn-primary',
+    ]);
 }
 echo $OUTPUT->footer();

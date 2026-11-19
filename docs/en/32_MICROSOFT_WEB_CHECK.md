@@ -1,10 +1,14 @@
 # Microsoft check from site administration
 
+Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
+It requires the personal account and a video id. The provider page opens separately;
+VideoTrack does not credit viewing in that browser tab.
+
 Release 1.7.262 adds an explicit account selector: the existing system account
 or the administrator’s own connected Microsoft account. Missing personal access
 never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.262** (`2026111802`).
+VideoTrack **1.7.263** (`2026111900`).
 
 ## Open and configure
 
@@ -63,12 +67,7 @@ supported player bridge for time/play/pause/seek must still be implemented and
 validated before watched progress can be credited. Zoom and Google remain later
 gates; the optional Zoom repository is still an architectural assessment.
 
-Nine native unit methods cover form identifiers, POST/GET behaviour, sesskey,
-administration-node access and controller guard ordering. Three browser scenarios
-cover local status, invalid URLs and incomplete configuration without live network.
-The initial six-job 261 CI passes these regressions (Unit472/5183, Behat61/1268).
-The following run clears PHPStan/Psalm, but needs a PHPDoc correction and a fresh
-CI run after the 5.0/MariaDB HTTP service became unavailable. See the
-[documentation audit](09_DOCUMENTATION_AUDIT.md) for the exact evidence. No connected
-Microsoft tenant or official-player telemetry has been tested in this release.
-Retain the demo; the separate manual Moodle 5.3 accessibility check stays on standby.
+The diagnostic foundation through262 is accepted (candidate/main all6CI, server
+Unit488/5267 and both strict10/0/0). Native263 is pending; see the
+[documentation audit](09_DOCUMENTATION_AUDIT.md). No connected tenant or official-player
+telemetry is claimed. Retain the demo; manual53 accessibility remains on standby.

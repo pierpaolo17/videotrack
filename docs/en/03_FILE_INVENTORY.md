@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.262 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.263 repository tree. It lists
 sources, assets, tests and selected release guides, including five repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **382** — 377 distributed files and five repository-only files. The complete
-tree has 473 repository files / 449 distributed files, including all documentation.
+Entries: **387** — 382 distributed files and five repository-only files. The complete
+tree has 478 repository files / 454 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -223,6 +223,7 @@ tree has 473 repository files / 449 distributed files, including all documentati
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/microsoft_graph.php` | Fixed-host metadata GET and redacted validated drive/video scalars. |
 | `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
+| `classes/local/microsoft_link_result.php` | Separate private provider-page URLs from serialisable diagnostics; enforce destination/query boundaries. |
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
 | `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
@@ -269,11 +270,13 @@ tree has 473 repository files / 449 distributed files, including all documentati
 | `docs/en/31_SOURCE_POLICY.md` | English source-policy guide and optional Zoom repository assessment. |
 | `docs/en/32_MICROSOFT_WEB_CHECK.md` | English administrator Microsoft web diagnostic guide. |
 | `docs/en/33_MICROSOFT_USER_ACCESS.md` | English current-user Microsoft diagnostic and authorisation-boundary guide. |
+| `docs/en/34_MICROSOFT_PROVIDER_PAGE.md` | English original Microsoft page handoff and future embedding-boundary guide. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
 | `docs/it/32_MICROSOFT_WEB_CHECK.md` | Italian administrator Microsoft web diagnostic guide. |
 | `docs/it/33_MICROSOFT_USER_ACCESS.md` | Italian current-user Microsoft diagnostic and authorisation-boundary guide. |
+| `docs/it/34_MICROSOFT_PROVIDER_PAGE.md` | Italian original Microsoft page handoff and future embedding-boundary guide. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -327,6 +330,7 @@ tree has 473 repository files / 449 distributed files, including all documentati
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
 | `tests/behat/microsoft_account_context.feature` | Deterministic browser checks for explicit shared/personal account choice. |
 | `tests/behat/microsoft_provider_check.feature` | Three deterministic administration scenarios without a Microsoft connection. |
+| `tests/behat/microsoft_provider_page.feature` | Three deterministic personal provider-page form scenarios without live network. |
 | `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
 | `tests/behat/video_source_policy.feature` | Browser scenarios for default choices, disabled edit values, blocked playback and all-off editing. |
@@ -358,6 +362,7 @@ tree has 473 repository files / 449 distributed files, including all documentati
 | `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
 | `tests/microsoft_probe_form_test.php` | Native form, session, method and administration-access regressions. |
 | `tests/microsoft_user_probe_test.php` | Native delegated readiness/access/login/fallback/form regressions with no live network. |
+| `tests/microsoft_video_link_test.php` | Native URL/Graph/personal/form/controller regressions with no provider network. |
 | `tests/mod_form_validation_test.php` | PHPUnit coverage for rejected media, missing timed text and reaction file requirements. |
 | `tests/player_resume_completion_alert_contract_test.php` | Cross-provider resume, completion and alert contracts; completion assertions follow the current mutation owner, including the reaction post-write service. |
 | `tests/privacy_exporter_test.php` | PHPUnit writer checks for export paths, personal-data filtering and the 500-row boundary. |

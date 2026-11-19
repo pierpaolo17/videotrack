@@ -138,3 +138,10 @@ Due scenari deterministici in `microsoft_account_context.feature` verificano def
 sistema e contesto utente corrente conservato senza issuer selezionato, senza rete
 esterna. La candidata contiene63 scenari espansi; l’esecuzione nativa262 è da svolgere.
 Non sono prove di OAuth reale, isolamento token reali o riproduzione.
+
+## Azione pagina provider nella263
+
+Tre scenari deterministici in `microsoft_provider_page.feature` coprono default
+metadati, obbligo di account personale/ID file e configurazione assente senza link.
+La candidata contiene66scenari espansi; esecuzione nativa da svolgere. Nessuna
+richiesta provider reale o apertura di schede esterne in questi scenari.

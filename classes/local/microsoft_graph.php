@@ -21,8 +21,9 @@ use core\oauth2\client;
 /**
  * Bounded metadata GETs against the public Microsoft Graph service.
  *
- * This service never requests file content or returns provider identities,
- * download URLs, response bodies or credentials. It does not implement playback.
+ * This service never requests file content. General diagnostics omit identities,
+ * URLs, bodies and credentials; a separate result can retain a private page link.
+ * It does not implement tracked playback.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -38,7 +39,7 @@ final class microsoft_graph {
     /**
      * Retain an authenticated core OAuth client, without copying its credentials.
      *
-     * @param client $client Authenticated Moodle system OAuth client.
+     * @param client $client Authenticated Moodle OAuth client.
      */
     public function __construct(client $client) {
         $this->client = $client;
@@ -79,6 +80,44 @@ final class microsoft_graph {
      */
     public function inspect(string $driveid, string $itemid = ''): array {
         $url = self::resource_url($driveid, $itemid);
+        [$result, $data] = $this->get_metadata($url);
+        if ($data === null) {
+            return $result;
+        }
+        return array_replace($result, $itemid === '' ? self::drive_metadata($data) : self::video_metadata($data));
+    }
+
+    /**
+     * Resolve the original page of a validated video without requesting its bytes.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Required explicit video item id.
+     * @return microsoft_link_result Private page link separated from diagnostics.
+     */
+    public function video_link(string $driveid, string $itemid): microsoft_link_result {
+        if ($itemid === '') {
+            throw new \invalid_parameter_exception('A video item id is required.');
+        }
+        $url = self::resource_url($driveid, $itemid) . ',webUrl';
+        [$result, $data] = $this->get_metadata($url);
+        if ($data === null) {
+            return new microsoft_link_result($result);
+        }
+        $result = array_replace($result, self::video_metadata($data));
+        if ($result['status'] !== 'video_accessible') {
+            return new microsoft_link_result($result);
+        }
+        $result['status'] = 'provider_link_unavailable';
+        return new microsoft_link_result($result, is_string($data->webUrl ?? null) ? $data->webUrl : null);
+    }
+
+    /**
+     * Read bounded Graph metadata and keep raw data private to this service.
+     *
+     * @param string $url Fixed-host URL built by resource_url, with an optional webUrl selection.
+     * @return array Pair of redacted transport diagnostic and decoded metadata or null.
+     */
+    private function get_metadata(string $url): array {
         $result = [
             'phase' => 'graph',
             'graph_attempted' => true,
@@ -98,21 +137,18 @@ final class microsoft_graph {
             $info = $this->client->get_info();
             $result['http_status'] = (int)($info['http_code'] ?? 0);
             if ($this->client->get_errno() !== 0) {
-                return $result;
+                return [$result, null];
             }
             if ($result['http_status'] !== 200) {
                 $result['status'] = self::http_status($result['http_status']);
-                return $result;
+                return [$result, null];
             }
             $result['status'] = 'graph_invalid_response';
             $data = self::decode_metadata($body);
-            if ($data === null) {
-                return $result;
-            }
-            return array_replace($result, $itemid === '' ? self::drive_metadata($data) : self::video_metadata($data));
+            return [$result, $data];
         } catch (\Throwable $error) {
             // Core exceptions and provider error bodies may contain credentials or private URLs.
-            return $result;
+            return [$result, null];
         }
     }
 

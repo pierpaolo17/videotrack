@@ -1,5 +1,9 @@
 # Guida per utenti e amministratori
 
+La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft](34_MICROSOFT_PROVIDER_PAGE.md).
+Richiede account personale e ID video. La pagina provider si apre separatamente;
+VideoTrack non accredita la visione in quella scheda.
+
 La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microsoft
 personale collegato dell’amministratore. L’assenza di accesso personale non attiva
 il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).

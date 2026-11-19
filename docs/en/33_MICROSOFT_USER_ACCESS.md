@@ -1,6 +1,10 @@
 # Microsoft metadata under the current user's identity
 
-VideoTrack **1.7.262** (`2026111802`).
+Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
+It requires the personal account and a video id. The provider page opens separately;
+VideoTrack does not credit viewing in that browser tab.
+
+VideoTrack **1.7.263** (`2026111900`).
 
 ## Choose the identity explicitly
 
@@ -60,12 +64,9 @@ provider identity, resource authorisation and measurable player contract. The pr
 provider-to-browser delivery path remains; no file is imported or streamed by Moodle.
 Microsoft remains before Zoom and Google, and the App remains later in the roadmap.
 
-Sixteen native unit methods cover local guards, endpoint/factory ordering, current
-client login, no fallback, redaction, no activity writes, restricted access and form
-contexts. Two browser scenarios use no selected issuer and no provider network.
-These are authored regressions: native262 execution and a live tenant test are pending.
-The accepted261 baseline passed candidate/main all6, server and both strict outputs;
-its results do not execute this new code. Retain the demo; manual53 stays on standby.
+The personal metadata foundation in262 passed all6 candidate/main jobs, Unit488/5267,
+Behat63/1287 and actual server/strict gates. New263 link handling is separate and its
+native/live-provider checks are pending. Retain the demo; manual53 stays on standby.
 
 ## Primary core contracts
 
