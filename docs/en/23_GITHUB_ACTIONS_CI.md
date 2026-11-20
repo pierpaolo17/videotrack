@@ -38,8 +38,12 @@ prefixes. The canonical Moodle 5.0/MariaDB entry also runs PHP lint, PHPCS with 
 warnings, plugin validation, upgrade-savepoint validation and Mustache lint.
 
 The workflow uses `set -o pipefail` before piping output through `tee`, so a failing checker remains a failing
-step. Console logs are also collected in a downloadable `videotrack-ci-<matrix-id>` artifact for 14 days. A Behat
-failure uploads the browser faildump separately.
+step. Console logs are also collected in a downloadable `videotrack-ci-<matrix-id>` artifact for 14 days.
+Available Behat browser dumps are uploaded separately on every job outcome, including
+success after an internal rerun; an absent dump is ignored. After a completed Behat
+step, `behat-runtime.txt` records its outcome and a runner resource snapshot before
+lifecycle. It is not an in-test HTTP health check: the tool can already have stopped
+its servers. See [Behat evidence](36_CI_BEHAT_EVIDENCE.md) for limits and interpretation.
 
 ## Advisory static analysis
 
@@ -100,7 +104,8 @@ zero failures in strict mode.
 3. Download the `videotrack-ci-*` artifacts for complete command output; verify `paths.txt`, the authoritative
    `grunt.txt`, `site-install.txt`, `videotrack-validate.txt` and, where present, `static-tools.txt`, `phpstan.txt`
    and `psalm.txt`.
-4. For Behat failures, download the corresponding faildump and inspect screenshots, HTML and browser diagnostics.
+4. Read the complete Behat log, including internal reruns. Inspect available faildump screenshots/HTML even
+   after a final pass, and use `behat-runtime.txt` only within its documented post-command limits.
 5. Associate every result with the tested commit SHA. A later commit requires a new run.
 
 GitHub CI complements the maintainer's real installation, upgrade, backup/restore, privacy, provider and manual

@@ -39,7 +39,11 @@ plugin, controllo dei savepoint di upgrade e lint Mustache.
 
 Il workflow usa `set -o pipefail` prima di inviare l'output a `tee`: un checker fallito resta quindi uno step
 fallito. I log della console sono raccolti anche in un artefatto scaricabile `videotrack-ci-<matrix-id>` per 14
-giorni. Se fallisce Behat viene pubblicato separatamente il faildump del browser.
+giorni. I dump Behat disponibili vengono caricati separatamente per ogni esito del
+job, incluso il successo dopo un rerun interno; dump assente ignorato. Dopo uno step
+Behat completato, `behat-runtime.txt` registra esito e risorse del runner prima del
+lifecycle. Non è un controllo HTTP durante i test: lo strumento può avere già arrestato
+i server. Limiti e interpretazione nella [guida alle prove Behat](36_CI_BEHAT_EVIDENCE.md).
 
 ## Analisi statica consultiva
 
@@ -99,8 +103,8 @@ validatore deve terminare in modalità strict senza fallimenti.
    fase di baseline dichiarata; un errore di strumento/configurazione rende rosso il job.
 3. Scaricare gli artefatti `videotrack-ci-*` per i log completi; verificare `paths.txt`, `grunt.txt`,
    `site-install.txt`, `videotrack-validate.txt` e, dove previsti, `static-tools.txt`, `phpstan.txt` e `psalm.txt`.
-4. In caso di errore Behat, scaricare il faildump corrispondente e controllare screenshot, HTML e diagnostica
-   browser.
+4. Leggere tutto il log Behat, inclusi i rerun interni. Esaminare screenshot/HTML dei dump disponibili anche
+   dopo il pass finale e usare `behat-runtime.txt` entro i limiti documentati della fotografia dopo il comando.
 5. Associare ogni risultato allo SHA del commit testato; un commit successivo richiede una nuova esecuzione.
 
 La CI GitHub integra ma non sostituisce i controlli maintainer su installazione reale, upgrade, backup/restore,

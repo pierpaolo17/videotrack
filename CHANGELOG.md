@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.265 - 2026-11-20
+
+### Retain browser evidence after a successful Behat retry
+
+- Attempt faildump upload on every job outcome, retaining available initial-failure
+  screenshots/HTML when an internal rerun succeeds. Missing dumps remain ignored;
+  artifact names and14day retention are unchanged.
+- Record the completed Behat step outcome, UTC time, memory and process names/RSS
+  before lifecycle. Do not record process arguments/environment or probe HTTP after
+  the command: upstream normally tears down its servers at that point. This final
+  snapshot does not diagnose an earlier outage or prove an out-of-memory event.
+- Retain the exact Behat command, exit handling, assertions, rerun defaults, six-job
+  matrix, quality rules and lifecycle condition. No runtime fix is claimed for the
+  transient note visibility assertion; new native265 CI is still required.
+- Accept actual264 from main247bfb4b:459distribution files/191PHP match the accepted
+  repository/export tree, all8server commands pass, shared canonical/lint192clean,
+  Unit530/5612 on50/53 and maintainer strict10/0/0 each. Corrected candidate all6CI
+  pass; main all6pass after one5.1 internal scenario retry and a fresh5.2 job following
+  localhost8000 unavailability. Preserve that history; the service outage cause is
+  not established. PHPMD31 and Psalm750/778information remain recorded.
+- Add paired evidence/interpretation guides and update release inventories/audit.
+  The485repository/461distributed files contain the same191distributedPHP,
+  1376PHPcallables,654AMDcallables,530unit methods,67scenarios and8×1040language keys.
+  Production code apart from version metadata is unchanged. Retain demo/manual53
+  standby; live Microsoft delegated browser round trip remains unexecuted.
+
 ## 1.7.264 - 2026-11-19
 
 ### Connect the administrator's personal Microsoft account through core OAuth

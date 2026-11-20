@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.264 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.265 repository tree. It lists
 sources, assets, tests and selected release guides, including five repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **392** — 387 distributed files and five repository-only files. The complete
-tree has 483 repository files / 459 distributed files, including all documentation.
+Entries: **394** — 389 distributed files and five repository-only files. The complete
+tree has 485 repository files / 461 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -273,6 +273,7 @@ tree has 483 repository files / 459 distributed files, including all documentati
 | `docs/en/33_MICROSOFT_USER_ACCESS.md` | English current-user Microsoft diagnostic and authorisation-boundary guide. |
 | `docs/en/34_MICROSOFT_PROVIDER_PAGE.md` | English original Microsoft page handoff and future embedding-boundary guide. |
 | `docs/en/35_MICROSOFT_USER_CONNECTION.md` | English personal Microsoft connection, session boundary and validation guide. |
+| `docs/en/36_CI_BEHAT_EVIDENCE.md` | English guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -280,6 +281,7 @@ tree has 483 repository files / 459 distributed files, including all documentati
 | `docs/it/33_MICROSOFT_USER_ACCESS.md` | Italian current-user Microsoft diagnostic and authorisation-boundary guide. |
 | `docs/it/34_MICROSOFT_PROVIDER_PAGE.md` | Italian original Microsoft page handoff and future embedding-boundary guide. |
 | `docs/it/35_MICROSOFT_USER_CONNECTION.md` | Italian personal Microsoft connection, session boundary and validation guide. |
+| `docs/it/36_CI_BEHAT_EVIDENCE.md` | Italian guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |

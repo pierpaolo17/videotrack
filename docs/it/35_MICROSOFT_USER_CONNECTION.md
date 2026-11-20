@@ -1,6 +1,6 @@
 # Collegare l’account Microsoft dell’amministratore
 
-VideoTrack **1.7.264** (`2026111901`).
+VideoTrack **1.7.265** (`2026112000`).
 
 ## Procedura
 
@@ -70,13 +70,14 @@ completamenti sono simulati; nessuno scambio token provider viene eseguito dai t
 Un nuovo scenario browser non ha issuer configurato né richieste esterne. Tutti508i
 metodi unitari e66scenari precedenti restano identici nei byte.
 
-I test iniziali264 hanno superato530/5611 e67/1327, ma PHPCS ha rilevato4errori nelle
-intestazioni e PHPMD un nuovo flag booleano. La correzione usa il solo nonce nel metodo
-di completamento e legge l’errore callback dopo la verifica della richiesta. Test
-nativi corretti candidato/main/server e ritorno completo con browser Microsoft
-restano da eseguire: vedere l’[audit](09_DOCUMENTATION_AUDIT.md). Controlli locali sorgenti/stile/patch non sono pass PHP/Moodle.
-Baseline263 accettata: Unit508/5490, Behat66/1318,6job candidato/main ciascuno, ZIP reale
-454file, server e due strict10/0/0. Conservare la demo; manuale53 in standby.
+Candidato corretto264 e main superano tutti sei i job, Unit530/5612 e strict10/0/0.
+Il main5.1 richiede un rerun interno di scenario; il primo job5.2 perde il servizio
+HTTP locale e un nuovo job completo supera67/1327 senza rerun interno. Accettati
+ZIP reale459file, server Unit530/5612 su50/53, canonici condivisi192puliti e due
+strict10/0/0 del maintainer. Vedere l’[audit](09_DOCUMENTATION_AUDIT.md).
+Il ritorno completo Microsoft con browser reale non è ancora eseguito. La265 modifica
+solo prove CI; il codice OAuth è identico nei byte alla264 accettata. Conservare demo
+e manuale53 in standby.
 
 Restano accesso delegato reale, riferimenti stabili nell’attività/risoluzione all’avvio
 e autenticazione/telemetria ufficiale di tempo/play/pausa/seek prima della riproduzione
