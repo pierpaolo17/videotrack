@@ -1,6 +1,10 @@
 # Aprire la pagina originale del video Microsoft
 
-VideoTrack **1.7.263** (`2026111900`).
+La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
+alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
+il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
+
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Procedura amministrativa
 

@@ -1,6 +1,10 @@
 # Open the original Microsoft video page
 
-VideoTrack **1.7.263** (`2026111900`).
+Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
+to the existing administrator page. It starts core OAuth only after an explicit
+protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Administrator procedure
 

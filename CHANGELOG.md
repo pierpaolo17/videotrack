@@ -1,5 +1,35 @@
 # VideoTrack changelog
 
+## 1.7.264 - 2026-11-19
+
+### Connect the administrator's personal Microsoft account through core OAuth
+
+- Add an explicit POST connection button to the existing protected diagnostic, shown
+  only when local personal readiness is complete. Ordinary page GET remains local.
+- Reuse core's current-user OAuth factory, configured scopes, callback and token
+  management. No shared-account fallback or private credential store is introduced.
+- Bind the return to a random one-use, ten-minute session marker with user/issuer.
+  Require sesskey, recheck configuration/endpoints, consume before core completion,
+  refuse overridden login destinations/protocol fields and clear response parameters
+  by redirecting to the fixed clean diagnostic URL. Provider errors stay redacted.
+- Keep personal connection separate from Graph/video access and tracked playback.
+  Existing metadata/page-link services, system CLI and every508 prior unit method
+  remain unchanged. Add22 native methods and1 deterministic browser scenario;
+  add6 strings per language and an English/Italian administrator guide.
+- Accept actual263:454 package files matching main9d1cd700, server190canonical PHP
+  clean, Unit508/5490 on50/53 and both strict10/0/0. Corrected candidate/main all6CI,
+  Behat66/1318 and lifecycle pass; PHPMD31 baseline retained, form finding resolved.
+- Initial264 candidatee0704420 passes Unit530/5611, Behat67/1327, strict10/0/0
+  and Grunt in all6jobs. Its50MariaDB job fails4boilerplate spacing errors in2new
+  files;50lifecycle is skipped.53lifecycle and other quality gates complete.
+- Correct the two headers to the accepted Moodle boilerplate. Complete the callback
+  with a nonce-only API; read its error indication after request validation/consumption
+  instead of passing a boolean argument from the controller. Retain denial/replay
+  protection and strengthen the existing denial regression. Keep2026111901 and all
+  CI rules unchanged; a fresh corrected native run is pending before merge.
+- Native264 and a complete live Microsoft tenant/browser round trip are pending.
+  Keep schema, AJAX, AMD, source policy, demo and manual53 standby state unchanged.
+
 ## 1.7.263 - 2026-11-19
 
 ### Resolve the original Microsoft video page under the personal account

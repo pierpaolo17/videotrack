@@ -1,10 +1,14 @@
 # Metadati Microsoft con l’identità dell’utente corrente
 
+La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
+alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
+il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
+
 La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft](34_MICROSOFT_PROVIDER_PAGE.md).
 Richiede account personale e ID video. La pagina provider si apre separatamente;
 VideoTrack non accredita la visione in quella scheda.
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Scegliere esplicitamente l’identità
 
@@ -26,11 +30,11 @@ opzione CLI o impostazione persistente VideoTrack per la scelta dell’account.
 
 ## Riutilizzare la connessione Moodle esistente
 
-Configurare il servizio secondo la [guida Graph](30_MICROSOFT_GRAPH.md). Se l’account
-personale non è collegato, usare il flusso repository Microsoft/OAuth di Moodle con
-lo **stesso issuer**, poi tornare alla pagina. La connessione deve già possedere i
-permessi necessari sulla risorsa. VideoTrack non aggiunge scope, schermate di consenso,
-URL di login o archivi di token e non collega l’account di un altro utente Moodle.
+Configurare il servizio secondo la [guida Graph](30_MICROSOFT_GRAPH.md). Nella264,
+l’[azione di collegamento personale](35_MICROSOFT_USER_CONNECTION.md) usa lo stesso
+issuer core direttamente dalla diagnostica. Una connessione già aperta da un repository
+Moodle resta riutilizzabile. Core gestisce login/consenso, scope configurati e token;
+VideoTrack non aggiunge scope, archivi credenziali o selettori di altri utenti.
 
 Solo un POST esplicito valido con sesskey avvia la verifica scelta. La validazione
 degli ID opachi drive/file resta invariata. Il percorso personale controlla configurazione

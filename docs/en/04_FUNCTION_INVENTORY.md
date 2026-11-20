@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.263 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.264 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1338 (1331 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1376 (1369 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1050,6 +1050,15 @@ Generated from the VideoTrack 1.7.263 source tree. PHP entries include named fun
 | `classes/local/microsoft_link_result.php:97` | `is_supported_url` | Restrict browser destinations and reject known bearer-link query parameters. |
 | `classes/local/microsoft_link_result.php:114` | `is_supported_origin` | Restrict the destination authority to the supported Microsoft public cloud. |
 | `classes/local/microsoft_link_result.php:132` | `has_bearer_query` | Reject familiar bearer query keys without changing the opaque original URL. |
+| `classes/local/microsoft_user_connection.php:48` | `__construct` | Reuse the public core API without requesting additional scopes. |
+| `classes/local/microsoft_user_connection.php:59` | `begin` | Begin only after an explicit authorised POST; retain no login URL. |
+| `classes/local/microsoft_user_connection.php:106` | `complete` | Consume a matching request before core handles the returned authorisation. |
+| `classes/local/microsoft_user_connection.php:137` | `status` | Return only the local outcome; login URLs and callback data are excluded. |
+| `classes/local/microsoft_user_connection.php:144` | `require_start_request` | Refuse GET starts, missing CSRF proof and injected authorisation codes. |
+| `classes/local/microsoft_user_connection.php:160` | `configured_issuer` | Recheck the selected service and Microsoft destinations before any client. |
+| `classes/local/microsoft_user_connection.php:184` | `return_url` | Bind the local return to this request and the current Moodle session. |
+| `classes/local/microsoft_user_connection.php:200` | `supported_login` | Retain core's destination and protocol fields even with custom login params. |
+| `classes/local/microsoft_user_connection.php:216` | `matching_request` | Reject expired, different-user or mismatched responses without OAuth work. |
 | `classes/local/microsoft_user_probe.php:42` | `__construct` | Retain the public core API for the current user's selected OAuth service. |
 | `classes/local/microsoft_user_probe.php:60` | `run` | Inspect one explicit resource through the administrator's own Microsoft account. |
 | `classes/local/microsoft_user_probe.php:71` | `video_link` | Resolve a private provider page using only the current user's core account. |
@@ -1700,6 +1709,35 @@ Generated from the VideoTrack 1.7.263 source tree. PHP entries include named fun
 | `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Server-side validation rejects an invalid POST instead of returning a target. |
 | `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | The registered administration node excludes course teachers and guests. |
 | `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Keep the controller's permission and CSRF checks before network-capable code. |
+| `tests/microsoft_user_connection_test.php:50` | `setUp` | Isolate an administrator POST, with fake HTTPS configuration only. |
+| `tests/microsoft_user_connection_test.php:71` | `tearDown` | Restore global request data and discard only the synthetic request marker. |
+| `tests/microsoft_user_connection_test.php:89` | `test_default_factory_uses_core_login_and_a_private_request_marker` | The real core factory builds a session-bound URL without contacting Microsoft. |
+| `tests/microsoft_user_connection_test.php:121` | `test_get_start_is_rejected_before_the_factory` | Even an administrator GET carrying a sesskey cannot start OAuth. |
+| `tests/microsoft_user_connection_test.php:130` | `test_bad_sesskey_is_rejected_before_the_factory` | A POST with the wrong session proof cannot inspect the selected account. |
+| `tests/microsoft_user_connection_test.php:139` | `test_start_rejects_injected_authorisation_responses` | A start cannot be used to redeem a supplied authorisation code. |
+| `tests/microsoft_user_connection_test.php:148` | `test_non_administrator_is_denied_before_configuration` | A regular authenticated user cannot start an administrative connection. |
+| `tests/microsoft_user_connection_test.php:157` | `test_guest_completion_is_denied_before_pending_state` | A guest cannot complete even an invalid request. |
+| `tests/microsoft_user_connection_test.php:166` | `test_missing_and_deleted_configuration_is_inert` | Missing and deleted issuer selections stay local. |
+| `tests/microsoft_user_connection_test.php:178` | `test_incomplete_configuration_cannot_construct_a_client` | Service availability, provider type, credentials and HTTPS remain mandatory. |
+| `tests/microsoft_user_connection_test.php:199` | `test_untrusted_endpoint_cannot_construct_a_client` | Custom identity destinations are refused before core receives credentials. |
+| `tests/microsoft_user_connection_test.php:214` | `test_already_connected_account_does_not_start_a_round_trip` | An existing personal login needs no external redirect or pending marker. |
+| `tests/microsoft_user_connection_test.php:227` | `test_matching_completion_uses_personal_core_and_consumes_the_marker` | A matching callback is consumed before the personal client is used. |
+| `tests/microsoft_user_connection_test.php:248` | `test_completed_callback_cannot_be_replayed` | A consumed response cannot call OAuth a second time. |
+| `tests/microsoft_user_connection_test.php:260` | `test_callback_still_requires_a_valid_sesskey` | A matching marker cannot bypass the callback's Moodle session proof. |
+| `tests/microsoft_user_connection_test.php:273` | `test_wrong_nonce_is_inert_and_preserves_the_legitimate_request` | A mismatched nonce does not consume the legitimate pending request. |
+| `tests/microsoft_user_connection_test.php:286` | `test_expired_or_different_user_markers_are_inert` | Expired, different-user and malformed markers cannot reach OAuth. |
+| `tests/microsoft_user_connection_test.php:302` | `test_denied_callback_never_redeems_or_refreshes_tokens` | Provider denial consumes the request without calling the client factory. |
+| `tests/microsoft_user_connection_test.php:316` | `test_changed_issuer_is_rejected_before_the_factory` | An issuer changed during the round trip cannot receive the response. |
+| `tests/microsoft_user_connection_test.php:329` | `test_disabled_issuer_is_rechecked_on_return` | Disabling the selected issuer invalidates the pending connection locally. |
+| `tests/microsoft_user_connection_test.php:342` | `test_oauth_exceptions_are_redacted` | Exceptions are reduced and failed completions cannot be replayed. |
+| `tests/microsoft_user_connection_test.php:361` | `test_login_url_protocol_fields_cannot_be_overridden` | Modified core authorisation destinations and critical fields are refused. |
+| `tests/microsoft_user_connection_test.php:386` | `test_new_attempt_invalidates_the_earlier_round_trip` | A new explicit attempt replaces the old nonce, without changing identities. |
+| `tests/microsoft_user_connection_test.php:401` | `test_unconnected_callback_is_not_reported_as_success` | A valid callback still needs a connected core client; no fallback is used. |
+| `tests/microsoft_user_connection_test.php:416` | `inert_service` | Return a factory that must never be invoked. |
+| `tests/microsoft_user_connection_test.php:427` | `connected_service` | Provide one connected personal client without network methods. |
+| `tests/microsoft_user_connection_test.php:437` | `response_client` | Mock login state and forbid all resource/token HTTP calls. |
+| `tests/microsoft_user_connection_test.php:451` | `start` | Create a supported selected issuer and begin a real core URL build. |
+| `tests/microsoft_user_connection_test.php:463` | `create_issuer` | Create a fake local service, without a shared account or refresh token. |
 | `tests/microsoft_user_probe_test.php:47` | `setUp` | Isolate an authorised HTTPS request without a real OAuth connection. |
 | `tests/microsoft_user_probe_test.php:60` | `tearDown` | Restore the runner URL after successful and rejected probes. |
 | `tests/microsoft_user_probe_test.php:70` | `test_user_readiness_does_not_require_a_system_account` | User readiness excludes only the shared-account gate, without remote work. |

@@ -1,6 +1,6 @@
 # Sorgenti video del sito e integrazioni opzionali
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Configurare le sorgenti implementate
 

@@ -1,70 +1,81 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.263** (`2026111900`).
+Baseline: VideoTrack **1.7.264** (`2026111901`).
 
-## Baseline262 reale accettata
+## Baseline263 accettata
 
-Main `04e73f59dcb71329f67b2a4340758a2ac0a780ba`, albero
-`b87d83052dd902707c725fce3ab14598d89bfb64`, identico al candidato
-`191e8bb3a6b0ad916ee34387f920709af63af7c2`. Candidato44495960787 e main44501246381
-superano6job ciascuno: Unit488/5267, Behat63/1287 senza ritentativi, strict10/0/0 e Grunt.
-Ogni run coincide con6digest ufficiali e473blob/modi. Canonici187PHPdistribuiti+1helper,
-PHPDoc/metadati/savepoint206 superati. Le3genealogie lifecycle selezionate passano su
-50/53MariaDB: per run6hash ricostruiti/126prove effettive dei contenuti file. Le verifiche
-personali non ripiegano sul sistema; nessuna prova su tenant reale dichiarata.
+Candidato corretto2e9ccdae362a71b380c54dfe2f61d8c7e258f12b e main
+9d1cd70091967b2cc1ced8929088eea86dddc89f condividono l’albero
+e15f133ebfc48022e6d0208f0b4c0a530bc3fcbb. Run44544150177/44550849950:
+6job superati ciascuno, Unit508/5490, Behat66/1318 senza rerun, strict10/0/0, Grunt,
+canonici189PHP+1helper, PHPDoc/metadati/savepoint206. Per run coincidono6digest ufficiali
+e478blob/modi repository. Le3genealogie storica/parziale/precedente passano su50/53MariaDB:
+6hash ricostruiti e126prove effettive dei contenuti file per run.
 
-ZIP reale `videotrack-1.7.262.zip`:449file/187PHP corrispondenti al main; commento uguale
-al commit. SHA256:
-`4237efdf1606102e4e6ab4c909aa3fbaf868b8a77c32b735859f07a5fbc9f895`.
-Report `report_completo_videotrack_1.7.262_20261119_122857.zip` SHA256:
-`5ff304ef1bb3ba0263e687b494d55747b195b3c3a285de7261c2c382f07f2c5a`.
-Dieci log/otto comandi richiesti superati: Unit488/5267 su50/53, PHPCS/lint188puliti
-condivisi per codice identico (non due canonici distinti), hash Grunt registrati invariati
-e mappe coerenti coi sorgenti. Nessuna ricostruzione autonoma dell’hash aggregato server.
-Strict manutentore10/0/0 ciascuno, elementi/righe voto0/0 e34/34. Schema7/151/22/22,
-9AJAX,8×1027chiavi e48gruppiAMD coerenti.
+ZIP reale `videotrack-1.7.263.zip`:454file/189PHP corrispondenti al main; commento9d1cd700.
+SHA256:
+`f1c76e1c941aef353af1a41b6b9bdec122160dbc1626ac60cdb68913265d3ecc`.
+Report `report_completo_videotrack_1.7.263_20261119_164020.zip` SHA256:
+`486d5cea5a3b6098cc089dff3b3d89a67002115a31965e7ddc54476df3b2fb07`.
+Superati8comandi richiesti: PHPCS/lint190puliti condivisi per codice identico, Unit508/5490
+su50/53, hash prima/dopo Grunt registrati invariati e mappe coerenti coi sorgenti.
+Nessuna ricostruzione autonoma dell’hash aggregato server dichiarata. Due strict10/0/0;
+elementi/righe voto0/0 e34/34. Schema7/151/22/22,9AJAX,8×1034chiavi e48gruppiAMD.
 
-PHPStan/Psalm senza errori configurati; restano31advisory PHPMD revisionati e746/774
-informazioni Psalm. Harness Node storici e avviso Browserslist non dichiarati risolti.
-Accessibilità manuale53STANDBY. Conservare la demo.
+La prima263 aveva32rilievi PHPMD; l’estrazione incrementale nel modulo ha eliminato
+quello nuovo di complessità10. Candidato corretto/main conservano31rilievi revisionati.
+PHPStan/Psalm senza errori configurati; restano746/774informazioni e avvisi esistenti
+autoloader/tool. Nessuna prova Microsoft reale. Manuale53STANDBY; conservare demo e debito
+degli harness Node storici senza dichiararlo risolto.
 
-## Perimetro263 e limiti dell’evidenza
+## Candidata264 corrente
 
-Il modulo admin aggiunge l’azione pagina provider personale, con ID video obbligatorio,
-POST/sesskey e permesso sito. Semantiche metadati/CLI sistema conservate. Graph condivide
-lo stesso trasporto metadati limitato; una selezione aggiuntiva restituisce webUrl solo
-con metadati video validi. L’oggetto esito separa URL privato validato e diagnostica/JSON
-consentiti. Link esterno esplicito in nuova scheda con noopener/noreferrer/no-referrer:
-nessun redirect automatico, iframe, fetch media, concessione, persistenza o credito visione.
+L’amministratore può collegare esplicitamente il proprio account Microsoft core dalla
+diagnostica esistente. Pulsante subordinato a configurazione locale e protetto da
+POST/sesskey. Core gestisce URL, consenso, callback e credenziali. Un nonce monouso di
+sessione valido dieci minuti lega risposta a utente/issuer. Configurazione/endpoint
+ricontrollati; i parametri critici login non sono sovrascrivibili. Nessun avvio automatico
+sul normale GET o ripiego su sistema. Avvisi ridotti e redirect locale pulito escludono
+testo provider e dati di risposta OAuth dalla diagnostica resa.
 
-Conservati488metodi unitari/63scenari; scritti20metodi/3scenari. Il primo run nativo263
-è documentato sotto; candidata corretta e tenant/browser reali restano da verificare. Controlli locali lessicali/stile, lettura API,
-contratti URI e confronti patch non sono esecuzione PHP/Moodle. Servono6job candidato,
-6main, ZIP reale/report server e due strict. L’identità Microsoft del browser può
-differire dal delegato verificato. Autenticazione/incorporamento/telemetria nativi restano
-gate futuri: vedere la guida pagina provider. Nessuna modifica a schema, servizi, AMD,
-policy sorgenti, demo o stato del manuale53.
+Scritti22metodi nativi/1scenario; tutti508metodi/66scenari precedenti sono identici.
+L’evidenza iniziale264 è riportata sotto; prove native corrette e ritorno completo
+con browser Microsoft reale restano da svolgere.
+Controlli locali lessicali/stile/API/sorgenti/patch non sono esecuzione PHP/Moodle.
+Conteggi attesi:483file repository/459distribuiti,191PHPdistribuiti,1376funzioni PHP
+(1369distribuite+7helperCI),654elementiAMD,530metodi unitari,67scenari espansi,8×1040chiavi.
+Sorgenti core50/53 di API/client, oauthlib, callback e pulsante POST verificati ai commit
+fissati nella [guida al collegamento](35_MICROSOFT_USER_CONNECTION.md).
+
+Nessuna modifica a schema, upgrade, AJAX, AMD, policy sorgenti, servizi metadati/link,
+CLI sistema o demo. Player Microsoft tracciato, endpoint autenticazione studente e
+risoluzione automatica all’avvio restano gate futuri. Prima dell’accettazione servono
+6job candidato,6main, ZIP reale/server e due strict.
 
 
-## CI iniziale263 e correzione della complessità del modulo
+## CI iniziale264 e correzione incrementale
 
-Candidato8dac0008329656bec692a9da6c7cc55276670d95, albero
-cc8a7de0046ad325414c78f3cee951b3fab456a5:6job superati nel
-[run44536546111](https://github.com/pierpaolo17/videotrack/actions/runs/44536546111).
-Tutti6i digest degli artifact caricati coincidono con GitHub;478blob/modi repository
-corrispondono al candidato. Ogni job supera Unit508/5490, Behat66/1318 senza rerun,
-strict10/0/0 e Grunt. Canonici189PHPdistribuiti+1helper, PHPDoc/metadati/savepoint206
-superati. Le3genealogie lifecycle passano su50/53MariaDB:6hash di snapshot ricostruiti
-e126prove effettive dei contenuti condivisi. PHPStan/Psalm senza errori configurati;
-restano746/774informazioni Psalm e gli avvisi esistenti dell’autoloader core.
+Candidatoe07044204677edd6aba4d79714aa6f6ed41fd810, albero
+9916212a915080c6c471ab3dd38ea70d107fa4ba, eseguito nel
+[run44564025744](https://github.com/pierpaolo17/videotrack/actions/runs/44564025744).
+Coincidono6digest ufficiali e483blob/modi repository. Ogni job supera Unit530/5611,
+Behat67/1327 senza rerun, strict10/0/0 e Grunt. Cinque job superati;50MariaDB fallisce
+solo Moodle Code Checker:4errori di spaziatura boilerplate nel servizio personale e
+nel relativo test. Lint191+1helper, PHPDoc/metadati/savepoint206 superati. Lifecycle50
+saltato dopo il fallimento;53 supera3genealogie con3hash ricostruiti e63prove effettive
+dei contenuti file. I test funzionali non costituiscono un pass del lifecycle50.
 
-PHPMD segnala però32rilievi: gli stessi31accettati nella262 e la complessità ciclomatica10
-di microsoft_probe_form::validation(). La correzione incrementale estrae soltanto i
-requisiti dei campi pagina provider in provider_link_errors(). Conserva messaggi,
-precedenza, default,508test/66scenari e codice versione2026111900. Gli inventari
-funzioni elencano1338elementi PHP (1331distribuiti e7helperCI); restano478file repository/
-454distribuiti. Nessuna modifica a soglie, esclusioni, baseline CI, schema, AJAX, AMD
-o dati demo. Controlli sorgenti/patch sono evidenza locale. CI della candidata corretta,
-CI main e gate ZIP reale/server/strict del manutentore restano da svolgere. Il primo
-run verde non vale come approvazione al merge. Microsoft reale non eseguito; manuale53
-sempre in standby.
+PHPMD ha32rilievi: i31della baseline263 più BooleanArgumentFlag sul parametro denied
+di complete. La correzione ripristina il boilerplate accettato e lascia a complete
+il solo parametro nonce. Il gestore legge l’indicazione di errore del callback dopo
+permesso/sesskey/verifica e consumo monouso, prima di OAuth. Il controller non legge
+né passa più il flag. Il test di rifiuto esistente fornisce ora l’errore nella richiesta
+e verifica anche il replay. Nessun metodo/scenario rimosso: restano530metodi/67scenari
+e1376funzioni PHP. I508metodi della baseline263 sono identici nei byte. Versione
+2026111901, schema, dati, AMD e regole CI invariati.
+
+PHPStan/Psalm senza errori configurati, con750/778informazioni Psalm:4in più della263.
+I tipi non sono stampati, quindi non si attribuisce né dichiara risolto quel delta.
+Servono ancora CI nativa della candidata corretta, CI main, pacchetto/server e due
+strict. Confronti locali intestazioni/sorgenti/patch non sono pass PHPCS/PHPMD nativi.
+Microsoft reale non eseguito; conservare demo e manuale53standby.

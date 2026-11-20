@@ -28,6 +28,31 @@ require_once($CFG->libdir . '/adminlib.php');
 admin_externalpage_setup('mod_videotrack_providercheck');
 require_capability('moodle/site:config', context_system::instance());
 $PAGE->set_cacheable(false);
+header('Referrer-Policy: no-referrer');
+
+$connectpersonal = optional_param('connectpersonal', false, PARAM_BOOL);
+$oauthreturn = optional_param('oauthreturn', false, PARAM_BOOL);
+if ($connectpersonal || $oauthreturn) {
+    $connection = new \mod_videotrack\local\microsoft_user_connection();
+    if ($connectpersonal) {
+        $loginurl = $connection->begin();
+        if ($loginurl !== null) {
+            redirect($loginurl);
+        }
+        $connectionstatus = $connection->status();
+    } else {
+        $connectionstatus = $connection->complete(optional_param('connectnonce', '', PARAM_ALPHANUMEXT));
+    }
+    $connected = in_array($connectionstatus, ['connected', 'already_connected'], true);
+    $messagekey = match ($connectionstatus) {
+        'connected', 'already_connected' => 'providercheck:connected',
+        'connection_expired' => 'providercheck:connectexpired',
+        'connection_cancelled' => 'providercheck:connectcancelled',
+        default => 'providercheck:connectfailed',
+    };
+    \core\notification::add(get_string($messagekey, 'mod_videotrack'), $connected ? 'success' : 'warning');
+    redirect(new moodle_url('/mod/videotrack/provider_check.php'));
+}
 
 $configuration = \mod_videotrack\local\provider_connection::configuration_status('microsoft');
 $userconfiguration = \mod_videotrack\local\provider_connection::user_configuration_status('microsoft');
@@ -70,6 +95,14 @@ echo $OUTPUT->heading(get_string('providercheck:systemaccount', 'mod_videotrack'
 echo html_writer::tag('pre', s(json_encode($configuration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
 echo $OUTPUT->heading(get_string('providercheck:currentuser', 'mod_videotrack'), 4);
 echo html_writer::tag('pre', s(json_encode($userconfiguration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
+echo $OUTPUT->notification(get_string('providercheck:connectnotice', 'mod_videotrack'), 'info');
+if ($userconfiguration['status'] === 'configuration_complete') {
+    echo $OUTPUT->single_button(
+        new moodle_url('/mod/videotrack/provider_check.php', ['connectpersonal' => 1]),
+        get_string('providercheck:connect', 'mod_videotrack'),
+        'post'
+    );
+}
 $form->display();
 if ($result !== null) {
     echo $OUTPUT->heading(get_string('providercheck:result', 'mod_videotrack'), 3);

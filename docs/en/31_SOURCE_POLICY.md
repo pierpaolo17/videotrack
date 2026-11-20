@@ -1,6 +1,6 @@
 # Site video sources and optional integrations
 
-VideoTrack **1.7.263** (`2026111900`).
+VideoTrack **1.7.264** (`2026111901`).
 
 ## Configure implemented sources
 
