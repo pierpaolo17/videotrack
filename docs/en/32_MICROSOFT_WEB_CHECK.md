@@ -12,7 +12,7 @@ Release 1.7.262 adds an explicit account selector: the existing system account
 or the administrator’s own connected Microsoft account. Missing personal access
 never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.264** (`2026111901`).
+VideoTrack **1.7.265** (`2026112000`).
 
 ## Open and configure
 

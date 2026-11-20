@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.264. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.265. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi cinque file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **392** — 387 file distribuiti e cinque solo repository. L'albero completo ha
-483 file repository / 459 distribuiti, includendo tutta la documentazione.
+Voci: **394** — 389 file distribuiti e cinque solo repository. L'albero completo ha
+485 file repository / 461 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -273,6 +273,7 @@ Voci: **392** — 387 file distribuiti e cinque solo repository. L'albero comple
 | `docs/en/33_MICROSOFT_USER_ACCESS.md` | Guida inglese alla diagnostica Microsoft personale e ai confini di autorizzazione. |
 | `docs/en/34_MICROSOFT_PROVIDER_PAGE.md` | Guida inglese all’apertura pagina Microsoft e ai confini del futuro incorporamento. |
 | `docs/en/35_MICROSOFT_USER_CONNECTION.md` | Guida inglese a collegamento Microsoft personale, confini sessione e verifiche. |
+| `docs/en/36_CI_BEHAT_EVIDENCE.md` | Guida inglese a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -280,6 +281,7 @@ Voci: **392** — 387 file distribuiti e cinque solo repository. L'albero comple
 | `docs/it/33_MICROSOFT_USER_ACCESS.md` | Guida italiana alla diagnostica Microsoft personale e ai confini di autorizzazione. |
 | `docs/it/34_MICROSOFT_PROVIDER_PAGE.md` | Guida italiana all’apertura pagina Microsoft e ai confini del futuro incorporamento. |
 | `docs/it/35_MICROSOFT_USER_CONNECTION.md` | Guida italiana a collegamento Microsoft personale, confini sessione e verifiche. |
+| `docs/it/36_CI_BEHAT_EVIDENCE.md` | Guida italiana a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |

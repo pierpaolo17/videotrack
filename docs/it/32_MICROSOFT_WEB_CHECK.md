@@ -12,7 +12,7 @@ La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microso
 personale collegato dell’amministratore. L’assenza di accesso personale non attiva
 il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.264** (`2026111901`).
+VideoTrack **1.7.265** (`2026112000`).
 
 ## Apertura e configurazione
 

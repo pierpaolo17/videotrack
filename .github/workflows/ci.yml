@@ -362,6 +362,26 @@ jobs:
           set -o pipefail
           moodle-plugin-ci behat --profile chrome --scss-deprecations 2>&1 | tee ci-reports/behat.txt
 
+      - name: Record Behat completion state
+        if: ${{ !cancelled() && (steps.behat.outcome == 'success' || steps.behat.outcome == 'failure') }}
+        env:
+          BEHAT_STEP_OUTCOME: ${{ steps.behat.outcome }}
+        run: |
+          {
+            printf 'phase=after_moodle_plugin_ci_behat\n'
+            printf 'behat_step_outcome=%s\n' "$BEHAT_STEP_OUTCOME"
+            date -u '+utc=%Y-%m-%dT%H:%M:%SZ'
+            printf 'Servers may already be stopped by moodle-plugin-ci; this is not an in-test health check.\n'
+            printf '\nMemory (MiB)\n'
+            if ! free -m; then
+              printf 'Memory snapshot unavailable.\n'
+            fi
+            printf '\nProcess names and resident memory (KiB); no arguments or environment\n'
+            if ! ps -eo pid,ppid,stat,comm,rss; then
+              printf 'Process snapshot unavailable.\n'
+            fi
+          } > ci-reports/behat-runtime.txt 2>&1
+
       - name: Historical upgrade and populated uninstall
         if: ${{ success() && matrix.lifecycle }}
         run: |
@@ -378,7 +398,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload Behat faildump
-        if: ${{ failure() && steps.behat.outcome == 'failure' }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
           name: "videotrack-behat-faildump-${{ matrix.id }}"

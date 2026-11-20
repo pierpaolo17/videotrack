@@ -1,6 +1,6 @@
 # Connect the administrator's Microsoft account
 
-VideoTrack **1.7.264** (`2026111901`).
+VideoTrack **1.7.265** (`2026112000`).
 
 ## Procedure
 
@@ -71,13 +71,14 @@ exceptions. HTTP clients used for completion are mocked; no provider token excha
 is executed by those tests. One new browser scenario has no configured issuer or
 external request. All508 prior unit methods and66 scenarios remain byte-identical.
 
-Initial264 runtime tests passed530/5611 and67/1327, but PHPCS failed4header errors
-and PHPMD reported a new boolean-argument finding. The incremental correction uses
-a nonce-only completion API with callback error handling after request validation.
-Corrected native candidate/main/server tests and the complete connected Microsoft
-browser round trip remain pending; see the [audit](09_DOCUMENTATION_AUDIT.md). Local source/style/patch checks are not native PHP/
-Moodle passes. Accepted263: Unit508/5490, Behat66/1318, all6candidate/main jobs, actual
-454file ZIP, server and both strict10/0/0. Retain the demo; manual53 stays on standby.
+Accepted264 corrected candidate and main pass all six jobs, Unit530/5612 and
+strict10/0/0. Main5.1 needs one internal scenario rerun; its initial5.2 job loses
+the local HTTP service and a fresh complete job passes67/1327 without internal rerun.
+Actual459file ZIP, server Unit530/5612 on50/53, shared canonical192clean and both
+maintainer strict10/0/0 are accepted. See the [audit](09_DOCUMENTATION_AUDIT.md).
+The full real Microsoft browser round trip is still unexecuted. The265 maintenance
+changes CI evidence only; OAuth code is byte-identical to accepted264. Retain the demo;
+manual53 stays on standby.
 
 Next gates remain real delegated access, stable activity references/launch resolution,
 and supported native-player authentication and time/play/pause/seek telemetry before

@@ -4,7 +4,7 @@ La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECT
 alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
 il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
 
-VideoTrack **1.7.264** (`2026111901`).
+VideoTrack **1.7.265** (`2026112000`).
 
 ## Procedura amministrativa
 
