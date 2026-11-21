@@ -8,7 +8,7 @@ Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION
 to the existing administrator page. It starts core OAuth only after an explicit
 protected POST; ordinary diagnostics GET remains local. Native264/265 are accepted; live tenant testing remains pending.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Administrator procedure
 

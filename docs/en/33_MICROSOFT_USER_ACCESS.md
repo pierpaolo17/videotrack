@@ -12,7 +12,7 @@ Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICR
 It requires the personal account and a video id. The provider page opens separately;
 VideoTrack does not credit viewing in that browser tab.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Choose the identity explicitly
 

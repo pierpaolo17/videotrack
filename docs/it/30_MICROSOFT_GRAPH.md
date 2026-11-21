@@ -4,7 +4,7 @@ La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW
 CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
 e validazione Microsoft reale con browser restano gate distinti.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 Il servizio Graph/OAuth introdotto nella 1.7.259 accettata è conservato. La 1.7.261 aggiunge un modulo amministrativo che riutilizza la stessa diagnostica; la riproduzione Microsoft resta un gate futuro.
 

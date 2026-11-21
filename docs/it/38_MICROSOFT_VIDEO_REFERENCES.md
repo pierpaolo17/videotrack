@@ -1,6 +1,6 @@
 # Riferimenti video Microsoft riutilizzabili
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Ripetere una diagnostica video personale
 
@@ -92,10 +92,9 @@ risposta; VideoTrack non persiste il riferimento in database o sessione.
 
 ## Prove e roadmap
 
-Il pacchetto reale266 è accettato: CI candidato/main a sei job, canonici/lint server
-194PHP, Unit560/6074 su50/53, entrambi Grunt e strict10/0/0 ciascuno. Non dimostra
-esecuzione nativa267 o successo browser Microsoft reale. La267 aggiunge23metodi
-unitari e tre scenari Behat locali; esecuzione nativa ancora da effettuare.
+La267 reale è accettata: CI candidato/main a sei job, canonici/lint server196puliti,
+Unit583/6243 su50/53, entrambi Grunt e due strict10/0/0. I23nuovi metodi e tre scenari
+locali non dimostrano accesso tenant/browser reale.
 Le prove coprono parsing identità, servizio, account personale/form/CSRF, anteprime
 nuove a ogni riuso, accesso negato dopo un successo e dati attività conservati.
 
@@ -111,3 +110,5 @@ manuale5.3 **STANDBY**.
 - [Indirizzamento driveItem per ID in Microsoft Graph](https://learn.microsoft.com/en-us/graph/onedrive-addressing-driveitems)
 - [Anteprima temporanea Graphv1 e identità del richiedente](https://learn.microsoft.com/en-us/graph/api/driveitem-preview?view=graph-rest-1.0)
 - [Riuso OAuth core e diagnostica personale](33_MICROSOFT_USER_ACCESS.md)
+
+La [ricerca personale268](39_MICROSOFT_VIDEO_SEARCH.md) aiuta a trovare identità senza copiare gli ID elemento.

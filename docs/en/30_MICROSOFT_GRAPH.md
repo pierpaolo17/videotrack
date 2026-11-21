@@ -4,7 +4,7 @@ Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) 
 The metadata CLI and original-page action retain their own contracts; tracked learner playback
 and live Microsoft browser validation remain separate gates.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 The Graph/OAuth implementation introduced in accepted 1.7.259 is retained.
 Release 1.7.261 adds an [administrator web form](32_MICROSOFT_WEB_CHECK.md)

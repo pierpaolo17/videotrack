@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.267** (`2026112100`),
+This is the authoritative English documentation for VideoTrack **1.7.268** (`2026112101`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -78,3 +78,5 @@ trees and the root README pair agree with the current code.
 38. [`37_MICROSOFT_PRIVATE_PREVIEW.md`](37_MICROSOFT_PRIVATE_PREVIEW.md) — caller-only native Microsoft preview, request boundaries and remaining telemetry gates.
 
 39. [`38_MICROSOFT_VIDEO_REFERENCES.md`](38_MICROSOFT_VIDEO_REFERENCES.md) — reusable identity and fresh personal video diagnostics.
+
+40. [`39_MICROSOFT_VIDEO_SEARCH.md`](39_MICROSOFT_VIDEO_SEARCH.md) — personal video search and bounded private results.

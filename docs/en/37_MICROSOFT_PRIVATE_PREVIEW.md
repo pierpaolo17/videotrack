@@ -1,6 +1,6 @@
 # Private Microsoft diagnostic preview
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Purpose and access
 

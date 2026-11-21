@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.267** (`2026112100`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.268** (`2026112101`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -78,3 +78,5 @@ finché entrambi gli alberi e le README principali non concordano con il codice 
 38. [`37_MICROSOFT_PRIVATE_PREVIEW.md`](37_MICROSOFT_PRIVATE_PREVIEW.md) — anteprima Microsoft privata del richiedente, richieste e gate telemetria rimanenti.
 
 39. [`38_MICROSOFT_VIDEO_REFERENCES.md`](38_MICROSOFT_VIDEO_REFERENCES.md) — identità riutilizzabile e nuova diagnostica video personale.
+
+40. [`39_MICROSOFT_VIDEO_SEARCH.md`](39_MICROSOFT_VIDEO_SEARCH.md) — ricerca video personale e risultati privati circoscritti.

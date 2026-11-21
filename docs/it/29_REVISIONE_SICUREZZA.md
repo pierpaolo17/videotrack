@@ -1,6 +1,6 @@
 # Completamento delle correzioni di sicurezza
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Baseline 1.7.258 accettata
 

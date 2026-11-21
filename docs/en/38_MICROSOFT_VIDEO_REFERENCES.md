@@ -1,6 +1,6 @@
 # Reusable Microsoft video references
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Repeat a personal video diagnostic
 
@@ -88,10 +88,9 @@ VideoTrack adds no database/session persistence of the reference.
 
 ## Evidence and roadmap
 
-The actual266 package is accepted: main/candidate six-job CI, server canonical/lint
-194PHP, Unit560/6074 on50/53, both Grunt builds and both strict10/0/0. That does not
-establish native267 or live Microsoft browser success. New267 contains23unit
-methods and three local-only Behat scenarios; native execution remains pending.
+Actual267 is accepted: candidate/main six-job CI, server canonical/lint196clean,
+Unit583/6243 on50/53, both Grunt builds and both strict10/0/0. Its23new unit methods
+and three local-only browser scenarios do not establish live tenant/browser access.
 Tests cover identity parsing, service binding, personal-account/form/CSRF boundaries,
 fresh repeated previews, denied access after success and preserved activity data.
 
@@ -107,3 +106,5 @@ demo dataset and manual5.3 accessibility **STANDBY**.
 - [Microsoft Graph id-based driveItem addressing](https://learn.microsoft.com/en-us/graph/onedrive-addressing-driveitems)
 - [Graph v1.0 temporary preview and caller-identity boundary](https://learn.microsoft.com/en-us/graph/api/driveitem-preview?view=graph-rest-1.0)
 - [Core OAuth reuse and current-user diagnostic](33_MICROSOFT_USER_ACCESS.md)
+
+The268 [personal search](39_MICROSOFT_VIDEO_SEARCH.md) can help find an identity without copying item ids.

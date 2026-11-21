@@ -1,6 +1,6 @@
 # Preserve and interpret Behat evidence
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Why this maintenance release exists
 

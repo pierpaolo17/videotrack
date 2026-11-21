@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.267. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.268. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi cinque file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero completo ha
-495 file repository / 471 distribuiti, includendo tutta la documentazione.
+Voci: **412** — 407 file distribuiti e cinque solo repository. L'albero completo ha
+503 file repository / 479 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -195,6 +195,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `classes/external/start_playback.php` | Servizio AJAX che apre una finestra server idempotente a credito zero. |
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
 | `classes/form/microsoft_probe_form.php` | Modulo POST con validazione degli ID opachi prima di OAuth o Graph. |
+| `classes/form/microsoft_search_form.php` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
 | `classes/local/acknowledgement_analytics.php` | Calcolo aggregato delle prese visione con soglia privacy e dati legacy. |
 | `classes/local/analytics.php` | API Analytics stabile, riepiloghi protetti dalla privacy e cluster delle reazioni. |
@@ -223,8 +224,10 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
 | `classes/local/microsoft_graph.php` | GET metadati e POST anteprima privato verso host fisso, con diagnostica drive/video redatta. |
 | `classes/local/microsoft_graph_probe.php` | Controlli locali ed endpoint Microsoft prima del client OAuth core di sistema. |
+| `classes/local/microsoft_graph_search.php` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `classes/local/microsoft_link_result.php` | Separa URL privati della pagina provider e diagnostica serializzabile; impone limiti destinazione/query. |
 | `classes/local/microsoft_preview_result.php` | Parser anteprima circoscritto, URL temporaneo privato e diagnostica allowlist. |
+| `classes/local/microsoft_search_result.php` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `classes/local/microsoft_user_connection.php` | Collegamento OAuth core personale esplicito con POST/sesskey e ritorno monouso. |
 | `classes/local/microsoft_user_probe.php` | Diagnostica amministrativa con utente OAuth core corrente, senza ripiego sistema. |
 | `classes/local/microsoft_video_reference.php` | Identità versionata issuer locale/drive/video, parser circoscritto ed export amministrativo esplicito. |
@@ -278,6 +281,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `docs/en/36_CI_BEHAT_EVIDENCE.md` | Guida inglese a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | Guida inglese ad anteprima diagnostica Microsoft privata, identità e procedura di prova reale. |
 | `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
+| `docs/en/39_MICROSOFT_VIDEO_SEARCH.md` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -288,6 +292,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `docs/it/36_CI_BEHAT_EVIDENCE.md` | Guida italiana a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Guida italiana ad anteprima diagnostica Microsoft privata, identità e procedura di prova reale. |
 | `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
+| `docs/it/39_MICROSOFT_VIDEO_SEARCH.md` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -309,6 +314,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `pix/icon.svg` | Controparte trasparente autosufficiente del PNG scelto, usata dai formati corso Moodle e dai contenitori attività Boost. |
 | `presets.php` | Interfaccia docente/amministratore per preset riutilizzabili delle reazioni. |
 | `provider_check.php` | Pagina amministrativa di stato locale e verifica esplicita protetta dei metadati Microsoft. |
+| `provider_search.php` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `psalm.xml` | Perimetro Psalm Moodle-aware sul codice di produzione e livello iniziale. |
 | `report.php` | Report docente di istanza e pagina Analytics esatta per viewer autorizzati, con export CSV/Excel/ODS. |
 | `reports_course.php` | Dashboard docente delle attività VideoTrack del corso. |
@@ -343,6 +349,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `tests/behat/microsoft_preview.feature` | Contratti browser deterministici GET locale, validazione personale e configurazione assente. |
 | `tests/behat/microsoft_provider_check.feature` | Tre scenari amministrativi deterministici senza connessione Microsoft. |
 | `tests/behat/microsoft_provider_page.feature` | Tre scenari deterministici del modulo pagina provider personale senza rete reale. |
+| `tests/behat/microsoft_search.feature` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `tests/behat/microsoft_user_connection.feature` | Uno scenario browser di configurazione locale senza autenticazione esterna. |
 | `tests/behat/microsoft_video_reference.feature` | Browser locale: default riferimento e rifiuto URL, servizio diverso e account condiviso. |
 | `tests/behat/random_attention_policy.feature` | Configurazione effettiva e contratti di pausa automatica/ripresa HTML5/YouTube/Vimeo con un minuto reale. |
@@ -376,6 +383,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `tests/microsoft_graph_test.php` | Diciannove regressioni native simulate per i confini dei metadati autenticati. |
 | `tests/microsoft_preview_test.php` | Regressioni native anteprima: URL, trasporto, account personale, conservazione e richieste. |
 | `tests/microsoft_probe_form_test.php` | Regressioni native per modulo, sessione, metodo HTTP e accesso amministrativo. |
+| `tests/microsoft_search_test.php` | Ricerca Microsoft personale circoscritta e relativo contratto metadati/sicurezza. |
 | `tests/microsoft_user_connection_test.php` | Regressioni native connessione/URL core/stato/permessi senza scambio provider reale. |
 | `tests/microsoft_user_probe_test.php` | Regressioni native per configurazione, accesso, login, fallback e modulo senza rete reale. |
 | `tests/microsoft_video_link_test.php` | Regressioni native URL/Graph/personali/modulo/controller senza rete provider. |

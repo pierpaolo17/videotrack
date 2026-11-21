@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.268. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1467 (1460 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1519 (1512 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -842,6 +842,8 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Contratto identità Microsoft riutilizzabile `reference_errors`; vedere DocBlock e regressioni native. |
 | `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Contratto identità Microsoft riutilizzabile `resolve_target`; vedere DocBlock e regressioni native. |
 | `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
+| `classes/form/microsoft_search_form.php:39` | `definition` | Contratto ricerca Microsoft personale `definition`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_search_form.php:55` | `validation` | Contratto ricerca Microsoft personale `validation`; vedere DocBlock e regressioni native. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1048,6 +1050,11 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `classes/local/microsoft_graph.php:295` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Funzione diagnostica provider `run`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph_search.php:37` | `__construct` | Contratto ricerca Microsoft personale `__construct`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_graph_search.php:48` | `resource_url` | Contratto ricerca Microsoft personale `resource_url`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_graph_search.php:64` | `valid_query` | Contratto ricerca Microsoft personale `valid_query`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_graph_search.php:79` | `search` | Contratto ricerca Microsoft personale `search`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_graph_search.php:113` | `http_status` | Contratto ricerca Microsoft personale `http_status`; vedere DocBlock e regressioni native. |
 | `classes/local/microsoft_link_result.php:42` | `__construct` | Gestisce il contratto della pagina Microsoft: __construct. |
 | `classes/local/microsoft_link_result.php:66` | `diagnostic` | Gestisce il contratto della pagina Microsoft: diagnostic. |
 | `classes/local/microsoft_link_result.php:75` | `url` | Gestisce il contratto della pagina Microsoft: url. |
@@ -1063,6 +1070,16 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `classes/local/microsoft_preview_result.php:128` | `is_supported_url` | Funzione PHP `is_supported_url` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
 | `classes/local/microsoft_preview_result.php:149` | `is_supported_origin` | Funzione PHP `is_supported_origin` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
 | `classes/local/microsoft_preview_result.php:171` | `has_embedded_authorisation` | Contratto anteprima privata `has_embedded_authorisation`; vedere documentazione sorgente e test nativi. |
+| `classes/local/microsoft_search_result.php:39` | `__construct` | Contratto ricerca Microsoft personale `__construct`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:53` | `diagnostic` | Contratto ricerca Microsoft personale `diagnostic`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:62` | `items` | Contratto ricerca Microsoft personale `items`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:71` | `jsonSerialize` | Contratto ricerca Microsoft personale `jsonSerialize`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:84` | `from_response` | Contratto ricerca Microsoft personale `from_response`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:109` | `video_rows` | Contratto ricerca Microsoft personale `video_rows`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:130` | `local_video` | Contratto ricerca Microsoft personale `local_video`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:142` | `video_row` | Contratto ricerca Microsoft personale `video_row`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:166` | `valid_name` | Contratto ricerca Microsoft personale `valid_name`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_search_result.php:177` | `video_fields` | Contratto ricerca Microsoft personale `video_fields`; vedere DocBlock e regressioni native. |
 | `classes/local/microsoft_user_connection.php:48` | `__construct` | Gestisce il collegamento OAuth personale: __construct. |
 | `classes/local/microsoft_user_connection.php:59` | `begin` | Gestisce il collegamento OAuth personale: begin. |
 | `classes/local/microsoft_user_connection.php:106` | `complete` | Gestisce il collegamento OAuth personale: complete. |
@@ -1077,8 +1094,11 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `classes/local/microsoft_user_probe.php:72` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
 | `classes/local/microsoft_user_probe.php:84` | `video_preview` | Funzione PHP `video_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
 | `classes/local/microsoft_user_probe.php:97` | `execute` | Gestisce il contratto della pagina Microsoft: execute. |
-| `classes/local/microsoft_user_probe.php:147` | `inspect_resource` | Funzione PHP `inspect_resource` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
-| `classes/local/microsoft_user_probe.php:164` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
+| `classes/local/microsoft_user_probe.php:124` | `search_videos` | Contratto ricerca Microsoft personale `search_videos`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_user_probe.php:145` | `initial_result` | Contratto ricerca Microsoft personale `initial_result`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_user_probe.php:163` | `prepare_client` | Contratto ricerca Microsoft personale `prepare_client`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_user_probe.php:198` | `inspect_resource` | Funzione PHP `inspect_resource` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_user_probe.php:215` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
 | `classes/local/microsoft_video_reference.php:40` | `__construct` | Contratto identità Microsoft riutilizzabile `__construct`; vedere DocBlock e regressioni native. |
 | `classes/local/microsoft_video_reference.php:60` | `from_json` | Contratto identità Microsoft riutilizzabile `from_json`; vedere DocBlock e regressioni native. |
 | `classes/local/microsoft_video_reference.php:81` | `valid_payload` | Contratto identità Microsoft riutilizzabile `valid_payload`; vedere DocBlock e regressioni native. |
@@ -1255,13 +1275,13 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `classes/privacy/exporter.php:264` | `export_acknowledgements` | Esporta lo storico delle prese visione. |
 | `classes/privacy/provider.php:44` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Dichiara i metadati dei servizi esterni YouTube e Vimeo dopo le tabelle database del plugin. |
-| `classes/privacy/provider.php:170` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:207` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:240` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:254` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:267` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:279` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:292` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:171` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:208` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:241` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:255` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:268` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:280` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:293` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:38` | `get_name` | Callable PHP `get_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:45` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Funzione/metodo PHP nominato `xmldb_videotrack_install`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1769,6 +1789,38 @@ Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzio
 | `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Regressione nativa della verifica Microsoft: test_invalid_post_returns_no_probe_data. |
 | `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | Regressione nativa della verifica Microsoft: test_admin_node_requires_site_configuration. |
 | `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Regressione nativa della verifica Microsoft: test_controller_checks_precede_probe. |
+| `tests/microsoft_search_test.php:50` | `setUp` | Contratto ricerca Microsoft personale `setUp`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:64` | `tearDown` | Contratto ricerca Microsoft personale `tearDown`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:74` | `test_query_url_is_fixed_and_odata_escaped` | Contratto ricerca Microsoft personale `test_query_url_is_fixed_and_odata_escaped`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:86` | `test_invalid_queries_are_rejected` | Contratto ricerca Microsoft personale `test_invalid_queries_are_rejected`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:102` | `test_invalid_drive_cannot_control_endpoint` | Contratto ricerca Microsoft personale `test_invalid_drive_cannot_control_endpoint`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:110` | `test_private_candidates_do_not_enter_json` | Contratto ricerca Microsoft personale `test_private_candidates_do_not_enter_json`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:124` | `test_nonlocal_or_nonvideo_entries_are_skipped` | Contratto ricerca Microsoft personale `test_nonlocal_or_nonvideo_entries_are_skipped`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:136` | `test_invalid_video_fields_are_skipped` | Contratto ricerca Microsoft personale `test_invalid_video_fields_are_skipped`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:149` | `test_duplicate_ids_are_deduplicated` | Contratto ricerca Microsoft personale `test_duplicate_ids_are_deduplicated`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:159` | `test_empty_collection_is_a_successful_page` | Contratto ricerca Microsoft personale `test_empty_collection_is_a_successful_page`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:169` | `test_continuation_url_is_not_returned_or_followed` | Contratto ricerca Microsoft personale `test_continuation_url_is_not_returned_or_followed`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:179` | `test_provider_cannot_exceed_requested_page_bound` | Contratto ricerca Microsoft personale `test_provider_cannot_exceed_requested_page_bound`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:189` | `test_search_uses_one_bounded_get_without_post` | Contratto ricerca Microsoft personale `test_search_uses_one_bounded_get_without_post`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:198` | `test_http_failures_are_redacted_without_retry` | Contratto ricerca Microsoft personale `test_http_failures_are_redacted_without_retry`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:212` | `test_transport_errno_is_a_reduced_failure` | Contratto ricerca Microsoft personale `test_transport_errno_is_a_reduced_failure`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:222` | `test_transport_exception_is_redacted` | Contratto ricerca Microsoft personale `test_transport_exception_is_redacted`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:232` | `test_invalid_provider_bodies_are_reduced` | Contratto ricerca Microsoft personale `test_invalid_provider_bodies_are_reduced`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:245` | `test_personal_search_preserves_activity_data` | Contratto ricerca Microsoft personale `test_personal_search_preserves_activity_data`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:269` | `test_invalid_target_stops_before_oauth` | Contratto ricerca Microsoft personale `test_invalid_target_stops_before_oauth`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:278` | `test_missing_configuration_stops_before_factory` | Contratto ricerca Microsoft personale `test_missing_configuration_stops_before_factory`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:287` | `test_disconnected_user_has_no_shared_fallback` | Contratto ricerca Microsoft personale `test_disconnected_user_has_no_shared_fallback`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:307` | `test_teacher_cannot_search_before_factory` | Contratto ricerca Microsoft personale `test_teacher_cannot_search_before_factory`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:319` | `test_form_validates_local_target_fields` | Contratto ricerca Microsoft personale `test_form_validates_local_target_fields`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:331` | `test_get_cannot_submit_search` | Contratto ricerca Microsoft personale `test_get_cannot_submit_search`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:341` | `test_search_form_rejects_invalid_sesskey` | Contratto ricerca Microsoft personale `test_search_form_rejects_invalid_sesskey`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:352` | `test_controller_keeps_private_output_and_guard_order` | Contratto ricerca Microsoft personale `test_controller_keeps_private_output_and_guard_order`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:368` | `test_privacy_declares_search_text_transfer` | Contratto ricerca Microsoft personale `test_privacy_declares_search_text_transfer`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:384` | `row` | Contratto ricerca Microsoft personale `row`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:397` | `body` | Contratto ricerca Microsoft personale `body`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:406` | `guarded_probe` | Contratto ricerca Microsoft personale `guarded_probe`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:417` | `create_issuer` | Contratto ricerca Microsoft personale `create_issuer`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_search_test.php:442` | `client` | Contratto ricerca Microsoft personale `client`; vedere DocBlock e regressioni native. |
 | `tests/microsoft_user_connection_test.php:50` | `setUp` | Verifica nativa del collegamento personale: setUp. |
 | `tests/microsoft_user_connection_test.php:71` | `tearDown` | Verifica nativa del collegamento personale: tearDown. |
 | `tests/microsoft_user_connection_test.php:89` | `test_default_factory_uses_core_login_and_a_private_request_marker` | Verifica nativa del collegamento personale: test_default_factory_uses_core_login_and_a_private_request_marker. |

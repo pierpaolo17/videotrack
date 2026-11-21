@@ -4,7 +4,7 @@ La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW
 CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
 e validazione Microsoft reale con browser restano gate distinti.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Configurare le sorgenti implementate
 
@@ -64,8 +64,8 @@ La candidata aggiunge 15 metodi PHPUnit e quattro scenari Behat: valori predefin
 interruttori indipendenti, configurazione alterata, opzioni filtrate, sorgenti
 disabilitate in modifica, tutte le sorgenti disabilitate, callback diretti respinti,
 cambio esplicito di sorgente, richieste da schede precedenti, conservazione di file
-e stati e cancellazioni personali. La policy sorgenti fino alla266 è accettata, inclusi sei job main, pacchetto/server
-reale e due strict. I nuovi riferimenti267 sono ancora da validare; i confronti locali
+e stati e cancellazioni personali. La policy sorgenti fino alla267 è accettata, inclusi sei job main, pacchetto/server
+reale e due strict. La nuova ricerca268 è ancora da validare; i confronti locali
 sorgenti/patch non sono esecuzione PHP nativa.
 
 ## Repository Zoom opzionale: valutazione architetturale

@@ -1,5 +1,37 @@
 # VideoTrack changelog
 
+## 1.7.268 - 2026-11-21
+
+### Find personal Microsoft video references through bounded metadata search
+
+- Add an administrator-only search page linked from Microsoft connection check.
+  Require explicit drive/query, POST/sesskey and the current user's connected work/
+  school account. Normal GET remains local; no shared-account fallback.
+- Reuse core OAuth, configuration and supported endpoint checks through one shared
+  current-user preparation helper. Preserve existing metadata/page/preview methods,
+  return contracts, guarded target ordering and fixed core callback.
+- Send one fixed-host Graphv1 metadata GET with encoded OData text and top20entries.
+  Validate same-drive video candidates, names/facets and duplicates; expose provisional
+  references separately from redacted JSON. Do not follow continuation/telemetry URLs;
+  show more-results notice. Retain TLS/timeout/no-redirect/no-retry and1MiB/depth16parser.
+- Add25native unit methods and3local Behat scenarios. Extend one existing exact Privacy
+  field assertion to include searchquery, retaining all previous fields; other582old
+  methods and73old scenarios remain. Translate8new strings in all8packs and declare
+  the query transfer in Privacy metadata/summaries. No media import, File API cache,
+  proxy, activity/schema/AJAX/AMD changes, stored search state or learner tracking.
+- Accept actual267 from main418475d3/tree87b084b6:495repository blobs/modes and471
+  distribution files match. Candidate44908095172/main44910680696 each pass6jobs,
+  Unit583/6243,Behat73/1390 without retries,strict10/0/0 and Grunt. Both lifecycle
+  matrices pass with6independently reconstructed snapshots and126actual shared-file
+  content checks per run. PHPMD31baseline and Psalm751/779unclassified info retained.
+- Actual267 server passes8outcomes: shared canonical/lint196clean, Unit583/6243
+  separately on50/53 and both Grunt builds with recorded hashes unchanged. Both
+  maintainer strict10/0/0. Keep demo and manual53accessibility STANDBY.
+- Inventories:503repository/479distributed files,200distributedPHP,1519PHPcallables
+  (1512distributed+7helper),654AMDcallables,608unit methods,76expanded scenarios,
+  8×1066language keys and48unchanged AMD sets. Native268 and live tenant search/
+  browser preview remain pending; source/patch verification is not native execution.
+
 ## 1.7.267 - 2026-11-21
 
 ### Reuse Microsoft video identities without retaining temporary URLs

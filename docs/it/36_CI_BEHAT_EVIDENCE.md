@@ -1,6 +1,6 @@
 # Conservare e interpretare le prove Behat
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.268** (`2026112101`).
 
 ## Motivo di questa release di manutenzione
 
