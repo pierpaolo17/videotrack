@@ -1,5 +1,9 @@
 # Verifica Microsoft dall’amministrazione del sito
 
+La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
+CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
+e validazione Microsoft reale con browser restano gate distinti.
+
 La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
 alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
 il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
@@ -12,7 +16,7 @@ La 1.7.262 aggiunge la scelta esplicita tra account di sistema e account Microso
 personale collegato dell’amministratore. L’assenza di accesso personale non attiva
 il ripiego sull’account condiviso. [Configurazione e limiti](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Apertura e configurazione
 
@@ -71,7 +75,7 @@ collegamento supportato al player per tempo/play/pausa/seek devono ancora essere
 implementati e validati prima di accreditare visione. Zoom e Google restano tappe
 successive; il repository Zoom opzionale è ancora una valutazione architetturale.
 
-La fondazione diagnostica fino alla262 è accettata (candidato/main a6job, Unit server
-488/5267 e due strict10/0/0). L’esecuzione nativa263 è da svolgere: vedere l’[audit
-documentale](09_DOCUMENTATION_AUDIT.md). Nessun tenant collegato o telemetria del player
-ufficiale dichiarati. Conservare la demo; accessibilità manuale53 in standby.
+La fondazione diagnostica fino alla265 è accettata: sei job main, Unit530/5612,
+Behat67/1327, pacchetto/server reale e due strict10/0/0. La266 e le prove tenant
+reale restano da validare: vedere l’[audit](09_DOCUMENTATION_AUDIT.md). Conservare
+la demo; accessibilità manuale53 in standby.

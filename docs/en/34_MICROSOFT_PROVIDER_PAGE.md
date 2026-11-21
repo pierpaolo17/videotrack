@@ -1,10 +1,14 @@
 # Open the original Microsoft video page
 
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
 Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
 to the existing administrator page. It starts core OAuth only after an explicit
-protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+protected POST; ordinary diagnostics GET remains local. Native264/265 are accepted; live tenant testing remains pending.
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Administrator procedure
 
@@ -75,16 +79,16 @@ The nine AJAX contracts, database schema and AMD sources/builds/maps are untouch
 Microsoft announced preview URL authentication changes beginning1April2027; an iframe
 must not assume a returned URL remains anonymously redeemable. That future integration
 needs audience-correct authentication and supported time/play/pause/seek telemetry.
-This release only opens the original page and does not call preview/content APIs.
+This original-page action only opens the resource page; the266 private preview
+action is separate and still requires live authentication validation.
 
 Twenty new native unit methods cover URI boundaries, serialization/redaction, one
 bounded metadata GET, video validation, failures, personal/permission guards, retained
 data and form/controller contracts. Three browser scenarios have no selected issuer
-or external network. Initial263 CI passed Unit508/5490 and Behat66/1318; the form
-complexity correction needs a fresh native run. Live tenant/browser checks remain
-pending; see the [audit](09_DOCUMENTATION_AUDIT.md). The accepted
-262 baseline is Unit488/5267, Behat63/1287, server and both strict10/0/0; those results
-are not execution of263. Retain the demo; manual53 remains on standby.
+or external network. The corrected foundation through265 has passed candidate/main
+CI, actual package/server and both strict outputs. New266 and live tenant/browser
+checks remain pending; see the [audit](09_DOCUMENTATION_AUDIT.md). Retain demo;
+manual53standby.
 
 ## Primary references
 

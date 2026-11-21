@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.266. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1376 (1369 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1426 (1419 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -837,8 +837,8 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/microsoft_probe_form.php:46` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
-| `classes/form/microsoft_probe_form.php:84` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
-| `classes/form/microsoft_probe_form.php:116` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
+| `classes/form/microsoft_probe_form.php:85` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:117` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1035,12 +1035,14 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `classes/local/microsoft_graph.php:58` | `resource_url` | Funzione diagnostica provider `resource_url`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph.php:81` | `inspect` | Funzione diagnostica provider `inspect`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph.php:97` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
-| `classes/local/microsoft_graph.php:120` | `get_metadata` | Gestisce il contratto della pagina Microsoft: get_metadata. |
-| `classes/local/microsoft_graph.php:161` | `decode_metadata` | Decodifica JSON limitato e verifica l’identità prima della selezione dei metadati. |
-| `classes/local/microsoft_graph.php:178` | `http_status` | Funzione diagnostica provider `http_status`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:196` | `drive_metadata` | Funzione diagnostica provider `drive_metadata`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:209` | `video_metadata` | Funzione diagnostica provider `video_metadata`; il DocBlock definisce input, output ed effetti. |
-| `classes/local/microsoft_graph.php:236` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
+| `classes/local/microsoft_graph.php:121` | `video_preview` | Funzione PHP `video_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_graph.php:141` | `request_preview` | Funzione PHP `request_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_graph.php:179` | `get_metadata` | Gestisce il contratto della pagina Microsoft: get_metadata. |
+| `classes/local/microsoft_graph.php:220` | `decode_metadata` | Decodifica JSON limitato e verifica l’identità prima della selezione dei metadati. |
+| `classes/local/microsoft_graph.php:237` | `http_status` | Funzione diagnostica provider `http_status`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:255` | `drive_metadata` | Funzione diagnostica provider `drive_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:268` | `video_metadata` | Funzione diagnostica provider `video_metadata`; il DocBlock definisce input, output ed effetti. |
+| `classes/local/microsoft_graph.php:295` | `video_mime_type` | Valida il confine MIME file/video e restituisce solo il tipo normalizzato. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Funzione diagnostica provider `__construct`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Funzione diagnostica provider `run`; il DocBlock definisce input, output ed effetti. |
 | `classes/local/microsoft_link_result.php:42` | `__construct` | Gestisce il contratto della pagina Microsoft: __construct. |
@@ -1050,6 +1052,14 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `classes/local/microsoft_link_result.php:97` | `is_supported_url` | Gestisce il contratto della pagina Microsoft: is_supported_url. |
 | `classes/local/microsoft_link_result.php:114` | `is_supported_origin` | Gestisce il contratto della pagina Microsoft: is_supported_origin. |
 | `classes/local/microsoft_link_result.php:132` | `has_bearer_query` | Gestisce il contratto della pagina Microsoft: has_bearer_query. |
+| `classes/local/microsoft_preview_result.php:45` | `__construct` | Funzione PHP `__construct` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:76` | `from_response` | Converte JSON anteprima circoscritto in URL privato e diagnostica redatta; JSON malformato gestito dal confine errori Graph. |
+| `classes/local/microsoft_preview_result.php:100` | `diagnostic` | Funzione PHP `diagnostic` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:109` | `url` | Funzione PHP `url` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:118` | `jsonSerialize` | Funzione PHP `jsonSerialize` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:128` | `is_supported_url` | Funzione PHP `is_supported_url` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:149` | `is_supported_origin` | Funzione PHP `is_supported_origin` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_preview_result.php:171` | `has_embedded_authorisation` | Contratto anteprima privata `has_embedded_authorisation`; vedere documentazione sorgente e test nativi. |
 | `classes/local/microsoft_user_connection.php:48` | `__construct` | Gestisce il collegamento OAuth personale: __construct. |
 | `classes/local/microsoft_user_connection.php:59` | `begin` | Gestisce il collegamento OAuth personale: begin. |
 | `classes/local/microsoft_user_connection.php:106` | `complete` | Gestisce il collegamento OAuth personale: complete. |
@@ -1061,9 +1071,11 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `classes/local/microsoft_user_connection.php:216` | `matching_request` | Gestisce il collegamento OAuth personale: matching_request. |
 | `classes/local/microsoft_user_probe.php:42` | `__construct` | Gestisce il contratto Microsoft personale: __construct. |
 | `classes/local/microsoft_user_probe.php:60` | `run` | Gestisce il contratto Microsoft personale: run. |
-| `classes/local/microsoft_user_probe.php:71` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
-| `classes/local/microsoft_user_probe.php:83` | `execute` | Gestisce il contratto della pagina Microsoft: execute. |
-| `classes/local/microsoft_user_probe.php:135` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
+| `classes/local/microsoft_user_probe.php:72` | `video_link` | Gestisce il contratto della pagina Microsoft: video_link. |
+| `classes/local/microsoft_user_probe.php:84` | `video_preview` | Funzione PHP `video_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_user_probe.php:97` | `execute` | Gestisce il contratto della pagina Microsoft: execute. |
+| `classes/local/microsoft_user_probe.php:147` | `inspect_resource` | Funzione PHP `inspect_resource` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `classes/local/microsoft_user_probe.php:164` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
@@ -1233,13 +1245,13 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `classes/privacy/exporter.php:264` | `export_acknowledgements` | Esporta lo storico delle prese visione. |
 | `classes/privacy/provider.php:44` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Dichiara i metadati dei servizi esterni YouTube e Vimeo dopo le tabelle database del plugin. |
-| `classes/privacy/provider.php:161` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:198` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:231` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:245` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:258` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:270` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:283` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:170` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:207` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:240` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:254` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:267` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:279` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:292` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:38` | `get_name` | Callable PHP `get_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:45` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Funzione/metodo PHP nominato `xmldb_videotrack_install`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1699,6 +1711,44 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `tests/microsoft_graph_test.php:381` | `inert_probe` | Funzione diagnostica provider `inert_probe`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:395` | `response_client` | Funzione diagnostica provider `response_client`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:410` | `create_issuer` | Funzione diagnostica provider `create_issuer`; il DocBlock definisce input, output ed effetti. |
+| `tests/microsoft_preview_test.php:52` | `setUp` | Funzione PHP `setUp` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:65` | `tearDown` | Funzione PHP `tearDown` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:75` | `test_preview_urls_are_preserved_only_in_the_private_accessor` | Funzione PHP `test_preview_urls_are_preserved_only_in_the_private_accessor` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:94` | `test_unsafe_preview_destinations_are_rejected` | Funzione PHP `test_unsafe_preview_destinations_are_rejected` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:117` | `test_only_supported_embed_paths_are_accepted` | Funzione PHP `test_only_supported_embed_paths_are_accepted` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:132` | `test_preview_does_not_relax_the_existing_page_link_boundary` | Funzione PHP `test_preview_does_not_relax_the_existing_page_link_boundary` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:141` | `test_unverified_preview_authentication_does_not_create_a_frame_url` | Contratto anteprima privata `test_unverified_preview_authentication_does_not_create_a_frame_url`; vedere documentazione sorgente e test nativi. |
+| `tests/microsoft_preview_test.php:163` | `test_preview_serialisation_is_allowlisted` | Funzione PHP `test_preview_serialisation_is_allowlisted` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:181` | `test_graph_preview_uses_the_same_ids_and_bounded_json_post` | Funzione PHP `test_graph_preview_uses_the_same_ids_and_bounded_json_post` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:195` | `test_graph_preview_requires_a_video_item` | Funzione PHP `test_graph_preview_requires_a_video_item` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:204` | `test_graph_preview_rejects_invalid_ids_before_http` | Funzione PHP `test_graph_preview_rejects_invalid_ids_before_http` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:213` | `test_unsuccessful_metadata_never_posts_a_preview` | Funzione PHP `test_unsuccessful_metadata_never_posts_a_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:226` | `test_non_video_metadata_never_posts_a_preview` | Funzione PHP `test_non_video_metadata_never_posts_a_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:242` | `test_invalid_metadata_body_never_posts_a_preview` | Funzione PHP `test_invalid_metadata_body_never_posts_a_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:253` | `test_preview_http_failures_are_redacted_and_not_retried` | Funzione PHP `test_preview_http_failures_are_redacted_and_not_retried` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:273` | `test_preview_transport_failures_are_reduced` | Funzione PHP `test_preview_transport_failures_are_reduced` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:290` | `test_invalid_preview_responses_are_rejected` | Funzione PHP `test_invalid_preview_responses_are_rejected` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:306` | `test_post_only_preview_is_reported_unavailable` | Funzione PHP `test_post_only_preview_is_reported_unavailable` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:317` | `test_graph_cannot_return_an_arbitrary_frame_source` | Funzione PHP `test_graph_cannot_return_an_arbitrary_frame_source` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:327` | `test_teacher_cannot_request_a_preview` | Funzione PHP `test_teacher_cannot_request_a_preview` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:339` | `test_guest_cannot_request_preview_readiness` | Funzione PHP `test_guest_cannot_request_preview_readiness` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:348` | `test_personal_invalid_target_stops_before_oauth` | Funzione PHP `test_personal_invalid_target_stops_before_oauth` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:363` | `test_personal_preview_requires_local_configuration` | Funzione PHP `test_personal_preview_requires_local_configuration` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:378` | `test_personal_preview_checks_identity_endpoints` | Funzione PHP `test_personal_preview_checks_identity_endpoints` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:398` | `test_disconnected_personal_account_has_no_preview_or_fallback` | Funzione PHP `test_disconnected_personal_account_has_no_preview_or_fallback` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:417` | `test_personal_preview_preserves_activity_data_and_identity` | Funzione PHP `test_personal_preview_preserves_activity_data_and_identity` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:442` | `test_personal_preview_redacts_oauth_exceptions` | Funzione PHP `test_personal_preview_redacts_oauth_exceptions` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:456` | `test_preview_form_has_explicit_personal_video_requirements` | Funzione PHP `test_preview_form_has_explicit_personal_video_requirements` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:472` | `test_preview_cannot_be_submitted_by_get` | Funzione PHP `test_preview_cannot_be_submitted_by_get` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:485` | `test_preview_form_rejects_invalid_sesskey` | Funzione PHP `test_preview_form_rejects_invalid_sesskey` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:500` | `test_controller_preview_boundary_and_frame_attributes` | Funzione PHP `test_controller_preview_boundary_and_frame_attributes` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:519` | `test_privacy_metadata_declares_microsoft_transfers` | Verifica la dichiarazione Privacy API dei trasferimenti Microsoft e le relative chiavi lingua. |
+| `tests/microsoft_preview_test.php:538` | `create_issuer` | Funzione PHP `create_issuer` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:561` | `video_body` | Funzione PHP `video_body` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:573` | `idle_client` | Funzione PHP `idle_client` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:588` | `metadata_client` | Funzione PHP `metadata_client` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:610` | `preview_client` | Funzione PHP `preview_client` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
+| `tests/microsoft_preview_test.php:641` | `transport_options` | Funzione PHP `transport_options` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
 | `tests/microsoft_probe_form_test.php:37` | `setUp` | Regressione nativa della verifica Microsoft: setUp. |
 | `tests/microsoft_probe_form_test.php:46` | `test_valid_identifiers_and_optional_item` | Regressione nativa della verifica Microsoft: test_valid_identifiers_and_optional_item. |
 | `tests/microsoft_probe_form_test.php:58` | `test_invalid_drive_ids_are_not_repaired` | Regressione nativa della verifica Microsoft: test_invalid_drive_ids_are_not_repaired. |
@@ -1781,9 +1831,9 @@ Generato dall’albero sorgente VideoTrack 1.7.265. Le voci PHP includono funzio
 | `tests/microsoft_video_link_test.php:316` | `test_personal_oauth_failure_keeps_the_link_private` | Verifica nativa pagina Microsoft: test_personal_oauth_failure_keeps_the_link_private. |
 | `tests/microsoft_video_link_test.php:330` | `test_form_link_action_has_stricter_requirements` | Verifica nativa pagina Microsoft: test_form_link_action_has_stricter_requirements. |
 | `tests/microsoft_video_link_test.php:346` | `test_controller_keeps_the_handoff_separate_from_json_and_tracking` | Verifica nativa pagina Microsoft: test_controller_keeps_the_handoff_separate_from_json_and_tracking. |
-| `tests/microsoft_video_link_test.php:364` | `create_issuer` | Verifica nativa pagina Microsoft: create_issuer. |
-| `tests/microsoft_video_link_test.php:387` | `video_body` | Verifica nativa pagina Microsoft: video_body. |
-| `tests/microsoft_video_link_test.php:403` | `response_client` | Verifica nativa pagina Microsoft: response_client. |
+| `tests/microsoft_video_link_test.php:369` | `create_issuer` | Verifica nativa pagina Microsoft: create_issuer. |
+| `tests/microsoft_video_link_test.php:392` | `video_body` | Verifica nativa pagina Microsoft: video_body. |
+| `tests/microsoft_video_link_test.php:408` | `response_client` | Verifica nativa pagina Microsoft: response_client. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |

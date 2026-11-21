@@ -1,6 +1,10 @@
 # Collegare l’account Microsoft dell’amministratore
 
-VideoTrack **1.7.265** (`2026112000`).
+La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
+CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
+e validazione Microsoft reale con browser restano gate distinti.
+
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Procedura
 

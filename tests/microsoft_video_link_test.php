@@ -341,7 +341,7 @@ final class microsoft_video_link_test extends \advanced_testcase {
     }
 
     /**
-     * The controller exposes only a guarded external page link, never an embedded player.
+     * The original-page branch keeps its external link separate from diagnostic preview.
      */
     public function test_controller_keeps_the_handoff_separate_from_json_and_tracking(): void {
         $source = file_get_contents(__DIR__ . '/../provider_check.php');
@@ -352,7 +352,12 @@ final class microsoft_video_link_test extends \advanced_testcase {
         $this->assertStringContainsString("'rel' => 'noopener noreferrer'", $source);
         $this->assertStringContainsString("'referrerpolicy' => 'no-referrer'", $source);
         $this->assertStringContainsString("'href' => \$providerlink", $source);
-        $this->assertStringNotContainsString('iframe', $source);
+        $linkstart = strpos($source, 'if ($providerlink !== null) {');
+        $previewstart = strpos($source, 'if ($previewurl !== null) {');
+        $this->assertNotFalse($linkstart);
+        $this->assertNotFalse($previewstart);
+        $this->assertGreaterThan($linkstart, $previewstart);
+        $this->assertStringNotContainsString('iframe', substr($source, $linkstart, $previewstart - $linkstart));
         $this->assertStringNotContainsString('videotrack_view(', $source);
     }
 

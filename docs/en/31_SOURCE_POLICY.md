@@ -1,6 +1,10 @@
 # Site video sources and optional integrations
 
-VideoTrack **1.7.265** (`2026112000`).
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Configure implemented sources
 
@@ -57,8 +61,9 @@ The candidate adds 15 PHPUnit regression methods and four Behat scenarios. They
 cover defaults, independent switches, malformed configuration, filtered choices,
 disabled edit values, all-off behaviour, direct callback rejection, explicit
 source changes, stale playback requests, retained files/state and owner erasure.
-Native candidate CI, main CI, actual-package identity, server checks and strict
-validation are pending. Source/patch checks are not native PHP execution.
+The source-policy foundation through265 is accepted, including main six-job CI,
+actual package/server and both strict outputs. New266 preview validation remains
+pending; local source/patch checks are not native PHP execution.
 
 ## Optional Zoom repository: architectural assessment
 

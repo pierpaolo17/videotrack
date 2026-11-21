@@ -1,5 +1,9 @@
 # Metadati Microsoft con l’identità dell’utente corrente
 
+La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
+CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
+e validazione Microsoft reale con browser restano gate distinti.
+
 La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
 alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
 il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
@@ -8,7 +12,7 @@ La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft]
 Richiede account personale e ID video. La pagina provider si apre separatamente;
 VideoTrack non accredita la visione in quella scheda.
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Scegliere esplicitamente l’identità
 
@@ -68,9 +72,9 @@ partecipazione, identità provider, autorizzazione risorsa e contratto player mi
 Resta preferita la distribuzione provider → browser; Moodle non importa né trasmette il
 file. Microsoft precede Zoom e Google; l’App resta successiva nella roadmap.
 
-La diagnostica personale262 ha superato6job candidato/main, Unit488/5267, Behat63/1287
-e i gate reali server/strict. La gestione del link263 è distinta, con prove native e
-provider reale da svolgere. Conservare la demo; manuale53 in standby.
+La fondazione personale metadati/pagina/connessione fino alla265 è accettata: sei
+job main, Unit530/5612, Behat67/1327 e gate server/strict reali. Anteprima266 e
+provider reale ancora da validare. Conservare demo e manuale53standby.
 
 ## Contratti core primari
 

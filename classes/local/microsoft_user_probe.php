@@ -21,7 +21,7 @@ use core\oauth2\client;
 use core\oauth2\issuer;
 
 /**
- * Administrator metadata probe using only the current user's core OAuth client.
+ * Administrator Microsoft diagnostics using only the current user's core OAuth client.
  *
  * Core owns session and refresh tokens. No system-client fallback is permitted.
  * This diagnostic does not grant learner playback access or create a login flow.
@@ -58,7 +58,8 @@ final class microsoft_user_probe {
      * @return array Redacted diagnostic; core may refresh the current user's tokens.
      */
     public function run(string $driveid, string $itemid = ''): array {
-        return $this->execute($driveid, $itemid, 'metadata')->diagnostic();
+        [$diagnostic] = $this->execute($driveid, $itemid, 'metadata');
+        return (new microsoft_link_result($diagnostic))->diagnostic();
     }
 
     /**
@@ -69,18 +70,31 @@ final class microsoft_user_probe {
      * @return microsoft_link_result Private page link and redacted diagnostics.
      */
     public function video_link(string $driveid, string $itemid): microsoft_link_result {
-        return $this->execute($driveid, $itemid, 'provider_link');
+        [$diagnostic, $url] = $this->execute($driveid, $itemid, 'provider_link');
+        return new microsoft_link_result($diagnostic, $url);
     }
 
     /**
-     * Apply the same permission, target and OAuth guards to either explicit action.
+     * Obtain a temporary preview solely for the current administrator's own use.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Required video item id.
+     * @return microsoft_preview_result Private preview, without shared-account fallback.
+     */
+    public function video_preview(string $driveid, string $itemid): microsoft_preview_result {
+        [$diagnostic, $url] = $this->execute($driveid, $itemid, 'provider_preview');
+        return new microsoft_preview_result($diagnostic, $url);
+    }
+
+    /**
+     * Apply the same permission, target and OAuth guards to each explicit action.
      *
      * @param string $driveid Explicit drive id.
      * @param string $itemid Optional metadata or required provider-link video item id.
      * @param string $action Internal action selected by a public method, never raw request data.
-     * @return microsoft_link_result Reduced result, with a URL only for a validated page link.
+     * @return array Pair of reduced diagnostics and a private URL, or null.
      */
-    private function execute(string $driveid, string $itemid, string $action): microsoft_link_result {
+    private function execute(string $driveid, string $itemid, string $action): array {
         require_capability('moodle/site:config', \context_system::instance());
         $result = [
             'provider' => 'microsoft',
@@ -92,36 +106,51 @@ final class microsoft_user_probe {
             'playback_implemented' => false,
         ];
         if (!self::valid_target($driveid, $itemid, $action)) {
-            return new microsoft_link_result($result);
+            return [$result, null];
         }
         try {
             $configuration = provider_connection::user_configuration_status('microsoft');
             $result['status'] = $configuration['status'];
             if ($configuration['status'] !== 'configuration_complete') {
-                return new microsoft_link_result($result);
+                return [$result, null];
             }
             $issuer = api::get_issuer($configuration['issuerid']);
             if (!provider_connection::microsoft_endpoints_supported($issuer)) {
                 $result['status'] = 'oauth_endpoints_unsupported';
-                return new microsoft_link_result($result);
+                return [$result, null];
             }
             $result['phase'] = 'oauth';
             $result['status'] = 'user_oauth_not_connected';
             $result['oauth_refresh_possible'] = true;
             $client = ($this->clientfactory)($issuer);
             if (!($client instanceof client) || !$client->is_logged_in()) {
-                return new microsoft_link_result($result);
+                return [$result, null];
             }
             $graph = new microsoft_graph($client);
-            if ($action === 'provider_link') {
-                $link = $graph->video_link($driveid, $itemid);
-                return new microsoft_link_result(array_replace($result, $link->diagnostic()), $link->url());
-            }
-            return new microsoft_link_result(array_replace($result, $graph->inspect($driveid, $itemid)));
+            [$diagnostic, $url] = self::inspect_resource($graph, $driveid, $itemid, $action);
+            return [array_replace($result, $diagnostic), $url];
         } catch (\Throwable $error) {
             $result['status'] = $result['phase'] === 'oauth' ? 'oauth_failed' : 'configuration_failed';
-            return new microsoft_link_result($result);
+            return [$result, null];
         }
+    }
+
+    /**
+     * Dispatch only internal actions after the current user's client is authenticated.
+     *
+     * @param microsoft_graph $graph Current-user Graph transport.
+     * @param string $driveid Validated explicit drive id.
+     * @param string $itemid Optional metadata or required video item id.
+     * @param string $action Internal action selected by a public method.
+     * @return array Pair of redacted diagnostics and an optional private URL.
+     */
+    private static function inspect_resource(microsoft_graph $graph, string $driveid, string $itemid, string $action): array {
+        $response = match ($action) {
+            'provider_link' => $graph->video_link($driveid, $itemid),
+            'provider_preview' => $graph->video_preview($driveid, $itemid),
+            default => new microsoft_link_result($graph->inspect($driveid, $itemid)),
+        };
+        return [$response->diagnostic(), $response->url()];
     }
 
     /**
@@ -133,7 +162,7 @@ final class microsoft_user_probe {
      * @return bool Resource ids meet the selected action's contract.
      */
     private static function valid_target(string $driveid, string $itemid, string $action): bool {
-        if ($action === 'provider_link' && $itemid === '') {
+        if ($action !== 'metadata' && $itemid === '') {
             return false;
         }
         try {

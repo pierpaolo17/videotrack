@@ -59,6 +59,7 @@ $userconfiguration = \mod_videotrack\local\provider_connection::user_configurati
 $form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, null, 'post');
 $result = null;
 $providerlink = null;
+$previewurl = null;
 if ($data = $form->get_data()) {
     require_sesskey();
     if ($data->operation === 'provider_link') {
@@ -69,6 +70,14 @@ if ($data = $form->get_data()) {
         $linkresult = $probe->video_link($data->driveid, $data->itemid);
         $result = $linkresult->diagnostic();
         $providerlink = $linkresult->url();
+    } else if ($data->operation === 'provider_preview') {
+        if ($data->accountcontext !== 'current_user') {
+            throw new invalid_parameter_exception('A personal Microsoft account is required.');
+        }
+        $probe = new \mod_videotrack\local\microsoft_user_probe();
+        $previewresult = $probe->video_preview($data->driveid, $data->itemid);
+        $result = $previewresult->diagnostic();
+        $previewurl = $previewresult->url();
     } else if ($data->operation === 'metadata') {
         $probe = match ($data->accountcontext) {
             'current_user' => new \mod_videotrack\local\microsoft_user_probe(),
@@ -106,9 +115,14 @@ if ($userconfiguration['status'] === 'configuration_complete') {
 $form->display();
 if ($result !== null) {
     echo $OUTPUT->heading(get_string('providercheck:result', 'mod_videotrack'), 3);
-    $success = in_array($result['status'], ['drive_accessible', 'video_accessible', 'provider_link_ready'], true);
+    $success = in_array($result['status'], ['drive_accessible', 'video_accessible', 'provider_link_ready', 'preview_ready'], true);
+    $messagekey = match ($result['status']) {
+        'preview_ready' => 'previewready',
+        'preview_authentication_unverified' => 'previewauth',
+        default => $success ? 'success' : 'failure',
+    };
     echo $OUTPUT->notification(
-        get_string($success ? 'providercheck:success' : 'providercheck:failure', 'mod_videotrack'),
+        get_string('providercheck:' . $messagekey, 'mod_videotrack'),
         $success ? 'success' : 'warning'
     );
     echo html_writer::tag('pre', s(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));
@@ -121,6 +135,24 @@ if ($providerlink !== null) {
         'rel' => 'noopener noreferrer',
         'referrerpolicy' => 'no-referrer',
         'class' => 'btn btn-primary',
+    ]);
+}
+if ($previewurl !== null) {
+    echo html_writer::tag('p', get_string('providercheck:previewnotice', 'mod_videotrack'), [
+        'id' => 'videotrack-microsoft-preview-notice',
+        'class' => 'alert alert-info',
+    ]);
+    echo html_writer::tag('iframe', '', [
+        'id' => 'videotrack-microsoft-preview',
+        'src' => $previewurl,
+        'title' => get_string('providercheck:previewtitle', 'mod_videotrack'),
+        'aria-describedby' => 'videotrack-microsoft-preview-notice',
+        'class' => 'w-100 border-0',
+        'height' => 480,
+        'referrerpolicy' => 'no-referrer',
+        'sandbox' => 'allow-scripts allow-same-origin allow-forms allow-popups',
+        'allow' => 'fullscreen; encrypted-media',
+        'allowfullscreen' => 'allowfullscreen',
     ]);
 }
 echo $OUTPUT->footer();

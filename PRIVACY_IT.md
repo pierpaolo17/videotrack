@@ -100,3 +100,16 @@ I campi identificativi dei report individuali sono configurabili a livello sito/
 VideoTrack può usare memoria browser limitata alla sessione per stato temporaneo dell’interfaccia e della riproduzione. Non è destinata al tracciamento tra siti e non sostituisce autorizzazione o persistenza lato server.
 
 I riferimenti implementativi dettagliati sono in `docs/it/02_ARCHITECTURE.md`, `06_RUNTIME_FLOWS.md`, `11_INTEGRITY_AND_FOCUS.md` e `12_ACKNOWLEDGEMENT.md`.
+
+## Diagnostica Microsoft amministrativa
+
+Le diagnostiche amministrative esplicite inviano gli identificativi drive/video a
+Microsoft Graph con l’identità OAuth core selezionata. L’anteprima privata richiesta
+usa l’account aziendale/scolastico collegato dell’amministratore corrente. L’iframe
+genera richieste browser a Microsoft, che può ricevere indirizzo IP, user agent e
+cookie. La Privacy API dichiara questo trasferimento esterno. Core gestisce le credenziali OAuth.
+
+L’indirizzo temporaneo può portare l’accesso del richiedente. Compare solo nella sua
+anteprima richiesta e VideoTrack non lo salva come dato dell’attività, lo esporta
+o lo condivide con gli studenti. Il JSON diagnostico lo omette. L’azione non crea
+avanzamento, voti o completamento. Vedere la [guida anteprima](docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md).

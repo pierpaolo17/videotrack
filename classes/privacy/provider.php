@@ -130,7 +130,7 @@ class provider implements
     }
 
     /**
-     * Describes the external video providers referenced by the activity.
+     * Describes external video providers and explicit administrator diagnostics.
      *
      * @param collection $collection Metadata collection.
      */
@@ -150,6 +150,15 @@ class provider implements
             'cookies' => 'privacy:metadata:external:cookies',
             'useragent' => 'privacy:metadata:external:useragent',
         ], 'privacy:metadata:vimeo');
+
+        $collection->add_external_location_link('microsoft', [
+            'resourceid' => 'privacy:metadata:microsoft:resource',
+            'authorisation' => 'privacy:metadata:microsoft:authorisation',
+            'url' => 'privacy:metadata:microsoft:url',
+            'ipaddress' => 'privacy:metadata:external:ipaddress',
+            'cookies' => 'privacy:metadata:external:cookies',
+            'useragent' => 'privacy:metadata:external:useragent',
+        ], 'privacy:metadata:microsoft');
     }
 
     /**

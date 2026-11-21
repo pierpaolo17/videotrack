@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.265 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.266 repository tree. It lists
 sources, assets, tests and selected release guides, including five repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **394** — 389 distributed files and five repository-only files. The complete
-tree has 485 repository files / 461 distributed files, including all documentation.
+Entries: **399** — 394 distributed files and five repository-only files. The complete
+tree has 490 repository files / 466 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -221,9 +221,10 @@ tree has 485 repository files / 461 distributed files, including all documentati
 | `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
-| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and redacted validated drive/video scalars. |
+| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and private preview POST with redacted drive/video diagnostics. |
 | `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
 | `classes/local/microsoft_link_result.php` | Separate private provider-page URLs from serialisable diagnostics; enforce destination/query boundaries. |
+| `classes/local/microsoft_preview_result.php` | Bounded preview-response parser, private temporary URL and allowlisted diagnostics. |
 | `classes/local/microsoft_user_connection.php` | Explicit personal core OAuth connection with POST/sesskey and one-use return guards. |
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
 | `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
@@ -274,6 +275,7 @@ tree has 485 repository files / 461 distributed files, including all documentati
 | `docs/en/34_MICROSOFT_PROVIDER_PAGE.md` | English original Microsoft page handoff and future embedding-boundary guide. |
 | `docs/en/35_MICROSOFT_USER_CONNECTION.md` | English personal Microsoft connection, session boundary and validation guide. |
 | `docs/en/36_CI_BEHAT_EVIDENCE.md` | English guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
+| `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | English private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -282,6 +284,7 @@ tree has 485 repository files / 461 distributed files, including all documentati
 | `docs/it/34_MICROSOFT_PROVIDER_PAGE.md` | Italian original Microsoft page handoff and future embedding-boundary guide. |
 | `docs/it/35_MICROSOFT_USER_CONNECTION.md` | Italian personal Microsoft connection, session boundary and validation guide. |
 | `docs/it/36_CI_BEHAT_EVIDENCE.md` | Italian guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
+| `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Italian private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -334,6 +337,7 @@ tree has 485 repository files / 461 distributed files, including all documentati
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
 | `tests/behat/microsoft_account_context.feature` | Deterministic browser checks for explicit shared/personal account choice. |
+| `tests/behat/microsoft_preview.feature` | Deterministic local GET, personal preview validation and missing-configuration browser contracts. |
 | `tests/behat/microsoft_provider_check.feature` | Three deterministic administration scenarios without a Microsoft connection. |
 | `tests/behat/microsoft_provider_page.feature` | Three deterministic personal provider-page form scenarios without live network. |
 | `tests/behat/microsoft_user_connection.feature` | One local-readiness browser scenario without external authentication. |
@@ -366,6 +370,7 @@ tree has 485 repository files / 461 distributed files, including all documentati
 | `tests/lifecycle_integration_test.php` | Real framework backup/restore/privacy, registered retention-task, standard course-reset and synchronous activity-deletion integration tests. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
 | `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
+| `tests/microsoft_preview_test.php` | Native preview URL, transport, personal-account, preservation and request-boundary regressions. |
 | `tests/microsoft_probe_form_test.php` | Native form, session, method and administration-access regressions. |
 | `tests/microsoft_user_connection_test.php` | Native connection/core-URL/state/permission regressions without live provider exchange. |
 | `tests/microsoft_user_probe_test.php` | Native delegated readiness/access/login/fallback/form regressions with no live network. |

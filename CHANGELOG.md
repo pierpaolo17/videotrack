@@ -1,5 +1,49 @@
 # VideoTrack changelog
 
+## 1.7.266 - 2026-11-20
+
+### Add a private native Microsoft diagnostic preview
+
+- Add an explicit personal-account preview action to the protected administrator form.
+  Require POST/sesskey, site-configuration capability and explicit drive/video ids.
+  Keep ordinary GET local, and never fall back to the shared system identity.
+- Validate video metadata before one bounded Graphv1 JSON preview POST. Reuse core
+  credentials and the accepted TLS/timeout/no-redirect policy; never request content,
+  create sharing grants, import files or proxy media through Moodle.
+- Keep the temporary caller-only getUrl outside diagnostic JSON, stored settings and
+  activity records. Restrict public-cloud embed destinations, preserve opaque bytes,
+  escape iframe attributes and retain no-referrer/non-cacheable responses. Reject
+  POST-only preview forms and unsupported URL shapes. Preview readiness does not
+  establish browser playback or authorise learner progress/completion.
+- Refuse plain or unfamiliar preview authentication without emitting an iframe.
+  Recognise current non-empty embedded credential keys only; document the announced
+  April2027 Entra-header transition as an unimplemented browser-authentication gate.
+- Declare Microsoft diagnostic and browser-preview transfers in Privacy metadata,
+  with paired privacy summaries and translated resource/authorisation/URL descriptions.
+- Add30native unit methods and3deterministic browser scenarios. Scope one existing
+  controller regression to its original-page link branch, retaining its no-iframe
+  contract. Preserve all other529existing unit methods and67browser scenarios.
+  Add10strings per language and paired setup/security/live-test guides.
+- Accept actual265 from maindba3cd1b:461distribution files match485repository blobs,
+  modes and export set; server8command results pass, shared canonical/lint192clean,
+  Unit530/5612 on50/53, Grunt recorded hashes unchanged and both strict10/0/0.
+  Main all6CI pass Behat67/1327 without reruns and all lifecycle paths. Retain initial
+  candidate53service outage and5.1note retry history without claiming a product fix.
+- Inventories:490repository/466distributed files,193distributedPHP,1426PHPcallables
+  (1419distributed+7helper),654AMDcallables,560unit methods,70expanded scenarios and
+  8×1050language keys. Acceptance266 and real Microsoft tenant/browser preview remain
+  pending. Retain schema/services/AMD/source policy/CI rules/demo and manual53standby.
+- Review initial candidate0edd6d23 / run44889284032: all6jobs pass Unit560/6074,
+  Behat70/1358 without retries, strict10/0/0 and Grunt. The50MariaDB job fails28
+  formatting errors in the new preview test; its lifecycle is skipped. The53
+  lifecycle passes all3lineages with3independently reconstructed snapshot hashes
+  and63actual shared-file content checks. This candidate is not accepted for merge.
+- Correct the28test formatting violations without changing test tokens/assertions.
+  Move the unchanged preview-response parser from the Graph transport to the preview
+  result factory after a new PHPMD class-complexity55 finding. Keep the same1MiB/
+  depth16 limits and Graph exception boundary. Refresh paired inventories/audit.
+  Version2026112001 and all CI rules are unchanged; corrected native CI is required.
+
 ## 1.7.265 - 2026-11-20
 
 ### Retain browser evidence after a successful Behat retry

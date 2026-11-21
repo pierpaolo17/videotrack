@@ -1,6 +1,10 @@
 # Sorgenti video del sito e integrazioni opzionali
 
-VideoTrack **1.7.265** (`2026112000`).
+La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
+CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
+e validazione Microsoft reale con browser restano gate distinti.
+
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Configurare le sorgenti implementate
 
@@ -60,9 +64,9 @@ La candidata aggiunge 15 metodi PHPUnit e quattro scenari Behat: valori predefin
 interruttori indipendenti, configurazione alterata, opzioni filtrate, sorgenti
 disabilitate in modifica, tutte le sorgenti disabilitate, callback diretti respinti,
 cambio esplicito di sorgente, richieste da schede precedenti, conservazione di file
-e stati e cancellazioni personali. Restano da eseguire CI candidata, CI main,
-identità del pacchetto reale, controlli server e validazione rigorosa. I controlli
-sorgente/patch non equivalgono a esecuzione PHP nativa.
+e stati e cancellazioni personali. La policy sorgenti fino alla265 è accettata, inclusi sei job main, pacchetto/server
+reale e due strict. L’anteprima266 è ancora da validare; i confronti locali
+sorgenti/patch non sono esecuzione PHP nativa.
 
 ## Repository Zoom opzionale: valutazione architetturale
 
