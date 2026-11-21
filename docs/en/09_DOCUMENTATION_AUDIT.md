@@ -1,8 +1,9 @@
 # Documentation audit
 
 Current tree: VideoTrack **1.7.266** (`2026112001`). Accepted actual baseline:
-**1.7.265** (`2026112000`). Native266 candidate/main and live Microsoft preview
-tests have not executed here.
+**1.7.265** (`2026112000`). Initial native candidate266 failed the Code Checker;
+the corrected candidate still requires a complete native run. Main266 and live
+Microsoft preview tests remain unexecuted.
 
 ## Accepted265 source and CI
 
@@ -91,15 +92,45 @@ The preview guard recognises non-empty embedded credential keys; plain/unfamilia
 authentication addresses yield preview_authentication_unverified with no iframe.
 The announced1April2027 Entra-header transition is documented, not implemented.
 
+## Initial266 CI and incremental correction
+
+[Run44889284032](https://github.com/pierpaolo17/videotrack/actions/runs/44889284032),
+attempt1 at candidate `0edd6d231004536e5ab18346cca94a527eb0e19e`, uses expected tree
+`998dcf720f44ff9dce35c55a131baf4a12933fbc`. All six received ZIPs match official
+sizes and digests. Every configuration passes Unit560tests/6074assertions,
+Behat70scenarios/1358steps without retries, strict10/0/0 and Grunt.
+
+The50MariaDB job fails28PHPCS formatting errors across19lines of the new preview
+test: eight multiline foreach controls and three argument lists. The other five
+jobs pass. Distributed/helper lint, PHPDoc, metadata,206savepoints and Mustache
+complete;50lifecycle is skipped and is not a pass. On53MariaDB all three historical/
+partial/previous lineages pass: three independently reconstructed JSON snapshot
+hashes match both verification stages,31/0 each; uninstall26/0 per lineage and63
+actual shared-file content checks appear in the complete lifecycle log.
+
+PHPMD records32findings:31baseline plus a new Graph class-complexity55 advisory.
+PHPStan/Psalm report no configured errors;751/779Psalm information findings remain
+unclassified. The informational total increases by one from265; a green tool exit
+does not classify that finding or establish a fix.
+
+The correction changes only test formatting, retaining all tokens and assertions.
+Move the unchanged preview-response parser body into the
+`microsoft_preview_result::from_response` factory, separating Graph transport from
+result parsing. Preserve1MiB/depth16 limits, error reduction inside the same Graph
+try/catch, URL guards and diagnostics. No PHPMD suppression or threshold changes;
+the corrected CI must confirm removal of the new complexity advisory. File,
+callable and test counts remain unchanged.
+
 ## Evidence and remaining gates
 
-Local lexical/source/API checks, inventory/link/language comparisons, unchanged
-contracts and clean patch application/reversal are distinct from executing PHP.
-No PHP interpreter or installed Moodle is available in this workspace; native266
-PHPCS/lint, PHPUnit, Behat, static analysis and server tests are pending. The new
-unit HTTP responses are synthetic; browser scenarios never request a real tenant.
-Candidate six jobs, main six jobs, actual ZIP/server and both strict outputs remain
-required before266 acceptance.
+The initial CI does not approve266 for merge. Its native results belong to the
+original candidate, not the corrected source. Local checks cover unchanged test
+tokens and moved parser body, inventories and patch application/reversal. PHP and
+Moodle are unavailable here: corrected PHPCS, lint, PHPUnit, Behat and static
+analysis require the fresh native CI. Unit HTTP responses are synthetic; browser
+scenarios never request a real tenant. Corrected candidate six jobs, main six jobs,
+actual ZIP/server and both strict outputs remain required before266 acceptance.
+Remote main remains at accepted265.
 
 No real connected Microsoft browser round trip or successful native iframe has
 been demonstrated. Preview readiness means a validated address, not actual browser

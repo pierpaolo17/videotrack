@@ -1,8 +1,9 @@
 # Audit della documentazione
 
 Albero corrente: VideoTrack **1.7.266** (`2026112001`). Baseline reale accettata:
-**1.7.265** (`2026112000`). CI nativa candidato/main266 e anteprima Microsoft reale
-non sono state eseguite qui.
+**1.7.265** (`2026112000`). Il primo candidato266 fallisce il Code Checker;
+la candidata corretta richiede una nuova esecuzione nativa completa. Main266 e
+anteprima Microsoft reale ancora da verificare.
 
 ## Sorgenti265 accettati e CI
 
@@ -92,14 +93,45 @@ Il controllo anteprima riconosce credenziali query non vuote; indirizzi con
 autenticazione semplice/sconosciuta producono preview_authentication_unverified
 senza iframe. La transizione Entra-header dal1aprile2027 è documentata, non implementata.
 
+## Prima CI266 e correzione incrementale
+
+Il [run44889284032](https://github.com/pierpaolo17/videotrack/actions/runs/44889284032),
+tentativo1 del candidato `0edd6d231004536e5ab18346cca94a527eb0e19e`, usa l’albero
+`998dcf720f44ff9dce35c55a131baf4a12933fbc` atteso. I sei ZIP ricevuti coincidono
+con dimensioni e digest ufficiali. Tutte le sei configurazioni superano Unit560test/
+6074asserzioni, Behat70scenari/1358step senza rerun, strict10/0/0 e Grunt.
+
+Il job50MariaDB fallisce28errori PHPCS in19righe del nuovo test anteprima:
+otto foreach multilinea e tre elenchi argomenti. Gli altri cinque job passano.
+Lint distribuito/helper, PHPDoc, metadati,206savepoint e Mustache completati;
+il lifecycle50 è saltato e non viene dichiarato superato. Sul53MariaDB passano
+le tre genealogie storica/parziale/precedente: tre hash snapshot ricostruiti dai
+JSON coincidono in entrambe le verifiche,31/0 ciascuna; disinstallazione26/0 per
+genealogia e63controlli effettivi dei contenuti dei file condivisi nel log completo.
+
+PHPMD segnala32rilievi:31di baseline e il nuovo avviso complessità55 della classe
+Graph. PHPStan/Psalm non riportano errori configurati;751/779informazioni Psalm
+restano non classificate. Il totale informativo cresce di uno rispetto alla265:
+non viene assimilato a una correzione né nascosto da un esito verde.
+
+La correzione conserva tutti i token e le asserzioni del test, modificandone solo
+la formattazione. Il parser risposta anteprima viene spostato, con corpo identico,
+nella factory `microsoft_preview_result::from_response`: trasporto Graph e parsing
+del risultato hanno responsabilità distinte. Limiti1MiB/profondità16, riduzione
+degli errori nel medesimo try/catch Graph, controlli URL e diagnostica invariati.
+Nessuna soppressione o modifica delle soglie PHPMD; la rimozione del nuovo rilievo
+deve essere confermata dalla CI corretta. Conteggi file/funzioni/test invariati.
+
 ## Prove e gate rimanenti
 
-Controlli locali lessicali/sorgenti/API, inventari/link/lingue, contratti conservati
-e applicazione/inversione pulita della patch sono distinti dall’esecuzione PHP.
-Nessun interprete PHP o Moodle installato disponibile qui; PHPCS/lint, PHPUnit,
-Behat, analisi statica e server266 nativi ancora da eseguire. Risposte HTTP dei nuovi
-test sintetiche; scenari browser senza tenant reale. Prima dell’accettazione266
-servono sei job candidato, sei main, ZIP/server reale e due strict.
+La prima CI non accetta266 per il merge. I risultati nativi descritti sopra
+appartengono al candidato originale, non al sorgente corretto. I controlli locali
+coprono equivalenza dei token test e del parser spostato, inventari e applicazione/
+inversione della patch. Qui non sono disponibili PHP/Moodle: PHPCS, lint, PHPUnit,
+Behat e analisi statica della correzione restano da eseguire nella nuova CI.
+Risposte HTTP dei nuovi test sintetiche; scenari browser senza tenant reale.
+Prima dell’accettazione266 servono sei job candidato corretto, sei main,
+ZIP/server reale e due strict. Main remoto resta alla265 accettata.
 
 Nessun ritorno Microsoft collegato con browser reale o iframe nativo riuscito
 dimostrato. Anteprima pronta significa indirizzo validato, non riproduzione browser,

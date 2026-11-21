@@ -31,8 +31,18 @@
   candidate53service outage and5.1note retry history without claiming a product fix.
 - Inventories:490repository/466distributed files,193distributedPHP,1426PHPcallables
   (1419distributed+7helper),654AMDcallables,560unit methods,70expanded scenarios and
-  8×1050language keys. Native266 and real Microsoft tenant/browser preview remain
+  8×1050language keys. Acceptance266 and real Microsoft tenant/browser preview remain
   pending. Retain schema/services/AMD/source policy/CI rules/demo and manual53standby.
+- Review initial candidate0edd6d23 / run44889284032: all6jobs pass Unit560/6074,
+  Behat70/1358 without retries, strict10/0/0 and Grunt. The50MariaDB job fails28
+  formatting errors in the new preview test; its lifecycle is skipped. The53
+  lifecycle passes all3lineages with3independently reconstructed snapshot hashes
+  and63actual shared-file content checks. This candidate is not accepted for merge.
+- Correct the28test formatting violations without changing test tokens/assertions.
+  Move the unchanged preview-response parser from the Graph transport to the preview
+  result factory after a new PHPMD class-complexity55 finding. Keep the same1MiB/
+  depth16 limits and Graph exception boundary. Refresh paired inventories/audit.
+  Version2026112001 and all CI rules are unchanged; corrected native CI is required.
 
 ## 1.7.265 - 2026-11-20
 

@@ -221,10 +221,10 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `classes/local/instance_settings_policy.php` | Server-side field policy and locked completion dependencies before persistence. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
-| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and redacted validated drive/video scalars. |
+| `classes/local/microsoft_graph.php` | Fixed-host metadata GET and private preview POST with redacted drive/video diagnostics. |
 | `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
 | `classes/local/microsoft_link_result.php` | Separate private provider-page URLs from serialisable diagnostics; enforce destination/query boundaries. |
-| `classes/local/microsoft_preview_result.php` | Private temporary Microsoft preview URL and allowlisted diagnostic result. |
+| `classes/local/microsoft_preview_result.php` | Bounded preview-response parser, private temporary URL and allowlisted diagnostics. |
 | `classes/local/microsoft_user_connection.php` | Explicit personal core OAuth connection with POST/sesskey and one-use return guards. |
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
 | `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |

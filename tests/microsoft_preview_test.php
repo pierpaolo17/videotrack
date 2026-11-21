@@ -73,11 +73,13 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Supported opaque preview URLs retain query bytes, casing and caller credentials.
      */
     public function test_preview_urls_are_preserved_only_in_the_private_accessor(): void {
-        foreach ([
-            'https://tenant.sharepoint.com/_layouts/15/embed.aspx?tempauth=private-marker&b=a%2Bb',
-            'HTTPS://Tenant-My.sharepoint.com:443/sites/course/embed.aspx?access_token=private-marker',
-            'https://www.onedrive.com/embed?token=private-marker',
-        ] as $url) {
+        foreach (
+            [
+                'https://tenant.sharepoint.com/_layouts/15/embed.aspx?tempauth=private-marker&b=a%2Bb',
+                'HTTPS://Tenant-My.sharepoint.com:443/sites/course/embed.aspx?access_token=private-marker',
+                'https://www.onedrive.com/embed?token=private-marker',
+            ] as $url
+        ) {
             $result = new microsoft_preview_result(['preview_attempted' => true], $url);
             $this->assertSame($url, $result->url());
             $this->assertSame('preview_ready', $result->diagnostic()['status']);
@@ -90,17 +92,19 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Unsafe URI components and unsupported hosts cannot become frame sources.
      */
     public function test_unsafe_preview_destinations_are_rejected(): void {
-        foreach ([
-            '', 'javascript:alert(1)', '//tenant.sharepoint.com/embed.aspx',
-            'http://tenant.sharepoint.com/embed.aspx', 'https://127.0.0.1/embed.aspx',
-            'https://tenant.sharepoint.com.evil.example/embed.aspx', 'https://sharepoint.com/embed.aspx',
-            'https://tenant.sharepoint.cn/embed.aspx', 'https://onedrive.live.com/embed',
-            'https://www.onedrive.com.evil.example/embed', 'https://tenant.sharepoint.com:444/embed.aspx',
-            'https://user:password@tenant.sharepoint.com/embed.aspx',
-            'https://@tenant.sharepoint.com/embed.aspx', 'https://tenant.sharepoint.com/embed.aspx#fragment',
-            "https://tenant.sharepoint.com/embed.aspx\n", 'https://tenant.sharepoint.com\\@evil.example/embed.aspx',
-            'https://tenant.sharepoint.com/embed.aspx?' . str_repeat('a', 8192),
-        ] as $url) {
+        foreach (
+            [
+                '', 'javascript:alert(1)', '//tenant.sharepoint.com/embed.aspx',
+                'http://tenant.sharepoint.com/embed.aspx', 'https://127.0.0.1/embed.aspx',
+                'https://tenant.sharepoint.com.evil.example/embed.aspx', 'https://sharepoint.com/embed.aspx',
+                'https://tenant.sharepoint.cn/embed.aspx', 'https://onedrive.live.com/embed',
+                'https://www.onedrive.com.evil.example/embed', 'https://tenant.sharepoint.com:444/embed.aspx',
+                'https://user:password@tenant.sharepoint.com/embed.aspx',
+                'https://@tenant.sharepoint.com/embed.aspx', 'https://tenant.sharepoint.com/embed.aspx#fragment',
+                "https://tenant.sharepoint.com/embed.aspx\n", 'https://tenant.sharepoint.com\\@evil.example/embed.aspx',
+                'https://tenant.sharepoint.com/embed.aspx?' . str_repeat('a', 8192),
+            ] as $url
+        ) {
             $result = new microsoft_preview_result([], $url);
             $this->assertNull($result->url());
             $this->assertSame('preview_url_unsupported', $result->diagnostic()['status']);
@@ -111,11 +115,13 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Ordinary pages, download paths and provider POST forms are not GET previews.
      */
     public function test_only_supported_embed_paths_are_accepted(): void {
-        foreach ([
-            'https://tenant.sharepoint.com/video.mp4', 'https://tenant.sharepoint.com/',
-            'https://tenant.sharepoint.com/embed.aspx/extra', 'https://tenant.sharepoint.com/download.aspx',
-            'https://www.onedrive.com/embed_by_post', 'https://www.onedrive.com/redirect',
-        ] as $url) {
+        foreach (
+            [
+                'https://tenant.sharepoint.com/video.mp4', 'https://tenant.sharepoint.com/',
+                'https://tenant.sharepoint.com/embed.aspx/extra', 'https://tenant.sharepoint.com/download.aspx',
+                'https://www.onedrive.com/embed_by_post', 'https://www.onedrive.com/redirect',
+            ] as $url
+        ) {
             $this->assertNull((new microsoft_preview_result([], $url))->url());
         }
     }
@@ -133,11 +139,13 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Plain or unfamiliar authentication URLs cannot silently become unauthenticated frames.
      */
     public function test_unverified_preview_authentication_does_not_create_a_frame_url(): void {
-        foreach ([
-            'https://tenant.sharepoint.com/_layouts/15/embed.aspx?web=1',
-            'https://www.onedrive.com/embed', 'https://www.onedrive.com/embed?token=',
-            'https://www.onedrive.com/embed?unknown_auth=private-marker',
-        ] as $url) {
+        foreach (
+            [
+                'https://tenant.sharepoint.com/_layouts/15/embed.aspx?web=1',
+                'https://www.onedrive.com/embed', 'https://www.onedrive.com/embed?token=',
+                'https://www.onedrive.com/embed?unknown_auth=private-marker',
+            ] as $url
+        ) {
             $result = new microsoft_preview_result([], $url);
             $this->assertSame('preview_authentication_unverified', $result->diagnostic()['status']);
             $this->assertNull($result->url());
@@ -216,9 +224,11 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Deleted items, non-video files and incomplete metadata cannot reach preview POST.
      */
     public function test_non_video_metadata_never_posts_a_preview(): void {
-        foreach ([
-            ['deleted' => (object)[]], ['file' => null], ['video' => ['duration' => 0]], ['size' => -1],
-        ] as $overrides) {
+        foreach (
+            [
+                ['deleted' => (object)[]], ['file' => null], ['video' => ['duration' => 0]], ['size' => -1],
+            ] as $overrides
+        ) {
             $result = (new microsoft_graph($this->metadata_client($this->video_body($overrides))))
                 ->video_preview('drive', 'video');
             $this->assertNull($result->url());
@@ -241,11 +251,13 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Preview HTTP failures and redirects are classified without following provider URLs.
      */
     public function test_preview_http_failures_are_redacted_and_not_retried(): void {
-        foreach ([
-            302 => 'graph_redirect_refused', 401 => 'graph_unauthorised', 403 => 'graph_forbidden',
-            404 => 'graph_not_found', 429 => 'graph_throttled', 503 => 'graph_unavailable',
-            400 => 'graph_request_failed',
-        ] as $code => $status) {
+        foreach (
+            [
+                302 => 'graph_redirect_refused', 401 => 'graph_unauthorised', 403 => 'graph_forbidden',
+                404 => 'graph_not_found', 429 => 'graph_throttled', 503 => 'graph_unavailable',
+                400 => 'graph_request_failed',
+            ] as $code => $status
+        ) {
             $result = (new microsoft_graph($this->preview_client('{"error":"private-marker"}', $code)))
                 ->video_preview('drive', 'video');
             $this->assertSame($status, $result->diagnostic()['status']);
@@ -259,10 +271,12 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Curl errors and exceptions leave no private URL and restore temporary headers.
      */
     public function test_preview_transport_failures_are_reduced(): void {
-        foreach ([
-            $this->preview_client(false, 0, 28),
-            $this->preview_client(new \RuntimeException('private-marker')),
-        ] as $client) {
+        foreach (
+            [
+                $this->preview_client(false, 0, 28),
+                $this->preview_client(new \RuntimeException('private-marker')),
+            ] as $client
+        ) {
             $result = (new microsoft_graph($client))->video_preview('drive', 'video');
             $this->assertSame('graph_transport_failed', $result->diagnostic()['status']);
             $this->assertNull($result->url());
@@ -274,10 +288,12 @@ final class microsoft_preview_test extends \advanced_testcase {
      * Invalid, oversized or excessively nested preview JSON cannot become a frame.
      */
     public function test_invalid_preview_responses_are_rejected(): void {
-        foreach ([
-            false, '', '{', '[]', 'null', '{"getUrl":7}', str_repeat('x', 1048577),
-            str_repeat('{"x":', 20) . '{}' . str_repeat('}', 20),
-        ] as $body) {
+        foreach (
+            [
+                false, '', '{', '[]', 'null', '{"getUrl":7}', str_repeat('x', 1048577),
+                str_repeat('{"x":', 20) . '{}' . str_repeat('}', 20),
+            ] as $body
+        ) {
             $result = (new microsoft_graph($this->preview_client($body)))->video_preview('drive', 'video');
             $this->assertSame('graph_invalid_response', $result->diagnostic()['status']);
             $this->assertNull($result->url());
@@ -574,7 +590,8 @@ final class microsoft_preview_test extends \advanced_testcase {
             ->onlyMethods(['get', 'post', 'get_info', 'get_errno'])->getMock();
         $client->expects($this->once())->method('get')->with(
             'https://graph.microsoft.com/v1.0/drives/drive/items/video?$select=id,file,video,size,deleted',
-            [], $this->transport_options()
+            [],
+            $this->transport_options()
         )->willReturn($body);
         $client->expects($this->never())->method('post');
         $client->method('get_info')->willReturn(['http_code' => $code]);
@@ -596,10 +613,13 @@ final class microsoft_preview_test extends \advanced_testcase {
         $client->method('is_logged_in')->willReturn(true);
         $client->expects($this->once())->method('get')->with(
             'https://graph.microsoft.com/v1.0/drives/drive/items/video?$select=id,file,video,size,deleted',
-            [], $this->transport_options()
+            [],
+            $this->transport_options()
         )->willReturn($this->video_body());
         $post = $client->expects($this->once())->method('post')->with(
-            'https://graph.microsoft.com/v1.0/drives/drive/items/video/preview', '{}', $this->transport_options()
+            'https://graph.microsoft.com/v1.0/drives/drive/items/video/preview',
+            '{}',
+            $this->transport_options()
         );
         if ($body instanceof \Throwable) {
             $post->willThrowException($body);

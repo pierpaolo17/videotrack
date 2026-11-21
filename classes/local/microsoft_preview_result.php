@@ -27,6 +27,9 @@ namespace mod_videotrack\local;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class microsoft_preview_result implements \JsonSerializable {
+    /** @var int Maximum preview response accepted by the JSON parser. */
+    private const MAX_RESPONSE_BYTES = 1048576;
+
     /** @var array Reduced metadata, without URLs, credentials or provider bodies. */
     private readonly array $diagnostic;
 
@@ -60,6 +63,33 @@ final class microsoft_preview_result implements \JsonSerializable {
             'oauth_refresh_possible', 'playback_implemented', 'http_status',
             'mime_type', 'duration_seconds', 'size_bytes', 'preview_attempted',
         ]));
+    }
+
+    /**
+     * Parse bounded preview JSON, keeping its opaque URL outside diagnostics.
+     *
+     * @param string|false $body Core curl response for the preview POST.
+     * @param array $result Redacted transport and video metadata.
+     * @return microsoft_preview_result GET-only preview; provider POST forms are unsupported.
+     * @throws \JsonException If the provider response is malformed or exceeds the depth limit.
+     */
+    public static function from_response(string|false $body, array $result): microsoft_preview_result {
+        if (!is_string($body) || strlen($body) > self::MAX_RESPONSE_BYTES) {
+            return new microsoft_preview_result($result);
+        }
+        $data = json_decode($body, false, 16, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
+        if (!($data instanceof \stdClass)) {
+            return new microsoft_preview_result($result);
+        }
+        $result['status'] = 'preview_get_unavailable';
+        if (!isset($data->getUrl)) {
+            return new microsoft_preview_result($result);
+        }
+        if (!is_string($data->getUrl)) {
+            $result['status'] = 'graph_invalid_response';
+            return new microsoft_preview_result($result);
+        }
+        return new microsoft_preview_result($result, $data->getUrl);
     }
 
     /**

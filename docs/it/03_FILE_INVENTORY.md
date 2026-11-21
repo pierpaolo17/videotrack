@@ -221,10 +221,10 @@ Voci: **399** — 394 file distribuiti e cinque solo repository. L'albero comple
 | `classes/local/instance_settings_policy.php` | Policy server sui campi e sulle dipendenze di completamento prima della persistenza. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
-| `classes/local/microsoft_graph.php` | GET metadati verso host fisso e scalari drive/video validati e redatti. |
+| `classes/local/microsoft_graph.php` | GET metadati e POST anteprima privato verso host fisso, con diagnostica drive/video redatta. |
 | `classes/local/microsoft_graph_probe.php` | Controlli locali ed endpoint Microsoft prima del client OAuth core di sistema. |
 | `classes/local/microsoft_link_result.php` | Separa URL privati della pagina provider e diagnostica serializzabile; impone limiti destinazione/query. |
-| `classes/local/microsoft_preview_result.php` | URL Microsoft temporaneo privato e risultato diagnostico allowlist. |
+| `classes/local/microsoft_preview_result.php` | Parser anteprima circoscritto, URL temporaneo privato e diagnostica allowlist. |
 | `classes/local/microsoft_user_connection.php` | Collegamento OAuth core personale esplicito con POST/sesskey e ritorno monouso. |
 | `classes/local/microsoft_user_probe.php` | Diagnostica amministrativa con utente OAuth core corrente, senza ripiego sistema. |
 | `classes/local/personal_item.php` | Cancellazione definitiva del proprietario e retry serializzati. |
