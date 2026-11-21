@@ -1,6 +1,6 @@
 # Anteprima diagnostica Microsoft privata
 
-VideoTrack **1.7.266** (`2026112001`).
+VideoTrack **1.7.267** (`2026112100`).
 
 ## Scopo e accesso
 
@@ -116,7 +116,8 @@ assenza ripiego condiviso, conservazione dati, modulo/CSRF e controller. Il test
 precedente della pagina originale verifica ora il proprio ramo di rendering link,
 conservandone il contratto senza iframe. Tre nuovi scenari Behat coprono GET locale,
 rifiuto modulo e configurazione assente senza traffico provider reale. Non dimostrano
-un iframe reale riuscito. CI candidato/main e test server nativi266 ancora da eseguire.
+un iframe reale riuscito. CI candidato/main e test server nativi266 accettati;
+il successo tenant/browser reale resta da verificare.
 
 Seguono prova delegata reale browser/anteprima, riferimenti stabili nell’attività e
 risoluzione all’avvio, quindi telemetria provider supportata di tempo/play/pausa/seek
@@ -132,3 +133,6 @@ Accessibilità manuale5.3 in standby; conservare il dataset demo.
 - [POST curl core53 fissato](https://github.com/moodle/moodle/blob/aa930e26fbdd08dd8ba70f53298838a8d306ee57/public/lib/filelib.php)
 
 - [Annuncio Microsoft transizione autenticazione preview,8ottobre2026](https://devblogs.microsoft.com/microsoft365dev/pre-authenticated-tempauth-urls-are-retiring-move-to-microsoft-entra-id-tokens-before-april-1-2027/)
+
+La267 può [riusare un’identità diagnostica stabile](38_MICROSOFT_VIDEO_REFERENCES.md)
+per richiedere risultati nuovi. Persistenza attività e risoluzione avvio studente restano gate successivi.

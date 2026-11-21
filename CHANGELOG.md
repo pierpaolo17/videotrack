@@ -1,5 +1,40 @@
 # VideoTrack changelog
 
+## 1.7.267 - 2026-11-21
+
+### Reuse Microsoft video identities without retaining temporary URLs
+
+- Add an explicit reusable-reference mode to the existing administrator diagnostic.
+  Keep manual ids as the default, including drive-only metadata and its explicit
+  system-account option. Reference mode requires a video and the current personal
+  account; inactive manual fields cannot override the selected identity.
+- Accept a bounded version1 JSON identity containing only provider, local core issuer
+  and opaque drive/item ids. Reject extra fields, URLs, credentials, invalid types,
+  unsupported versions and another selected issuer before OAuth/Graph. Recheck the
+  selected service after POST/sesskey validation before resolving the target.
+- Offer an escaped read-only identity only after a successful personal video result.
+  Keep it separate from diagnostic JSON. Every reused preview performs fresh metadata
+  and preview requests through existing core OAuth; denied access never revives an
+  earlier URL. No URL cache, background refresh, new token store or activity writes.
+- Preserve Graph transport/result guards, OAuth connection handshake, source switches,
+  XMLDB, AJAX, AMD, Privacy transport and all560existing unit methods/70scenarios.
+  Add23native unit methods,3local Behat scenarios and8strings in each language.
+  Stable activity persistence/backup, learner launch resolution, live browser/provider
+  authentication and supported telemetry remain separate gates.
+- Accept actual266 from mainb9a98179/tree5b59ea93: all490repository blobs/modes and
+  466exported files match. Candidate/main each pass6jobs, Unit560/6074, Behat70/1358
+  without retries, strict10/0/0 and Grunt. Both lifecycle matrices pass with6snapshot
+  hashes independently reconstructed and126actual shared-file content checks per run.
+  Initial266 PHPCS28 and Graph complexity55 findings are fixed by the corrected run;
+  retain31PHPMD baseline findings and751/779unclassified Psalm information.
+- Actual266 server passes all8command outcomes: shared canonical/lint194clean,
+  Unit560/6074 separately on50/53 and both Grunt builds with recorded hashes unchanged.
+  Both maintainer strict outputs are10/0/0. Demo retained; manual53accessibility STANDBY.
+- Inventories:495repository/471distributed files,195distributedPHP,1467PHPcallables
+  (1460distributed+7helper),654AMDcallables,583unit methods,73expanded scenarios,
+  8×1058language keys and48unchanged AMD sets. Native267 CI/server and live Microsoft
+  browser/preview remain pending; local source/patch checks are not native execution.
+
 ## 1.7.266 - 2026-11-20
 
 ### Add a private native Microsoft diagnostic preview

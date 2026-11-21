@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.266. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.267. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1426 (1419 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1467 (1460 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -836,9 +836,12 @@ Generato dall’albero sorgente VideoTrack 1.7.266. Le voci PHP includono funzio
 | `classes/external/start_playback.php:115` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:40` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/form/forum_post_form.php:116` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/form/microsoft_probe_form.php:46` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
-| `classes/form/microsoft_probe_form.php:85` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
-| `classes/form/microsoft_probe_form.php:117` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
+| `classes/form/microsoft_probe_form.php:47` | `definition` | Definisce il modulo POST senza alterare gli identificatori non validi. |
+| `classes/form/microsoft_probe_form.php:100` | `validation` | Valida gli ID opachi nei campi prima della diagnostica remota. |
+| `classes/form/microsoft_probe_form.php:130` | `identifier_errors` | Contratto identità Microsoft riutilizzabile `identifier_errors`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Contratto identità Microsoft riutilizzabile `reference_errors`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Contratto identità Microsoft riutilizzabile `resolve_target`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1076,6 +1079,13 @@ Generato dall’albero sorgente VideoTrack 1.7.266. Le voci PHP includono funzio
 | `classes/local/microsoft_user_probe.php:97` | `execute` | Gestisce il contratto della pagina Microsoft: execute. |
 | `classes/local/microsoft_user_probe.php:147` | `inspect_resource` | Funzione PHP `inspect_resource` per anteprima Microsoft privata; vedere DocBlock e contratto delle regressioni native. |
 | `classes/local/microsoft_user_probe.php:164` | `valid_target` | Gestisce il contratto della pagina Microsoft: valid_target. |
+| `classes/local/microsoft_video_reference.php:40` | `__construct` | Contratto identità Microsoft riutilizzabile `__construct`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:60` | `from_json` | Contratto identità Microsoft riutilizzabile `from_json`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:81` | `valid_payload` | Contratto identità Microsoft riutilizzabile `valid_payload`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:94` | `assert_issuer` | Contratto identità Microsoft riutilizzabile `assert_issuer`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:105` | `target` | Contratto identità Microsoft riutilizzabile `target`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:118` | `encode` | Contratto identità Microsoft riutilizzabile `encode`; vedere DocBlock e regressioni native. |
+| `classes/local/microsoft_video_reference.php:130` | `for_result` | Contratto identità Microsoft riutilizzabile `for_result`; vedere DocBlock e regressioni native. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Implementa `is_deleted` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:50` | `erase` | Implementa `erase` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
@@ -1834,6 +1844,37 @@ Generato dall’albero sorgente VideoTrack 1.7.266. Le voci PHP includono funzio
 | `tests/microsoft_video_link_test.php:369` | `create_issuer` | Verifica nativa pagina Microsoft: create_issuer. |
 | `tests/microsoft_video_link_test.php:392` | `video_body` | Verifica nativa pagina Microsoft: video_body. |
 | `tests/microsoft_video_link_test.php:408` | `response_client` | Verifica nativa pagina Microsoft: response_client. |
+| `tests/microsoft_video_reference_test.php:45` | `setUp` | Contratto identità Microsoft riutilizzabile `setUp`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:59` | `tearDown` | Contratto identità Microsoft riutilizzabile `tearDown`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:69` | `test_reference_roundtrip_preserves_opaque_identity` | Contratto identità Microsoft riutilizzabile `test_reference_roundtrip_preserves_opaque_identity`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:83` | `test_reordered_json_whitespace_is_accepted` | Contratto identità Microsoft riutilizzabile `test_reordered_json_whitespace_is_accepted`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:91` | `test_invalid_json_and_non_string_inputs_are_rejected` | Contratto identità Microsoft riutilizzabile `test_invalid_json_and_non_string_inputs_are_rejected`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:104` | `test_exact_fields_exclude_credentials_and_provider_urls` | Contratto identità Microsoft riutilizzabile `test_exact_fields_exclude_credentials_and_provider_urls`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:118` | `test_version_and_provider_types_are_strict` | Contratto identità Microsoft riutilizzabile `test_version_and_provider_types_are_strict`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:130` | `test_issuer_type_and_range_are_restricted` | Contratto identità Microsoft riutilizzabile `test_issuer_type_and_range_are_restricted`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:139` | `test_unsafe_or_missing_resource_ids_are_rejected` | Contratto identità Microsoft riutilizzabile `test_unsafe_or_missing_resource_ids_are_rejected`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:150` | `test_selected_issuer_must_match` | Contratto identità Microsoft riutilizzabile `test_selected_issuer_must_match`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:160` | `test_successful_result_offers_only_identity` | Contratto identità Microsoft riutilizzabile `test_successful_result_offers_only_identity`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:177` | `test_unsuccessful_or_shared_results_do_not_offer_reference` | Contratto identità Microsoft riutilizzabile `test_unsuccessful_or_shared_results_do_not_offer_reference`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:197` | `test_reference_form_supports_existing_personal_actions` | Contratto identità Microsoft riutilizzabile `test_reference_form_supports_existing_personal_actions`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:207` | `test_reference_form_requires_personal_account` | Contratto identità Microsoft riutilizzabile `test_reference_form_requires_personal_account`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:215` | `test_invalid_mode_or_reference_cannot_fall_back_to_manual_ids` | Contratto identità Microsoft riutilizzabile `test_invalid_mode_or_reference_cannot_fall_back_to_manual_ids`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:229` | `test_reference_form_rejects_another_service` | Contratto identità Microsoft riutilizzabile `test_reference_form_rejects_another_service`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:239` | `test_manual_target_contract_is_retained` | Contratto identità Microsoft riutilizzabile `test_manual_target_contract_is_retained`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:249` | `test_reference_target_keeps_operation_and_exact_ids` | Contratto identità Microsoft riutilizzabile `test_reference_target_keeps_operation_and_exact_ids`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:265` | `test_target_resolution_rechecks_changed_issuer` | Contratto identità Microsoft riutilizzabile `test_target_resolution_rechecks_changed_issuer`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:277` | `test_get_cannot_submit_reference_input` | Contratto identità Microsoft riutilizzabile `test_get_cannot_submit_reference_input`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:287` | `test_reference_post_requires_a_valid_sesskey` | Contratto identità Microsoft riutilizzabile `test_reference_post_requires_a_valid_sesskey`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:299` | `test_controller_keeps_guards_and_separate_escaped_reference` | Contratto identità Microsoft riutilizzabile `test_controller_keeps_guards_and_separate_escaped_reference`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:315` | `test_repeated_reference_resolution_requests_fresh_previews` | Contratto identità Microsoft riutilizzabile `test_repeated_reference_resolution_requests_fresh_previews`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:346` | `test_reference_reuse_does_not_recover_an_old_url_after_denial` | Contratto identità Microsoft riutilizzabile `test_reference_reuse_does_not_recover_an_old_url_after_denial`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:366` | `test_reference_is_not_an_administration_access_grant` | Contratto identità Microsoft riutilizzabile `test_reference_is_not_an_administration_access_grant`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:385` | `reference` | Contratto identità Microsoft riutilizzabile `reference`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:397` | `reference_data` | Contratto identità Microsoft riutilizzabile `reference_data`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:409` | `assert_invalid` | Contratto identità Microsoft riutilizzabile `assert_invalid`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:423` | `create_issuer` | Contratto identità Microsoft riutilizzabile `create_issuer`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:447` | `preview_client` | Contratto identità Microsoft riutilizzabile `preview_client`; vedere DocBlock e regressioni native. |
+| `tests/microsoft_video_reference_test.php:480` | `transport_options` | Contratto identità Microsoft riutilizzabile `transport_options`; vedere DocBlock e regressioni native. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |

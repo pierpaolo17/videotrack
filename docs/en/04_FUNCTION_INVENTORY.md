@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.266 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.267 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1426 (1419 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
+**PHP functions/methods:** 1467 (1460 distributed and 7 repository-only CI helpers). **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -836,9 +836,12 @@ Generated from the VideoTrack 1.7.266 source tree. PHP entries include named fun
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/form/microsoft_probe_form.php:46` | `definition` | Define identifiers without silently stripping invalid target characters. |
-| `classes/form/microsoft_probe_form.php:85` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
-| `classes/form/microsoft_probe_form.php:117` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
+| `classes/form/microsoft_probe_form.php:47` | `definition` | Define identifiers without silently stripping invalid target characters. |
+| `classes/form/microsoft_probe_form.php:100` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
+| `classes/form/microsoft_probe_form.php:130` | `identifier_errors` | Reusable Microsoft identity contract `identifier_errors`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Reusable Microsoft identity contract `reference_errors`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Reusable Microsoft identity contract `resolve_target`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1076,6 +1079,13 @@ Generated from the VideoTrack 1.7.266 source tree. PHP entries include named fun
 | `classes/local/microsoft_user_probe.php:97` | `execute` | Apply the same permission, target and OAuth guards to either explicit action. |
 | `classes/local/microsoft_user_probe.php:147` | `inspect_resource` | PHP callable `inspect_resource` for private Microsoft preview; see its DocBlock and native regression contract. |
 | `classes/local/microsoft_user_probe.php:164` | `valid_target` | Validate the target before inspecting configuration or starting OAuth. |
+| `classes/local/microsoft_video_reference.php:40` | `__construct` | Reusable Microsoft identity contract `__construct`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:60` | `from_json` | Reusable Microsoft identity contract `from_json`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:81` | `valid_payload` | Reusable Microsoft identity contract `valid_payload`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:94` | `assert_issuer` | Reusable Microsoft identity contract `assert_issuer`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:105` | `target` | Reusable Microsoft identity contract `target`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:118` | `encode` | Reusable Microsoft identity contract `encode`; see its DocBlock and native regression coverage. |
+| `classes/local/microsoft_video_reference.php:130` | `for_result` | Reusable Microsoft identity contract `for_result`; see its DocBlock and native regression coverage. |
 | `classes/local/personal_item.php:33` | `is_deleted` | Recognise personal items already removed in an older backup or database. |
 | `classes/local/personal_item.php:50` | `erase` | Erase an owned note/bookmark, keeping retries free of duplicate events. |
 | `classes/local/personal_item.php:95` | `require_owner` | Require the stored owner, activity, module and personal item type. |
@@ -1834,6 +1844,37 @@ Generated from the VideoTrack 1.7.266 source tree. PHP entries include named fun
 | `tests/microsoft_video_link_test.php:369` | `create_issuer` | Create a supported fake service without a shared system account. |
 | `tests/microsoft_video_link_test.php:392` | `video_body` | Produce valid video metadata with explicitly controlled returned fields. |
 | `tests/microsoft_video_link_test.php:408` | `response_client` | Require exactly one fixed-host request with unchanged transport restrictions. |
+| `tests/microsoft_video_reference_test.php:45` | `setUp` | Reusable Microsoft identity contract `setUp`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:59` | `tearDown` | Reusable Microsoft identity contract `tearDown`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:69` | `test_reference_roundtrip_preserves_opaque_identity` | Reusable Microsoft identity contract `test_reference_roundtrip_preserves_opaque_identity`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:83` | `test_reordered_json_whitespace_is_accepted` | Reusable Microsoft identity contract `test_reordered_json_whitespace_is_accepted`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:91` | `test_invalid_json_and_non_string_inputs_are_rejected` | Reusable Microsoft identity contract `test_invalid_json_and_non_string_inputs_are_rejected`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:104` | `test_exact_fields_exclude_credentials_and_provider_urls` | Reusable Microsoft identity contract `test_exact_fields_exclude_credentials_and_provider_urls`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:118` | `test_version_and_provider_types_are_strict` | Reusable Microsoft identity contract `test_version_and_provider_types_are_strict`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:130` | `test_issuer_type_and_range_are_restricted` | Reusable Microsoft identity contract `test_issuer_type_and_range_are_restricted`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:139` | `test_unsafe_or_missing_resource_ids_are_rejected` | Reusable Microsoft identity contract `test_unsafe_or_missing_resource_ids_are_rejected`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:150` | `test_selected_issuer_must_match` | Reusable Microsoft identity contract `test_selected_issuer_must_match`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:160` | `test_successful_result_offers_only_identity` | Reusable Microsoft identity contract `test_successful_result_offers_only_identity`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:177` | `test_unsuccessful_or_shared_results_do_not_offer_reference` | Reusable Microsoft identity contract `test_unsuccessful_or_shared_results_do_not_offer_reference`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:197` | `test_reference_form_supports_existing_personal_actions` | Reusable Microsoft identity contract `test_reference_form_supports_existing_personal_actions`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:207` | `test_reference_form_requires_personal_account` | Reusable Microsoft identity contract `test_reference_form_requires_personal_account`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:215` | `test_invalid_mode_or_reference_cannot_fall_back_to_manual_ids` | Reusable Microsoft identity contract `test_invalid_mode_or_reference_cannot_fall_back_to_manual_ids`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:229` | `test_reference_form_rejects_another_service` | Reusable Microsoft identity contract `test_reference_form_rejects_another_service`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:239` | `test_manual_target_contract_is_retained` | Reusable Microsoft identity contract `test_manual_target_contract_is_retained`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:249` | `test_reference_target_keeps_operation_and_exact_ids` | Reusable Microsoft identity contract `test_reference_target_keeps_operation_and_exact_ids`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:265` | `test_target_resolution_rechecks_changed_issuer` | Reusable Microsoft identity contract `test_target_resolution_rechecks_changed_issuer`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:277` | `test_get_cannot_submit_reference_input` | Reusable Microsoft identity contract `test_get_cannot_submit_reference_input`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:287` | `test_reference_post_requires_a_valid_sesskey` | Reusable Microsoft identity contract `test_reference_post_requires_a_valid_sesskey`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:299` | `test_controller_keeps_guards_and_separate_escaped_reference` | Reusable Microsoft identity contract `test_controller_keeps_guards_and_separate_escaped_reference`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:315` | `test_repeated_reference_resolution_requests_fresh_previews` | Reusable Microsoft identity contract `test_repeated_reference_resolution_requests_fresh_previews`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:346` | `test_reference_reuse_does_not_recover_an_old_url_after_denial` | Reusable Microsoft identity contract `test_reference_reuse_does_not_recover_an_old_url_after_denial`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:366` | `test_reference_is_not_an_administration_access_grant` | Reusable Microsoft identity contract `test_reference_is_not_an_administration_access_grant`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:385` | `reference` | Reusable Microsoft identity contract `reference`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:397` | `reference_data` | Reusable Microsoft identity contract `reference_data`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:409` | `assert_invalid` | Reusable Microsoft identity contract `assert_invalid`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:423` | `create_issuer` | Reusable Microsoft identity contract `create_issuer`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:447` | `preview_client` | Reusable Microsoft identity contract `preview_client`; see its DocBlock and native regression coverage. |
+| `tests/microsoft_video_reference_test.php:480` | `transport_options` | Reusable Microsoft identity contract `transport_options`; see its DocBlock and native regression coverage. |
 | `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Named PHP function/method `test_media_source_errors_preserve_required_inputs`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Named PHP function/method `test_missing_timed_text_files_have_distinct_errors`; see source DocBlock and callers for the current contract. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Named PHP function/method `test_reaction_file_error_depends_on_enablement`; see source DocBlock and callers for the current contract. |

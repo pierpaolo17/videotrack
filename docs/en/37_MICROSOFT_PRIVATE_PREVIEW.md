@@ -1,6 +1,6 @@
 # Private Microsoft diagnostic preview
 
-VideoTrack **1.7.266** (`2026112001`).
+VideoTrack **1.7.267** (`2026112100`).
 
 ## Purpose and access
 
@@ -114,7 +114,7 @@ fallback, data preservation, form/CSRF and controller contracts. The previous
 original-page controller test now checks its own link-rendering branch, preserving
 that branch's no-iframe contract. Three new Behat scenarios exercise local GET,
 form rejection and missing configuration with no real provider traffic. They do
-not prove a successful live iframe. Native266 candidate/main/server checks are pending.
+not prove a successful live iframe. Native266 candidate/main/server checks are accepted; live tenant/browser success is unverified.
 
 Next gates are the real delegated browser/preview test, stable activity references
 and launch resolution, and supported provider time/play/pause/seek telemetry before
@@ -130,3 +130,6 @@ Manual5.3 accessibility remains on standby; retain the demo dataset.
 - [Pinned53 core curl POST](https://github.com/moodle/moodle/blob/aa930e26fbdd08dd8ba70f53298838a8d306ee57/public/lib/filelib.php)
 
 - [Microsoft preview-auth transition announcement,8October2026](https://devblogs.microsoft.com/microsoft365dev/pre-authenticated-tempauth-urls-are-retiring-move-to-microsoft-entra-id-tokens-before-april-1-2027/)
+
+Release267 can [reuse a stable diagnostic identity](38_MICROSOFT_VIDEO_REFERENCES.md)
+to request fresh results. Activity persistence and learner launch resolution remain later gates.
