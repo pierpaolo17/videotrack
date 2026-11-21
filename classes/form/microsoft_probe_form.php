@@ -52,6 +52,7 @@ final class microsoft_probe_form extends \moodleform {
             [
                 'metadata' => get_string('providercheck:metadata', 'mod_videotrack'),
                 'provider_link' => get_string('providercheck:providerlink', 'mod_videotrack'),
+                'provider_preview' => get_string('providercheck:preview', 'mod_videotrack'),
             ]
         );
         $form->setDefault('operation', 'metadata');
@@ -84,7 +85,7 @@ final class microsoft_probe_form extends \moodleform {
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
         $operation = $data['operation'] ?? 'metadata';
-        if (!in_array($operation, ['metadata', 'provider_link'], true)) {
+        if (!in_array($operation, ['metadata', 'provider_link', 'provider_preview'], true)) {
             $errors['operation'] = get_string('invaliddata', 'error');
         }
         if (!in_array($data['accountcontext'] ?? 'system', ['system', 'current_user'], true)) {
@@ -101,14 +102,14 @@ final class microsoft_probe_form extends \moodleform {
                 $errors[$field] = get_string('providercheck:invalidid', 'mod_videotrack');
             }
         }
-        if ($operation === 'provider_link') {
+        if (in_array($operation, ['provider_link', 'provider_preview'], true)) {
             $errors = array_replace($errors, $this->provider_link_errors($data));
         }
         return $errors;
     }
 
     /**
-     * Require a personal account and video item for the original-page action.
+     * Require a personal account and video item for page or preview actions.
      *
      * @param array $data Submitted form fields.
      * @return array Field errors specific to opening a Microsoft page.
@@ -119,7 +120,8 @@ final class microsoft_probe_form extends \moodleform {
             $errors['accountcontext'] = get_string('providercheck:personalrequired', 'mod_videotrack');
         }
         if (($data['itemid'] ?? '') === '') {
-            $errors['itemid'] = get_string('providercheck:itemrequired', 'mod_videotrack');
+            $key = ($data['operation'] ?? '') === 'provider_preview' ? 'previewitemrequired' : 'itemrequired';
+            $errors['itemid'] = get_string('providercheck:' . $key, 'mod_videotrack');
         }
         return $errors;
     }

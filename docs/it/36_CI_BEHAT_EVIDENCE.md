@@ -1,6 +1,6 @@
 # Conservare e interpretare le prove Behat
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Motivo di questa release di manutenzione
 
@@ -48,12 +48,12 @@ fallimento quando si rilancia un job: il pass successivo dimostra solo quel tent
 Comando Behat, gestione pipefail/exit, impostazioni dei rerun automatici, matrice a
 sei voci, asserzioni, regole qualità e condizione di successo del lifecycle restano
 invariati. Gli step di raccolta non trasformano un test fallito in successo. Il
-caricamento faildump non cambia l’esito di uno step precedente fallito. Per la265
+caricamento faildump non cambia l’esito di uno step precedente fallito. Per la266
 servono ancora CI nativa candidato/main, pacchetto/server reale e due strict.
 
-La release modifica prove CI e documentazione, oltre ai metadati versione.
-Riproduzione, Analytics di produzione, OAuth, dati e demo conservata non hanno
-modifiche runtime. Accessibilità manuale5.3 ancora in standby. Il ritorno completo
+La manutenzione265 ha modificato prove CI, documentazione e metadati versione.
+La raccolta delle prove non modifica riproduzione o dati di produzione. L’anteprima
+diagnostica266 è descritta nella [guida dedicata](37_MICROSOFT_PRIVATE_PREVIEW.md). Accessibilità manuale5.3 ancora in standby. Il ritorno completo
 Microsoft delegato con browser reale non è stato eseguito; autenticazione provider
 supportata e telemetria tempo/play/pausa/seek restano gate prima del player Microsoft
 tracciato. Le priorità successive restano Microsoft, Zoom, Google Drive e infine App.

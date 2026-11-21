@@ -1,8 +1,12 @@
 # User and administrator guide
 
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
 Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
 to the existing administrator page. It starts core OAuth only after an explicit
-protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+protected POST; ordinary diagnostics GET remains local. Native264/265 are accepted; live tenant testing remains pending.
 
 Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
 It requires the personal account and a video id. The provider page opens separately;

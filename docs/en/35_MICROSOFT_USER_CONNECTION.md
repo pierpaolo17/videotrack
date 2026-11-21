@@ -1,6 +1,10 @@
 # Connect the administrator's Microsoft account
 
-VideoTrack **1.7.265** (`2026112000`).
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Procedure
 

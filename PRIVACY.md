@@ -99,3 +99,16 @@ Identity fields in individual reports are configurable by site and activity and 
 VideoTrack may use session-scoped browser storage for transient UI/session state. It is not intended for cross-site tracking and is not a substitute for server-side authorisation or persistence.
 
 Detailed implementation references are in `docs/en/02_ARCHITECTURE.md`, `06_RUNTIME_FLOWS.md`, `11_INTEGRITY_AND_FOCUS.md` and `12_ACKNOWLEDGEMENT.md`.
+
+## Administrator Microsoft diagnostics
+
+Explicit administrator diagnostics send the selected drive/video identifiers to
+Microsoft Graph using the selected Moodle core OAuth identity. A requested private
+preview uses the current administrator’s connected work/school account. Its iframe
+makes browser requests to Microsoft, which may receive IP address, user agent and
+cookies. The Privacy API declares this external transfer. Core manages OAuth credentials.
+
+The temporary preview address can carry the caller’s access. It appears only in that
+administrator’s requested preview and is not saved as activity data, exported or
+shared with learners by VideoTrack. Diagnostic JSON omits it. This action does not
+create watched progress, grades or completion. See the [preview guide](docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md).

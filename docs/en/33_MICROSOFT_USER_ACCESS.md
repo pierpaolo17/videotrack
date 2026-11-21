@@ -1,14 +1,18 @@
 # Microsoft metadata under the current user's identity
 
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
 Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
 to the existing administrator page. It starts core OAuth only after an explicit
-protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+protected POST; ordinary diagnostics GET remains local. Native264/265 are accepted; live tenant testing remains pending.
 
 Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
 It requires the personal account and a video id. The provider page opens separately;
 VideoTrack does not credit viewing in that browser tab.
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Choose the identity explicitly
 
@@ -68,9 +72,9 @@ provider identity, resource authorisation and measurable player contract. The pr
 provider-to-browser delivery path remains; no file is imported or streamed by Moodle.
 Microsoft remains before Zoom and Google, and the App remains later in the roadmap.
 
-The personal metadata foundation in262 passed all6 candidate/main jobs, Unit488/5267,
-Behat63/1287 and actual server/strict gates. New263 link handling is separate and its
-native/live-provider checks are pending. Retain the demo; manual53 stays on standby.
+The personal metadata/page/connection foundation through265 is accepted, with main
+all six jobs, Unit530/5612, Behat67/1327 and actual server/strict gates. New266
+preview and live-provider validation remain pending. Retain the demo; manual53standby.
 
 ## Primary core contracts
 

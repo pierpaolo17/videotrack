@@ -19,10 +19,10 @@ namespace mod_videotrack\local;
 use core\oauth2\client;
 
 /**
- * Bounded metadata GETs against the public Microsoft Graph service.
+ * Bounded metadata and private preview requests against public Microsoft Graph.
  *
  * This service never requests file content. General diagnostics omit identities,
- * URLs, bodies and credentials; a separate result can retain a private page link.
+ * URLs, bodies and credentials; separate results retain private page/preview links.
  * It does not implement tracked playback.
  *
  * @package    mod_videotrack
@@ -109,6 +109,91 @@ final class microsoft_graph {
         }
         $result['status'] = 'provider_link_unavailable';
         return new microsoft_link_result($result, is_string($data->webUrl ?? null) ? $data->webUrl : null);
+    }
+
+    /**
+     * Request a temporary native preview only after the same video passes metadata checks.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $itemid Required video item id.
+     * @return microsoft_preview_result Private caller-only preview, never tracked playback.
+     */
+    public function video_preview(string $driveid, string $itemid): microsoft_preview_result {
+        if ($itemid === '') {
+            throw new \invalid_parameter_exception('A video item id is required.');
+        }
+        $result = $this->inspect($driveid, $itemid);
+        $result['preview_attempted'] = false;
+        if ($result['status'] !== 'video_accessible') {
+            return new microsoft_preview_result($result);
+        }
+        $url = explode('?', self::resource_url($driveid, $itemid), 2)[0] . '/preview';
+        return $this->request_preview($url, $result);
+    }
+
+    /**
+     * Send one bounded JSON POST without redirects, retries or content requests.
+     *
+     * @param string $url Fixed-host preview endpoint built from validated opaque ids.
+     * @param array $result Redacted successful video metadata.
+     * @return microsoft_preview_result Private GET preview or reduced failure.
+     */
+    private function request_preview(string $url, array $result): microsoft_preview_result {
+        $result['preview_attempted'] = true;
+        $result['status'] = 'graph_transport_failed';
+        $result['http_status'] = 0;
+        try {
+            $this->client->setHeader('Content-Type: application/json');
+            $body = $this->client->post($url, '{}', [
+                'CURLOPT_FOLLOWLOCATION' => false,
+                'CURLOPT_MAXREDIRS' => 0,
+                'CURLOPT_CONNECTTIMEOUT' => 5,
+                'CURLOPT_TIMEOUT' => 15,
+                'CURLOPT_SSL_VERIFYPEER' => true,
+                'CURLOPT_SSL_VERIFYHOST' => 2,
+            ]);
+            $info = $this->client->get_info();
+            $result['http_status'] = (int)($info['http_code'] ?? 0);
+            if ($this->client->get_errno() !== 0) {
+                return new microsoft_preview_result($result);
+            }
+            if ($result['http_status'] !== 200) {
+                $result['status'] = self::http_status($result['http_status']);
+                return new microsoft_preview_result($result);
+            }
+            $result['status'] = 'graph_invalid_response';
+            return self::preview_response($body, $result);
+        } catch (\Throwable $error) {
+            return new microsoft_preview_result($result);
+        } finally {
+            $this->client->resetHeader();
+        }
+    }
+
+    /**
+     * Parse bounded preview JSON, keeping its opaque URL outside diagnostics.
+     *
+     * @param string|false $body Core curl response for the preview POST.
+     * @param array $result Redacted transport and video metadata.
+     * @return microsoft_preview_result GET-only preview; provider POST forms are unsupported.
+     */
+    private static function preview_response(string|false $body, array $result): microsoft_preview_result {
+        if (!is_string($body) || strlen($body) > self::MAX_RESPONSE_BYTES) {
+            return new microsoft_preview_result($result);
+        }
+        $data = json_decode($body, false, 16, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
+        if (!($data instanceof \stdClass)) {
+            return new microsoft_preview_result($result);
+        }
+        $result['status'] = 'preview_get_unavailable';
+        if (!isset($data->getUrl)) {
+            return new microsoft_preview_result($result);
+        }
+        if (!is_string($data->getUrl)) {
+            $result['status'] = 'graph_invalid_response';
+            return new microsoft_preview_result($result);
+        }
+        return new microsoft_preview_result($result, $data->getUrl);
     }
 
     /**

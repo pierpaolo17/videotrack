@@ -1,8 +1,12 @@
 # Microsoft check from site administration
 
+Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
+The metadata CLI and original-page action retain their own contracts; tracked learner playback
+and live Microsoft browser validation remain separate gates.
+
 Release 1.7.264 adds [Connect my Microsoft account](35_MICROSOFT_USER_CONNECTION.md)
 to the existing administrator page. It starts core OAuth only after an explicit
-protected POST; ordinary diagnostics GET remains local. Native264/live tenant pending.
+protected POST; ordinary diagnostics GET remains local. Native264/265 are accepted; live tenant testing remains pending.
 
 Release 1.7.263 also offers an explicit [original Microsoft page action](34_MICROSOFT_PROVIDER_PAGE.md).
 It requires the personal account and a video id. The provider page opens separately;
@@ -12,7 +16,7 @@ Release 1.7.262 adds an explicit account selector: the existing system account
 or the administrator’s own connected Microsoft account. Missing personal access
 never selects the shared account. [Setup and limits](33_MICROSOFT_USER_ACCESS.md).
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Open and configure
 
@@ -71,7 +75,7 @@ supported player bridge for time/play/pause/seek must still be implemented and
 validated before watched progress can be credited. Zoom and Google remain later
 gates; the optional Zoom repository is still an architectural assessment.
 
-The diagnostic foundation through262 is accepted (candidate/main all6CI, server
-Unit488/5267 and both strict10/0/0). Native263 is pending; see the
-[documentation audit](09_DOCUMENTATION_AUDIT.md). No connected tenant or official-player
-telemetry is claimed. Retain the demo; manual53 accessibility remains on standby.
+The diagnostic foundation through265 is accepted: main all six CI jobs, Unit530/5612,
+Behat67/1327, actual package/server and strict10/0/0 each. New266 and live tenant
+checks remain pending; see the [audit](09_DOCUMENTATION_AUDIT.md). Retain the demo;
+manual53 accessibility remains on standby.

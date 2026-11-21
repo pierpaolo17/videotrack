@@ -1,6 +1,6 @@
 # Preserve and interpret Behat evidence
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Why this maintenance release exists
 
@@ -47,12 +47,12 @@ a job; a later passing attempt demonstrates that attempt's result only.
 The Behat command, its pipefail/exit handling, automatic-rerun defaults, six-entry
 matrix, assertions, quality rules and lifecycle success condition are retained.
 No failing test is converted into success by the collection steps. Faildump upload
-does not change the outcome of an earlier failed step. New265 native candidate/main
+does not change the outcome of an earlier failed step. New266 native candidate/main
 CI, actual package/server checks and both strict outputs are still required.
 
-This release changes CI evidence and documentation only, apart from version metadata.
-Playback, production Analytics, OAuth, data and the retained demo have no runtime
-change. The manual5.3 accessibility check remains on standby. A real delegated
+The265 maintenance changed CI evidence/documentation and release metadata only.
+Its evidence collection has no production playback or data side effect. The separate
+266 diagnostic preview is described in [its guide](37_MICROSOFT_PRIVATE_PREVIEW.md). The manual5.3 accessibility check remains on standby. A real delegated
 Microsoft browser round trip is still unexecuted; supported provider authentication
 and time/play/pause/seek telemetry remain gates before tracked Microsoft playback.
 Next integration priorities remain Microsoft, Zoom, Google Drive and finally App.

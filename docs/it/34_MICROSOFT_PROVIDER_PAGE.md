@@ -1,10 +1,14 @@
 # Aprire la pagina originale del video Microsoft
 
+La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
+CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
+e validazione Microsoft reale con browser restano gate distinti.
+
 La 1.7.264 aggiunge [Collega il mio account Microsoft](35_MICROSOFT_USER_CONNECTION.md)
 alla pagina amministrativa esistente. Avvia OAuth core solo con POST protetto esplicito;
 il normale GET diagnostico resta locale. Prove native264 e tenant reale da svolgere.
 
-VideoTrack **1.7.265** (`2026112000`).
+VideoTrack **1.7.266** (`2026112001`).
 
 ## Procedura amministrativa
 
@@ -91,6 +95,6 @@ Conservare la demo; manuale53 in standby.
 - [Annuncio Microsoft transizione autenticazione preview,8ottobre2026](https://devblogs.microsoft.com/microsoft365dev/pre-authenticated-tempauth-urls-are-retiring-move-to-microsoft-entra-id-tokens-before-april-1-2027/)
 
 
-La prima candidata263 ha superato Unit508/5490 e Behat66/1318. La successiva correzione
-della complessità del modulo richiede un nuovo run nativo prima del merge; tenant/browser
-reali restano da verificare. Vedere l’[audit](09_DOCUMENTATION_AUDIT.md).
+La fondazione corretta fino alla265 ha superato CI candidato/main, pacchetto/server
+reale e due strict. La266 e tenant/browser reali sono ancora da verificare. Vedere
+l’[audit](09_DOCUMENTATION_AUDIT.md).
