@@ -60,8 +60,10 @@ $form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, null, 'post');
 $result = null;
 $providerlink = null;
 $previewurl = null;
+$videoreference = null;
 if ($data = $form->get_data()) {
     require_sesskey();
+    $data = $form->resolve_target($data);
     if ($data->operation === 'provider_link') {
         if ($data->accountcontext !== 'current_user') {
             throw new invalid_parameter_exception('A personal Microsoft account is required.');
@@ -89,6 +91,12 @@ if ($data = $form->get_data()) {
         throw new invalid_parameter_exception('Invalid Microsoft operation.');
     }
     $result['account_context'] = $data->accountcontext;
+    $reference = \mod_videotrack\local\microsoft_video_reference::for_result(
+        (int)$userconfiguration['issuerid'],
+        $data,
+        $result
+    );
+    $videoreference = $reference?->encode();
 }
 
 echo $OUTPUT->header();
@@ -135,6 +143,18 @@ if ($providerlink !== null) {
         'rel' => 'noopener noreferrer',
         'referrerpolicy' => 'no-referrer',
         'class' => 'btn btn-primary',
+    ]);
+}
+if ($videoreference !== null) {
+    echo $OUTPUT->heading(get_string('providercheck:referencetitle', 'mod_videotrack'), 3);
+    echo $OUTPUT->notification(get_string('providercheck:referencenotice', 'mod_videotrack'), 'info');
+    echo html_writer::tag('textarea', s($videoreference), [
+        'id' => 'videotrack-microsoft-reference',
+        'aria-label' => get_string('providercheck:referencetitle', 'mod_videotrack'),
+        'readonly' => 'readonly',
+        'rows' => 7,
+        'cols' => 60,
+        'class' => 'form-control mb-3',
     ]);
 }
 if ($previewurl !== null) {

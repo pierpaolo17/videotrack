@@ -4,7 +4,7 @@ Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) 
 The metadata CLI and original-page action retain their own contracts; tracked learner playback
 and live Microsoft browser validation remain separate gates.
 
-VideoTrack **1.7.266** (`2026112001`).
+VideoTrack **1.7.267** (`2026112100`).
 
 ## Procedure
 

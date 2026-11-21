@@ -25,6 +25,7 @@
 namespace mod_videotrack\form;
 
 use mod_videotrack\local\microsoft_graph;
+use mod_videotrack\local\microsoft_video_reference;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -68,10 +69,24 @@ final class microsoft_probe_form extends \moodleform {
         );
         $form->setDefault('accountcontext', 'system');
         $form->setType('accountcontext', PARAM_RAW);
+        $form->addElement('select', 'targetmode', get_string('providercheck:targetmode', 'mod_videotrack'), [
+            'manual' => get_string('providercheck:targetids', 'mod_videotrack'),
+            'reference' => get_string('providercheck:targetreference', 'mod_videotrack'),
+        ]);
+        $form->setDefault('targetmode', 'manual');
+        $form->setType('targetmode', PARAM_RAW);
         foreach (['driveid', 'itemid'] as $field) {
             $form->addElement('text', $field, get_string('providercheck:' . $field, 'mod_videotrack'), ['maxlength' => 256]);
             $form->setType($field, PARAM_RAW_TRIMMED);
+            $form->hideIf($field, 'targetmode', 'neq', 'manual');
         }
+        $form->addElement('textarea', 'reference', get_string('providercheck:reference', 'mod_videotrack'), [
+            'rows' => 7,
+            'cols' => 60,
+            'maxlength' => 4096,
+        ]);
+        $form->setType('reference', PARAM_RAW);
+        $form->hideIf('reference', 'targetmode', 'neq', 'reference');
         $this->add_action_buttons(false, get_string('providercheck:submit', 'mod_videotrack'));
     }
 
@@ -91,6 +106,29 @@ final class microsoft_probe_form extends \moodleform {
         if (!in_array($data['accountcontext'] ?? 'system', ['system', 'current_user'], true)) {
             $errors['accountcontext'] = get_string('invaliddata', 'error');
         }
+        $mode = $data['targetmode'] ?? 'manual';
+        if ($mode === 'reference') {
+            return array_replace($errors, $this->reference_errors($data));
+        }
+        if ($mode !== 'manual') {
+            $errors['targetmode'] = get_string('invaliddata', 'error');
+            return $errors;
+        }
+        $errors = array_replace($errors, self::identifier_errors($data));
+        if (in_array($operation, ['provider_link', 'provider_preview'], true)) {
+            $errors = array_replace($errors, $this->provider_link_errors($data));
+        }
+        return $errors;
+    }
+
+    /**
+     * Retain manual id validation independently of reference input.
+     *
+     * @param array $data Submitted manual fields.
+     * @return array Field errors, preserving the original id error order.
+     */
+    private static function identifier_errors(array $data): array {
+        $errors = [];
         foreach (['driveid', 'itemid'] as $field) {
             $value = (string)($data[$field] ?? '');
             if ($field === 'itemid' && $value === '') {
@@ -102,10 +140,54 @@ final class microsoft_probe_form extends \moodleform {
                 $errors[$field] = get_string('providercheck:invalidid', 'mod_videotrack');
             }
         }
-        if (in_array($operation, ['provider_link', 'provider_preview'], true)) {
-            $errors = array_replace($errors, $this->provider_link_errors($data));
+        return $errors;
+    }
+
+    /**
+     * Require a valid reference, the selected local service and a personal account.
+     *
+     * @param array $data Submitted reference fields.
+     * @return array Local field errors, before any OAuth or Graph call.
+     */
+    private function reference_errors(array $data): array {
+        $errors = [];
+        if (($data['accountcontext'] ?? 'system') !== 'current_user') {
+            $errors['accountcontext'] = get_string('providercheck:personalrequired', 'mod_videotrack');
+        }
+        try {
+            $reference = microsoft_video_reference::from_json($data['reference'] ?? null);
+        } catch (\invalid_parameter_exception $error) {
+            $errors['reference'] = get_string('providercheck:referenceinvalid', 'mod_videotrack');
+            return $errors;
+        }
+        try {
+            $reference->assert_issuer((int)get_config('mod_videotrack', 'microsoftissuerid'));
+        } catch (\invalid_parameter_exception $error) {
+            $errors['reference'] = get_string('providercheck:referenceissuer', 'mod_videotrack');
         }
         return $errors;
+    }
+
+    /**
+     * Resolve validated reference input after the controller's sesskey check.
+     *
+     * @param \stdClass $data Validated POST fields.
+     * @return \stdClass Probe fields with the same explicit operation and personal identity.
+     */
+    public function resolve_target(\stdClass $data): \stdClass {
+        if (($data->targetmode ?? 'manual') === 'manual') {
+            return $data;
+        }
+        if ($data->targetmode !== 'reference' || ($data->accountcontext ?? '') !== 'current_user') {
+            throw new \invalid_parameter_exception('Invalid Microsoft reference target.');
+        }
+        $reference = microsoft_video_reference::from_json($data->reference ?? null);
+        $reference->assert_issuer((int)get_config('mod_videotrack', 'microsoftissuerid'));
+        $target = clone $data;
+        foreach ($reference->target() as $field => $value) {
+            $target->{$field} = $value;
+        }
+        return $target;
     }
 
     /**

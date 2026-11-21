@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.266 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.267 repository tree. It lists
 sources, assets, tests and selected release guides, including five repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **399** — 394 distributed files and five repository-only files. The complete
-tree has 490 repository files / 466 distributed files, including all documentation.
+Entries: **404** — 399 distributed files and five repository-only files. The complete
+tree has 495 repository files / 471 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -227,6 +227,7 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `classes/local/microsoft_preview_result.php` | Bounded preview-response parser, private temporary URL and allowlisted diagnostics. |
 | `classes/local/microsoft_user_connection.php` | Explicit personal core OAuth connection with POST/sesskey and one-use return guards. |
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
+| `classes/local/microsoft_video_reference.php` | Versioned local issuer/drive/video identity, bounded parser and explicit private administrator export. |
 | `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
 | `classes/local/privacy_retention_pair.php` | Rebuilds derived state and deletes expired personal rows for one learner and activity while holding the state lock. |
@@ -276,6 +277,7 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `docs/en/35_MICROSOFT_USER_CONNECTION.md` | English personal Microsoft connection, session boundary and validation guide. |
 | `docs/en/36_CI_BEHAT_EVIDENCE.md` | English guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | English private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
+| `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -285,6 +287,7 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `docs/it/35_MICROSOFT_USER_CONNECTION.md` | Italian personal Microsoft connection, session boundary and validation guide. |
 | `docs/it/36_CI_BEHAT_EVIDENCE.md` | Italian guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Italian private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
+| `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -341,6 +344,7 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `tests/behat/microsoft_provider_check.feature` | Three deterministic administration scenarios without a Microsoft connection. |
 | `tests/behat/microsoft_provider_page.feature` | Three deterministic personal provider-page form scenarios without live network. |
 | `tests/behat/microsoft_user_connection.feature` | One local-readiness browser scenario without external authentication. |
+| `tests/behat/microsoft_video_reference.feature` | Local browser reference defaults and invalid URL/service/shared-account rejection. |
 | `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
 | `tests/behat/video_source_policy.feature` | Browser scenarios for default choices, disabled edit values, blocked playback and all-off editing. |
@@ -375,6 +379,7 @@ tree has 490 repository files / 466 distributed files, including all documentati
 | `tests/microsoft_user_connection_test.php` | Native connection/core-URL/state/permission regressions without live provider exchange. |
 | `tests/microsoft_user_probe_test.php` | Native delegated readiness/access/login/fallback/form regressions with no live network. |
 | `tests/microsoft_video_link_test.php` | Native URL/Graph/personal/form/controller regressions with no provider network. |
+| `tests/microsoft_video_reference_test.php` | Native identity, form/CSRF and fresh personal resolution regression tests. |
 | `tests/mod_form_validation_test.php` | PHPUnit coverage for rejected media, missing timed text and reaction file requirements. |
 | `tests/player_resume_completion_alert_contract_test.php` | Cross-provider resume, completion and alert contracts; completion assertions follow the current mutation owner, including the reaction post-write service. |
 | `tests/privacy_exporter_test.php` | PHPUnit writer checks for export paths, personal-data filtering and the 500-row boundary. |

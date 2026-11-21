@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.266**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.267**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -197,3 +197,8 @@ e Analytics di produzione restano invariati. [Prove e limiti](docs/it/36_CI_BEHA
 La 1.7.266 aggiunge un’[anteprima diagnostica Microsoft privata](docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md).
 L’amministratore corrente può richiedere un’anteprima nativa temporanea con il proprio account
 aziendale/scolastico collegato. L’indirizzo resta privato; non accredita visione o completamento studenti.
+
+La 1.7.267 aggiunge [riferimenti video Microsoft riutilizzabili](docs/it/38_MICROSOFT_VIDEO_REFERENCES.md)
+nella diagnostica amministrativa. Copia l’identità risorsa validata e riusala per richiedere
+nuovi metadati, pagina provider o anteprima personali; URL temporanei e credenziali sono
+esclusi. Non persiste ancora sorgenti Microsoft nelle attività e non traccia gli studenti.
