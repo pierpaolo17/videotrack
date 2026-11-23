@@ -31,13 +31,17 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(playback_recovery::class)]
 #[CoversClass(tracker::class)]
 final class playback_recovery_test extends \advanced_testcase {
-    /** Long contiguous playback can be reconstructed from a real server start. */
+    /**
+     * Long contiguous playback can be reconstructed from a real server start.
+     */
     public function test_contiguous_long_pause_has_elapsed_server_evidence(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 440, 540, 'pause')];
         $this->assertSame([2], $this->ids($rows));
     }
 
-    /** A client clock cannot manufacture elapsed server time. */
+    /**
+     * A client clock cannot manufacture elapsed server time.
+     */
     public function test_forged_wallclock_does_not_recover_insufficient_server_time(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 440, 101, 'pause')];
         $rows[1]->wallclockstart = 100;
@@ -45,12 +49,16 @@ final class playback_recovery_test extends \advanced_testcase {
         $this->assertSame([], $this->ids($rows));
     }
 
-    /** Missing handshakes remain insufficient evidence. */
+    /**
+     * Missing handshakes remain insufficient evidence.
+     */
     public function test_segment_without_handshake_is_not_promoted(): void {
         $this->assertSame([], $this->ids([$this->row(2, 0, 440, 540, 'pause')]));
     }
 
-    /** Switching tabs supersedes the old credit owner. */
+    /**
+     * Switching tabs supersedes the old credit owner.
+     */
     public function test_another_session_handshake_excludes_stale_rows(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 0, 110, 'playstart'),
             $this->row(3, 0, 440, 540, 'pause')];
@@ -58,7 +66,9 @@ final class playback_recovery_test extends \advanced_testcase {
         $this->assertSame([], $this->ids($rows));
     }
 
-    /** A hidden/end/pause boundary cannot be bridged by later rejected evidence. */
+    /**
+     * A hidden/end/pause boundary cannot be bridged by later rejected evidence.
+     */
     public function test_terminal_boundary_requires_a_fresh_handshake(): void {
         foreach (['tab', 'pause', 'pagehide', 'ended', 'visibilitychange', 'seek'] as $reason) {
             $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 10, 110, $reason),
@@ -67,33 +77,43 @@ final class playback_recovery_test extends \advanced_testcase {
         }
     }
 
-    /** A second real play restores only its own subsequent elapsed-time window. */
+    /**
+     * A second real play restores only its own subsequent elapsed-time window.
+     */
     public function test_fresh_handshake_after_pause_can_recover_rewatch(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 50, 150, 'pause'),
             $this->row(3, 0, 0, 200, 'playstart'), $this->row(4, 0, 157, 357, 'tab')];
         $this->assertSame([2, 4], $this->ids($rows));
     }
 
-    /** Recovery cannot open a forbidden forward gap. */
+    /**
+     * Recovery cannot open a forbidden forward gap.
+     */
     public function test_unwatched_forward_jump_remains_rejected(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 200, 440, 540, 'pause')];
         $this->assertSame([], $this->ids($rows));
     }
 
-    /** Short unrelated rejections are outside this narrowly scoped repair. */
+    /**
+     * Short unrelated rejections are outside this narrowly scoped repair.
+     */
     public function test_short_rejections_are_not_misclassified_as_starvation(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 20, 120, 'pause')];
         $this->assertSame([], $this->ids($rows));
     }
 
-    /** Elapsed time is spent cumulatively, not granted again to every request. */
+    /**
+     * Elapsed time is spent cumulatively, not granted again to every request.
+     */
     public function test_two_candidates_cannot_spend_the_same_elapsed_time_twice(): void {
         $rows = [$this->row(1, 0, 0, 100, 'playstart'), $this->row(2, 0, 100, 200, 'heartbeat'),
             $this->row(3, 100, 200, 201, 'pause')];
         $this->assertSame([2], $this->ids($rows));
     }
 
-    /** Current duration and rate constraints still apply to a historical reconstruction. */
+    /**
+     * Current duration and rate constraints still apply to a historical reconstruction.
+     */
     public function test_invalid_rate_and_over_duration_are_not_recovered(): void {
         $start = $this->row(1, 0, 0, 100, 'playstart');
         $row = $this->row(2, 0, 440, 540, 'pause');
@@ -104,7 +124,9 @@ final class playback_recovery_test extends \advanced_testcase {
         $this->assertSame([], $this->ids([$start, $row]));
     }
 
-    /** Recalculation repairs by explicit opt-in, preserves originals and is idempotent. */
+    /**
+     * Recalculation repairs by explicit opt-in, preserves originals and is idempotent.
+     */
     public function test_explicit_recalculation_appends_repairs_without_mutating_originals(): void {
         global $DB;
 
@@ -175,7 +197,9 @@ final class playback_recovery_test extends \advanced_testcase {
     private function ids(array $rows): array {
         $activity = (object)['durationseconds' => 1172, 'allowseekforward' => 0,
             'allowplaybackratechange' => 1, 'maxplaybackrate' => 100];
-        return array_map(static fn($row) => $row->id,
-            iterator_to_array(playback_recovery::candidates($rows, $activity, 30), false));
+        return array_map(
+            static fn($row) => $row->id,
+            iterator_to_array(playback_recovery::candidates($rows, $activity, 30), false)
+        );
     }
 }

@@ -79,6 +79,7 @@ Feature: HTML5 playback contracts remain stable in the browser
     Then the VideoTrack HTML5 media playback is "paused"
     And the playback credit window for "student1" in "Playback contracts" is closed by an accepted pause
     When I click on ".videotrack-ctrl-play" "css_element"
+    And I watch the VideoTrack player through "12" seconds
     Then the VideoTrack HTML5 media time is between "12" and "17"
     When I click on ".videotrack-ctrl-play" "css_element"
     Then the VideoTrack HTML5 media playback is "paused"

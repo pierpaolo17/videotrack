@@ -42,6 +42,7 @@ Feature: YouTube provider contracts remain deterministic in the browser
     When I click on "YouTube provider contracts" "link"
     Then the deterministic VideoTrack "youtube" provider is ready
     When I play the deterministic VideoTrack "youtube" provider
+    And I watch the VideoTrack player through "12" seconds
     Then the "youtube" provider time is between "12" and "17"
     When I pause the deterministic VideoTrack "youtube" provider
     Then the playback credit window for "student1" in "YouTube provider contracts" is closed by an accepted pause

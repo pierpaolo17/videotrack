@@ -209,7 +209,9 @@ final class tracking_effects_test extends \advanced_testcase {
         }
     }
 
-    /** Empty provider snapshots keep existing progress and do not write a segment. */
+    /**
+     * Empty provider snapshots keep existing progress and do not write a segment.
+     */
     public function test_empty_external_segment_returns_the_existing_progress(): void {
         global $DB;
 
@@ -223,8 +225,16 @@ final class tracking_effects_test extends \advanced_testcase {
         $_POST['sesskey'] = sesskey();
         try {
             $response = save_segment::execute(
-                (int)$fixture['cm']->id, $fixture['sessionid'], md5('empty-pause'),
-                30.0, 30.0, 130, 130, 1.0, 'pause', 100.0
+                (int)$fixture['cm']->id,
+                $fixture['sessionid'],
+                md5('empty-pause'),
+                30.0,
+                30.0,
+                130,
+                130,
+                1.0,
+                'pause',
+                100.0
             );
             $this->assertFalse($response['accepted']);
             $this->assertSame(30.0, $response['uniquecoveredseconds']);

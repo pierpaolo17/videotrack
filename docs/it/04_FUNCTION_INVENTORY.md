@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1489 (1482 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 660.
+**Funzioni/metodi PHP:** 1490 (1483 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 660.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1097,11 +1097,11 @@ Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzio
 | `classes/local/personal_item.php:95` | `require_owner` | Implementa `require_owner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/personal_item.php:119` | `trigger_deleted_event` | Implementa `trigger_deleted_event` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
 | `classes/local/playback_recovery.php:41` | `recover` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `classes/local/playback_recovery.php:88` | `candidates` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `classes/local/playback_recovery.php:135` | `eligible` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `classes/local/playback_recovery.php:161` | `valid_bounds` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `classes/local/playback_recovery.php:175` | `valid_rate` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `classes/local/playback_recovery.php:188` | `starved_span` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `classes/local/playback_recovery.php:91` | `candidates` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `classes/local/playback_recovery.php:143` | `eligible` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `classes/local/playback_recovery.php:171` | `valid_bounds` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `classes/local/playback_recovery.php:185` | `valid_rate` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `classes/local/playback_recovery.php:198` | `starved_span` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
 | `classes/local/privacy_manager.php:47` | `retention_period_seconds` | Callable PHP `retention_period_seconds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:68` | `retention_cutoff_timestamp` | Callable PHP `retention_cutoff_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:83` | `timestamp_is_retained` | Callable PHP `timestamp_is_retained`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1452,10 +1452,10 @@ Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzio
 | `tests/ajax_contract_test.php:283` | `test_compact_player_notices_keep_close_button_in_flow` | Funzione/metodo PHP nominato `test_compact_player_notices_keep_close_button_in_flow`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/ajax_contract_test.php:311` | `test_resume_respects_server_validated_frontier` | Funzione/metodo PHP nominato `test_resume_respects_server_validated_frontier`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/ajax_contract_test.php:328` | `test_closed_segment_keeps_wallclock_start_for_ajax` | Funzione/metodo PHP nominato `test_closed_segment_keeps_wallclock_start_for_ajax`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:352` | `test_seek_closes_segment_at_known_pre_seek_boundary` | Funzione/metodo PHP nominato `test_seek_closes_segment_at_known_pre_seek_boundary`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:375` | `test_interactions_use_safe_time_during_blocked_seek` | Funzione/metodo PHP nominato `test_interactions_use_safe_time_during_blocked_seek`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/ajax_contract_test.php:389` | `test_reaction_runtime_contract_contains_no_raw_html_field` | Callable PHP `test_reaction_runtime_contract_contains_no_raw_html_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/ajax_contract_test.php:403` | `test_interaction_writes_use_policy_aware_timestamp_validation` | Funzione/metodo PHP nominato `test_interaction_writes_use_policy_aware_timestamp_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:354` | `test_seek_closes_segment_at_known_pre_seek_boundary` | Funzione/metodo PHP nominato `test_seek_closes_segment_at_known_pre_seek_boundary`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:377` | `test_interactions_use_safe_time_during_blocked_seek` | Funzione/metodo PHP nominato `test_interactions_use_safe_time_during_blocked_seek`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/ajax_contract_test.php:391` | `test_reaction_runtime_contract_contains_no_raw_html_field` | Callable PHP `test_reaction_runtime_contract_contains_no_raw_html_field`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/ajax_contract_test.php:405` | `test_interaction_writes_use_policy_aware_timestamp_validation` | Funzione/metodo PHP nominato `test_interaction_writes_use_policy_aware_timestamp_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Funzione/metodo PHP nominato `test_teacher_activity_options_use_lightweight_modinfo_path`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Funzione/metodo PHP nominato `test_course_dashboard_batches_event_summaries_and_group_scope`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Funzione/metodo PHP nominato `test_course_dashboard_batches_state_and_period_reads`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1492,53 +1492,54 @@ Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzio
 | `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verifica filtri e annotazioni dei dati utente conservabili. |
 | `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verifica tabelle sorgente, mapping Forum e aree file. |
 | `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
-| `tests/behat/behat_mod_videotrack.php:45` | `i_store_a_videotrack_browser_resume_hint` | Implementa `i_store_a_videotrack_browser_resume_hint` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
-| `tests/behat/behat_mod_videotrack.php:70` | `i_restore_stale_videotrack_browser_hints_before_opening` | Prepara suggerimenti browser residui prima del player successivo, conservando i metadati cache Moodle. |
-| `tests/behat/behat_mod_videotrack.php:96` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Implementa `the_videotrack_browser_resume_key_belongs_to_a_different_learner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
-| `tests/behat/behat_mod_videotrack.php:125` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifica la risposta invaliduser esatta senza dati studente e ripristina il report autorizzato prima dei normali controlli errori. |
-| `tests/behat/behat_mod_videotrack.php:155` | `the_videotrack_report_shows_only_learner` | Verifica id studente selezionato e una sola riga di progresso corrispondente, indipendentemente dalle opzioni disponibili. |
-| `tests/behat/behat_mod_videotrack.php:186` | `the_videotrack_learner_tracking_policy_is` | Legge l’interruttore di tracking effettivo della pagina per anteprima docente e partecipazione studente. |
-| `tests/behat/behat_mod_videotrack.php:203` | `preview_creates_no_learner_tracking` | Legge segmenti/stato del plugin e completamento nativo per escludere evidenze studente dall’anteprima docente. |
-| `tests/behat/behat_mod_videotrack.php:227` | `i_open_the_videotrack_report_for_learner` | Visita il report reale con gli id delle fixture, comprese richieste intenzionali fuori scope. |
-| `tests/behat/behat_mod_videotrack.php:246` | `the_videotrack_report_learner_choices_are` | Confronta gli id delle opzioni report effettivamente renderizzate con l’insieme esatto degli studenti attesi. |
-| `tests/behat/behat_mod_videotrack.php:280` | `i_request_videotrack_playback_rate` | Richiede tramite media/SDK una velocità selezionata oppure una prova esplicita oltre il tetto. |
-| `tests/behat/behat_mod_videotrack.php:304` | `the_videotrack_playback_rate_is` | Osserva la velocità effettiva media/SDK, inclusi i risultati asincroni Vimeo. |
-| `tests/behat/behat_mod_videotrack.php:327` | `the_videotrack_player_reaches_its_natural_end` | Attende la fine naturale della fixture da 60 secondi senza seek o alterazioni dell’orologio. |
-| `tests/behat/behat_mod_videotrack.php:345` | `an_accepted_end_closes_playback` | Legge fine accettata e credito chiuso e conserva la copertura ottenuta dal browser per verificare il replay. |
-| `tests/behat/behat_mod_videotrack.php:392` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
-| `tests/behat/behat_mod_videotrack.php:429` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
-| `tests/behat/behat_mod_videotrack.php:450` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
-| `tests/behat/behat_mod_videotrack.php:470` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
-| `tests/behat/behat_mod_videotrack.php:487` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
-| `tests/behat/behat_mod_videotrack.php:509` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
-| `tests/behat/behat_mod_videotrack.php:535` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
-| `tests/behat/behat_mod_videotrack.php:558` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
-| `tests/behat/behat_mod_videotrack.php:581` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:601` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:619` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:645` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:670` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
-| `tests/behat/behat_mod_videotrack.php:689` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
-| `tests/behat/behat_mod_videotrack.php:716` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:737` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:759` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
-| `tests/behat/behat_mod_videotrack.php:800` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
-| `tests/behat/behat_mod_videotrack.php:864` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
-| `tests/behat/behat_mod_videotrack.php:933` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
-| `tests/behat/behat_mod_videotrack.php:958` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
-| `tests/behat/behat_mod_videotrack.php:1027` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
-| `tests/behat/behat_mod_videotrack.php:1111` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
-| `tests/behat/behat_mod_videotrack.php:1133` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
-| `tests/behat/behat_mod_videotrack.php:1195` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
-| `tests/behat/behat_mod_videotrack.php:1242` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
-| `tests/behat/behat_mod_videotrack.php:1336` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:1430` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
-| `tests/behat/behat_mod_videotrack.php:1471` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
-| `tests/behat/behat_mod_videotrack.php:1494` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
-| `tests/behat/behat_mod_videotrack.php:1568` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
-| `tests/behat/behat_mod_videotrack.php:1621` | `i_submit_a_videotrack_reset_expecting` | Invia un POST reset autenticato reale; verifica rifiuto per permesso e conservazione oppure reset del solo target, poi ripristina una pagina normale senza disabilitare hook errori. |
-| `tests/behat/behat_mod_videotrack.php:1753` | `videotrack_reset_snapshot` | Legge record plugin/voto/completion nativa del target e degli altri utenti per confronti reset senza normalizzare mutazioni. |
-| `tests/behat/behat_mod_videotrack.php:1799` | `watched_progress_is_contiguous_and_retained` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/behat/behat_mod_videotrack.php:46` | `i_store_a_videotrack_browser_resume_hint` | Implementa `i_store_a_videotrack_browser_resume_hint` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/behat/behat_mod_videotrack.php:71` | `i_restore_stale_videotrack_browser_hints_before_opening` | Prepara suggerimenti browser residui prima del player successivo, conservando i metadati cache Moodle. |
+| `tests/behat/behat_mod_videotrack.php:97` | `the_videotrack_browser_resume_key_belongs_to_a_different_learner` | Implementa `the_videotrack_browser_resume_key_belongs_to_a_different_learner` nel servizio o test dedicato; vedere PHPDoc e chiamanti. |
+| `tests/behat/behat_mod_videotrack.php:126` | `i_request_the_videotrack_report_for_forbidden_learner` | Verifica la risposta invaliduser esatta senza dati studente e ripristina il report autorizzato prima dei normali controlli errori. |
+| `tests/behat/behat_mod_videotrack.php:156` | `the_videotrack_report_shows_only_learner` | Verifica id studente selezionato e una sola riga di progresso corrispondente, indipendentemente dalle opzioni disponibili. |
+| `tests/behat/behat_mod_videotrack.php:187` | `the_videotrack_learner_tracking_policy_is` | Legge l’interruttore di tracking effettivo della pagina per anteprima docente e partecipazione studente. |
+| `tests/behat/behat_mod_videotrack.php:204` | `preview_creates_no_learner_tracking` | Legge segmenti/stato del plugin e completamento nativo per escludere evidenze studente dall’anteprima docente. |
+| `tests/behat/behat_mod_videotrack.php:228` | `i_open_the_videotrack_report_for_learner` | Visita il report reale con gli id delle fixture, comprese richieste intenzionali fuori scope. |
+| `tests/behat/behat_mod_videotrack.php:247` | `the_videotrack_report_learner_choices_are` | Confronta gli id delle opzioni report effettivamente renderizzate con l’insieme esatto degli studenti attesi. |
+| `tests/behat/behat_mod_videotrack.php:281` | `i_request_videotrack_playback_rate` | Richiede tramite media/SDK una velocità selezionata oppure una prova esplicita oltre il tetto. |
+| `tests/behat/behat_mod_videotrack.php:305` | `the_videotrack_playback_rate_is` | Osserva la velocità effettiva media/SDK, inclusi i risultati asincroni Vimeo. |
+| `tests/behat/behat_mod_videotrack.php:328` | `the_videotrack_player_reaches_its_natural_end` | Attende la fine naturale della fixture da 60 secondi senza seek o alterazioni dell’orologio. |
+| `tests/behat/behat_mod_videotrack.php:346` | `an_accepted_end_closes_playback` | Legge fine accettata e credito chiuso e conserva la copertura ottenuta dal browser per verificare il replay. |
+| `tests/behat/behat_mod_videotrack.php:393` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
+| `tests/behat/behat_mod_videotrack.php:430` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
+| `tests/behat/behat_mod_videotrack.php:451` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
+| `tests/behat/behat_mod_videotrack.php:471` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
+| `tests/behat/behat_mod_videotrack.php:488` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
+| `tests/behat/behat_mod_videotrack.php:510` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
+| `tests/behat/behat_mod_videotrack.php:536` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
+| `tests/behat/behat_mod_videotrack.php:559` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
+| `tests/behat/behat_mod_videotrack.php:582` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:602` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:620` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:646` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:671` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
+| `tests/behat/behat_mod_videotrack.php:690` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
+| `tests/behat/behat_mod_videotrack.php:717` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:738` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:760` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
+| `tests/behat/behat_mod_videotrack.php:801` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
+| `tests/behat/behat_mod_videotrack.php:865` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
+| `tests/behat/behat_mod_videotrack.php:934` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
+| `tests/behat/behat_mod_videotrack.php:959` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
+| `tests/behat/behat_mod_videotrack.php:1028` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
+| `tests/behat/behat_mod_videotrack.php:1112` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
+| `tests/behat/behat_mod_videotrack.php:1134` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
+| `tests/behat/behat_mod_videotrack.php:1196` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
+| `tests/behat/behat_mod_videotrack.php:1243` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
+| `tests/behat/behat_mod_videotrack.php:1337` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:1431` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
+| `tests/behat/behat_mod_videotrack.php:1472` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:1495` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:1569` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:1622` | `i_submit_a_videotrack_reset_expecting` | Invia un POST reset autenticato reale; verifica rifiuto per permesso e conservazione oppure reset del solo target, poi ripristina una pagina normale senza disabilitare hook errori. |
+| `tests/behat/behat_mod_videotrack.php:1754` | `videotrack_reset_snapshot` | Legge record plugin/voto/completion nativa del target e degli altri utenti per confronti reset senza normalizzare mutazioni. |
+| `tests/behat/behat_mod_videotrack.php:1800` | `watched_progress_is_contiguous_and_retained` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/behat/behat_mod_videotrack.php:1830` | `i_watch_the_videotrack_player_through_seconds` | Attesa browser della visione reale, senza seek o crediti artificiali. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1893,19 +1894,19 @@ Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzio
 | `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/mod_form_validation_test.php:94` | `test_reaction_rows_preserve_error_order_and_configuration_requirement` | Verifica ordine degli errori, configurazione completa e icone file disabilitate su più righe. |
-| `tests/playback_recovery_test.php:35` | `test_contiguous_long_pause_has_elapsed_server_evidence` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:41` | `test_forged_wallclock_does_not_recover_insufficient_server_time` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:49` | `test_segment_without_handshake_is_not_promoted` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:54` | `test_another_session_handshake_excludes_stale_rows` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:62` | `test_terminal_boundary_requires_a_fresh_handshake` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:71` | `test_fresh_handshake_after_pause_can_recover_rewatch` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:78` | `test_unwatched_forward_jump_remains_rejected` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:84` | `test_short_rejections_are_not_misclassified_as_starvation` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:90` | `test_two_candidates_cannot_spend_the_same_elapsed_time_twice` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:97` | `test_invalid_rate_and_over_duration_are_not_recovered` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:108` | `test_explicit_recalculation_appends_repairs_without_mutating_originals` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:160` | `row` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/playback_recovery_test.php:175` | `ids` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:37` | `test_contiguous_long_pause_has_elapsed_server_evidence` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:45` | `test_forged_wallclock_does_not_recover_insufficient_server_time` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:55` | `test_segment_without_handshake_is_not_promoted` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:62` | `test_another_session_handshake_excludes_stale_rows` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:72` | `test_terminal_boundary_requires_a_fresh_handshake` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:83` | `test_fresh_handshake_after_pause_can_recover_rewatch` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:92` | `test_unwatched_forward_jump_remains_rejected` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:100` | `test_short_rejections_are_not_misclassified_as_starvation` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:108` | `test_two_candidates_cannot_spend_the_same_elapsed_time_twice` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:117` | `test_invalid_rate_and_over_duration_are_not_recovered` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:130` | `test_explicit_recalculation_appends_repairs_without_mutating_originals` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:182` | `row` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/playback_recovery_test.php:197` | `ids` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
 | `tests/player_resume_completion_alert_contract_test.php:37` | `test_all_providers_clamp_resume_to_validated_frontier` | Funzione/metodo PHP nominato `test_all_providers_clamp_resume_to_validated_frontier`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:57` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Funzione/metodo PHP nominato `test_direct_replay_precedes_automatic_resume_for_all_providers`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Funzione/metodo PHP nominato `test_completion_mutations_synchronise_moodle_state`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
@@ -2117,11 +2118,11 @@ Generato dall’albero sorgente VideoTrack 1.7.269. Le voci PHP includono funzio
 | `tests/tracking_effects_test.php:78` | `test_forward_rejection_keeps_frontier_and_does_not_replay_its_budget_reset` | Verifica frontiera conservata dopo seek rifiutato e replay incapace di azzerare un budget valido successivo. |
 | `tests/tracking_effects_test.php:118` | `test_live_interval_cap_rebuild_preserves_exact_validated_coverage` | Verifica ricostruzione reale dello stato limitato da registro validato, copertura esatta e replay idempotente. |
 | `tests/tracking_effects_test.php:165` | `test_external_completion_retry_keeps_persisted_effects_and_events_once` | Esegue due volte l’endpoint segmenti autenticato e verifica completamento nativo, registro ed eventi non duplicati. |
-| `tests/tracking_effects_test.php:213` | `test_empty_external_segment_returns_the_existing_progress` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
-| `tests/tracking_effects_test.php:246` | `fixture` | Crea attività reale, studente iscritto e finestra esplicita del credito di riproduzione. |
-| `tests/tracking_effects_test.php:275` | `segment` | Costruisce un segmento grezzo con identificatori reali della fixture e chiave richiesta stabile. |
-| `tests/tracking_effects_test.php:294` | `persist` | Invoca il tracker reale con tempo deterministico e restituisce stato, esito segmento e flag replay. |
-| `tests/tracking_effects_test.php:321` | `significant_events` | Conta eventi canonici di completamento/segmento VideoTrack escludendo eventi core estranei. |
+| `tests/tracking_effects_test.php:215` | `test_empty_external_segment_returns_the_existing_progress` | Funzione continuità/recupero visione; vedere contratto sorgente e regressioni. |
+| `tests/tracking_effects_test.php:256` | `fixture` | Crea attività reale, studente iscritto e finestra esplicita del credito di riproduzione. |
+| `tests/tracking_effects_test.php:285` | `segment` | Costruisce un segmento grezzo con identificatori reali della fixture e chiave richiesta stabile. |
+| `tests/tracking_effects_test.php:304` | `persist` | Invoca il tracker reale con tempo deterministico e restituisce stato, esito segmento e flag replay. |
+| `tests/tracking_effects_test.php:331` | `significant_events` | Conta eventi canonici di completamento/segmento VideoTrack escludendo eventi core estranei. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Funzione/metodo PHP nominato `test_modern_schema_fast_forward_precedes_legacy_steps`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:84` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |

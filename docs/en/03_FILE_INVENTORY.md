@@ -1,15 +1,16 @@
 # Distributed file inventory
 
 This inventory is generated against the VideoTrack 1.7.269 repository tree. It lists
-sources, assets, tests and selected release guides, including five repository-only
+sources, assets, tests and selected release guides, including six repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **408** — 403 distributed files and five repository-only files. The complete
-tree has 500 repository files / 475 distributed files, including all documentation.
+Entries: **409** — 403 distributed files and six repository-only files. The complete
+tree has 501 repository files / 475 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
 | `.gitattributes` | Repository text/binary attributes. |
+| `.github/capture_native_amd.py` | CI-only native Moodle Grunt output capture, guarded source/commit provenance and maps. |
 | `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
 | `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |

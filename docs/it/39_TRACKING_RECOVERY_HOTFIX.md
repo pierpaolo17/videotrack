@@ -99,3 +99,46 @@ indica perdita di attenzione.
 La ricerca Microsoft 268 sarà ripresa e ribasata dopo l’accettazione dell’hotfix; poi
 Microsoft, Zoom con repository separato opzionale, Google Drive e infine App.
 Conservare dataset per screenshot e standby dell’accessibilità manuale 5.3.
+
+## Esito della prima CI 269 e candidata correttiva
+
+Il [run 45227903298](https://github.com/pierpaolo 17/videotrack/actions/runs/45227903298)
+ha eseguito il commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, albero
+`80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. Tutti i sei job falliscono. Ciascuno
+esegue 595 metodi PHPUnit/6268 asserzioni con un solo fallimento in una vecchia
+asserzione sul testo sorgente; i 12 nuovi metodi passano. Behat supera 73 scenari su 75;
+i due scenari nuovi falliscono anche nei due retry automatici. YouTube raggiunge
+circa 7,2 secondi in un’attesa di 7 secondi, HTML5 riparte vicino a 3 e raggiunge circa 9,4
+in un’attesa di 6: il timeout non dimostra un player bloccato. Passano i 73 scenari
+precedenti, incluse le verifiche rafforzate sulla conservazione dopo pausa casuale.
+
+Il job qualità rileva 51 errori PHPCS e un warning per `$CFG->admin` deprecato.
+Gli strumenti sono passati da PHPCS 3.13.6/moodle-cs 3.7.0 a 4.0.4/3.9.2, esponendo
+anche spaziature di intestazione già presenti. Superati lint 197/197, PHPDoc e controlli
+helper dove eseguiti; tutti i sei validator danno 10/0/0. Superati anche 12 gruppi Node
+più harness tracker per matrice. Lifecycle saltato dopo i fallimenti, non accettato.
+PHPMD su 50 riporta 35 avvisi rispetto ai 31 precedenti; le 757/785 informazioni Psalm
+rispetto a 751/779 restano da classificare.
+
+La correttiva sistema formattazione e DocBlock senza cambiare i token di recupero o
+completamento. Aggiorna l’asserzione wallclock al cursore catturato conservando gli
+altri controlli. Aggiunge un’attesa dedicata e limitata della riproduzione reale prima
+delle due asserzioni 12–17 secondi, che restano invariate. Non modifica attese brevi
+esistenti o retry. Il link impostazioni usa la navigazione core anziché la proprietà
+admin deprecata. Nessun cambiamento a sorgenti AMD, ledger live, schema o politica
+di recupero; restano tutti i 595 metodi unitari.
+
+Grunt termina la compilazione, ma il controllo di freschezza respinge 24 file generati.
+Le build Babel della prima patch non sono quelle canoniche Moodle. Il registry npm
+locale risponde 403: non viene simulata una compilazione nativa. Il gate originale
+resta obbligatorio. Poiché plugin-CI 4.5.13 ripristina i file iniziali dopo il confronto,
+un secondo comando Grunt protetto e limitato alla CI raccoglie l’output reale, hash
+sorgenti/commit e mappe esatte. Gli artifact immediati e i report normali includono
+`native-amd.zip`; le regressioni sui compilati usano il vero output installato.
+Servirà poi integrare quelle build verificate e rieseguire tutti i gate: questa
+correttiva preparatoria da sola non chiude il problema Grunt.
+
+La casella recupero è temporanea: dopo la bonifica verificata delle attività della
+produzione 5.0 rimuovere interfaccia e procedura straordinaria in una release successiva,
+conservando prove recuperate e ricalcolo normale. Demo 5.3 e ricerca Microsoft restano
+in pausa. I controlli nativi della candidata corretta sono ancora da eseguire.

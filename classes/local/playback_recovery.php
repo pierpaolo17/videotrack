@@ -57,9 +57,12 @@ final class playback_recovery {
         $count = 0;
         foreach ($candidates as $source) {
             $requestid = 'recovery269_' . sha1((string)$source->id);
-            if ($DB->record_exists('videotrack_seg', [
-                'videotrackid' => $activity->id, 'userid' => $userid, 'requestid' => $requestid,
-            ])) {
+            if (
+                $DB->record_exists(
+                    'videotrack_seg',
+                    ['videotrackid' => $activity->id, 'userid' => $userid, 'requestid' => $requestid]
+                )
+            ) {
                 continue;
             }
             $derived = clone $source;
@@ -115,8 +118,13 @@ final class playback_recovery {
             if ($recoverable) {
                 yield $row;
             }
-            if ($samewindow && in_array((string)$row->endreason,
-                    ['pause', 'ended', 'beforeunload', 'pagehide', 'tab', 'visibilitychange', 'seek'], true)) {
+            if (
+                $samewindow && in_array(
+                    (string)$row->endreason,
+                    ['pause', 'ended', 'beforeunload', 'pagehide', 'tab', 'visibilitychange', 'seek'],
+                    true
+                )
+            ) {
                 $window = null;
             }
         }
@@ -143,8 +151,10 @@ final class playback_recovery {
             return false;
         }
         $start = (float)$row->videotimestart;
-        if ($start < $window['position'] - 0.25 ||
-                (empty($activity->allowseekforward) && $start > $frontier + 2.0)) {
+        if (
+            $start < $window['position'] - 0.25 ||
+                (empty($activity->allowseekforward) && $start > $frontier + 2.0)
+        ) {
             return false;
         }
         // Two seconds cover integer server receipt quantisation, cumulatively per window.
@@ -188,8 +198,13 @@ final class playback_recovery {
     private static function starved_span(\stdClass $row, int $heartbeat): bool {
         $span = (float)$row->videotimeend - (float)$row->videotimestart;
         return $span > (max(5, min(300, $heartbeat)) + 5) * (float)$row->playbackrate
-            && in_array((string)$row->endreason,
-                ['heartbeat', 'pause', 'ended', 'tab', 'visibilitychange', 'pagehide', 'beforeunload',
-                    'note', 'bookmark', 'reaction', 'interaction'], true);
+            && in_array(
+                (string)$row->endreason,
+                [
+                    'heartbeat', 'pause', 'ended', 'tab', 'visibilitychange', 'pagehide', 'beforeunload',
+                    'note', 'bookmark', 'reaction', 'interaction',
+                ],
+                true
+            );
     }
 }

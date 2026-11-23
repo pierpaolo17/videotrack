@@ -22,6 +22,7 @@
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 use Behat\Mink\Exception\ExpectationException;
 
 /**
@@ -1812,10 +1813,37 @@ JS;
             $frontier = max($frontier, (float)$row->videotimeend);
         }
         $percent = round(100 * (float)$state->uniquecoveredseconds / (float)$activity->durationseconds, 2);
-        if ($frontier < 3 || (float)$state->uniquecoveredseconds < $frontier - 0.5 ||
-                abs((float)$state->completionpercent - $percent) > 0.01) {
+        if (
+            $frontier < 3 || (float)$state->uniquecoveredseconds < $frontier - 0.5 ||
+                abs((float)$state->completionpercent - $percent) > 0.01
+        ) {
             throw new ExpectationException('Watched seconds or the configured-duration percentage was lost.', $this->getSession());
         }
     }
 
+    /**
+     * Allow genuine fixture playback to reach a future timestamp before short range assertions.
+     *
+     * @When /^I watch the VideoTrack player through "(?P<seconds>[0-9.]+)" seconds$/
+     * @param float $seconds Target time in the deterministic sixty-second fixture.
+     */
+    public function i_watch_the_videotrack_player_through_seconds(float $seconds): void {
+        if ($seconds <= 0 || $seconds > 55) {
+            throw new \coding_exception('The deterministic watching step requires a target between zero and 55 seconds.');
+        }
+        $condition = sprintf(
+            "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                . "if (media) {return !media.paused && media.currentTime >= %.6F;}"
+                . "var fixture = window.__videotrackBehatProvider;"
+                . "return !!fixture && fixture.getState() === 1 && fixture.getTime() >= %.6F;}())",
+            $seconds,
+            $seconds
+        );
+        if (!$this->getSession()->wait(30000, $condition)) {
+            throw new ExpectationException(
+                'Real VideoTrack playback did not reach the requested fixture time within thirty seconds.',
+                $this->getSession()
+            );
+        }
+    }
 }

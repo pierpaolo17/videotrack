@@ -2130,13 +2130,16 @@ if ($mode === 'recalculate') {
     $recalculateform .= html_writer::end_div();
     $recalculateform .= html_writer::start_div('form-group');
     $recalculateform .= html_writer::checkbox(
-        'recoverplayback', 1, false,
+        'recoverplayback',
+        1,
+        false,
         get_string('report:recalculate_recover', 'mod_videotrack'),
         ['id' => 'id_recoverplayback', 'aria-describedby' => 'id_recoverplayback_help']
     );
     $recalculateform .= html_writer::div(
         get_string('report:recalculate_recover_help', 'mod_videotrack'),
-        'form-text text-muted', ['id' => 'id_recoverplayback_help']
+        'form-text text-muted',
+        ['id' => 'id_recoverplayback_help']
     );
     $recalculateform .= html_writer::end_div();
     $recalculateform .= html_writer::tag(

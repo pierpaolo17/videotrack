@@ -103,3 +103,46 @@ Microsoft search 268 remains paused and must be rebased/tested after this hotfix
 accepted. Then continue the existing provider roadmap: Microsoft, optional separate
 Zoom repository, Google Drive, and finally App. Keep the screenshot/demo dataset and
 manual 5.3 accessibility standby unchanged.
+
+## Initial 269 CI failure and corrective candidate
+
+[Run 45227903298](https://github.com/pierpaolo 17/videotrack/actions/runs/45227903298)
+executed commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, tree
+`80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. All six jobs fail. Each executes
+595 PHPUnit methods /6268 assertions with one failing old source-string assertion;
+the 12 new methods pass. Browser results are 73/75 passing with the same two new
+future-time waits failing on both automatic reruns. YouTube advances to about 7.2 s
+inside a 7 s wait; HTML5 resumes near 3 s and advances to about 9.4 s inside a 6 s wait.
+No stuck-provider claim follows from these observations. All 73 existing scenarios,
+including stronger random-pause coverage checks, pass.
+
+The quality job reports 51 PHPCS errors and one deprecated `$CFG->admin` warning.
+The toolchain changed from PHPCS 3.13.6/moodle-cs 3.7.0 to 4.0.4/3.9.2; old header
+spacing is now also flagged. Lint 197/197, PHPDoc, the lifecycle helper checks and
+all six strict 10/0/0 validators pass where executed. Twelve standalone JS groups
+and the tracker harness pass in every matrix entry. Lifecycle install/uninstall
+is skipped after the failures, not accepted. PHPMD reports 35 advisories on 50 versus
+31 previously; Psalm 757/785 information entries versus 751/779 are unclassified.
+
+The correction expands PHP formatting/docblocks without changing recovery or
+completion tokens, updates the old static wallclock assertion for the captured
+cursor while retaining its other checks, and adds a dedicated bounded real-play
+step before the two unchanged 12–17 s assertions. Old short-range waits and retries
+are unchanged. The settings link now uses core navigation rather than a deprecated
+admin-directory property. No AMD source, live ledger, DB schema or recovery policy
+change is made by this corrective candidate. All 595 unit methods remain.
+
+Grunt itself completes, but its freshness check reports 24 stale compiled files.
+The initial Babel builds are not canonical Moodle Grunt output. Locally the npm
+registry is denied (403), so no replacement build is fabricated. The original
+freshness gate remains mandatory. Since plugin-CI 4.5.13 restores its input plugin
+after comparing files, a separate guarded CI-only native Grunt invocation captures
+its real output, source/commit hashes and exact-source maps. Early native artifacts
+and the ordinary reports contain `native-amd.zip`. Compiled JS regressions use the
+installed native build. A follow-up correction must install that verified output
+and rerun every gate; this preparatory correction alone does not close Grunt.
+
+The recovery checkbox is temporary: after production 5.0 historical repair has been
+completed and checked, remove the checkbox and extraordinary repair path in a later
+release, retaining repaired evidence and ordinary recalculation. Demo 5.3 and Microsoft
+search remain paused. Native execution of the corrected candidate is still pending.

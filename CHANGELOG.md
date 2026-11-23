@@ -4,6 +4,17 @@
 
 ### Urgent viewing-continuity hotfix from accepted267; Microsoft268 paused
 
+- Correct the rejected initial269candidate a8d58ffd/tree80a28a42: retain all595unit
+  methods and recovery semantics, expand canonical PHP formatting/docblocks, update
+  the old source-string wallclock check and add real-play waiting before both new
+ 12–17s browser assertions. Reuse core navigation for the settings link.
+- Initial native CI executes all six matrices: Unit594/595, Behat73/75 with two repeatable
+  short-wait failures, strict10/0/0 and standalone JS pass. Native Grunt builds but
+  rejects24Babel-generated files. PHPCS51errors/1warning; analysis advisories remain
+  visible. Keep native freshness checks intact and export real Grunt output from a
+  separate guarded CI-only command for the next build correction. Canonical compiled
+  files are still pending; do not merge or deploy this preparatory correction.
+
 - Restore YouTube periodic saves on no-forward-seek natural playback paths. Preserve
   the strict live server/session/seek ledger instead of accepting arbitrary long spans.
 - Capture pause/tab/random-pause boundaries immediately. Share an acknowledged cursor

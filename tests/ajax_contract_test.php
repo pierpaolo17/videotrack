@@ -332,8 +332,10 @@ final class ajax_contract_test extends advanced_testcase {
         $this->assertIsString($api);
 
         $this->assertStringContainsString('wallclockstart: Number(state.wallclockstart)', $segment);
+        $this->assertStringContainsString('var cursor = TrackerState.segmentCursor(state);', $segment);
+        $this->assertStringContainsString('var boundary = resolveCurrentTime(getCurrentTime, state);', $segment);
         $this->assertStringContainsString(
-            'saveSegment(closed.start, closed.end, saveReason, closed.wallclockstart)',
+            'saveSegment(start, end, saveReason, cursor.wallclockstart)',
             $segment
         );
         $this->assertStringContainsString('options.wallclockstart', $api);

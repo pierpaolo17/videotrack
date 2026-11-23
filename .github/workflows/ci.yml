@@ -247,6 +247,24 @@ jobs:
           set -o pipefail
           moodle-plugin-ci grunt --tasks amd 2>&1 | tee ci-reports/grunt.txt
 
+      - name: Capture canonical native AMD builds for review
+        if: ${{ !cancelled() }}
+        run: |
+          set -eo pipefail
+          . "$NVM_DIR/nvm.sh"
+          nvm use --silent "$(cat "$MOODLE_ROOT/.nvmrc")"
+          python3 "$GITHUB_WORKSPACE/plugin/.github/capture_native_amd.py" \
+            2>&1 | tee ci-reports/grunt-native-capture.txt
+
+      - name: Upload canonical native AMD builds
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: "videotrack-native-amd-${{ matrix.id }}"
+          path: ci-reports/native-amd.zip
+          retention-days: 14
+          if-no-files-found: error
+
       - name: Tracking lifecycle JavaScript regressions
         if: ${{ !cancelled() }}
         run: |
@@ -254,7 +272,8 @@ jobs:
           {
             node "$GITHUB_WORKSPACE/plugin/tests/tracker_segment_test.js"
             node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js"
-            node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js" --build
+            VT_TRACKING_BASELINE_ROOT="$VIDEOTRACK_ROOT" \
+              node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js" --build
           } 2>&1 | tee ci-reports/tracking-javascript.txt
 
       - name: Install standard Moodle database for VideoTrack validator
