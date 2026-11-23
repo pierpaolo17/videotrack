@@ -272,7 +272,46 @@ define([
     }
 
 
+    /**
+     * Capture the current segment cursor, also for callers using legacy plain state.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @returns {Object|null} Cursor retained by pending saves after a pause or seek.
+     */
+    function segmentCursor(state) {
+        if (!state || state.segmentstart === null || typeof state.segmentstart === 'undefined') {
+            return null;
+        }
+        if (!state._segmentCursor) {
+            state._segmentCursor = {
+                start: normaliseTime(state.segmentstart),
+                wallclockstart: Number(state.wallclockstart) || Math.floor(Date.now() / 1000)
+            };
+        }
+        return state._segmentCursor;
+    }
+
+    /**
+     * Advance a captured cursor after persistence without reopening a paused/new segment.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object} cursor Captured segment cursor.
+     * @param {number} end Persisted end time.
+     * @param {number} timestamp Snapshot wallclock in seconds.
+     */
+    function advanceCursor(state, cursor, end, timestamp) {
+        cursor.start = normaliseTime(end);
+        cursor.wallclockstart = timestamp;
+        if (state._segmentCursor === cursor && state.segmentstart !== null) {
+            state.segmentstart = cursor.start;
+            state.wallclockstart = timestamp;
+            state.lastHeartbeatWallclock = timestamp;
+        }
+    }
+
     return {
+        segmentCursor: segmentCursor,
+        advanceCursor: advanceCursor,
         STATES: STATES,
         normaliseTime: normaliseTime,
         normaliseTrackerState: normaliseTrackerState,

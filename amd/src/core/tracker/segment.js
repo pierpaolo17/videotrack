@@ -44,6 +44,7 @@ define([
         state.segmentstart = start;
         state.wallclockstart = timestamp;
         state.lasttime = start;
+        state._segmentCursor = {start: start, wallclockstart: timestamp};
         if (typeof playbackRate === 'number' && isFinite(playbackRate) && playbackRate > 0) {
             state.playbackrate = playbackRate;
         }
@@ -72,6 +73,7 @@ define([
             var wasPlaying = !!state.playing;
             state.segmentstart = null;
             state.wallclockstart = null;
+            state._segmentCursor = null;
             if (!wasPlaying) {
                 markPaused(state, {reason: 'segment-close-zero-duration'});
             }
@@ -80,6 +82,7 @@ define([
         }
         state.segmentstart = null;
         state.wallclockstart = null;
+        state._segmentCursor = null;
         markPaused(state, {reason: 'segment-close'});
         emit(state, 'segment:close', payload);
         return payload;
@@ -133,33 +136,35 @@ define([
      * @returns {Promise<boolean>} True when a segment was closed and queued for saving.
      */
     function closeAndSaveSegment(state, getCurrentTime, saveSegment, reason, hasPlayer) {
+        var cursor = TrackerState.segmentCursor(state);
+        if (!cursor || !isPlayerAvailable(hasPlayer) ||
+                typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+            return Promise.resolve(false);
+        }
+        // Read the boundary now, before provider pause callbacks or a later resume.
+        var boundary = resolveCurrentTime(getCurrentTime, state);
+        state.segmentstart = null;
+        state.wallclockstart = null;
+        state._segmentCursor = null;
+        markPaused(state, {reason: reason || 'segment-close'});
         return enqueueSegmentSave(state, function() {
-            if (!state || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
-                return Promise.resolve(false);
-            }
-            if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
-                return Promise.resolve(false);
-            }
-
-            var transitionToken = getTransitionToken(state);
-
-            return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
-                if (!isTransitionCurrent(state, transitionToken)) {
-                    emit(state, 'segment:skipped', {reason: 'stale-state'});
-                    return false;
-                }
-
-                var closed = closeSegment(state, currentTime);
-                if (!closed || closed.end <= closed.start) {
+            return boundary.then(function(currentTime) {
+                var start = cursor.start;
+                var end = normaliseTime(currentTime);
+                if (end <= start) {
                     return false;
                 }
                 var saveReason = Segment.normaliseSaveReason(reason);
-                return Promise.resolve(saveSegment(closed.start, closed.end, saveReason, closed.wallclockstart))
-                    .then(function() {
-                        emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: saveReason});
+                return Promise.resolve(saveSegment(start, end, saveReason, cursor.wallclockstart))
+                    .then(function(result) {
+                        if (result === null || result === false || (result && result.accepted === false)) {
+                            emit(state, 'segment:rejected', {start: start, end: end, reason: saveReason});
+                            return false;
+                        }
+                        emit(state, 'segment:saved', {start: start, end: end, reason: saveReason});
                         return true;
                     }, function(error) {
-                        emit(state, 'segment:error', {start: closed.start, end: closed.end, reason: saveReason, error: error});
+                        emit(state, 'segment:error', {start: start, end: end, reason: saveReason, error: error});
                         throw error;
                     });
             });
@@ -185,16 +190,20 @@ define([
             return Promise.resolve(null);
         }
 
-        var start = normaliseTime(state.segmentstart);
+        var cursor = TrackerState.segmentCursor(state);
+        var start = cursor.start;
         var knownEnd = normaliseTime(end);
-        var wallclockstart = Number(state.wallclockstart) || Math.floor(Date.now() / 1000);
         if (knownEnd <= start) {
             return Promise.resolve(null);
         }
         var saveReason = Segment.normaliseSaveReason(reason);
 
         return enqueueSegmentSave(state, function() {
-            return Promise.resolve(saveSegment(start, knownEnd, saveReason, wallclockstart)).then(function(result) {
+            start = cursor.start;
+            if (knownEnd <= start) {
+                return null;
+            }
+            return Promise.resolve(saveSegment(start, knownEnd, saveReason, cursor.wallclockstart)).then(function(result) {
                 emit(state, 'segment:snapshot-saved', {start: start, end: knownEnd, reason: saveReason});
                 return result;
             }, function(error) {
@@ -243,7 +252,9 @@ define([
                 return Promise.resolve(null);
             }
 
-            var start = normaliseTime(state.segmentstart);
+            var cursor = TrackerState.segmentCursor(state);
+            var start = cursor.start;
+            var timestamp = Math.floor(Date.now() / 1000);
             var transitionToken = getTransitionToken(state);
 
             return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
@@ -258,8 +269,10 @@ define([
                     emit(state, 'progress:skipped', {reason: saveReason, start: start, end: end});
                     return null;
                 }
-                return Promise.resolve(saveSegment(start, end, saveReason)).then(function(result) {
-                    reopenAfterInteractionSave(state, end);
+                return Promise.resolve(saveSegment(start, end, saveReason, cursor.wallclockstart)).then(function(result) {
+                    if (result !== null && result !== false && (!result || result.accepted !== false)) {
+                        TrackerState.advanceCursor(state, cursor, end, timestamp);
+                    }
                     emit(state, 'progress:saved', {reason: saveReason, start: start, end: end});
                     return result;
                 }, function(error) {

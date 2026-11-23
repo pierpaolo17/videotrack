@@ -81,3 +81,5 @@ tolleranza del sito non abilitano controlli o registrazione nell’attività. Il
 registrazione abilitata; un blur prolungato può mettere in pausa solo con policy rigida e controllo focus
 attivo nell’attività. Anche la pausa per scheda nascosta richiede quel controllo. Le eccezioni focus già
 previste restano valide. I testi sito descrivono questi interruttori esistenti; default e comportamento non cambiano.
+
+Lo scroll nella stessa pagina non genera segnali viewport/integrità e non ferma il tracciamento. I vecchi record outofviewport restano; i nuovi client non osservano la posizione del player nel viewport. Un vero cambio scheda conserva la visione precedente. Vedi [hotfix269](39_TRACKING_RECOVERY_HOTFIX.md).

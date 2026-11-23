@@ -1,6 +1,6 @@
 # Reusable Microsoft video references
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.269** (`2026112300`).
 
 ## Repeat a personal video diagnostic
 

@@ -219,12 +219,21 @@ define([
                 state._playbackStartPromise = null;
             }
         }
-        var request = call('mod_videotrack_start_playback', {
-            cmid: config.cmid,
-            sessionid: state.sessionid,
-            requestid: Session.uuid(),
-            videotime: Math.max(0, Number(videotime) || 0)
-        }, options).then(function(response) {
+        var previous = state._segmentSaveQueue || Promise.resolve();
+        var request = previous.catch(function() {
+            return null;
+        }).then(function() {
+            if (serial !== state._playbackStartSerial ||
+                    (typeof document !== 'undefined' && document.hidden)) {
+                return null;
+            }
+            return call('mod_videotrack_start_playback', {
+                cmid: config.cmid,
+                sessionid: state.sessionid,
+                requestid: Session.uuid(),
+                videotime: Math.max(0, Number(videotime) || 0)
+            }, options);
+        }).then(function(response) {
             var result = serial === state._playbackStartSerial && response && response.accepted ? response : null;
             clearPending();
             return result;

@@ -34,3 +34,5 @@ php admin/cli/scheduled_task.php --execute='\mod_videotrack\task\cleanup_retenti
 Run destructive/privacy tasks only in the intended environment and after confirming scope. For code defects,
 capture the exact release, Moodle branch, source/provider, steps, Console, Network response and relevant database
 rows with personal data redacted.
+
+For lost progress after pause/tab changes, install the [269hotfix and use explicit evidence-based repair](39_TRACKING_RECOVERY_HOTFIX.md) after backup. Missing raw evidence cannot be invented.

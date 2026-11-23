@@ -79,3 +79,5 @@ do not enable activity controls or diagnostic recording. A signal is recorded on
 a sustained window blur may pause only under the strict policy with activity focus control enabled.
 Hidden-tab pausing still requires that activity control. Existing approved focus exceptions remain intact.
 The site descriptions explain these existing gates; no defaults or behaviour change.
+
+Scrolling within the same document does not emit viewport/integrity signals or stop tracking. Historical outofviewport records remain; new clients no longer observe the player viewport. Actual tab hiding preserves all preceding watched credit. See [the269hotfix](39_TRACKING_RECOVERY_HOTFIX.md).

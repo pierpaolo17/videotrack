@@ -124,6 +124,7 @@ define([
      * @param {Function} options.closeSegment Function called with the close reason.
      * @param {Function=} options.stopPolling Optional polling stop callback.
      * @param {Function=} options.onHidden Optional callback after hidden close.
+     * @param {Function=} options.onVisible Optional fresh-playback check after returning to the tab.
      * @param {Function=} options.sendBeacon Optional beforeunload beacon callback.
      * @param {Function=} options.hasPlayer Optional player availability callback.
      * @param {Function=} options.cancelPendingRequests Optional pending-request cleanup callback.
@@ -155,6 +156,11 @@ define([
 
         var onVisibilityChange = function() {
             if (!document.hidden) {
+                if (typeof options.onVisible === 'function') {
+                    Promise.resolve(options.onVisible()).catch(function(error) {
+                        emit(state, 'lifecycle:visibleerror', {error: error});
+                    });
+                }
                 return;
             }
             emit(state, 'lifecycle:hidden', {});

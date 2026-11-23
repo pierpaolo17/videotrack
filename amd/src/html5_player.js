@@ -100,7 +100,7 @@ define([
         var position = Tracker.normaliseTime(candidate);
         var allowed;
         if (config && config.allowseekforward === false && (config.intervaljson || state.intervaljson)) {
-            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            allowed = getMaxWatchedFromIntervals(state.intervaljson || config.intervaljson);
             if (position > allowed + 0.75) {
                 return allowed;
             }
@@ -459,7 +459,7 @@ define([
 
     function startSegment() {
         var current = safeNumber(media.currentTime, 0);
-        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+        state.intervaljson = state.intervaljson || config.intervaljson || '[]';
         Tracker.openSegment(
             state,
             current,
@@ -540,6 +540,23 @@ define([
         Tracker.installLifecycleHandlers({
             state: state,
             closeSegment: closeSegment,
+            onVisible: function() {
+                if (!media || media.paused || state.playing || state.isSeeking) {
+                    return null;
+                }
+                var frontier = getAllowedForwardLimit();
+                if (config.allowseekforward === false && media.currentTime > frontier + 0.75) {
+                    media.pause();
+                    startProgrammaticSeek(frontier);
+                    return null;
+                }
+                return Api.beginPlayback(config, state, media.currentTime).then(function(response) {
+                    if (response && !document.hidden && !media.paused && !state.playing) {
+                        startSegment();
+                        startHeartbeat();
+                    }
+                });
+            },
             hasPlayer: function() { return hasMedia(); },
             sendBeacon: function() {
                 return Tracker.sendUnloadBeacon({
@@ -1180,6 +1197,9 @@ define([
         });
 
         media.addEventListener('timeupdate', function() {
+            if (document.hidden) {
+                return;
+            }
             var current = safeNumber(media.currentTime, 0);
             if (focusGuard) {
                 focusGuard.noteProgress(current);
@@ -1619,6 +1639,8 @@ define([
         init: function(initConfig) {
             controlBar        = null;
             config             = resolveConfig(initConfig);
+            state.configuredduration = Math.max(0, Number(config.duration) || 0);
+            state.duration = state.configuredduration || state.duration;
             PlayerCore.configureStatus(config);
             PlayerCore.showForwardSeekPolicyNotice(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.
@@ -1634,7 +1656,7 @@ define([
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
             initialiseFocusGuard();
-            state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+            state.intervaljson = state.intervaljson || config.intervaljson || '[]';
             markAllowedForwardTime(getMaxWatchedFromIntervals(state.intervaljson));
             installGlobalListeners();
             installReactionHandler();

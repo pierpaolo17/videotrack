@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.269 - 2026-11-23
+
+### Urgent viewing-continuity hotfix from accepted267; Microsoft268 paused
+
+- Restore YouTube periodic saves on no-forward-seek natural playback paths. Preserve
+  the strict live server/session/seek ledger instead of accepting arbitrary long spans.
+- Capture pause/tab/random-pause boundaries immediately. Share an acknowledged cursor
+  with in-flight heartbeats, serialise resume after final saves and isolate late replies.
+  Never rotate a cursor on rejected/null saves or reset newer intervals from initial config.
+- Keep configured duration authoritative in live progress, retain acknowledged interval
+  unions across out-of-order successes, and return existing state for empty callbacks.
+- Stop observing/emitting viewport integrity events. Scrolling for notes/bookmarks never
+  closes tracking. Keep historical diagnostic rows and real tab-hide policy; visible
+  resumes and Vimeo fallback restarts establish a fresh server handshake.
+- Add unchecked teacher opt-in to reconstruct starvation-sized historical rejected rows
+  supported by matching server playstart/session/receipt time and current restrictions.
+  Preserve originals; append idempotent derived recovery269 evidence under state lock/
+  transaction, then recalculate through the existing completion path. Missing/ambiguous
+  evidence stays unrecovered. Normal and privacy-retention rebuilds remain unchanged.
+- Add12PHPUnit methods and2Behat scenarios; strengthen3random-pause browser assertions.
+  Run standalone source/build JS regressions in CI. Five targeted failures reproduce
+  on accepted267 and pass locally on269; native PHP/Moodle/Grunt gates remain pending.
+- Base this release on actual267, excluding the abandoned Microsoft-search268 work.
+  Use forward version2026112300 to permit installation over either267or268 without
+  database downgrade. No schema/service change, data deletion or automatic bulk repair.
+
 ## 1.7.267 - 2026-11-21
 
 ### Reuse Microsoft video identities without retaining temporary URLs

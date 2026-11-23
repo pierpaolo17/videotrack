@@ -525,15 +525,37 @@ define([
 
     function ensureVimeoRuntimePlaying(current) {
         var safeCurrent = Tracker.normaliseTime(current);
+        if (document.hidden) {
+            return Promise.resolve(false);
+        }
         if (!state.playing || state.segmentstart === null || typeof state.segmentstart === 'undefined') {
-            if (startSegment(safeCurrent) === false) {
-                return;
-            }
+            return Api.beginPlayback(config, state, safeCurrent, {
+                swallowFailures: true,
+                errorMessage: 'vimeo-runtime-playback-start'
+            }).then(function(response) {
+                if (!response || document.hidden || state.playing) {
+                    return false;
+                }
+                return player.getPaused().then(function(paused) {
+                    if (paused || document.hidden || state.playing || startSegment(safeCurrent) === false) {
+                        return false;
+                    }
+                    startHeartbeat();
+                    startVimeoRuntimePolling();
+                    setReactionButtons(true);
+                    markVimeoPlaybackObserved();
+                    return true;
+                });
+            }).catch(function(error) {
+                Log.debug(error);
+                return false;
+            });
         }
         startHeartbeat();
         startVimeoRuntimePolling();
         setReactionButtons(true);
         markVimeoPlaybackObserved();
+        return Promise.resolve(true);
     }
 
     function getResumeStorageKey() {
@@ -554,7 +576,7 @@ define([
             return 0;
         }
         if (config && config.allowseekforward === false) {
-            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            allowed = getMaxWatchedFromIntervals(state.intervaljson || config.intervaljson);
             if (allowed > 0 && stored > allowed + 0.75) {
                 return allowed;
             }
@@ -582,7 +604,7 @@ define([
         var position = Math.max(serverPosition, storedPosition);
         var allowed;
         if (config && config.allowseekforward === false && (config.intervaljson || state.intervaljson)) {
-            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            allowed = getMaxWatchedFromIntervals(state.intervaljson || config.intervaljson);
             if (position > allowed + 0.75) {
                 return allowed;
             }
@@ -627,7 +649,7 @@ define([
     }
 
     function pollVimeoRuntime() {
-        if (!player || state.seekblocked) {
+        if (!player || state.seekblocked || document.hidden) {
             return;
         }
         Promise.all([
@@ -641,7 +663,7 @@ define([
             var rate = Number(values[2]) || state.playbackrate || 1;
             var duration = Number(values[3]) || state.duration || config.duration || 0;
             if (duration > 0) {
-                state.duration = duration;
+                state.duration = state.configuredduration || duration;
             }
             rate = enforcePlaybackRateValue(rate, 'Vimeo runtime playback rate');
             if (paused) {
@@ -654,9 +676,8 @@ define([
             }
             markVimeoPlaybackObserved();
             if (!state.playing || state.segmentstart === null || typeof state.segmentstart === 'undefined') {
-                startSegment(current);
-                startHeartbeat();
-                setReactionButtons(true);
+                ensureVimeoRuntimePlaying(current);
+                return;
             }
             handleVimeoTime(current, rate, duration);
             Tracker.runHeartbeat({
@@ -675,6 +696,9 @@ define([
     }
 
     function handleVimeoTime(current, playbackRate, duration) {
+        if (document.hidden) {
+            return;
+        }
         var previous = Tracker.normaliseTime(state.lasttime);
         var now = Date.now();
         var elapsed = state.lastSeekPollAt ? Math.max(0, (now - state.lastSeekPollAt) / 1000) : 0;
@@ -682,7 +706,7 @@ define([
         var expectedDelta;
         var threshold;
         if (duration) {
-            state.duration = Number(duration) || state.duration;
+            state.duration = state.configuredduration || Number(duration) || state.duration;
         }
         state.lastSeekPollAt = now;
         if (state.seekblocked) {
@@ -755,7 +779,7 @@ define([
     function initialiseKnownProgress(position) {
         var current = Tracker.normaliseTime(position);
         state.lasttime = current;
-        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+        state.intervaljson = state.intervaljson || config.intervaljson || '[]';
         if (config.duration && !state.duration) {
             state.duration = Number(config.duration) || 0;
         }
@@ -1099,6 +1123,31 @@ define([
         Tracker.installLifecycleHandlers({
             state: state,
             closeSegment: closeSegment,
+            onVisible: function() {
+                if (!player || state.playing) {
+                    return null;
+                }
+                return player.getPaused().then(function(paused) {
+                    if (paused || document.hidden || state.playing) {
+                        return null;
+                    }
+                    return player.getCurrentTime().then(function(time) {
+                        var frontier = getAllowedForwardLimit();
+                        if (config.allowseekforward === false && time > frontier + 0.75) {
+                            return player.pause().then(function() {
+                                markVimeoProgrammaticSeek(frontier);
+                                return player.setCurrentTime(frontier);
+                            });
+                        }
+                        return Api.beginPlayback(config, state, time).then(function(response) {
+                            if (response && !document.hidden && !state.playing && startSegment(time) !== false) {
+                                startHeartbeat();
+                                startVimeoRuntimePolling();
+                            }
+                        });
+                    });
+                });
+            },
             stopPolling: stopHeartbeat,
             onHidden: function() {
                 setReactionButtons(false);
@@ -1348,7 +1397,7 @@ define([
             state.duration = Adapter.getDuration(state, function() {
                 return d;
             }, Log, 'Vimeo duration');
-            state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+            state.intervaljson = state.intervaljson || config.intervaljson || '[]';
             if (config.intervaljson && state.duration) {
                 PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
             }
@@ -2113,6 +2162,8 @@ define([
     return {
         init: function(initConfig) {
             config             = resolveConfig(initConfig);
+            state.configuredduration = Math.max(0, Number(config.duration) || 0);
+            state.duration = state.configuredduration || state.duration;
             PlayerCore.configureStatus(config);
             PlayerCore.showForwardSeekPolicyNotice(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.

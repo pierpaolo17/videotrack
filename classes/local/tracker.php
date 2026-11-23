@@ -1096,6 +1096,36 @@ class tracker {
     }
 
     /**
+     * Explicitly repair historical starvation evidence and rebuild under one state lock.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Canonical module.
+     * @param int $userid Learner id.
+     * @return \stdClass|null Repaired state, or null when the lock is busy.
+     */
+    public static function recover_and_rebuild_state(\stdClass $videotrack, \cm_info $cm, int $userid): ?\stdClass {
+        global $DB;
+
+        $factory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lock = $factory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
+        if (!$lock) {
+            return null;
+        }
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            playback_recovery::recover($videotrack, $cm, $userid);
+            $state = self::rebuild_state_from_segments($videotrack, $cm, $userid, $lock);
+            $transaction->allow_commit();
+            return $state;
+        } catch (\Throwable $error) {
+            $transaction->rollback($error);
+            throw $error;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
      * Rebuilds one user's aggregate state from raw segment rows and reaction events.
      *
      * @param \stdClass $videotrack Activity instance.

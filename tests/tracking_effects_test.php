@@ -209,6 +209,34 @@ final class tracking_effects_test extends \advanced_testcase {
         }
     }
 
+    /** Empty provider snapshots keep existing progress and do not write a segment. */
+    public function test_empty_external_segment_returns_the_existing_progress(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $fixture = $this->fixture(100.0);
+        $this->persist($fixture, $this->segment($fixture, md5('watched-before-empty'), [0.0, 30.0]), 130000);
+        $where = ['videotrackid' => $fixture['activity']->id, 'userid' => $fixture['user']->id];
+        $before = $DB->get_record('videotrack_state', $where, '*', MUST_EXIST);
+        $count = $DB->count_records('videotrack_seg', $where);
+        $originalpost = $_POST;
+        $_POST['sesskey'] = sesskey();
+        try {
+            $response = save_segment::execute(
+                (int)$fixture['cm']->id, $fixture['sessionid'], md5('empty-pause'),
+                30.0, 30.0, 130, 130, 1.0, 'pause', 100.0
+            );
+            $this->assertFalse($response['accepted']);
+            $this->assertSame(30.0, $response['uniquecoveredseconds']);
+            $this->assertSame(30.0, $response['completionpercent']);
+            $this->assertSame((string)$before->intervaljson, $response['intervaljson']);
+            $this->assertEquals($before, $DB->get_record('videotrack_state', $where, '*', MUST_EXIST));
+            $this->assertSame($count, $DB->count_records('videotrack_seg', $where));
+        } finally {
+            $_POST = $originalpost;
+        }
+    }
+
     /**
      * Build a real enrolled learner, automatic-completion activity and explicit server playback window.
      *

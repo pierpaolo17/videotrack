@@ -84,6 +84,7 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
     When I click on ".videotrack-ctrl-play" "css_element"
     Then the VideoTrack HTML5 media playback is "paused"
     And the playback credit window for "student1" in "HTML5 attention pause" is closed by an accepted pause
+    And the watched VideoTrack progress for "student1" in "HTML5 attention pause" is contiguous and retained
 
   Scenario: YOUTUBE attention pause closes server credit and permits a validated resume
     Given the following "activities" exist:
@@ -106,6 +107,7 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
     When I pause the deterministic VideoTrack "youtube" provider
     Then the "youtube" provider playback is "paused"
     And the playback credit window for "student1" in "YOUTUBE attention pause" is closed by an accepted pause
+    And the watched VideoTrack progress for "student1" in "YOUTUBE attention pause" is contiguous and retained
 
   Scenario: VIMEO attention pause closes server credit and permits a validated resume
     Given the following "activities" exist:
@@ -128,3 +130,4 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
     When I pause the deterministic VideoTrack "vimeo" provider
     Then the "vimeo" provider playback is "paused"
     And the playback credit window for "student1" in "VIMEO attention pause" is closed by an accepted pause
+    And the watched VideoTrack progress for "student1" in "VIMEO attention pause" is contiguous and retained

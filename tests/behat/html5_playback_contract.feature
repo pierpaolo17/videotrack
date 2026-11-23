@@ -67,3 +67,20 @@ Feature: HTML5 playback contracts remain stable in the browser
     Then ".videotrack-status-message" "css_element" should not exist
     And ".videotrack-resume-notice" "css_element" should exist
     And ".videotrack-seek-policy-notice" "css_element" should exist
+
+  Scenario: A second manual pause keeps viewing saved before the first pause
+    Given I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "Playback contracts" "link"
+    Then the VideoTrack HTML5 media is ready
+    When I click on ".videotrack-ctrl-play" "css_element"
+    Then the VideoTrack HTML5 media time is between "3" and "8"
+    When I click on ".videotrack-ctrl-play" "css_element"
+    Then the VideoTrack HTML5 media playback is "paused"
+    And the playback credit window for "student1" in "Playback contracts" is closed by an accepted pause
+    When I click on ".videotrack-ctrl-play" "css_element"
+    Then the VideoTrack HTML5 media time is between "12" and "17"
+    When I click on ".videotrack-ctrl-play" "css_element"
+    Then the VideoTrack HTML5 media playback is "paused"
+    And the playback credit window for "student1" in "Playback contracts" is closed by an accepted pause
+    And the watched VideoTrack progress for "student1" in "Playback contracts" is contiguous and retained

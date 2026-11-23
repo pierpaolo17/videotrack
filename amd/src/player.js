@@ -209,7 +209,7 @@ define([
         var position = Math.max(serverPosition, storedPosition);
         var allowed;
         if (config && config.allowseekforward === false && (config.intervaljson || state.intervaljson)) {
-            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            allowed = getMaxWatchedFromIntervals(state.intervaljson || config.intervaljson);
             if (position > allowed + 0.75) {
                 return allowed;
             }
@@ -220,7 +220,7 @@ define([
     function initialiseKnownProgress(position) {
         var current = Tracker.normaliseTime(position);
         state.lasttime = current;
-        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+        state.intervaljson = state.intervaljson || config.intervaljson || '[]';
         if (config.duration && !state.duration) {
             state.duration = Number(config.duration) || 0;
         }
@@ -423,7 +423,18 @@ define([
         // Restart polling if it was suspended (hidden tab becomes visible again).
         if (!state.heartbeatid) {
             state.heartbeatid = Tracker.startPolling(state, function() {
-                if (player) { handleSeekByPolling(); }
+                if (player && !document.hidden) {
+                    handleSeekByPolling();
+                    Tracker.runHeartbeat({
+                        state: state,
+                        heartbeatInterval: HEARTBEAT_INTERVAL,
+                        getCurrentTime: getCurrentVideoTime,
+                        saveSegment: saveSegment,
+                        hasPlayer: function() { return hasPlayer(['getCurrentTime']); },
+                        shouldSkip: function() { return state.seekblocked || state.isSeeking; },
+                        log: Log
+                    });
+                }
             }, HEARTBEAT_INTERVAL);
         }
     }
@@ -588,17 +599,7 @@ define([
             }, Log, 'YouTube replay pause');
         }
 
-        // Heartbeat: provider-neutral guard and error handling live in core/tracker.
-        Tracker.runHeartbeat({
-            state: state,
-            heartbeatInterval: HEARTBEAT_INTERVAL,
-            getCurrentTime: getCurrentVideoTime,
-            saveSegment: saveSegment,
-            hasPlayer: function() {
-                return hasPlayer(['getCurrentTime']);
-            },
-            log: Log
-        });
+
     }
 
     function onPlayerStateChange(event) {
@@ -661,6 +662,24 @@ define([
         Tracker.installLifecycleHandlers({
             state: state,
             closeSegment: closeCurrentSegment,
+            onVisible: function() {
+                if (!player || player.getPlayerState() !== YT.PlayerState.PLAYING || state.playing) {
+                    return null;
+                }
+                var frontier = getAllowedForwardLimit();
+                if (config.allowseekforward === false && player.getCurrentTime() > frontier + 0.75) {
+                    // Background playback is unwatched; return to saved progress without a seek penalty.
+                    player.pauseVideo();
+                    Tracker.markProgrammaticSeek(state);
+                    player.seekTo(frontier, true);
+                    return null;
+                }
+                return Api.beginPlayback(config, state, player.getCurrentTime()).then(function(response) {
+                    if (response && !document.hidden && player.getPlayerState() === YT.PlayerState.PLAYING && !state.playing) {
+                        startCurrentSegment();
+                    }
+                });
+            },
             onHidden: function() {
                 setReactionButtons(false);
             },
@@ -1266,6 +1285,8 @@ define([
     return {
         init: function(initConfig) {
             config = resolveConfig(initConfig);
+            state.configuredduration = Math.max(0, Number(config.duration) || 0);
+            state.duration = state.configuredduration || state.duration;
             PlayerCore.configureStatus(config);
             PlayerCore.showForwardSeekPolicyNotice(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.

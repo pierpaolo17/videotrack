@@ -75,3 +75,5 @@ record-type distinction. The custom `iscompleted` flag is separate from overall 
 only that percentage condition, not every other custom or native Moodle completion requirement. An enabled
 percentage condition participates in the activity’s configured AND/OR combination, and teachers may change
 the threshold per activity. Updating this description does not modify stored defaults or completion code.
+
+For lost progress after pause/tab changes, install the [269hotfix and use explicit evidence-based repair](39_TRACKING_RECOVERY_HOTFIX.md) after backup. Missing raw evidence cannot be invented.

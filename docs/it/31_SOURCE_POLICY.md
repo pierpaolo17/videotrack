@@ -4,7 +4,7 @@ La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW
 CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
 e validazione Microsoft reale con browser restano gate distinti.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.269** (`2026112300`).
 
 ## Configurare le sorgenti implementate
 

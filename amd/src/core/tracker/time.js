@@ -50,11 +50,14 @@ define([
         if (typeof getCurrentTime !== 'function') {
             return Promise.resolve(normaliseTime(state && state.lasttime));
         }
-        return Promise.resolve().then(function() {
-            return getCurrentTime();
-        }).then(function(currentTime) {
-            return normaliseTime(currentTime);
-        });
+        try {
+            // Synchronous providers must be sampled at the event, not a later microtask.
+            return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+                return normaliseTime(currentTime);
+            });
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 
     /**

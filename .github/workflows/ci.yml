@@ -247,6 +247,16 @@ jobs:
           set -o pipefail
           moodle-plugin-ci grunt --tasks amd 2>&1 | tee ci-reports/grunt.txt
 
+      - name: Tracking lifecycle JavaScript regressions
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          {
+            node "$GITHUB_WORKSPACE/plugin/tests/tracker_segment_test.js"
+            node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js"
+            node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js" --build
+          } 2>&1 | tee ci-reports/tracking-javascript.txt
+
       - name: Install standard Moodle database for VideoTrack validator
         if: ${{ !cancelled() }}
         run: |

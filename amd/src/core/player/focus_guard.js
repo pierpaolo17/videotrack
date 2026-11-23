@@ -49,7 +49,6 @@ define([
         var randomTimer = null;
         var blurTimer = null;
         var watchdogTimer = null;
-        var observer = null;
         var lastProgressAt = Date.now();
         var lastProgressTime = null;
         var lastActionAt = Date.now();
@@ -264,6 +263,9 @@ define([
                 return;
             }
             clearBlurTimer();
+            if (!playing) {
+                return;
+            }
             record('tabhidden');
             if (config.pauseonfocusloss) {
                 pausePlayback('tabhidden', config.focuspausedlabel);
@@ -296,6 +298,9 @@ define([
                 if (typeof document.hasFocus === 'function' && document.hasFocus()) {
                     return;
                 }
+                if (!playing) {
+                    return;
+                }
                 record('windowblur');
                 if (config.pauseonfocusloss && config.focuslosspolicy === 'strict') {
                     pausePlayback('windowblur', config.focuspausedlabel);
@@ -317,17 +322,6 @@ define([
         if (shell) {
             shell.addEventListener('click', onShellInteraction, true);
             shell.addEventListener('keydown', onShellInteraction, true);
-        }
-
-        if (window.IntersectionObserver && playerWrap) {
-            observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (playing && !document.hidden && entry.intersectionRatio < 0.25) {
-                        record('outofviewport');
-                    }
-                });
-            }, {threshold: [0, 0.25, 1]});
-            observer.observe(playerWrap);
         }
 
         watchdogTimer = window.setInterval(function() {
@@ -353,10 +347,7 @@ define([
                 shell.removeEventListener('click', onShellInteraction, true);
                 shell.removeEventListener('keydown', onShellInteraction, true);
             }
-            if (observer) {
-                observer.disconnect();
-                observer = null;
-            }
+
         }
 
         window.addEventListener('pagehide', destroy, {once: true});
