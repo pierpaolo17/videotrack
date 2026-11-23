@@ -128,6 +128,21 @@ define([], function() {
         duration = pickNumber(response, ['durationseconds', 'duration']);
         intervaljson = typeof response.intervaljson === 'string' ? response.intervaljson : null;
         if (intervaljson !== null && state) {
+            if (response.accepted !== false && PlayerCore && typeof PlayerCore.parseIntervals === 'function') {
+                var known = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
+                var received = PlayerCore.parseIntervals(intervaljson, Log);
+                var merged = known.concat(received).sort(function(a, b) { return a[0] - b[0]; })
+                    .reduce(function(result, interval) {
+                        var last = result.length ? result[result.length - 1] : null;
+                        if (last && interval[0] <= last[1]) {
+                            last[1] = Math.max(last[1], interval[1]);
+                        } else {
+                            result.push([interval[0], interval[1]]);
+                        }
+                        return result;
+                    }, []);
+                intervaljson = JSON.stringify(merged);
+            }
             state.intervaljson = intervaljson;
         }
 
@@ -144,6 +159,14 @@ define([], function() {
         duration = state && state.duration ? state.duration : duration;
         if (intervaljson && duration > 0 && PlayerCore && typeof PlayerCore.updateIntervalBar === 'function') {
             PlayerCore.updateIntervalBar(intervaljson, duration, Log);
+        }
+
+        var coveredNode = document.getElementById('videotrack-covered-seconds');
+        var covered = pickNumber(response, ['uniquecoveredseconds']);
+        if (state && state.playing && state.segmentstart !== null) {
+            updateLiveProgress(state, state.lasttime, Utils, PlayerCore, Log);
+        } else if (coveredNode && covered !== null && Utils && typeof Utils.formatSeconds === 'function') {
+            coveredNode.textContent = Utils.formatSeconds(covered);
         }
 
         if (Utils && typeof Utils.updateCompletionInfo === 'function') {

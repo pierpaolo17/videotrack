@@ -1881,13 +1881,15 @@ function videotrack_recalculation_userids(int $videotrackid, int $userid = 0): a
  * @param  cm_info  $cm             Course module info.
  * @param  int      $userid          Optional user id; zero recalculates every tracked user.
  * @param  bool     $synchronisemoodle Whether to ask Moodle to re-evaluate native completion too.
+ * @param  bool     $recoverplayback Explicit teacher opt-in for historical missed-heartbeat recovery.
  * @return int                      Number of updated state records.
  */
 function videotrack_recalculate_all_states(
     int $videotrackid,
     cm_info $cm,
     int $userid = 0,
-    bool $synchronisemoodle = true
+    bool $synchronisemoodle = true,
+    bool $recoverplayback = false
 ): int {
     global $DB;
 
@@ -1898,7 +1900,9 @@ function videotrack_recalculate_all_states(
 
     $updated = 0;
     foreach (array_keys($userids) as $userid) {
-        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid);
+        $state = $recoverplayback
+            ? tracker::recover_and_rebuild_state($videotrack, $cm, $userid)
+            : tracker::rebuild_state_from_segments($videotrack, $cm, $userid);
         if ($state === null) {
             continue;
         }

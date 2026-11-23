@@ -327,6 +327,10 @@ define([], function() {
      * @returns {number} Safe duration in seconds.
      */
     function getDuration(state, getter, log, label) {
+        if (state && Number(state.configuredduration) > 0) {
+            state.duration = Number(state.configuredduration);
+            return state.duration;
+        }
         var fallback = state && state.duration;
         try {
             if (typeof getter === 'function') {

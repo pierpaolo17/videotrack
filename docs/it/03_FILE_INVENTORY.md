@@ -1,15 +1,16 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.267. Elenca
-sorgenti, asset, test e guide di release selezionate, inclusi cinque file CI/tooling
+Questo inventario è generato sull'albero repository VideoTrack 1.7.269. Elenca
+sorgenti, asset, test e guide di release selezionate, inclusi sei file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero completo ha
-495 file repository / 471 distribuiti, includendo tutta la documentazione.
+Voci: **409** — 403 file distribuiti e sei solo repository. L'albero completo ha
+501 file repository / 475 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
 | `.gitattributes` | Attributi testuali/binari del repository. |
+| `.github/capture_native_amd.py` | Raccolta CI dell’output Grunt Moodle nativo, con controlli su sorgenti/commit e mappe. |
 | `.github/lifecycle/run.sh` | Runner solo repository: installazioni storiche reali, upgrade/ripetizione e uninstall popolato sul sito CI temporaneo. |
 | `.github/lifecycle/site.php` | Fixture protetta, asserzioni di conservazione e controlli dei residui operativi dopo uninstall, solo repository. |
 | `.github/static-analysis/composer.json` | Ambiente strumenti PHPStan/Psalm versionato e riservato alla CI del repository. |
@@ -229,6 +230,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `classes/local/microsoft_user_probe.php` | Diagnostica amministrativa con utente OAuth core corrente, senza ripiego sistema. |
 | `classes/local/microsoft_video_reference.php` | Identità versionata issuer locale/drive/video, parser circoscritto ed export amministrativo esplicito. |
 | `classes/local/personal_item.php` | Cancellazione definitiva del proprietario e retry serializzati. |
+| `classes/local/playback_recovery.php` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
 | `classes/local/privacy_retention_pair.php` | Elimina i dati personali scaduti e ricostruisce lo stato di un utente e attività sotto il lock canonico. |
 | `classes/local/provider_connection.php` | Stato OAuth locale in sola lettura e scelta dei servizi compatibili; credenziali gestite dal core. |
@@ -278,6 +280,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `docs/en/36_CI_BEHAT_EVIDENCE.md` | Guida inglese a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | Guida inglese ad anteprima diagnostica Microsoft privata, identità e procedura di prova reale. |
 | `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
+| `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -288,6 +291,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `docs/it/36_CI_BEHAT_EVIDENCE.md` | Guida italiana a conservazione artefatti Behat, tentativi e limiti della fotografia finale. |
 | `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Guida italiana ad anteprima diagnostica Microsoft privata, identità e procedura di prova reale. |
 | `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
+| `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -381,6 +385,7 @@ Voci: **404** — 399 file distribuiti e cinque solo repository. L'albero comple
 | `tests/microsoft_video_link_test.php` | Regressioni native URL/Graph/personali/modulo/controller senza rete provider. |
 | `tests/microsoft_video_reference_test.php` | Regressioni native su identità, form/CSRF e risoluzione personale nuova a ogni richiesta. |
 | `tests/mod_form_validation_test.php` | Copertura PHPUnit per sorgenti non valide, file VTT mancanti e requisiti delle icone delle reazioni. |
+| `tests/playback_recovery_test.php` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `tests/player_resume_completion_alert_contract_test.php` | Contratti cross-provider per resume, completion e avvisi; le asserzioni completion seguono il proprietario corrente della mutazione, incluso il servizio post-scrittura reazioni. |
 | `tests/privacy_exporter_test.php` | Verifica PHPUnit dei percorsi export, filtro utente e limite dei blocchi da 500. |
 | `tests/privacy_manager_test.php` | Copertura PHPUnit per retention GDPR basata sulla cancellazione, ricostruzione dello stato e cancellazione utente. |

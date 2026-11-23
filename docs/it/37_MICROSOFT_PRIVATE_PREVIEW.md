@@ -1,6 +1,6 @@
 # Anteprima diagnostica Microsoft privata
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.269** (`2026112300`).
 
 ## Scopo e accesso
 

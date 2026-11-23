@@ -86,7 +86,7 @@ class save_segment extends external_api {
         string $endreason,
         float $durationseconds = 0.0
     ): array {
-        global $USER;
+        global $USER, $DB;
         $input = compact('cmid', 'sessionid', 'requestid', 'videotimestart', 'videotimeend');
         $input += compact('wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds');
         $params = self::validated_parameters($input);
@@ -106,13 +106,18 @@ class save_segment extends external_api {
             $normaliseduration
         );
         if ($interval === null) {
+            // Empty provider callbacks must not erase progress already persisted.
+            $state = $DB->get_record('videotrack_state', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $USER->id,
+            ]);
             return [
                 'accepted'             => false,
                 'requestreplayed'      => false,
-                'uniquecoveredseconds' => 0.0,
-                'completionpercent'    => 0.0,
-                'iscompleted'          => false,
-                'intervaljson'         => '[]',
+                'uniquecoveredseconds' => (float)($state->uniquecoveredseconds ?? 0.0),
+                'completionpercent'    => (float)($state->completionpercent ?? 0.0),
+                'iscompleted'          => !empty($state->iscompleted),
+                'intervaljson'         => (string)($state->intervaljson ?? '[]'),
                 'durationseconds'      => $normaliseduration,
                 'savedvideotimestart' => 0.0,
                 'savedvideotimeend'   => 0.0,

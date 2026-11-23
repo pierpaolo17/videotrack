@@ -1,104 +1,101 @@
 # Documentation audit
 
-Current tree: VideoTrack **1.7.267** (`2026112100`). Accepted actual baseline:
-**1.7.266** (`2026112001`). New267 native CI/server and live Microsoft browser
-preview are pending; completed266 evidence is scoped below.
+VideoTrack **1.7.269** (`2026112300`), based on accepted **1.7.267** (`2026112100`).
 
-## Accepted266 source and CI
+Accepted267: main418475d361cfd65b06b35875288a0b1b68aa3e12, tree87b084b6a85fc39eaed2a70db608f05ea2331ab5.
+Candidate44908095172/main44910680696 each pass six CI jobs, Unit583/6243, Behat73/1390,
+strict10/0/0 and Grunt. Actual ZIP SHA2563fbc345220877f1449e3f9a1dd03341b4b9c29ff002637b0eeb7ff94813278dd.
+Server267 passes canonical/lint196shared, Unit583/6243 independently on50/53 and both Grunt builds.
+These accepted267 results are not269execution results.
 
-Corrected candidate `eb60c8ec60ab4a41fe9bdcb37fad4528089c0706` and main
-`b9a981797bede2bbabf2c58ec096dc29840ddc0c` share tree
-`5b59ea93ee62edf1a0b621a0f8196053caa04cfa`. Annotated tagv1.7.266 points to that
-main. All490repository blob identities/modes and the466file export set match the
-actual archive. The merge introduces no source difference.
+Current changes and limitations: [tracking hotfix and explicit recovery](39_TRACKING_RECOVERY_HOTFIX.md).
+Microsoft-search268is paused/excluded; the diagnostic foundation through267 remains.
+No schema,9AJAX,source-availability,token-store or Analytics-query optimisation changes.
 
-Initial candidate0edd6d23 / [run44889284032](https://github.com/pierpaolo17/videotrack/actions/runs/44889284032)
-passes all functional tests but fails28PHPCS formatting errors in the new preview
-test. Its50lifecycle is skipped;53passes. PHPMD also adds Graph class complexity55
-to31baseline findings. The correction preserves test tokens/assertions and moves
-the identical preview parser body into the result factory, retaining limits and
-the Graph exception boundary. No CI rule or analysis threshold is weakened.
+Local standalone tests pass: old tracker harness plus six regression groups against both
+source and shipped AMD. Five groups reproduce failures against accepted267. Source/build
+maps, lexical/source contracts, inventories, language parity and patch application/reversal
+are checked locally. Local PHP/Moodle/MariaDB runtimes are unavailable. Native CI
+results and the remaining acceptance gates are recorded below. The initial Babel
+output for 12 changed AMD sets has now been replaced with verified native Grunt output.
 
-Corrected [candidate44894561003](https://github.com/pierpaolo17/videotrack/actions/runs/44894561003)
-and [main44897318831](https://github.com/pierpaolo17/videotrack/actions/runs/44897318831)
-each pass all six jobs on attempt1. Each configuration passes Unit560tests/
-6074assertions, Behat70scenarios/1358steps without retry markers, strict10/0/0
-and Grunt. All twelve received artifact digests match official records. Canonical
-193distributedPHP plus lifecycle helper, PHPDoc, metadata,206savepoints and Mustache
-complete. The28PHPCS errors and Graph PHPMD finding are gone;31exact baseline
-findings remain. PHPStan/Psalm report no configured errors;751/779Psalm information
-findings remain unclassified, one above265. No source fix for the older transient
-note assertion or localhost outage is inferred from a passing run.
+Added12PHPUnit methods,2Behat scenarios and stronger contiguous-coverage assertions in
+3existing random-pause scenarios. Normal and Privacy retention recalculation are unchanged;
+historical repair requires explicit teacher selection, appends identifiable derived rows,
+and preserves original rejected evidence. Missing or ambiguous rows cannot be reconstructed.
 
-Both50/53MariaDB jobs complete historical/partial/previous lifecycle lineages.
-For each run, six JSON snapshot hashes are independently reconstructed and match
-both verification stages31/0. Each uninstall reports26/0; the logs contain126actual
-shared-file content checks per run. Skipped lifecycle jobs on other matrix entries
-are not relabelled as passes.
+Counts: 501repository/475distributed files; 197distributedPHP plus lifecycle helper;
+1490namedPHP callables, 660namedAMD callables, 595unit methods,
+75expanded Behat scenarios,8×1060language keys and48AMD sets. Paired inventories reflect
+source locations; unchanged XMLDB remains7tables/151fields/22indexes/22foreign keys.
 
-## Actual266 package and maintainer server
+Existing267 static-analysis baseline:31PHPMD findings and751/779unclassified Psalm
+entries. Run45240781127 retains35PHPMD advisories on50 and757/785unclassified Psalm
+information on50/53; configured PHPStan/Psalm errors are zero. No claim of a clean
+advisory backlog is made.
+Preserve demo data, manual5.3accessibility STANDBY and pending provider/App roadmap.
 
-Actual `videotrack-1.7.266(1).zip`:1,986,549bytes,466files/193PHP, archive comment
-mainb9a98179. SHA256:
-`73b0d52f1ea0802e2f410b36feb6e335f2a7936a286a6778867b07c621130142`.
-Report `report_completo_videotrack_1.7.266_20261121_124248.zip`:14,641bytes, SHA256:
-`ba0345e936e2173ef35c1c8ea0e430177e311237bed2a6a87b63107f4e7c241f`.
+## Initial 269 CI failure and corrective candidate
 
-All eight requested command outcomes pass. Canonical/lint are shared executions
-over identical code194PHP, not two independent runs; PHPCS0errors/0warnings,
-stderr empty and194lint successes. PHPUnit separately passes560/6074 on Moodle5.0.11
-and5.3+, PHP8.3.6/MariaDB11.4.14. Both Grunt commands complete with recorded before/
-after build hash unchanged:
-`ac160febbcd2a2cacabe5ac1b95e5263d04db57d5aa298af2e6c59aef5ccb0cb`.
-All48archive source maps independently match source content. No independent server
-aggregate-build hash reconstruction is claimed.
+[Run 45227903298](https://github.com/pierpaolo17/videotrack/actions/runs/45227903298)
+executed commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, tree
+`80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. All six jobs fail. Each executes
+595 PHPUnit methods /6268 assertions with one failing old source-string assertion;
+the 12 new methods pass. Browser results are 73/75 passing with the same two new
+future-time waits failing on both automatic reruns. YouTube advances to about 7.2 s
+inside a 7 s wait; HTML5 resumes near 3 s and advances to about 9.4 s inside a 6 s wait.
+No stuck-provider claim follows from these observations. All 73 existing scenarios,
+including stronger random-pause coverage checks, pass.
 
-Both maintainer strict reports pass10/0/0 at installed/file2026112001. Grade items/
-rows are0/0 on50 and34/34 on53. XMLDB7tables/151fields/22explicit indexes/22foreign
-keys,9AJAX,8×1050language keys and48AMD sets are consistent. Actual266 is accepted.
+The quality job reports 51 PHPCS errors and one deprecated `$CFG->admin` warning.
+The toolchain changed from PHPCS 3.13.6/moodle-cs 3.7.0 to 4.0.4/3.9.2; old header
+spacing is now also flagged. Lint 197/197, PHPDoc, the lifecycle helper checks and
+all six strict 10/0/0 validators pass where executed. Twelve standalone JS groups
+and the tracker harness pass in every matrix entry. Lifecycle install/uninstall
+is skipped after the failures, not accepted. PHPMD reports 35 advisories on 50 versus
+31 previously; Psalm 757/785 information entries versus 751/779 are unclassified.
 
-## Current267 implementation
+The correction expands PHP formatting/docblocks without changing recovery or
+completion tokens, updates the old static wallclock assertion for the captured
+cursor while retaining its other checks, and adds a dedicated bounded real-play
+step before the two unchanged 12–17 s assertions. Old short-range waits and retries
+are unchanged. The settings link now uses core navigation rather than a deprecated
+admin-directory property. No AMD source, live ledger, DB schema or recovery policy
+change is made by this corrective candidate. All 595 unit methods remain.
 
-[Reusable Microsoft references](38_MICROSOFT_VIDEO_REFERENCES.md) encode a versioned
-local issuer/drive/video identity. Only the five documented fields/types and existing
-opaque-id grammar are accepted in a4KiB/depth4 JSON string. No temporary URL, token,
-path, scope or caller identity is accepted. The current selected issuer id is checked
-locally and again when the validated POST target is resolved after sesskey validation.
-The issuer number is local, not a tenant pin or a portable connection configuration.
+Grunt itself completes, but its freshness check reports 24 stale compiled files.
+The initial Babel builds are not canonical Moodle Grunt output. Locally the npm
+registry is denied (403), so no replacement build is fabricated. The original
+freshness gate remains mandatory. Since plugin-CI 4.5.13 restores its input plugin
+after comparing files, a separate guarded CI-only native Grunt invocation captures
+its real output, source/commit hashes and exact-source maps. Early native artifacts
+and the ordinary reports contain `native-amd.zip`. Compiled JS regressions use the
+installed native build. A follow-up correction must install that verified output
+and rerun every gate; this preparatory correction alone does not close Grunt.
 
-Manual input remains the default; reference mode requires a personal video target.
-Existing probe actions perform all actual OAuth/access/video checks and return fresh
-results; no shared fallback, URL cache, automatic retry or background refresh is
-added. A separate escaped read-only field offers identity only after a successful
-personal video result. Probe results omit resource ids/URLs; ordinary reference
-object JSON does not expose private fields. Existing core OAuth may refresh its own
-tokens. No new VideoTrack setting, schema or activity/session persistence is added.
+The recovery checkbox is temporary: after production 5.0 historical repair has been
+completed and checked, remove the checkbox and extraordinary repair path in a later
+release, retaining repaired evidence and ordinary recalculation. Demo 5.3 and Microsoft
+search remain paused. At this preparatory stage, corrected native execution was pending.
 
-All560old unit methods and70expanded browser scenarios remain byte-identical in
-their original files. New23unit methods cover parsing/type/field/URL boundaries,
-issuer changes, personal-account/form/CSRF guards, fresh previews, denial after
-success and unchanged activity data. Three new browser scenarios are local-only:
-default GET, invalid URL input and wrong-service/shared-account rejection.
+## Corrected CI and verified native build import
 
-Counts:495repository/471distributed files,195distributedPHP,1467namedPHPcallables
-(1460distributed+7helper),654AMDcallables,583unit methods,73expanded scenarios,
-8×1058language keys and48unchanged AMD source/build/map sets. No prior language
-value is changed; eight translated identity strings are added per pack. Paired
-inventories, index, guides and ER release labels describe the same current tree.
+[Run 45240781127](https://github.com/pierpaolo17/videotrack/actions/runs/45240781127)
+executes commit `b0814083eb44e83598bb20406e7549d8e006b536`, tree
+`9f773f110fb2fa33cb60466dc5992e6170bbcdb4`. All six matrices pass PHPUnit
+595 tests/6280 assertions, Behat 75 scenarios/1428 steps without reruns, the tracker
+harness plus 12 standalone JS groups, and strict validation 10/0/0. The quality job
+passes lint, PHPCS without errors/warnings, PHPDoc and lifecycle-helper checks.
+The only failed step in every job is Grunt's stale-build comparison; native Grunt
+compilation and capture succeed. Historical upgrade/populated uninstall is skipped.
 
-## Evidence limits and next gates
+Verify the six captured artifacts against their commit, logged archive hashes,
+48 actual source hashes and 96 generated-file hashes each. All 96 generated files
+are byte-identical across the six matrices; every map contains its exact source.
+Import the 24 differing build/map files. PHP, AMD sources, tests, workflow, schema,
+languages and recovery semantics are unchanged by this build correction. File and
+callable inventories remain unchanged. Local tracker/source/compiled JS checks pass.
 
-Local lexical/source, preserved-contract, inventory/link/language and clean patch
-application/reversal checks are distinct from running PHP. PHP/Moodle are unavailable
-in this workspace; native267 PHPCS/lint, PHPUnit, Behat, analysis and server checks
-remain pending. Native267 candidate six jobs, main six jobs, actual ZIP/server and
-both maintainer strict outputs are required before acceptance.
-
-No live Microsoft tenant/OAuth browser round trip, native iframe playback or
-supported time/play/pause/seek telemetry is established. Reference reuse does not
-implement the announced Entra-header preview authentication transition. Stable
-activity persistence/backup and learner launch resolution remain later work before
-tracked Microsoft playback. Microsoft first, then Zoom (optional separate Moodle
-repository), Google Drive and App. XMLDB/upgrade,9AJAX,48AMD, source availability,
-OAuth handshake, Privacy transport, production Analytics and demo stay unchanged.
-Manual5.3 accessibility remains **STANDBY**; historical Node harness debt remains.
+This candidate still needs a fresh complete CI run, including the previously skipped
+lifecycle checks, followed by main CI and server acceptance. Hash equality with the
+captured Grunt output is not a new local Grunt run or completed release acceptance.

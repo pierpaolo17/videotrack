@@ -142,7 +142,8 @@ define([
      * @returns {boolean} True when a heartbeat save is due.
      */
     function shouldSaveHeartbeat(state, heartbeatInterval, now) {
-        if (!state || !state.playing || state.segmentstart === null || state.heartbeatPending) {
+        if (!state || !state.playing || state.segmentstart === null || state.heartbeatPending ||
+                (typeof document !== 'undefined' && document.hidden)) {
             return false;
         }
         var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
@@ -192,6 +193,7 @@ define([
             state._heartbeatSerial = (typeof state._heartbeatSerial === 'number' ? state._heartbeatSerial : 0) + 1;
             var heartbeatSerial = state._heartbeatSerial;
             var transitionToken = getTransitionToken(state);
+            var cursor = TrackerState.segmentCursor(state);
 
             return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
                 if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
@@ -211,14 +213,17 @@ define([
                     emit(state, 'heartbeat:skipped', {reason: 'zero-duration'});
                     return false;
                 }
-                return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
-                    if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
-                        state.heartbeatPending = false;
-                        emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
+                return Promise.resolve(saveSegment(
+                    heartbeat.start, heartbeat.end, 'heartbeat', cursor.wallclockstart
+                )).then(function(result) {
+                    state.heartbeatPending = false;
+                    if (result === null || result === false || (result && result.accepted === false)) {
+                        emit(state, 'heartbeat:skipped', {reason: 'not-accepted'});
                         return false;
                     }
-                    reopenAfterHeartbeat(state, heartbeat.end, timestamp);
-                    state.heartbeatPending = false;
+                    // A boundary may already have detached this cursor. Advance it for
+                    // that queued close, but never reopen or overwrite the new segment.
+                    TrackerState.advanceCursor(state, cursor, heartbeat.end, timestamp);
                     emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
                     return true;
                 }, function(error) {

@@ -12,7 +12,7 @@ La 1.7.263 offre anche un’azione esplicita per [la pagina originale Microsoft]
 Richiede account personale e ID video. La pagina provider si apre separatamente;
 VideoTrack non accredita la visione in quella scheda.
 
-VideoTrack **1.7.267** (`2026112100`).
+VideoTrack **1.7.269** (`2026112300`).
 
 ## Scegliere esplicitamente l’identità
 

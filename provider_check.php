@@ -103,10 +103,10 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('providercheck:title', 'mod_videotrack'));
 echo $OUTPUT->notification(get_string('providercheck:notice', 'mod_videotrack'), 'info');
 echo $OUTPUT->notification(get_string('providercheck:usernotice', 'mod_videotrack'), 'info');
-echo html_writer::link(
-    new moodle_url('/' . $CFG->admin . '/settings.php', ['section' => 'modsettingvideotrack']),
-    get_string('settings')
-);
+$settingsnode = $PAGE->settingsnav->find('modsettingvideotrack', navigation_node::TYPE_SETTING);
+if ($settingsnode && $settingsnode->action instanceof moodle_url) {
+    echo html_writer::link($settingsnode->action, get_string('settings'));
+}
 echo $OUTPUT->heading(get_string('providercheck:configuration', 'mod_videotrack'), 3);
 echo $OUTPUT->heading(get_string('providercheck:systemaccount', 'mod_videotrack'), 4);
 echo html_writer::tag('pre', s(json_encode($configuration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)));

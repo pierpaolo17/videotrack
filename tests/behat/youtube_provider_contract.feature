@@ -33,3 +33,17 @@ Feature: YouTube provider contracts remain deterministic in the browser
     Then the "youtube" provider time is between "4" and "6"
     When I seek the deterministic VideoTrack "youtube" provider to "30" seconds
     Then the "youtube" provider matches "student1" frontier in "YouTube provider contracts"
+
+  Scenario: No-forward-seek playback still persists periodic heartbeats before pause
+    Given the following config values are set as admin:
+      | heartbeatinterval | 5 | mod_videotrack |
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "YouTube provider contracts" "link"
+    Then the deterministic VideoTrack "youtube" provider is ready
+    When I play the deterministic VideoTrack "youtube" provider
+    And I watch the VideoTrack player through "12" seconds
+    Then the "youtube" provider time is between "12" and "17"
+    When I pause the deterministic VideoTrack "youtube" provider
+    Then the playback credit window for "student1" in "YouTube provider contracts" is closed by an accepted pause
+    And the watched VideoTrack progress for "student1" in "YouTube provider contracts" is contiguous and retained

@@ -34,3 +34,5 @@ php admin/cli/scheduled_task.php --execute='\mod_videotrack\task\cleanup_retenti
 Eseguire task distruttivi/privacy solo nell'ambiente previsto e dopo aver confermato lo scope. Per un difetto codice
 raccogliere release, ramo Moodle, sorgente/provider, passi, Console, risposta Network e righe database rilevanti con
 dati personali oscurati.
+
+Per la perdita di progresso dopo pausa/cambio scheda, installa [hotfix269e recupero esplicito](39_TRACKING_RECOVERY_HOTFIX.md) dopo backup. Le prove mai registrate non possono essere inventate.

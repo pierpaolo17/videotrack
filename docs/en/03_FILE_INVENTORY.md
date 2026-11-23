@@ -1,15 +1,16 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.267 repository tree. It lists
-sources, assets, tests and selected release guides, including five repository-only
+This inventory is generated against the VideoTrack 1.7.269 repository tree. It lists
+sources, assets, tests and selected release guides, including six repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **404** — 399 distributed files and five repository-only files. The complete
-tree has 495 repository files / 471 distributed files, including all documentation.
+Entries: **409** — 403 distributed files and six repository-only files. The complete
+tree has 501 repository files / 475 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
 | `.gitattributes` | Repository text/binary attributes. |
+| `.github/capture_native_amd.py` | CI-only native Moodle Grunt output capture, guarded source/commit provenance and maps. |
 | `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
 | `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
@@ -229,6 +230,7 @@ tree has 495 repository files / 471 distributed files, including all documentati
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
 | `classes/local/microsoft_video_reference.php` | Versioned local issuer/drive/video identity, bounded parser and explicit private administrator export. |
 | `classes/local/personal_item.php` | Permanent owned erasure and serialised retries. |
+| `classes/local/playback_recovery.php` | Explicit historical tracking repair and its data-preservation contract. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
 | `classes/local/privacy_retention_pair.php` | Rebuilds derived state and deletes expired personal rows for one learner and activity while holding the state lock. |
 | `classes/local/provider_connection.php` | Read-only local OAuth connection status and matching issuer choices; credentials remain in core. |
@@ -278,6 +280,7 @@ tree has 495 repository files / 471 distributed files, including all documentati
 | `docs/en/36_CI_BEHAT_EVIDENCE.md` | English guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | English private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
+| `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -288,6 +291,7 @@ tree has 495 repository files / 471 distributed files, including all documentati
 | `docs/it/36_CI_BEHAT_EVIDENCE.md` | Italian guide to Behat artifact retention, retry evidence and post-command snapshot limits. |
 | `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Italian private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
+| `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -381,6 +385,7 @@ tree has 495 repository files / 471 distributed files, including all documentati
 | `tests/microsoft_video_link_test.php` | Native URL/Graph/personal/form/controller regressions with no provider network. |
 | `tests/microsoft_video_reference_test.php` | Native identity, form/CSRF and fresh personal resolution regression tests. |
 | `tests/mod_form_validation_test.php` | PHPUnit coverage for rejected media, missing timed text and reaction file requirements. |
+| `tests/playback_recovery_test.php` | Explicit historical tracking repair and its data-preservation contract. |
 | `tests/player_resume_completion_alert_contract_test.php` | Cross-provider resume, completion and alert contracts; completion assertions follow the current mutation owner, including the reaction post-write service. |
 | `tests/privacy_exporter_test.php` | PHPUnit writer checks for export paths, personal-data filtering and the 500-row boundary. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |

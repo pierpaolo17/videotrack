@@ -22,6 +22,9 @@ function assertJsonEqual(actual, expected) {
 }
 
 function getCoreStub(moduleName) {
+    if (moduleName === 'mod_videotrack/core/debug') {
+        return {log() {}};
+    }
     if (moduleName === 'core/log') {
         return {
             debug() {},
@@ -147,7 +150,7 @@ async function testTrackerSegmentsAndHeartbeat() {
     assert.strictEqual(state.heartbeatPending, false);
 
     const closed = Tracker.closeSegment(state, 50);
-    assertJsonEqual(closed, {start: 42, end: 50});
+    assertJsonEqual(closed, {start: 42, end: 50, wallclockstart: 130});
     assert.strictEqual(state.segmentstart, null);
     assert.strictEqual(state.playing, false);
 }
@@ -170,7 +173,7 @@ async function testStaleHeartbeatGuard() {
         2
     );
 
-    await Promise.resolve();
+    await new Promise(setImmediate);
     Tracker.markPaused(state, {reason: 'race-test'});
     resolver(10);
 
@@ -199,8 +202,8 @@ async function testTrackerRegressionFixes() {
     assert.strictEqual(Tracker.getTrackerState(stoppedReplay), Tracker.STATES.PAUSED);
     assert.strictEqual(stoppedReplay.ended, false, 'partial replay limit must not mark the whole video ended');
 
-    const closing = {segmentstart: 2, playing: false};
-    assertJsonEqual(Tracker.closeSegment(closing, 6), {start: 2, end: 6});
+    const closing = {segmentstart: 2, wallclockstart: 100, playing: false};
+    assertJsonEqual(Tracker.closeSegment(closing, 6), {start: 2, end: 6, wallclockstart: 100});
     assert.strictEqual(closing.segmentstart, null);
 
     const invalidClose = {segmentstart: 6, playing: true};

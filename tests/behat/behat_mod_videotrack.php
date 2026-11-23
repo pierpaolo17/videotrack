@@ -22,6 +22,7 @@
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 use Behat\Mink\Exception\ExpectationException;
 
 /**
@@ -1788,5 +1789,61 @@ JS;
             'id ASC'
         );
         return $snapshot;
+    }
+    /**
+     * Verify real accepted rows retain contiguous viewing after a pause/resume cycle.
+     *
+     * @Then /^the watched VideoTrack progress for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" is contiguous and retained$/
+     * @param string $username Learner username.
+     * @param string $activityname Activity name.
+     */
+    public function watched_progress_is_contiguous_and_retained(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $where = ['videotrackid' => $activity->id, 'userid' => $user->id];
+        $rows = $DB->get_records('videotrack_seg', $where + ['servervalidated' => 1], 'videotimestart, id');
+        $state = $DB->get_record('videotrack_state', $where, '*', MUST_EXIST);
+        $frontier = 0.0;
+        foreach ($rows as $row) {
+            if ((float)$row->videotimestart > $frontier + 0.5) {
+                throw new ExpectationException('A legitimate watched interval was lost after pause/resume.', $this->getSession());
+            }
+            $frontier = max($frontier, (float)$row->videotimeend);
+        }
+        $percent = round(100 * (float)$state->uniquecoveredseconds / (float)$activity->durationseconds, 2);
+        if (
+            $frontier < 3 || (float)$state->uniquecoveredseconds < $frontier - 0.5 ||
+                abs((float)$state->completionpercent - $percent) > 0.01
+        ) {
+            throw new ExpectationException('Watched seconds or the configured-duration percentage was lost.', $this->getSession());
+        }
+    }
+
+    /**
+     * Allow genuine fixture playback to reach a future timestamp before short range assertions.
+     *
+     * @When /^I watch the VideoTrack player through "(?P<seconds>[0-9.]+)" seconds$/
+     * @param float $seconds Target time in the deterministic sixty-second fixture.
+     */
+    public function i_watch_the_videotrack_player_through_seconds(float $seconds): void {
+        if ($seconds <= 0 || $seconds > 55) {
+            throw new \coding_exception('The deterministic watching step requires a target between zero and 55 seconds.');
+        }
+        $condition = sprintf(
+            "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                . "if (media) {return !media.paused && media.currentTime >= %.6F;}"
+                . "var fixture = window.__videotrackBehatProvider;"
+                . "return !!fixture && fixture.getState() === 1 && fixture.getTime() >= %.6F;}())",
+            $seconds,
+            $seconds
+        );
+        if (!$this->getSession()->wait(30000, $condition)) {
+            throw new ExpectationException(
+                'Real VideoTrack playback did not reach the requested fixture time within thirty seconds.',
+                $this->getSession()
+            );
+        }
     }
 }

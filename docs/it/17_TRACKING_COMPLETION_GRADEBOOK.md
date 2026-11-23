@@ -77,3 +77,5 @@ vedere [presa visione e AND/OR](12_ACKNOWLEDGEMENT.md).
 quella condizione, non tutti gli altri requisiti custom o nativi Moodle. La condizione percentuale abilitata
 partecipa alla combinazione AND/OR configurata nell’attività e il docente può cambiarne la soglia. Il testo
 aggiornato non modifica valori predefiniti salvati o codice di completamento.
+
+Per la perdita di progresso dopo pausa/cambio scheda, installa [hotfix269e recupero esplicito](39_TRACKING_RECOVERY_HOTFIX.md) dopo backup. Le prove mai registrate non possono essere inventate.
