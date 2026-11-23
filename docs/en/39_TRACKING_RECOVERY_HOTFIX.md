@@ -79,11 +79,11 @@ boundaries, double spending, rate/duration bounds and empty endpoint snapshots.
 Two browser scenarios are added; three existing random-pause scenarios now also
 assert retained contiguous coverage. CI runs the standalone source/build tests.
 
-PHP, Moodle and MariaDB are not installed in the local workspace. Native PHP lint,
-PHPCS, PHPUnit, Behat, static analysis and Moodle Grunt are pending CI/server checks.
-The shipped 12 changed AMD sets were compiled with Babel and maps containing the
-exact sources; local tests run against both sources and shipped builds. This is not
-a claim of native Moodle/browser acceptance or a live external-provider test.
+PHP, Moodle and MariaDB are not installed in the local workspace. Native CI results
+and remaining acceptance checks are recorded below. The initial Babel output for
+12 changed AMD sets has been replaced with verified native Grunt output. Local tests
+run against both sources and shipped builds; live external-provider acceptance
+remains separate from automated browser fixtures.
 
 The release gate must retain existing schema/privacy/security/lifecycle checks.
 Do not tag/package unreviewed main or merge the abandoned Microsoft 268 branch.
@@ -106,7 +106,7 @@ manual 5.3 accessibility standby unchanged.
 
 ## Initial 269 CI failure and corrective candidate
 
-[Run 45227903298](https://github.com/pierpaolo 17/videotrack/actions/runs/45227903298)
+[Run 45227903298](https://github.com/pierpaolo17/videotrack/actions/runs/45227903298)
 executed commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, tree
 `80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. All six jobs fail. Each executes
 595 PHPUnit methods /6268 assertions with one failing old source-string assertion;
@@ -145,4 +145,19 @@ and rerun every gate; this preparatory correction alone does not close Grunt.
 The recovery checkbox is temporary: after production 5.0 historical repair has been
 completed and checked, remove the checkbox and extraordinary repair path in a later
 release, retaining repaired evidence and ordinary recalculation. Demo 5.3 and Microsoft
-search remain paused. Native execution of the corrected candidate is still pending.
+search remain paused. At this preparatory stage, corrected native execution was pending.
+
+## Corrected CI and canonical builds
+
+[Run 45240781127](https://github.com/pierpaolo17/videotrack/actions/runs/45240781127)
+tests correction1 commit `b0814083eb44e83598bb20406e7549d8e006b536`.
+All six matrices pass PHPUnit595/6280, Behat75/1428 without reruns, standalone JS
+and strict10/0/0. The quality job passes lint, PHPCS and PHPDoc. Only AMD freshness
+fails: native compilation succeeds but the submitted initial build files differ.
+
+All six independently captured native outputs have matching hashes for all96files,
+48 matching source hashes and exact-source maps. Replace the24differing build/map
+files with this output, without changing PHP, AMD sources, tests or recovery policy.
+Keep the original freshness gate. Rerun full candidate CI, including previously
+skipped historical upgrade/populated uninstall, then main CI and server acceptance.
+No production repair or local native Grunt execution is claimed by this import.

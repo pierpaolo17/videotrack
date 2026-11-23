@@ -78,10 +78,11 @@ autorizzazione interazioni, orologi falsi, sessioni, confini, doppia spesa, limi
 risposte vuote. Due nuovi scenari browser; tre scenari di pausa casuale ora verificano
 anche che la copertura precedente resti contigua. La CI esegue i test Node.
 
-PHP/Moodle/MariaDB non sono disponibili nel workspace locale: lint/PHPCS, PHPUnit,
-Behat, analisi e Grunt Moodle nativi restano da eseguire in CI/server. I 12 gruppi AMD
-modificati sono compilati con Babel e mappe allineate ai sorgenti esatti. I test
-locali non equivalgono a una certificazione Moodle/browser/provider reale.
+PHP/Moodle/MariaDB non sono disponibili nel workspace locale. Gli esiti nativi CI
+e i controlli ancora aperti sono riportati sotto. Le build Babel iniziali dei12gruppi
+AMD modificati sono sostituite con output Grunt nativo verificato. I test locali
+coprono sorgenti e compilati; la verifica con provider esterni reali resta distinta
+dalle prove browser automatiche con fixture.
 
 Non creare il tag prima dei gate consueti e non unire il vecchio ramo Microsoft 268.
 Se268 è già installata, aggiorna direttamente a269: non modificare la versione nel
@@ -102,7 +103,7 @@ Conservare dataset per screenshot e standby dell’accessibilità manuale 5.3.
 
 ## Esito della prima CI 269 e candidata correttiva
 
-Il [run 45227903298](https://github.com/pierpaolo 17/videotrack/actions/runs/45227903298)
+Il [run 45227903298](https://github.com/pierpaolo17/videotrack/actions/runs/45227903298)
 ha eseguito il commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, albero
 `80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. Tutti i sei job falliscono. Ciascuno
 esegue 595 metodi PHPUnit/6268 asserzioni con un solo fallimento in una vecchia
@@ -141,4 +142,19 @@ correttiva preparatoria da sola non chiude il problema Grunt.
 La casella recupero è temporanea: dopo la bonifica verificata delle attività della
 produzione 5.0 rimuovere interfaccia e procedura straordinaria in una release successiva,
 conservando prove recuperate e ricalcolo normale. Demo 5.3 e ricerca Microsoft restano
-in pausa. I controlli nativi della candidata corretta sono ancora da eseguire.
+in pausa. In questa fase preparatoria i controlli nativi corretti erano ancora da eseguire.
+
+## CI corretta e compilati canonici
+
+Il [run 45240781127](https://github.com/pierpaolo17/videotrack/actions/runs/45240781127)
+verifica la prima correttiva, commit `b0814083eb44e83598bb20406e7549d8e006b536`.
+Tutte le sei matrici superano PHPUnit595/6280, Behat75/1428 senza retry, test Node
+e strict10/0/0. Il job qualità supera lint, PHPCS e PHPDoc. Fallisce solo il confronto
+AMD: la compilazione nativa riesce ma i file inizialmente distribuiti differiscono.
+
+I sei output nativi raccolti separatamente hanno gli stessi hash per tutti i96file,
+48hash sorgenti corrispondenti e mappe esatte. Sostituiti i24file build/map differenti
+senza modificare PHP, sorgenti AMD, test o politica di recupero. Il gate originale
+resta attivo. Rieseguire la CI completa della candidata, incluso aggiornamento storico
+e disinstallazione popolata prima saltati, poi CI main e accettazione server.
+Questa integrazione non dichiara bonifica in produzione o Grunt nativo locale eseguiti.

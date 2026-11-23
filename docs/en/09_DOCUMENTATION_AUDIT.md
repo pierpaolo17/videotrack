@@ -15,9 +15,9 @@ No schema,9AJAX,source-availability,token-store or Analytics-query optimisation 
 Local standalone tests pass: old tracker harness plus six regression groups against both
 source and shipped AMD. Five groups reproduce failures against accepted267. Source/build
 maps, lexical/source contracts, inventories, language parity and patch application/reversal
-are checked locally. Native269PHP lint/PHPCS, PHPUnit, Behat, Grunt, static analysis and
-server acceptance remain pending. Local PHP/Moodle/MariaDB runtimes are unavailable.
-12changed AMD sets were compiled using Babel; native Moodle Grunt is a separate gate.
+are checked locally. Local PHP/Moodle/MariaDB runtimes are unavailable. Native CI
+results and the remaining acceptance gates are recorded below. The initial Babel
+output for 12 changed AMD sets has now been replaced with verified native Grunt output.
 
 Added12PHPUnit methods,2Behat scenarios and stronger contiguous-coverage assertions in
 3existing random-pause scenarios. Normal and Privacy retention recalculation are unchanged;
@@ -29,13 +29,15 @@ Counts: 501repository/475distributed files; 197distributedPHP plus lifecycle hel
 75expanded Behat scenarios,8×1060language keys and48AMD sets. Paired inventories reflect
 source locations; unchanged XMLDB remains7tables/151fields/22indexes/22foreign keys.
 
-Existing267 static-analysis information is baseline evidence only:31PHPMD findings and
-751/779unclassified Psalm entries; no claim of unchanged269findings without native execution.
+Existing267 static-analysis baseline:31PHPMD findings and751/779unclassified Psalm
+entries. Run45240781127 retains35PHPMD advisories on50 and757/785unclassified Psalm
+information on50/53; configured PHPStan/Psalm errors are zero. No claim of a clean
+advisory backlog is made.
 Preserve demo data, manual5.3accessibility STANDBY and pending provider/App roadmap.
 
 ## Initial 269 CI failure and corrective candidate
 
-[Run 45227903298](https://github.com/pierpaolo 17/videotrack/actions/runs/45227903298)
+[Run 45227903298](https://github.com/pierpaolo17/videotrack/actions/runs/45227903298)
 executed commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, tree
 `80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. All six jobs fail. Each executes
 595 PHPUnit methods /6268 assertions with one failing old source-string assertion;
@@ -74,4 +76,26 @@ and rerun every gate; this preparatory correction alone does not close Grunt.
 The recovery checkbox is temporary: after production 5.0 historical repair has been
 completed and checked, remove the checkbox and extraordinary repair path in a later
 release, retaining repaired evidence and ordinary recalculation. Demo 5.3 and Microsoft
-search remain paused. Native execution of the corrected candidate is still pending.
+search remain paused. At this preparatory stage, corrected native execution was pending.
+
+## Corrected CI and verified native build import
+
+[Run 45240781127](https://github.com/pierpaolo17/videotrack/actions/runs/45240781127)
+executes commit `b0814083eb44e83598bb20406e7549d8e006b536`, tree
+`9f773f110fb2fa33cb60466dc5992e6170bbcdb4`. All six matrices pass PHPUnit
+595 tests/6280 assertions, Behat 75 scenarios/1428 steps without reruns, the tracker
+harness plus 12 standalone JS groups, and strict validation 10/0/0. The quality job
+passes lint, PHPCS without errors/warnings, PHPDoc and lifecycle-helper checks.
+The only failed step in every job is Grunt's stale-build comparison; native Grunt
+compilation and capture succeed. Historical upgrade/populated uninstall is skipped.
+
+Verify the six captured artifacts against their commit, logged archive hashes,
+48 actual source hashes and 96 generated-file hashes each. All 96 generated files
+are byte-identical across the six matrices; every map contains its exact source.
+Import the 24 differing build/map files. PHP, AMD sources, tests, workflow, schema,
+languages and recovery semantics are unchanged by this build correction. File and
+callable inventories remain unchanged. Local tracker/source/compiled JS checks pass.
+
+This candidate still needs a fresh complete CI run, including the previously skipped
+lifecycle checks, followed by main CI and server acceptance. Hash equality with the
+captured Grunt output is not a new local Grunt run or completed release acceptance.

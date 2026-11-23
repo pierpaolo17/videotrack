@@ -4,6 +4,13 @@
 
 ### Urgent viewing-continuity hotfix from accepted267; Microsoft268 paused
 
+- Import canonical native Grunt output from correction1 commit b0814083/tree9f773f11.
+  Run45240781127 passes Unit595/6280, Behat75/1428 and standalone JS in all six
+  matrices; canonical PHP checks pass in the quality job. Only AMD freshness fails.
+  Verify all48source hashes and96build/map hashes per artifact; all six native
+  outputs are byte-identical. Replace24stale build/map files without changing PHP,
+  AMD sources, tests, workflow or recovery policy. Rerun full CI before merge;
+  historical upgrade/populated uninstall and server acceptance remain pending.
 - Correct the rejected initial269candidate a8d58ffd/tree80a28a42: retain all595unit
   methods and recovery semantics, expand canonical PHP formatting/docblocks, update
   the old source-string wallclock check and add real-play waiting before both new
@@ -12,8 +19,8 @@
   short-wait failures, strict10/0/0 and standalone JS pass. Native Grunt builds but
   rejects24Babel-generated files. PHPCS51errors/1warning; analysis advisories remain
   visible. Keep native freshness checks intact and export real Grunt output from a
-  separate guarded CI-only command for the next build correction. Canonical compiled
-  files are still pending; do not merge or deploy this preparatory correction.
+  separate guarded CI-only command. That preparatory correction required the native
+  output now imported above; its failed freshness gate was not waived.
 
 - Restore YouTube periodic saves on no-forward-seek natural playback paths. Preserve
   the strict live server/session/seek ledger instead of accepting arbitrary long spans.
@@ -32,7 +39,8 @@
   evidence stays unrecovered. Normal and privacy-retention rebuilds remain unchanged.
 - Add12PHPUnit methods and2Behat scenarios; strengthen3random-pause browser assertions.
   Run standalone source/build JS regressions in CI. Five targeted failures reproduce
-  on accepted267 and pass locally on269; native PHP/Moodle/Grunt gates remain pending.
+  on accepted267 and pass locally on269; see native CI evidence above. Full candidate
+  acceptance and production verification remain pending.
 - Base this release on actual267, excluding the abandoned Microsoft-search268 work.
   Use forward version2026112300 to permit installation over either267or268 without
   database downgrade. No schema/service change, data deletion or automatic bulk repair.
