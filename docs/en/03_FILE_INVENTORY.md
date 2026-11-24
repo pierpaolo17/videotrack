@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.269 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.270 repository tree. It lists
 sources, assets, tests and selected release guides, including six repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **409** — 403 distributed files and six repository-only files. The complete
-tree has 501 repository files / 475 distributed files, including all documentation.
+Entries: **417** — 411 distributed files and six repository-only files. The complete
+tree has 509 repository files / 483 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -196,6 +196,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
 | `classes/form/microsoft_probe_form.php` | POST form with field-specific opaque-id validation before OAuth or Graph. |
+| `classes/form/microsoft_search_form.php` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
 | `classes/local/acknowledgement_analytics.php` | Privacy-safe acknowledgement analytics and suppression calculations. |
 | `classes/local/analytics.php` | Stable instance Analytics API, privacy-safe summaries and reaction clusters. |
@@ -224,8 +225,10 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/microsoft_graph.php` | Fixed-host metadata GET and private preview POST with redacted drive/video diagnostics. |
 | `classes/local/microsoft_graph_probe.php` | Readiness and Microsoft endpoint guards before the core system OAuth client. |
+| `classes/local/microsoft_graph_search.php` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `classes/local/microsoft_link_result.php` | Separate private provider-page URLs from serialisable diagnostics; enforce destination/query boundaries. |
 | `classes/local/microsoft_preview_result.php` | Bounded preview-response parser, private temporary URL and allowlisted diagnostics. |
+| `classes/local/microsoft_search_result.php` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `classes/local/microsoft_user_connection.php` | Explicit personal core OAuth connection with POST/sesskey and one-use return guards. |
 | `classes/local/microsoft_user_probe.php` | Administrator metadata under the current core OAuth user; no system fallback. |
 | `classes/local/microsoft_video_reference.php` | Versioned local issuer/drive/video identity, bounded parser and explicit private administrator export. |
@@ -281,6 +284,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md` | English private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
 | `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
+| `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -292,6 +296,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md` | Italian private Microsoft diagnostic preview, caller-access boundary and live test procedure. |
 | `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Administrator reusable identity procedure, security boundary, limits and primary references. |
 | `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
+| `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -313,6 +318,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `pix/icon.svg` | Self-contained transparent counterpart of the selected PNG, used by Moodle course formats and Boost activity containers. |
 | `presets.php` | Teacher/admin interface for reusable reaction presets. |
 | `provider_check.php` | Administrator-only local readiness and explicit protected Microsoft metadata check. |
+| `provider_search.php` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `psalm.xml` | Moodle-aware Psalm production scope and initial level. |
 | `report.php` | Instance teacher report and exact authorised Analytics page, including CSV/Excel/ODS export. |
 | `reports_course.php` | Course-level teacher dashboard across VideoTrack activities. |
@@ -347,6 +353,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `tests/behat/microsoft_preview.feature` | Deterministic local GET, personal preview validation and missing-configuration browser contracts. |
 | `tests/behat/microsoft_provider_check.feature` | Three deterministic administration scenarios without a Microsoft connection. |
 | `tests/behat/microsoft_provider_page.feature` | Three deterministic personal provider-page form scenarios without live network. |
+| `tests/behat/microsoft_search.feature` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `tests/behat/microsoft_user_connection.feature` | One local-readiness browser scenario without external authentication. |
 | `tests/behat/microsoft_video_reference.feature` | Local browser reference defaults and invalid URL/service/shared-account rejection. |
 | `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
@@ -380,6 +387,7 @@ tree has 501 repository files / 475 distributed files, including all documentati
 | `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
 | `tests/microsoft_preview_test.php` | Native preview URL, transport, personal-account, preservation and request-boundary regressions. |
 | `tests/microsoft_probe_form_test.php` | Native form, session, method and administration-access regressions. |
+| `tests/microsoft_search_test.php` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `tests/microsoft_user_connection_test.php` | Native connection/core-URL/state/permission regressions without live provider exchange. |
 | `tests/microsoft_user_probe_test.php` | Native delegated readiness/access/login/fallback/form regressions with no live network. |
 | `tests/microsoft_video_link_test.php` | Native URL/Graph/personal/form/controller regressions with no provider network. |

@@ -1,5 +1,32 @@
 # VideoTrack changelog
 
+## 1.7.270 - 2026-11-24
+
+### Resume personal Microsoft video discovery on the accepted tracking hotfix
+
+- Rebase the suspended268 search onto accepted269, keeping all tracking, recovery,
+  native AMD outputs and existing CI gates. Preserve the temporary recovery option.
+- Add protected personal drive search through core OAuth: explicit bounded query,
+  one Graphv1 metadata GET/top20, same-drive video validation and private reusable
+  references. Retain POST/sesskey/capability, TLS, timeouts and endpoint guards.
+  Do not follow continuation/telemetry URLs or fall back to the system account.
+- Add25unit methods and3local browser scenarios. Retain all595existing unit methods
+  and75scenarios; extend one exact Privacy assertion by searchquery. Add8strings in
+  each language and declare the query transfer. Schema,9AJAX,activity playback,
+  credential storage and media delivery remain unchanged.
+- Accept the actual269 ZIP, SHA25694200cf7c2d8da43478abd44e39f3c31b6ecae23af2487e28add19f61d7dd45e,
+  mainad9dc8ec/tree823ae1cc. Candidate45251028653/main45260313398 each pass six jobs,
+  Unit595/6280, Behat75/1428 without retry, strict10/0/0, Grunt and both lifecycle
+  matrices with independently verified preservation snapshots.
+- Server269 passes shared canonical/lint198clean, Unit595/6280 and native Grunt on
+  both50/53 with unchanged build hashes; both validators10/0/0. Maintainer reports
+  installation and historical recalculation success on2026-11-24. PHPMD35advisories
+  and Psalm1guard finding per run plus757/785info remain visible.
+- Inventories:509repository/483distributed files,202distributedPHP,1542namedPHP,
+  660namedAMD,620unit methods,78expanded scenarios/1458steps,8x1068keys and48AMDsets.
+  Native270 CI/server and live Microsoft tenant/browser acceptance remain pending.
+  Demo resumes separately on5.3; existing demo data is retained.
+
 ## 1.7.269 - 2026-11-23
 
 ### Urgent viewing-continuity hotfix from accepted267; Microsoft268 paused

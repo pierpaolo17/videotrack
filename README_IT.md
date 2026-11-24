@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.269**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.270**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -204,3 +204,10 @@ nuovi metadati, pagina provider o anteprima personali; URL temporanei e credenzi
 esclusi. Non persiste ancora sorgenti Microsoft nelle attività e non traccia gli studenti.
 
 La1.7.269 corregge la continuità della visione tra salvataggi, pause e cambio scheda e offre recupero storico esplicito e tracciabile senza cancellare le prove originali. Vedi [recupero tracciamento](docs/it/39_TRACKING_RECOVERY_HOTFIX.md). Il lavoro Microsoft268è in pausa.
+
+## Ricerca video Microsoft personale
+
+La diagnostica amministrativa cerca identità video nel drive indicato usando
+la connessione OAuth personale core. Mostra risultati privati circoscritti e
+riferimenti riutilizzabili. [Guida ricerca](docs/it/40_MICROSOFT_VIDEO_SEARCH.md).
+Conservate tutte le correzioni di tracciamento269 e il recupero storico esplicito.

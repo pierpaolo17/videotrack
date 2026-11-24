@@ -113,3 +113,11 @@ L’indirizzo temporaneo può portare l’accesso del richiedente. Compare solo 
 anteprima richiesta e VideoTrack non lo salva come dato dell’attività, lo esporta
 o lo condivide con gli studenti. Il JSON diagnostico lo omette. L’azione non crea
 avanzamento, voti o completamento. Vedere la [guida anteprima](docs/it/37_MICROSOFT_PRIVATE_PREVIEW.md).
+
+## Ricerca Microsoft personale
+
+Un POST amministrativo esplicito invia il testo di ricerca circoscritto al servizio
+Microsoft selezionato con l’account personale corrente. La Privacy API dichiara la query.
+Nomi/ID privati restano nella risposta protetta; il JSON diagnostico generale li omette.
+VideoTrack non aggiunge archiviazione query/candidati, import media o logging applicativo.
+Core gestisce i token; log provider e infrastruttura seguono le rispettive politiche.

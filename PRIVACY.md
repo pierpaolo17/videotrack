@@ -112,3 +112,11 @@ The temporary preview address can carry the caller’s access. It appears only i
 administrator’s requested preview and is not saved as activity data, exported or
 shared with learners by VideoTrack. Diagnostic JSON omits it. This action does not
 create watched progress, grades or completion. See the [preview guide](docs/en/37_MICROSOFT_PRIVATE_PREVIEW.md).
+
+## Personal Microsoft search
+
+An explicit administrator POST sends the bounded search text to the selected Microsoft
+service under the current personal account. Query text is declared in Privacy metadata.
+Private names/ids remain in the protected result response; general diagnostic JSON omits
+them. VideoTrack adds no query/candidate storage, media import or application logging.
+Core retains token management; provider and infrastructure logs have their own policies.

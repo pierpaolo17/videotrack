@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.269 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.270 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1490 (1483 distributed and 7 repository-only CI helpers). **Named AMD callables:** 660.
+**PHP functions/methods:** 1542 (1535 distributed and 7 repository-only CI helpers). **Named AMD callables:** 660.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -848,6 +848,8 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Reusable Microsoft identity contract `reference_errors`; see its DocBlock and native regression coverage. |
 | `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Reusable Microsoft identity contract `resolve_target`; see its DocBlock and native regression coverage. |
 | `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
+| `classes/form/microsoft_search_form.php:39` | `definition` | Personal Microsoft search callable `definition`; see DocBlock and native regression coverage. |
+| `classes/form/microsoft_search_form.php:55` | `validation` | Personal Microsoft search callable `validation`; see DocBlock and native regression coverage. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1054,6 +1056,11 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `classes/local/microsoft_graph.php:295` | `video_mime_type` | Validates the file/video MIME boundary and returns only the normalised type. |
 | `classes/local/microsoft_graph_probe.php:42` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
 | `classes/local/microsoft_graph_probe.php:55` | `run` | Provider diagnostic callable `run`; its DocBlock defines inputs, output and side effects. |
+| `classes/local/microsoft_graph_search.php:37` | `__construct` | Personal Microsoft search callable `__construct`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_graph_search.php:48` | `resource_url` | Personal Microsoft search callable `resource_url`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_graph_search.php:64` | `valid_query` | Personal Microsoft search callable `valid_query`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_graph_search.php:79` | `search` | Personal Microsoft search callable `search`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_graph_search.php:113` | `http_status` | Personal Microsoft search callable `http_status`; see DocBlock and native regression coverage. |
 | `classes/local/microsoft_link_result.php:42` | `__construct` | Retain a diagnostic and optionally validate a provider resource-page URL. |
 | `classes/local/microsoft_link_result.php:66` | `diagnostic` | Return only the redacted diagnostic, suitable for escaped administrator JSON. |
 | `classes/local/microsoft_link_result.php:75` | `url` | Return the private page link for this authorised response only. |
@@ -1069,6 +1076,16 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `classes/local/microsoft_preview_result.php:128` | `is_supported_url` | PHP callable `is_supported_url` for private Microsoft preview; see its DocBlock and native regression contract. |
 | `classes/local/microsoft_preview_result.php:149` | `is_supported_origin` | PHP callable `is_supported_origin` for private Microsoft preview; see its DocBlock and native regression contract. |
 | `classes/local/microsoft_preview_result.php:171` | `has_embedded_authorisation` | Private preview contract `has_embedded_authorisation`; see source documentation and native tests. |
+| `classes/local/microsoft_search_result.php:39` | `__construct` | Personal Microsoft search callable `__construct`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:53` | `diagnostic` | Personal Microsoft search callable `diagnostic`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:62` | `items` | Personal Microsoft search callable `items`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:71` | `jsonSerialize` | Personal Microsoft search callable `jsonSerialize`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:84` | `from_response` | Personal Microsoft search callable `from_response`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:109` | `video_rows` | Personal Microsoft search callable `video_rows`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:130` | `local_video` | Personal Microsoft search callable `local_video`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:142` | `video_row` | Personal Microsoft search callable `video_row`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:166` | `valid_name` | Personal Microsoft search callable `valid_name`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_search_result.php:177` | `video_fields` | Personal Microsoft search callable `video_fields`; see DocBlock and native regression coverage. |
 | `classes/local/microsoft_user_connection.php:48` | `__construct` | Reuse the public core API without requesting additional scopes. |
 | `classes/local/microsoft_user_connection.php:59` | `begin` | Begin only after an explicit authorised POST; retain no login URL. |
 | `classes/local/microsoft_user_connection.php:106` | `complete` | Consume a matching request before core handles the returned authorisation. |
@@ -1083,8 +1100,11 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `classes/local/microsoft_user_probe.php:72` | `video_link` | Resolve a private provider page using only the current user's core account. |
 | `classes/local/microsoft_user_probe.php:84` | `video_preview` | PHP callable `video_preview` for private Microsoft preview; see its DocBlock and native regression contract. |
 | `classes/local/microsoft_user_probe.php:97` | `execute` | Apply the same permission, target and OAuth guards to either explicit action. |
-| `classes/local/microsoft_user_probe.php:147` | `inspect_resource` | PHP callable `inspect_resource` for private Microsoft preview; see its DocBlock and native regression contract. |
-| `classes/local/microsoft_user_probe.php:164` | `valid_target` | Validate the target before inspecting configuration or starting OAuth. |
+| `classes/local/microsoft_user_probe.php:124` | `search_videos` | Personal Microsoft search callable `search_videos`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_user_probe.php:145` | `initial_result` | Personal Microsoft search callable `initial_result`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_user_probe.php:163` | `prepare_client` | Personal Microsoft search callable `prepare_client`; see DocBlock and native regression coverage. |
+| `classes/local/microsoft_user_probe.php:198` | `inspect_resource` | PHP callable `inspect_resource` for private Microsoft preview; see its DocBlock and native regression contract. |
+| `classes/local/microsoft_user_probe.php:215` | `valid_target` | Validate the target before inspecting configuration or starting OAuth. |
 | `classes/local/microsoft_video_reference.php:40` | `__construct` | Reusable Microsoft identity contract `__construct`; see its DocBlock and native regression coverage. |
 | `classes/local/microsoft_video_reference.php:60` | `from_json` | Reusable Microsoft identity contract `from_json`; see its DocBlock and native regression coverage. |
 | `classes/local/microsoft_video_reference.php:81` | `valid_payload` | Reusable Microsoft identity contract `valid_payload`; see its DocBlock and native regression coverage. |
@@ -1268,13 +1288,13 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `classes/privacy/exporter.php:264` | `export_acknowledgements` | Exports the learner acknowledgement history. |
 | `classes/privacy/provider.php:44` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Declares YouTube and Vimeo external-location metadata after plugin database tables. |
-| `classes/privacy/provider.php:170` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:207` | `get_users_in_context` | PHP callable `get_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:240` | `export_user_data` | PHP callable `export_user_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:254` | `delete_data_for_all_users_in_context` | PHP callable `delete_data_for_all_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:267` | `delete_data_for_user` | PHP callable `delete_data_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:279` | `delete_data_for_users` | PHP callable `delete_data_for_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:292` | `delete_records_for_users_in_context` | PHP callable `delete_records_for_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:171` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:208` | `get_users_in_context` | PHP callable `get_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:241` | `export_user_data` | PHP callable `export_user_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:255` | `delete_data_for_all_users_in_context` | PHP callable `delete_data_for_all_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:268` | `delete_data_for_user` | PHP callable `delete_data_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:280` | `delete_data_for_users` | PHP callable `delete_data_for_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:293` | `delete_records_for_users_in_context` | PHP callable `delete_records_for_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:38` | `get_name` | PHP callable `get_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:45` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Named PHP function/method `xmldb_videotrack_install`; see source DocBlock and callers for the current contract. |
@@ -1784,6 +1804,38 @@ Generated from the VideoTrack 1.7.269 source tree. PHP entries include named fun
 | `tests/microsoft_probe_form_test.php:113` | `test_invalid_post_returns_no_probe_data` | Server-side validation rejects an invalid POST instead of returning a target. |
 | `tests/microsoft_probe_form_test.php:122` | `test_admin_node_requires_site_configuration` | The registered administration node excludes course teachers and guests. |
 | `tests/microsoft_probe_form_test.php:141` | `test_controller_checks_precede_probe` | Keep the controller's permission and CSRF checks before network-capable code. |
+| `tests/microsoft_search_test.php:50` | `setUp` | Personal Microsoft search callable `setUp`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:64` | `tearDown` | Personal Microsoft search callable `tearDown`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:74` | `test_query_url_is_fixed_and_odata_escaped` | Personal Microsoft search callable `test_query_url_is_fixed_and_odata_escaped`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:86` | `test_invalid_queries_are_rejected` | Personal Microsoft search callable `test_invalid_queries_are_rejected`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:102` | `test_invalid_drive_cannot_control_endpoint` | Personal Microsoft search callable `test_invalid_drive_cannot_control_endpoint`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:110` | `test_private_candidates_do_not_enter_json` | Personal Microsoft search callable `test_private_candidates_do_not_enter_json`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:124` | `test_nonlocal_or_nonvideo_entries_are_skipped` | Personal Microsoft search callable `test_nonlocal_or_nonvideo_entries_are_skipped`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:136` | `test_invalid_video_fields_are_skipped` | Personal Microsoft search callable `test_invalid_video_fields_are_skipped`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:149` | `test_duplicate_ids_are_deduplicated` | Personal Microsoft search callable `test_duplicate_ids_are_deduplicated`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:159` | `test_empty_collection_is_a_successful_page` | Personal Microsoft search callable `test_empty_collection_is_a_successful_page`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:169` | `test_continuation_url_is_not_returned_or_followed` | Personal Microsoft search callable `test_continuation_url_is_not_returned_or_followed`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:179` | `test_provider_cannot_exceed_requested_page_bound` | Personal Microsoft search callable `test_provider_cannot_exceed_requested_page_bound`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:189` | `test_search_uses_one_bounded_get_without_post` | Personal Microsoft search callable `test_search_uses_one_bounded_get_without_post`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:198` | `test_http_failures_are_redacted_without_retry` | Personal Microsoft search callable `test_http_failures_are_redacted_without_retry`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:212` | `test_transport_errno_is_a_reduced_failure` | Personal Microsoft search callable `test_transport_errno_is_a_reduced_failure`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:222` | `test_transport_exception_is_redacted` | Personal Microsoft search callable `test_transport_exception_is_redacted`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:232` | `test_invalid_provider_bodies_are_reduced` | Personal Microsoft search callable `test_invalid_provider_bodies_are_reduced`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:245` | `test_personal_search_preserves_activity_data` | Personal Microsoft search callable `test_personal_search_preserves_activity_data`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:269` | `test_invalid_target_stops_before_oauth` | Personal Microsoft search callable `test_invalid_target_stops_before_oauth`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:278` | `test_missing_configuration_stops_before_factory` | Personal Microsoft search callable `test_missing_configuration_stops_before_factory`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:287` | `test_disconnected_user_has_no_shared_fallback` | Personal Microsoft search callable `test_disconnected_user_has_no_shared_fallback`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:307` | `test_teacher_cannot_search_before_factory` | Personal Microsoft search callable `test_teacher_cannot_search_before_factory`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:319` | `test_form_validates_local_target_fields` | Personal Microsoft search callable `test_form_validates_local_target_fields`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:331` | `test_get_cannot_submit_search` | Personal Microsoft search callable `test_get_cannot_submit_search`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:341` | `test_search_form_rejects_invalid_sesskey` | Personal Microsoft search callable `test_search_form_rejects_invalid_sesskey`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:352` | `test_controller_keeps_private_output_and_guard_order` | Personal Microsoft search callable `test_controller_keeps_private_output_and_guard_order`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:368` | `test_privacy_declares_search_text_transfer` | Personal Microsoft search callable `test_privacy_declares_search_text_transfer`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:384` | `row` | Personal Microsoft search callable `row`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:397` | `body` | Personal Microsoft search callable `body`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:406` | `guarded_probe` | Personal Microsoft search callable `guarded_probe`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:417` | `create_issuer` | Personal Microsoft search callable `create_issuer`; see DocBlock and native regression coverage. |
+| `tests/microsoft_search_test.php:442` | `client` | Personal Microsoft search callable `client`; see DocBlock and native regression coverage. |
 | `tests/microsoft_user_connection_test.php:50` | `setUp` | Isolate an administrator POST, with fake HTTPS configuration only. |
 | `tests/microsoft_user_connection_test.php:71` | `tearDown` | Restore global request data and discard only the synthetic request marker. |
 | `tests/microsoft_user_connection_test.php:89` | `test_default_factory_uses_core_login_and_a_private_request_marker` | The real core factory builds a session-bound URL without contacting Microsoft. |

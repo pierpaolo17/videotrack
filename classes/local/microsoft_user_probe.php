@@ -96,7 +96,54 @@ final class microsoft_user_probe {
      */
     private function execute(string $driveid, string $itemid, string $action): array {
         require_capability('moodle/site:config', \context_system::instance());
-        $result = [
+        $result = self::initial_result();
+        if (!self::valid_target($driveid, $itemid, $action)) {
+            return [$result, null];
+        }
+        [$result, $client] = $this->prepare_client($result);
+        if ($client === null) {
+            return [$result, null];
+        }
+        try {
+            $graph = new microsoft_graph($client);
+            [$diagnostic, $url] = self::inspect_resource($graph, $driveid, $itemid, $action);
+            return [array_replace($result, $diagnostic), $url];
+        } catch (\Throwable $error) {
+            $result['status'] = 'oauth_failed';
+            return [$result, null];
+        }
+    }
+
+    /**
+     * Search one explicit drive using the same current-user OAuth guards.
+     *
+     * @param string $driveid Explicit drive id.
+     * @param string $query Bounded search text, never a URL or raw OData expression.
+     * @return microsoft_search_result Private candidates and reduced diagnostics.
+     */
+    public function search_videos(string $driveid, string $query): microsoft_search_result {
+        require_capability('moodle/site:config', \context_system::instance());
+        $result = self::initial_result();
+        try {
+            microsoft_graph_search::resource_url($driveid, $query);
+        } catch (\invalid_parameter_exception $error) {
+            return new microsoft_search_result($result);
+        }
+        [$result, $client] = $this->prepare_client($result);
+        if ($client === null) {
+            return new microsoft_search_result($result);
+        }
+        $response = (new microsoft_graph_search($client))->search($driveid, $query);
+        return new microsoft_search_result(array_replace($result, $response->diagnostic()), $response->items());
+    }
+
+    /**
+     * Start each explicitly authorised action with the existing redacted contract.
+     *
+     * @return array Inert local diagnostic fields.
+     */
+    private static function initial_result(): array {
+        return [
             'provider' => 'microsoft',
             'account_context' => 'current_user',
             'phase' => 'configuration',
@@ -105,9 +152,15 @@ final class microsoft_user_probe {
             'oauth_refresh_possible' => false,
             'playback_implemented' => false,
         ];
-        if (!self::valid_target($driveid, $itemid, $action)) {
-            return [$result, null];
-        }
+    }
+
+    /**
+     * Acquire only the current user's client after a public action checked capability and target.
+     *
+     * @param array $result Initial redacted diagnostic.
+     * @return array Pair of diagnostic and connected client, or null on a guarded failure.
+     */
+    private function prepare_client(array $result): array {
         try {
             $configuration = provider_connection::user_configuration_status('microsoft');
             $result['status'] = $configuration['status'];
@@ -126,9 +179,7 @@ final class microsoft_user_probe {
             if (!($client instanceof client) || !$client->is_logged_in()) {
                 return [$result, null];
             }
-            $graph = new microsoft_graph($client);
-            [$diagnostic, $url] = self::inspect_resource($graph, $driveid, $itemid, $action);
-            return [array_replace($result, $diagnostic), $url];
+            return [$result, $client];
         } catch (\Throwable $error) {
             $result['status'] = $result['phase'] === 'oauth' ? 'oauth_failed' : 'configuration_failed';
             return [$result, null];

@@ -153,6 +153,7 @@ class provider implements
 
         $collection->add_external_location_link('microsoft', [
             'resourceid' => 'privacy:metadata:microsoft:resource',
+            'searchquery' => 'privacy:metadata:microsoft:searchquery',
             'authorisation' => 'privacy:metadata:microsoft:authorisation',
             'url' => 'privacy:metadata:microsoft:url',
             'ipaddress' => 'privacy:metadata:external:ipaddress',

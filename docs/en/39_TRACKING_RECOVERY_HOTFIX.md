@@ -161,3 +161,10 @@ files with this output, without changing PHP, AMD sources, tests or recovery pol
 Keep the original freshness gate. Rerun full candidate CI, including previously
 skipped historical upgrade/populated uninstall, then main CI and server acceptance.
 No production repair or local native Grunt execution is claimed by this import.
+
+## Acceptance and resumed work
+
+Accepted269 matches the uploaded ZIP; candidate/main each pass six jobs, server
+canonical/lint198, both Unit595/6280 and native Grunt pass, both strict10/0/0.
+The maintainer reports installation/recalculation success on2026-11-24.
+New270 resumes Microsoft search while preserving all tracking/recovery code.
