@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.269** (`2026112300`),
+This is the authoritative English documentation for VideoTrack **1.7.270** (`2026112400`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -80,3 +80,5 @@ trees and the root README pair agree with the current code.
 39. [`38_MICROSOFT_VIDEO_REFERENCES.md`](38_MICROSOFT_VIDEO_REFERENCES.md) — reusable identity and fresh personal video diagnostics.
 
 - [39_TRACKING_RECOVERY_HOTFIX.md](39_TRACKING_RECOVERY_HOTFIX.md) — Tracking continuity, explicit historical repair and data-preserving deployment.
+
+- [40_MICROSOFT_VIDEO_SEARCH.md](40_MICROSOFT_VIDEO_SEARCH.md) — personal Microsoft video search.

@@ -1,6 +1,6 @@
 # Riferimenti video Microsoft riutilizzabili
 
-VideoTrack **1.7.269** (`2026112300`).
+VideoTrack **1.7.270** (`2026112400`).
 
 ## Ripetere una diagnostica video personale
 
@@ -111,3 +111,5 @@ manuale5.3 **STANDBY**.
 - [Indirizzamento driveItem per ID in Microsoft Graph](https://learn.microsoft.com/en-us/graph/onedrive-addressing-driveitems)
 - [Anteprima temporanea Graphv1 e identità del richiedente](https://learn.microsoft.com/en-us/graph/api/driveitem-preview?view=graph-rest-1.0)
 - [Riuso OAuth core e diagnostica personale](33_MICROSOFT_USER_ACCESS.md)
+
+La [ricerca personale](40_MICROSOFT_VIDEO_SEARCH.md) trova identità provvisorie per la diagnostica esistente.

@@ -120,6 +120,11 @@ if ($userconfiguration['status'] === 'configuration_complete') {
         'post'
     );
 }
+echo html_writer::link(
+    new moodle_url('/mod/videotrack/provider_search.php'),
+    get_string('providersearch:title', 'mod_videotrack'),
+    ['class' => 'btn btn-secondary my-3']
+);
 $form->display();
 if ($result !== null) {
     echo $OUTPUT->heading(get_string('providercheck:result', 'mod_videotrack'), 3);

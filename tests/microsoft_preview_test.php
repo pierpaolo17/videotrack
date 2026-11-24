@@ -522,7 +522,7 @@ final class microsoft_preview_test extends \advanced_testcase {
         $this->assertCount(1, $locations);
         $fields = reset($locations)->get_privacy_fields();
         $this->assertEqualsCanonicalizing(
-            ['resourceid', 'authorisation', 'url', 'ipaddress', 'cookies', 'useragent'],
+            ['resourceid', 'searchquery', 'authorisation', 'url', 'ipaddress', 'cookies', 'useragent'],
             array_keys($fields)
         );
         foreach ($fields as $key) {

@@ -1,119 +1,59 @@
 # Audit della documentazione
 
-VideoTrack **1.7.269** (`2026112300`), basata sulla **1.7.267** (`2026112100`) accettata.
+Candidata corrente: VideoTrack **1.7.270** (`2026112400`), basata sulla269 accettata.
 
-## Evidenze della baseline
+## Baseline accettata ed evidenze
 
-La 267 accettata corrisponde a main `418475d361cfd65b06b35875288a0b1b68aa3e12`
-e albero `87b084b6a85fc39eaed2a70db608f05ea2331ab5`. Candidato 44908095172 e main
-44910680696 superano sei job ciascuno, PHPUnit 583/6243, Behat 73/1390, strict 10/0/0
-e Grunt. Il pacchetto effettivo ha SHA256
-`3fbc345220877f1449e3f9a1dd03341b4b9c29ff002637b0eeb7ff94813278dd`.
-Il server supera canonici/lint condivisi su 196 PHP, PHPUnit 583/6243 separatamente
-su Moodle 5.0/5.3 ed entrambi i comandi Grunt. Queste sono evidenze della 267, non
-esecuzioni della 269.
+ZIP269 effettivo caricato, SHA25694200cf7c2d8da43478abd44e39f3c31b6ecae23af2487e28add19f61d7dd45e;
+475file distribuiti corrispondono a mainad9dc8ecc0f963f0f6e7bbcc41906e6e734c5471,
+albero823ae1cce5c5f29522b0b7ee316718009e224552. Candidato45251028653 e main45260313398
+superano sei job ciascuno: Unit595/6280, Behat75/1428 senza retry, strict10/0/0, Grunt
+nativo, test Node e matrici aggiornamento/ripetizione/disinstallazione popolata.
+I sei hash di conservazione per esecuzione sono ricostruiti indipendentemente.
 
-## Hotfix corrente
+Il report server20261123_230428 supera otto esiti: canonici/lint198condivisi senza
+errori/warning, Unit595/6280 separatamente su50/53, entrambi Grunt con hash invariati.
+Entrambi i validator maintainer sono10/0/0. Il manutentore riferisce installazione e
+ricalcolo riusciti il2026-11-24; non sono stati eseguiti direttamente dall’assistente.
+Restano PHPMD35avvisi e Psalm1rilievo advisory sulla guardia per esecuzione più757/785
+informazioni. PHPStan è pulito. La precedente indicazione di zero errori Psalm era errata.
 
-Il [documento sul recupero del tracciamento](39_TRACKING_RECOVERY_HOTFIX.md) descrive
-cause, comportamento e limiti. La ricerca Microsoft 268 è sospesa ed esclusa;
-resta la diagnostica Microsoft già presente nella 267. Nessuna modifica a schema,
-9 servizi AJAX, disponibilità sorgenti o conservazione token. Non introduce
-ottimizzazioni delle query Analytics.
+## Modifiche correnti e gate rimanenti
 
-I test Node locali superano l’harness tracker e sei gruppi di regressione sia sui
-sorgenti sia sulle build distribuite. Cinque gruppi riproducono il problema sulla
-267 e passano con l’hotfix. Sono controllati mappe/sorgenti, contratti lessicali,
-inventari, parità lingua, applicazione e inversione delle patch.
+La [ricerca personale](40_MICROSOFT_VIDEO_SEARCH.md) riprende la268 sospesa sulla269.
+Conservati tracciamento, recupero,48gruppi AMD nativi,9AJAX e XMLDB. La casella
+temporanea di recupero resta finché il percorso straordinario sarà ritirato in una
+release dedicata. Il generatore demo resta esterno al plugin e limitato alla5.3.
 
-PHP/Moodle/MariaDB non sono disponibili localmente. Gli esiti nativi della CI e i
-gate ancora aperti sono riportati sotto. Le build Babel iniziali dei 12 gruppi AMD
-modificati sono ora sostituite con output Grunt nativo verificato. La CI mantiene
-i gate già presenti e aggiunge le regressioni Node su sorgenti e build.
+Aggiunti25metodi unitari e3scenari locali. Conservati tutti595metodi precedenti e
+75scenari, estendendo soltanto l’asserzione Privacy esatta con searchquery.
+Conteggi:509file repository/483distribuiti,202PHP distribuiti,1542funzioni PHP nominate
+incluse7helper CI,660callableAMD,620metodi unitari,78scenari espansi/1458passi,
+8lingue con1068chiavi e48gruppiAMD. Inventari bilingui alle posizioni effettive.
 
-Aggiunti 12 metodi PHPUnit e due scenari Behat; rafforzate le asserzioni sulla
-conservazione della copertura in tre scenari di pausa casuale. Ricalcolo ordinario
-e processi Privacy mantengono il comportamento esistente. Il recupero storico
-richiede la nuova selezione esplicita del docente, aggiunge righe derivate
-riconoscibili e conserva gli originali. Non ricostruisce prove mancanti o ambigue.
+Controlli locali: contratti sorgente/lessicali, lingue/placeholder, conservazione dei
+file hotfix, mappe esatte, regressioni Node sorgenti/compilati, applicazione/inversione
+patch e link documentali. PHP/Moodle/MariaDB non sono disponibili localmente: restano
+da eseguire lint/PHPCS, PHPUnit, Behat, Grunt, analisi, lifecycle e test server270.
+OAuth/ricerca/anteprima Microsoft reali e telemetria studente restano gate distinti.
+Roadmap: Microsoft, Zoom, Google Drive e infine App. Accessibilità manuale5.3 STANDBY.
 
-## Inventari e vincoli
+## Prima CI270 nativa e correzione del DocBlock di file
 
-501 file repository, 475 distribuiti, 197 PHP distribuiti più helper lifecycle;
-1490 funzioni PHP nominate, 660 funzioni AMD nominate, 595 metodi unitari,
-75 scenari Behat espansi, otto lingue con 1060 chiavi e 48 gruppi AMD.
-Inventari bilingui aggiornati alle posizioni sorgente effettive. Lo schema conserva
-7 tabelle, 151 campi, 22 indici espliciti e 22 chiavi esterne.
+Il run45385930743 verifica commit9974b13a807ac396a0fd5adb2bb3053d5c44c124,
+albero38f819bb014cc2f46ba6033bff98ddd5264d16ea. Il job qualità supera lint202,
+PHPDoc, Grunt, strict10/0/0, test Node, Unit620/6483 e Behat78/1458.
+Fallisce solo PHPCS: quattro rilievi documentali nel nuovo form. L’annotazione
+inline @var precede un DocBlock di file. Aggiunti descrizione/package/copyright/
+license prima del namespace, conservando annotazione e tutti i token PHP eseguibili.
+Aggiornati entrambi gli inventari alle nuove posizioni delle funzioni.
 
-La baseline 267 comprende 31 rilievi PHPMD e 751/779 informazioni Psalm non classificate.
-Il run45240781127 mantiene 35 avvisi PHPMD su50 e757/785 informazioni Psalm su50/53;
-gli errori configurati PHPStan/Psalm sono zero. Il debito degli avvisi non è dichiarato
-risolto. Conservare dataset demo, standby dell’accessibilità manuale 5.3
-e roadmap provider/App. Le nuove funzioni Microsoft saranno ribasate sull’hotfix
-soltanto dopo la sua accettazione.
+Anche gli altri job conclusi superano Unit620/6483 e Behat78/1458; il lifecycle53
+MariaDB supera i tre percorsi. Quello50MariaDB è saltato dopo l’errore PHPCS.
+La candidata corretta richiede una nuova CI completa: non vengono dichiarati
+PHPCS nativo locale o esecuzioni PHPUnit/Behat della correttiva. Restano aperti
+gli avvisi PHPMD e le informazioni Psalm758/786.
 
-## Esito della prima CI 269 e candidata correttiva
-
-Il [run 45227903298](https://github.com/pierpaolo17/videotrack/actions/runs/45227903298)
-ha eseguito il commit `a8d58ffd21a7558b05e25bc5433344dca0aa1a16`, albero
-`80a28a42cc2e3ff3002b8e7dd35b5bc5902aa53e`. Tutti i sei job falliscono. Ciascuno
-esegue 595 metodi PHPUnit/6268 asserzioni con un solo fallimento in una vecchia
-asserzione sul testo sorgente; i 12 nuovi metodi passano. Behat supera 73 scenari su 75;
-i due scenari nuovi falliscono anche nei due retry automatici. YouTube raggiunge
-circa 7,2 secondi in un’attesa di 7 secondi, HTML5 riparte vicino a 3 e raggiunge circa 9,4
-in un’attesa di 6: il timeout non dimostra un player bloccato. Passano i 73 scenari
-precedenti, incluse le verifiche rafforzate sulla conservazione dopo pausa casuale.
-
-Il job qualità rileva 51 errori PHPCS e un warning per `$CFG->admin` deprecato.
-Gli strumenti sono passati da PHPCS 3.13.6/moodle-cs 3.7.0 a 4.0.4/3.9.2, esponendo
-anche spaziature di intestazione già presenti. Superati lint 197/197, PHPDoc e controlli
-helper dove eseguiti; tutti i sei validator danno 10/0/0. Superati anche 12 gruppi Node
-più harness tracker per matrice. Lifecycle saltato dopo i fallimenti, non accettato.
-PHPMD su 50 riporta 35 avvisi rispetto ai 31 precedenti; le 757/785 informazioni Psalm
-rispetto a 751/779 restano da classificare.
-
-La correttiva sistema formattazione e DocBlock senza cambiare i token di recupero o
-completamento. Aggiorna l’asserzione wallclock al cursore catturato conservando gli
-altri controlli. Aggiunge un’attesa dedicata e limitata della riproduzione reale prima
-delle due asserzioni 12–17 secondi, che restano invariate. Non modifica attese brevi
-esistenti o retry. Il link impostazioni usa la navigazione core anziché la proprietà
-admin deprecata. Nessun cambiamento a sorgenti AMD, ledger live, schema o politica
-di recupero; restano tutti i 595 metodi unitari.
-
-Grunt termina la compilazione, ma il controllo di freschezza respinge 24 file generati.
-Le build Babel della prima patch non sono quelle canoniche Moodle. Il registry npm
-locale risponde 403: non viene simulata una compilazione nativa. Il gate originale
-resta obbligatorio. Poiché plugin-CI 4.5.13 ripristina i file iniziali dopo il confronto,
-un secondo comando Grunt protetto e limitato alla CI raccoglie l’output reale, hash
-sorgenti/commit e mappe esatte. Gli artifact immediati e i report normali includono
-`native-amd.zip`; le regressioni sui compilati usano il vero output installato.
-Servirà poi integrare quelle build verificate e rieseguire tutti i gate: questa
-correttiva preparatoria da sola non chiude il problema Grunt.
-
-La casella recupero è temporanea: dopo la bonifica verificata delle attività della
-produzione 5.0 rimuovere interfaccia e procedura straordinaria in una release successiva,
-conservando prove recuperate e ricalcolo normale. Demo 5.3 e ricerca Microsoft restano
-in pausa. In questa fase preparatoria i controlli nativi corretti erano ancora da eseguire.
-
-## CI corretta e integrazione delle build native verificate
-
-Il [run 45240781127](https://github.com/pierpaolo17/videotrack/actions/runs/45240781127)
-esegue il commit `b0814083eb44e83598bb20406e7549d8e006b536`, albero
-`9f773f110fb2fa33cb60466dc5992e6170bbcdb4`. Tutte le sei configurazioni superano
-PHPUnit595 test/6280 asserzioni, Behat75 scenari/1428 passi senza retry, harness
-tracker e12 gruppi Node, validator strict10/0/0. Il job qualità supera lint,
-PHPCS senza errori/warning, PHPDoc e controlli canonici dell’helper lifecycle.
-L’unico passaggio fallito è il confronto dei compilati Grunt; compilazione e raccolta
-native riescono. Aggiornamento storico e disinstallazione popolata sono saltati.
-
-Verificati i sei artifact rispetto a commit, hash archivio registrati nei log,
-48 hash dei sorgenti effettivi e96 hash dei file generati per configurazione.
-I96 file generati sono identici byte per byte tra le sei matrici; ogni mappa contiene
-il sorgente esatto. Integrati i24 file build/map differenti. Questa correttiva non
-modifica PHP, sorgenti AMD, test, workflow, schema, lingue o semantica del recupero.
-Gli inventari di file e funzioni restano invariati. Passano i controlli locali Node
-su tracker, sorgenti e compilati.
-
-Servono ancora una CI completa della nuova candidata, inclusi i lifecycle prima
-saltati, poi CI su main e accettazione server. L’identità con l’output Grunt raccolto
-non equivale a una nuova esecuzione Grunt locale o all’accettazione della release.
+Il manutentore conferma seed demo53, validator post-seed10/0/0 e dashboard riusciti
+il2026-11-24. Conservare tutti i dati demo. Questa correzione non cambia SQL,
+tracciamento/recupero, sorgenti/buildAMD, test, schema, lingue o workflow.

@@ -158,3 +158,10 @@ senza modificare PHP, sorgenti AMD, test o politica di recupero. Il gate origina
 resta attivo. Rieseguire la CI completa della candidata, incluso aggiornamento storico
 e disinstallazione popolata prima saltati, poi CI main e accettazione server.
 Questa integrazione non dichiara bonifica in produzione o Grunt nativo locale eseguiti.
+
+## Accettazione e ripresa dello sviluppo
+
+La269 accettata coincide con lo ZIP caricato: candidato/main a sei job verdi,
+server canonici/lint198, Unit595/6280 su entrambe le istanze e Grunt nativi superati,
+entrambi strict10/0/0. Il manutentore riferisce installazione/ricalcolo riusciti
+il2026-11-24. La270 riprende la ricerca Microsoft conservando tracciamento e recupero.
