@@ -204,6 +204,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $this->context
         );
 
+        \mod_videotrack\form\microsoft_activity_reference_form::add_elements($mform);
+
         // Grading section using standard Moodle grading elements.
         $this->standard_grading_coursemodule_elements();
 
@@ -237,6 +239,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform = $this->_form;
         $headers = [
             'videosourceheader' => true,
+            'microsoftreferenceheader' => false,
             'playerbehaviorheader' => false,
             'captionsheader' => false,
             'html5controlsheader' => false,
@@ -937,6 +940,10 @@ JS);
      */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
+        $errors = array_replace($errors, \mod_videotrack\form\microsoft_activity_reference_form::errors(
+            $data,
+            !empty($this->_instance) ? $this->current : null
+        ));
         $source = $data['videosource'] ?? 'youtube';
         $errors = array_replace($errors, $this->source_errors($data));
         $errors = array_replace($errors, $this->timed_text_errors($data, $source));

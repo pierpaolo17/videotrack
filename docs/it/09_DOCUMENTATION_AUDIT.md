@@ -1,59 +1,46 @@
 # Audit della documentazione
 
-Candidata corrente: VideoTrack **1.7.270** (`2026112400`), basata sulla269 accettata.
+Candidata corrente: **1.7.271** (`2026112401`), basata sullo ZIP270 effettivo accettato.
 
-## Baseline accettata ed evidenze
+## Accettazione270
 
-ZIP269 effettivo caricato, SHA25694200cf7c2d8da43478abd44e39f3c31b6ecae23af2487e28add19f61d7dd45e;
-475file distribuiti corrispondono a mainad9dc8ecc0f963f0f6e7bbcc41906e6e734c5471,
-albero823ae1cce5c5f29522b0b7ee316718009e224552. Candidato45251028653 e main45260313398
-superano sei job ciascuno: Unit595/6280, Behat75/1428 senza retry, strict10/0/0, Grunt
-nativo, test Node e matrici aggiornamento/ripetizione/disinstallazione popolata.
-I sei hash di conservazione per esecuzione sono ricostruiti indipendentemente.
+483file distribuiti corrispondono a main63325ff0923543bda9ae3548a2f713cb80bae4b9,
+albero61bc66351d2a1cb24508049aa123011a9544bbe8; SHA256 ZIP
+3927f8ec40f199f52fe5d5f92d490f648244cdbcb59fea17569bc06e1711aa2d.
+Candidato corretto45392734528/main45424709649 superano sei job ciascuno, Unit620/6483,
+Behat78/1458senza retry, Grunt nativo, strict10/0/0, regressioni JS e due matrici
+storiche aggiornamento/ripetizione/disinstallazione popolata con fotografie verificate.
+Il report server20261124_173403 supera otto comandi: canonici/lint203condivisi,
+Unit620/6483su50/53 ed entrambi i Grunt con hash invariati. Entrambi i report strict
+utente superano10/0/0. L’utente conferma dati demo e grafica corretti: conservarli.
 
-Il report server20261123_230428 supera otto esiti: canonici/lint198condivisi senza
-errori/warning, Unit595/6280 separatamente su50/53, entrambi Grunt con hash invariati.
-Entrambi i validator maintainer sono10/0/0. Il manutentore riferisce installazione e
-ricalcolo riusciti il2026-11-24; non sono stati eseguiti direttamente dall’assistente.
-Restano PHPMD35avvisi e Psalm1rilievo advisory sulla guardia per esecuzione più757/785
-informazioni. PHPStan è pulito. La precedente indicazione di zero errori Psalm era errata.
+Restano visibili PHPMD36avvisi e Psalm ParadoxicalCondition sulla guardia standard
+MOODLE_INTERNAL in db/services.php25, più758/786informazioni. PHPStan pulito.
+Sono risultati270, non prove dell’esecuzione271.
 
-## Modifiche correnti e gate rimanenti
+## Modifiche e verifiche da completare
 
-La [ricerca personale](40_MICROSOFT_VIDEO_SEARCH.md) riprende la268 sospesa sulla269.
-Conservati tracciamento, recupero,48gruppi AMD nativi,9AJAX e XMLDB. La casella
-temporanea di recupero resta finché il percorso straordinario sarà ritirato in una
-release dedicata. Il generatore demo resta esterno al plugin e limitato alla5.3.
+La [guida riferimenti attività](41_MICROSOFT_ACTIVITY_REFERENCES.md) descrive metadati,
+permessi, associazione locale esplicita e backup portabile, senza concedere accesso.
+XMLDB aggiunge un campo nullable (152totali); restano9metodi AJAX e48gruppiAMD.
+La fixture lifecycle attende il nuovo NULL conservando tutte le precedenti asserzioni.
+Il fix urgente di tracciamento/recupero e la casella temporanea restano presenti.
 
-Aggiunti25metodi unitari e3scenari locali. Conservati tutti595metodi precedenti e
-75scenari, estendendo soltanto l’asserzione Privacy esatta con searchquery.
-Conteggi:509file repository/483distribuiti,202PHP distribuiti,1542funzioni PHP nominate
-incluse7helper CI,660callableAMD,620metodi unitari,78scenari espansi/1458passi,
-8lingue con1068chiavi e48gruppiAMD. Inventari bilingui alle posizioni effettive.
+Conteggi: 516file repository/490distribuiti, 206PHP distribuiti,
+1582callablePHP incluse7helperCI,660AMD,640metodi unitari,
+80scenari espansi/1484passi e8lingue con1076chiavi. Tutti620metodi unitari precedenti,
+78scenari e relative risorse restano identici. Inventari alle posizioni effettive.
 
-Controlli locali: contratti sorgente/lessicali, lingue/placeholder, conservazione dei
-file hotfix, mappe esatte, regressioni Node sorgenti/compilati, applicazione/inversione
-patch e link documentali. PHP/Moodle/MariaDB non sono disponibili localmente: restano
-da eseguire lint/PHPCS, PHPUnit, Behat, Grunt, analisi, lifecycle e test server270.
-OAuth/ricerca/anteprima Microsoft reali e telemetria studente restano gate distinti.
-Roadmap: Microsoft, Zoom, Google Drive e infine App. Accessibilità manuale5.3 STANDBY.
+Controlli locali: contratti sorgente/lessicali/upgrade, codice studente conservato,
+lingue/placeholder, mappe esistenti esatte, regressioni JS e patch reversibile.
+PHP/Moodle/MariaDB non sono disponibili localmente: restano CI271 lint/PHPCS,
+PHPUnit, Behat, Grunt, analisi, lifecycle e test server. OAuth/ricerca/anteprima reali,
+eventi browser e telemetria studente attendibile richiedono HTTPS e account reale.
+Microsoft resta indisponibile come sorgente tracciata. Nessuno ZIP plugin generato:
+lo produce il manutentore dopo CI main accettata. Roadmap provider/App e accessibilità
+manuale5.3 mantengono ordinamento e stato precedenti.
 
-## Prima CI270 nativa e correzione del DocBlock di file
-
-Il run45385930743 verifica commit9974b13a807ac396a0fd5adb2bb3053d5c44c124,
-albero38f819bb014cc2f46ba6033bff98ddd5264d16ea. Il job qualità supera lint202,
-PHPDoc, Grunt, strict10/0/0, test Node, Unit620/6483 e Behat78/1458.
-Fallisce solo PHPCS: quattro rilievi documentali nel nuovo form. L’annotazione
-inline @var precede un DocBlock di file. Aggiunti descrizione/package/copyright/
-license prima del namespace, conservando annotazione e tutti i token PHP eseguibili.
-Aggiornati entrambi gli inventari alle nuove posizioni delle funzioni.
-
-Anche gli altri job conclusi superano Unit620/6483 e Behat78/1458; il lifecycle53
-MariaDB supera i tre percorsi. Quello50MariaDB è saltato dopo l’errore PHPCS.
-La candidata corretta richiede una nuova CI completa: non vengono dichiarati
-PHPCS nativo locale o esecuzioni PHPUnit/Behat della correttiva. Restano aperti
-gli avvisi PHPMD e le informazioni Psalm758/786.
-
-Il manutentore conferma seed demo53, validator post-seed10/0/0 e dashboard riusciti
-il2026-11-24. Conservare tutti i dati demo. Questa correzione non cambia SQL,
-tracciamento/recupero, sorgenti/buildAMD, test, schema, lingue o workflow.
+Quattro script Node ausiliari storici (backup_restore_static, privacy_static,
+performance_static, deprecation_static) falliscono sia sulla270accettata sia sulla271:
+attendono vecchie strutture sorgente o docs/struttura_tecnica.md. Restano invariati e
+non sono risultati CI nativi. Passano tracker, sei gruppi sorgenti/sei compilati e adapter.

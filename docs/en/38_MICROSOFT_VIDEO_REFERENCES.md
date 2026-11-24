@@ -109,3 +109,5 @@ demo dataset and manual5.3 accessibility **STANDBY**.
 - [Core OAuth reuse and current-user diagnostic](33_MICROSOFT_USER_ACCESS.md)
 
 [Personal search](40_MICROSOFT_VIDEO_SEARCH.md) finds provisional identities for the existing diagnostic.
+
+[Optional Microsoft activity references and portable backup](41_MICROSOFT_ACTIVITY_REFERENCES.md).

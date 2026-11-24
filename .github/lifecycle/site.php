@@ -367,6 +367,9 @@ try {
                         $row[$field] = '0';
                     }
                 }
+                if (!array_key_exists('microsoftreference', $row)) {
+                    $row['microsoftreference'] = null;
+                }
                 ksort($row);
                 unset($row);
                 $actual = videotrack_ci_snapshot($proof);

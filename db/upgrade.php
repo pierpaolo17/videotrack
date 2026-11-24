@@ -2136,5 +2136,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026110601, 'videotrack');
     }
 
+    if ($oldversion < 2026112401) {
+        // Optional preparation metadata; all existing activity and learner data remain intact.
+        $table = new xmldb_table('videotrack');
+        $field = new xmldb_field('microsoftreference', XMLDB_TYPE_TEXT, null, null, null, null, null, 'videourl');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_mod_savepoint(true, 2026112401, 'videotrack');
+    }
+
     return true;
 }

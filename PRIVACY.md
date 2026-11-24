@@ -120,3 +120,12 @@ service under the current personal account. Query text is declared in Privacy me
 Private names/ids remain in the protected result response; general diagnostic JSON omits
 them. VideoTrack adds no query/candidate storage, media import or application logging.
 Core retains token management; provider and infrastructure logs have their own policies.
+
+## Optional activity reference
+
+An editor may explicitly save drive/video ids and a local Microsoft OAuth service id
+in activity configuration. This contains no tokens, secrets, temporary URLs or learner
+identity. Course backup exports only the portable resource ids/version/provider,
+including without user data. Restore requires explicit destination service binding.
+The active player and learner-owned Privacy exports are unchanged. See the
+[reference guide](docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md).
