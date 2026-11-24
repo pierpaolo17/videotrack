@@ -37,3 +37,23 @@ patch e link documentali. PHP/Moodle/MariaDB non sono disponibili localmente: re
 da eseguire lint/PHPCS, PHPUnit, Behat, Grunt, analisi, lifecycle e test server270.
 OAuth/ricerca/anteprima Microsoft reali e telemetria studente restano gate distinti.
 Roadmap: Microsoft, Zoom, Google Drive e infine App. Accessibilità manuale5.3 STANDBY.
+
+## Prima CI270 nativa e correzione del DocBlock di file
+
+Il run45385930743 verifica commit9974b13a807ac396a0fd5adb2bb3053d5c44c124,
+albero38f819bb014cc2f46ba6033bff98ddd5264d16ea. Il job qualità supera lint202,
+PHPDoc, Grunt, strict10/0/0, test Node, Unit620/6483 e Behat78/1458.
+Fallisce solo PHPCS: quattro rilievi documentali nel nuovo form. L’annotazione
+inline @var precede un DocBlock di file. Aggiunti descrizione/package/copyright/
+license prima del namespace, conservando annotazione e tutti i token PHP eseguibili.
+Aggiornati entrambi gli inventari alle nuove posizioni delle funzioni.
+
+Anche gli altri job conclusi superano Unit620/6483 e Behat78/1458; il lifecycle53
+MariaDB supera i tre percorsi. Quello50MariaDB è saltato dopo l’errore PHPCS.
+La candidata corretta richiede una nuova CI completa: non vengono dichiarati
+PHPCS nativo locale o esecuzioni PHPUnit/Behat della correttiva. Restano aperti
+gli avvisi PHPMD e le informazioni Psalm758/786.
+
+Il manutentore conferma seed demo53, validator post-seed10/0/0 e dashboard riusciti
+il2026-11-24. Conservare tutti i dati demo. Questa correzione non cambia SQL,
+tracciamento/recupero, sorgenti/buildAMD, test, schema, lingue o workflow.

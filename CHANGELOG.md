@@ -4,6 +4,10 @@
 
 ### Resume personal Microsoft video discovery on the accepted tracking hotfix
 
+- Correct four PHPCS file-DocBlock findings from initial270 commit9974b13a.
+  Add the form file header while retaining its @var annotation and every executable
+  PHP token; update paired inventories. Initial quality job passes Unit620/6483,
+  Behat78/1458, Grunt, strict10/0/0 and lint202. Fresh complete corrected CI is pending.
 - Rebase the suspended268 search onto accepted269, keeping all tracking, recovery,
   native AMD outputs and existing CI gates. Preserve the temporary recovery option.
 - Add protected personal drive search through core OAuth: explicit bounded query,

@@ -848,8 +848,8 @@ Generato dall’albero sorgente VideoTrack 1.7.270. Le voci PHP includono funzio
 | `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Contratto identità Microsoft riutilizzabile `reference_errors`; vedere DocBlock e regressioni native. |
 | `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Contratto identità Microsoft riutilizzabile `resolve_target`; vedere DocBlock e regressioni native. |
 | `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Richiede account personale e ID video per aprire la pagina originale. |
-| `classes/form/microsoft_search_form.php:39` | `definition` | Contratto ricerca Microsoft personale `definition`; vedere DocBlock e regressioni native. |
-| `classes/form/microsoft_search_form.php:55` | `validation` | Contratto ricerca Microsoft personale `validation`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_search_form.php:47` | `definition` | Contratto ricerca Microsoft personale `definition`; vedere DocBlock e regressioni native. |
+| `classes/form/microsoft_search_form.php:63` | `validation` | Contratto ricerca Microsoft personale `validation`; vedere DocBlock e regressioni native. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | Callable PHP `is_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | Callable PHP `has_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:69` | `timing` | Callable PHP `timing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

@@ -38,3 +38,23 @@ lint/PHPCS, PHPUnit, Behat, Grunt, static analysis, lifecycle and server checks 
 pending. Live Microsoft OAuth/search/browser playback and learner telemetry remain
 separate gates. Next provider work remains Microsoft, Zoom, Google Drive, then App.
 Manual5.3accessibility remains STANDBY.
+
+## Initial270 native CI and file-DocBlock correction
+
+Run45385930743 tests commit9974b13a807ac396a0fd5adb2bb3053d5c44c124,
+tree38f819bb014cc2f46ba6033bff98ddd5264d16ea. The quality job passes lint202,
+PHPDoc, Grunt, strict10/0/0, Node regressions, Unit620/6483 and Behat78/1458.
+Its only failed step is PHPCS: four file-documentation findings in the new form.
+The inline @var annotation is encountered before any file DocBlock. Add a standard
+file description/package/copyright/license block before the namespace, preserving
+the annotation and every executable PHP token. Update both function inventories.
+
+Completed peer jobs also pass Unit620/6483 and Behat78/1458; the53MariaDB lifecycle
+passes all three lineages. The50MariaDB lifecycle is skipped after PHPCS failure.
+The corrected candidate requires a complete fresh CI run; no local native PHPCS
+or corrected-candidate PHPUnit/Behat run is claimed. Reviewed PHPMD advisories and
+Psalm758/786 information entries remain open.
+
+The maintainer confirms the53demo seed, post-seed strict10/0/0 and dashboard checks
+are successful on2026-11-24. Retain all demo data; this correction changes no SQL,
+tracking/recovery logic, AMD sources/builds, tests, schema, languages or workflow.

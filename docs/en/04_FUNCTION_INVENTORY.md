@@ -848,8 +848,8 @@ Generated from the VideoTrack 1.7.270 source tree. PHP entries include named fun
 | `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Reusable Microsoft identity contract `reference_errors`; see its DocBlock and native regression coverage. |
 | `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Reusable Microsoft identity contract `resolve_target`; see its DocBlock and native regression coverage. |
 | `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
-| `classes/form/microsoft_search_form.php:39` | `definition` | Personal Microsoft search callable `definition`; see DocBlock and native regression coverage. |
-| `classes/form/microsoft_search_form.php:55` | `validation` | Personal Microsoft search callable `validation`; see DocBlock and native regression coverage. |
+| `classes/form/microsoft_search_form.php:47` | `definition` | Personal Microsoft search callable `definition`; see DocBlock and native regression coverage. |
+| `classes/form/microsoft_search_form.php:63` | `validation` | Personal Microsoft search callable `validation`; see DocBlock and native regression coverage. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
