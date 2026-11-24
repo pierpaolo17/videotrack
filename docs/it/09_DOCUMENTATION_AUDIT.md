@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Candidata corrente: **1.7.271** (`2026112401`), basata sullo ZIP270 effettivo accettato.
+Candidata corrente: VideoTrack **1.7.271** (`2026112401`), basata sullo ZIP270 effettivo accettato.
 
 ## Accettazione270
 
@@ -33,8 +33,8 @@ Conteggi: 516file repository/490distribuiti, 206PHP distribuiti,
 
 Controlli locali: contratti sorgente/lessicali/upgrade, codice studente conservato,
 lingue/placeholder, mappe esistenti esatte, regressioni JS e patch reversibile.
-PHP/Moodle/MariaDB non sono disponibili localmente: restano CI271 lint/PHPCS,
-PHPUnit, Behat, Grunt, analisi, lifecycle e test server. OAuth/ricerca/anteprima reali,
+Gli esiti271iniziali sono riportati sotto. PHP/Moodle/MariaDB restano indisponibili
+localmente; CI della candidata corretta, lifecycle e server sono da eseguire. OAuth/ricerca/anteprima reali,
 eventi browser e telemetria studente attendibile richiedono HTTPS e account reale.
 Microsoft resta indisponibile come sorgente tracciata. Nessuno ZIP plugin generato:
 lo produce il manutentore dopo CI main accettata. Roadmap provider/App e accessibilità
@@ -44,3 +44,34 @@ Quattro script Node ausiliari storici (backup_restore_static, privacy_static,
 performance_static, deprecation_static) falliscono sia sulla270accettata sia sulla271:
 attendono vecchie strutture sorgente o docs/struttura_tecnica.md. Restano invariati e
 non sono risultati CI nativi. Passano tracker, sei gruppi sorgenti/sei compilati e adapter.
+
+## CI271iniziale e correzione
+
+Run45485426732 sul commit9a08e4111f6bd6f1ddb25e6f81010108cc06dcae,
+albero751c68247bf7aaf8adcd6ec91429141c6b0f12f1. Tutte le sei matrici eseguono640metodi/
+6610asserzioni con un solo fallimento: il test documentale esistente richiede
+letteralmente `VideoTrack **1.7.271** (` seguito dal marcatore versione in entrambi
+gli audit. Le intestazioni omettevano il nome del prodotto. Tutti20nuovi metodi
+funzionali passano, compresi quattro backup/restore corso nativi. Corretti entrambi
+i marcatori, conservando test esistente e tutte le asserzioni.
+
+Il job qualità segnala15rilievi PHPCS: sette spaziature nei foreach multilinea di
+microsoft_activity_reference_test.php e otto argomenti dei costruttori multilinea di
+microsoft_reference_restore_test.php. Modificati soltanto gli spazi: flussi completi
+di token eseguibili identici. Aggiornate le posizioni nei due inventari delle funzioni.
+Questa correzione non modifica runtime, schema, lingue, AMD o workflow.
+
+Tutte le sei matrici superano Behat80scenari/1484passi senza retry, strict10/0/0,
+Grunt nativo e tracker più sei gruppi sorgenti/sei compilati. I sei archivi nativi
+interni e i sei wrapper caricati separatamente coincidono: verificati48hash sorgenti,
+96hash build/mappe, commit, comando nativo e digest nel log di cattura. I byte AMD
+coincidono con la271inviata. Lint206PHP e PHPDoc superati, come lint/PHPCS separati
+dell’helper lifecycle. PHPStan pulito su50/53; Psalm conserva un rilievo sulla guardia
+standard più763/791informazioni. PHPMD segnala40avvisi, mantenuti visibili senza soppressioni.
+
+Tutti i job falliscono complessivamente per l’asserzione documentale; il job qualità
+anche per PHPCS. I due passaggi lifecycle storici condizionati sono saltati: non si
+dichiara successo271per upgrade/disinstallazione. La candidata corretta richiede
+nuova CI completa prima del merge, poi i consueti controlli main e server.
+La race YouTube del replay da report, riprodotta separatamente, resta per la prossima
+release; la correzione sorgente e i test sono esterni a questa correzione271.

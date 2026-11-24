@@ -1746,24 +1746,24 @@ Generato dall’albero sorgente VideoTrack 1.7.271. Le voci PHP includono funzio
 | `tests/microsoft_activity_reference_test.php:39` | `setUp` | Keep all identities and service settings isolated without a tenant connection. |
 | `tests/microsoft_activity_reference_test.php:48` | `test_diagnostic_reference_is_canonicalised` | The existing diagnostic output is accepted without copying transient URLs. |
 | `tests/microsoft_activity_reference_test.php:60` | `test_malformed_or_private_payloads_are_rejected` | Scalar grammar rejects credentials, malformed shapes and ambiguous versions. |
-| `tests/microsoft_activity_reference_test.php:79` | `test_portable_identity_discards_the_local_binding` | A backup carries only portable resource identifiers, including after restore. |
-| `tests/microsoft_activity_reference_test.php:94` | `test_portable_import_rejects_private_or_unknown_fields` | A portable backup cannot smuggle a site binding, credential or resource URL. |
-| `tests/microsoft_activity_reference_test.php:108` | `test_new_reference_uses_the_selected_local_service` | New local metadata requires an enabled selected Microsoft service. |
-| `tests/microsoft_activity_reference_test.php:120` | `test_unchanged_and_sparse_updates_survive_configuration_changes` | A service change never silently rewrites an existing activity identity. |
-| `tests/microsoft_activity_reference_test.php:136` | `test_teacher_can_clear_a_stale_reference` | Authorised removal is possible even when the original service has gone away. |
-| `tests/microsoft_activity_reference_test.php:148` | `test_changed_reference_requires_the_current_service` | A mismatched or absent local service is rejected before a changed identity is saved. |
-| `tests/microsoft_activity_reference_test.php:163` | `test_disabled_and_non_microsoft_services_are_rejected` | Disabling or selecting a different provider cannot grant a binding. |
-| `tests/microsoft_activity_reference_test.php:179` | `test_restored_reference_requires_deliberate_rebinding` | Restored resource ids remain unbound on ordinary edits even with a new service selected. |
-| `tests/microsoft_activity_reference_test.php:194` | `test_deliberate_rebinding_overrides_only_the_local_service` | An explicit rebind uses the destination setting rather than an imported source id. |
-| `tests/microsoft_activity_reference_test.php:206` | `test_empty_or_missing_reference_cannot_be_bound` | A binding action never invents a target when the reference field is absent or empty. |
-| `tests/microsoft_activity_reference_test.php:216` | `test_unprivileged_user_cannot_change_or_clear_reference` | Reference edits and clears require course activity management permission. |
-| `tests/microsoft_activity_reference_test.php:237` | `test_form_errors_do_not_expose_submitted_contents` | Field validation reports a translatable error without reflecting private input. |
-| `tests/microsoft_activity_reference_test.php:246` | `test_activity_callbacks_preserve_active_video_and_learner_tables` | Actual activity callbacks persist metadata while retaining the playable source. |
-| `tests/microsoft_activity_reference_test.php:273` | `test_invalid_update_does_not_partially_write_the_activity` | Invalid metadata aborts a real activity update before changing any stored activity field. |
-| `tests/microsoft_activity_reference_test.php:290` | `service` | Create only local OAuth configuration; no token or HTTP client is requested. |
-| `tests/microsoft_activity_reference_test.php:306` | `editing_teacher` | Use a genuine course role when checking permitted local metadata changes. |
-| `tests/microsoft_activity_reference_test.php:318` | `reference` | Produce the fixed resource identity under a caller-selected local binding. |
-| `tests/microsoft_activity_reference_test.php:330` | `assert_invalid` | Assert a bounded validation error without exposing the submitted marker. |
+| `tests/microsoft_activity_reference_test.php:81` | `test_portable_identity_discards_the_local_binding` | A backup carries only portable resource identifiers, including after restore. |
+| `tests/microsoft_activity_reference_test.php:96` | `test_portable_import_rejects_private_or_unknown_fields` | A portable backup cannot smuggle a site binding, credential or resource URL. |
+| `tests/microsoft_activity_reference_test.php:112` | `test_new_reference_uses_the_selected_local_service` | New local metadata requires an enabled selected Microsoft service. |
+| `tests/microsoft_activity_reference_test.php:124` | `test_unchanged_and_sparse_updates_survive_configuration_changes` | A service change never silently rewrites an existing activity identity. |
+| `tests/microsoft_activity_reference_test.php:140` | `test_teacher_can_clear_a_stale_reference` | Authorised removal is possible even when the original service has gone away. |
+| `tests/microsoft_activity_reference_test.php:152` | `test_changed_reference_requires_the_current_service` | A mismatched or absent local service is rejected before a changed identity is saved. |
+| `tests/microsoft_activity_reference_test.php:167` | `test_disabled_and_non_microsoft_services_are_rejected` | Disabling or selecting a different provider cannot grant a binding. |
+| `tests/microsoft_activity_reference_test.php:183` | `test_restored_reference_requires_deliberate_rebinding` | Restored resource ids remain unbound on ordinary edits even with a new service selected. |
+| `tests/microsoft_activity_reference_test.php:198` | `test_deliberate_rebinding_overrides_only_the_local_service` | An explicit rebind uses the destination setting rather than an imported source id. |
+| `tests/microsoft_activity_reference_test.php:210` | `test_empty_or_missing_reference_cannot_be_bound` | A binding action never invents a target when the reference field is absent or empty. |
+| `tests/microsoft_activity_reference_test.php:222` | `test_unprivileged_user_cannot_change_or_clear_reference` | Reference edits and clears require course activity management permission. |
+| `tests/microsoft_activity_reference_test.php:243` | `test_form_errors_do_not_expose_submitted_contents` | Field validation reports a translatable error without reflecting private input. |
+| `tests/microsoft_activity_reference_test.php:252` | `test_activity_callbacks_preserve_active_video_and_learner_tables` | Actual activity callbacks persist metadata while retaining the playable source. |
+| `tests/microsoft_activity_reference_test.php:279` | `test_invalid_update_does_not_partially_write_the_activity` | Invalid metadata aborts a real activity update before changing any stored activity field. |
+| `tests/microsoft_activity_reference_test.php:296` | `service` | Create only local OAuth configuration; no token or HTTP client is requested. |
+| `tests/microsoft_activity_reference_test.php:312` | `editing_teacher` | Use a genuine course role when checking permitted local metadata changes. |
+| `tests/microsoft_activity_reference_test.php:324` | `reference` | Produce the fixed resource identity under a caller-selected local binding. |
+| `tests/microsoft_activity_reference_test.php:336` | `assert_invalid` | Assert a bounded validation error without exposing the submitted marker. |
 | `tests/microsoft_graph_test.php:46` | `setUp` | Funzione diagnostica provider `setUp`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:57` | `tearDown` | Funzione diagnostica provider `tearDown`; il DocBlock definisce input, output ed effetti. |
 | `tests/microsoft_graph_test.php:66` | `test_explicit_resource_paths_and_selects` | Regressione nativa `test_explicit_resource_paths_and_selects`; il DocBlock definisce il confine verificato. |
@@ -1843,7 +1843,7 @@ Generato dall’albero sorgente VideoTrack 1.7.271. Le voci PHP includono funzio
 | `tests/microsoft_reference_restore_test.php:80` | `test_rebackup_of_an_unbound_reference_stays_unbound` | Repeated backups retain portable ids without guessing another site's OAuth service. |
 | `tests/microsoft_reference_restore_test.php:96` | `fixture` | Create a prepared activity and one independently owned note without provider calls. |
 | `tests/microsoft_reference_restore_test.php:129` | `roundtrip` | Run native controllers and inspect the actual activity XML before restore. |
-| `tests/microsoft_reference_restore_test.php:186` | `assert_restored` | Check that restored metadata never changes the active playable source. |
+| `tests/microsoft_reference_restore_test.php:194` | `assert_restored` | Check that restored metadata never changes the active playable source. |
 | `tests/microsoft_search_test.php:50` | `setUp` | Contratto ricerca Microsoft personale `setUp`; vedere DocBlock e regressioni native. |
 | `tests/microsoft_search_test.php:64` | `tearDown` | Contratto ricerca Microsoft personale `tearDown`; vedere DocBlock e regressioni native. |
 | `tests/microsoft_search_test.php:74` | `test_query_url_is_fixed_and_odata_escaped` | Contratto ricerca Microsoft personale `test_query_url_is_fixed_and_odata_escaped`; vedere DocBlock e regressioni native. |

@@ -59,13 +59,15 @@ final class microsoft_activity_reference_test extends \advanced_testcase {
      */
     public function test_malformed_or_private_payloads_are_rejected(): void {
         $inputs = [false, 7, [], new \stdClass(), 'null', '[]', '{', str_repeat(' ', 4097)];
-        foreach ([
-            ['url' => 'private-marker'], ['access_token' => 'private-marker'],
-            ['version' => '1'], ['version' => 2], ['provider' => 'google'],
-            ['issuerid' => -1], ['issuerid' => '7'], ['issuerid' => true],
-            ['driveid' => 'https://example.org/private-marker'], ['driveid' => []],
-            ['itemid' => ''], ['itemid' => '../content'], ['itemid' => str_repeat('A', 257)],
-        ] as $change) {
+        foreach (
+            [
+                ['url' => 'private-marker'], ['access_token' => 'private-marker'],
+                ['version' => '1'], ['version' => 2], ['provider' => 'google'],
+                ['issuerid' => -1], ['issuerid' => '7'], ['issuerid' => true],
+                ['driveid' => 'https://example.org/private-marker'], ['driveid' => []],
+                ['itemid' => ''], ['itemid' => '../content'], ['itemid' => str_repeat('A', 257)],
+            ] as $change
+        ) {
             $inputs[] = json_encode(array_replace(json_decode($this->reference(7), true), $change));
         }
         foreach ($inputs as $value) {
@@ -93,8 +95,10 @@ final class microsoft_activity_reference_test extends \advanced_testcase {
      */
     public function test_portable_import_rejects_private_or_unknown_fields(): void {
         $valid = microsoft_activity_reference::to_backup($this->reference(7));
-        foreach ([['issuerid' => 7], ['url' => 'private-marker'], ['access_token' => 'private-marker'],
-                ['version' => 2], ['driveid' => 'https://example.org'], ['itemid' => []]] as $change) {
+        foreach (
+            [['issuerid' => 7], ['url' => 'private-marker'], ['access_token' => 'private-marker'],
+                ['version' => 2], ['driveid' => 'https://example.org'], ['itemid' => []]] as $change
+        ) {
             $value = array_replace($valid, $change);
             $this->assert_invalid(static fn() => microsoft_activity_reference::from_backup($value));
         }
@@ -204,8 +208,10 @@ final class microsoft_activity_reference_test extends \advanced_testcase {
      * A binding action never invents a target when the reference field is absent or empty.
      */
     public function test_empty_or_missing_reference_cannot_be_bound(): void {
-        foreach ([(object)['microsoftreferencebind' => 1],
-                (object)['microsoftreferencebind' => 1, 'microsoftreference' => '']] as $data) {
+        foreach (
+            [(object)['microsoftreferencebind' => 1],
+                (object)['microsoftreferencebind' => 1, 'microsoftreference' => '']] as $data
+        ) {
             $this->assert_invalid(static fn() => microsoft_activity_reference::process_form_fields($data));
         }
     }

@@ -31,6 +31,21 @@
   Native271 CI/server and live HTTPS/Microsoft acceptance are pending at delivery.
   Microsoft remains unavailable as a tracked source; demo data stays untouched.
 
+### Initial271 CI correction
+
+- Run45485426732 on9a08e411/tree751c6824 executes640unit methods/6610assertions
+  with one existing documentation-marker failure on all six matrices. All20new
+  functional methods pass. Restore the literal VideoTrack prefix in both audit
+  headers; retain every test and assertion. Fix15reported PHPCS spacing findings
+  in the two new test files with byte-identical executable token streams.
+- All six matrices pass Behat80/1484without retries, strict10/0/0, native Grunt and
+  existing tracking JS regressions. Six embedded/native-wrapper pairs verify the
+  exact48source/96build/map bytes and source commit. Runtime/AMD/schema unchanged.
+  PHPStan clean; Psalm one guard finding plus763/791info and PHPMD40advisories remain.
+- Historical lifecycle steps are skipped after the failed gates. Corrected-candidate
+  complete CI/lifecycle and main/server checks are still required. Keep the separate
+  YouTube report-replay source fix for the next release; do not bundle it here.
+
 ## 1.7.270 - 2026-11-24
 
 ### Resume personal Microsoft video discovery on the accepted tracking hotfix

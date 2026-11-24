@@ -132,8 +132,12 @@ final class microsoft_reference_restore_test extends \advanced_testcase {
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
         $backup = new \backup_controller(
-            \backup::TYPE_1COURSE, $course->id, \backup::FORMAT_MOODLE,
-            \backup::INTERACTIVE_NO, \backup::MODE_IMPORT, $USER->id
+            \backup::TYPE_1COURSE,
+            $course->id,
+            \backup::FORMAT_MOODLE,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_IMPORT,
+            $USER->id
         );
         try {
             $backup->get_plan()->get_setting('users')->set_status(\backup_setting::NOT_LOCKED);
@@ -163,8 +167,12 @@ final class microsoft_reference_restore_test extends \advanced_testcase {
         set_config('microsoftissuerid', 888888, 'mod_videotrack');
         $courseid = \restore_dbops::create_new_course($course->fullname, $course->shortname . '_portable', $course->category);
         $restore = new \restore_controller(
-            $backupid, $courseid, \backup::INTERACTIVE_NO,
-            \backup::MODE_GENERAL, $USER->id, \backup::TARGET_NEW_COURSE
+            $backupid,
+            $courseid,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_GENERAL,
+            $USER->id,
+            \backup::TARGET_NEW_COURSE
         );
         try {
             $restore->get_plan()->get_setting('users')->set_status(\backup_setting::NOT_LOCKED);
