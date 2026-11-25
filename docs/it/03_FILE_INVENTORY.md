@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.270. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.271. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi sei file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo ha
-509 file repository / 483 distribuiti, includendo tutta la documentazione.
+Voci: **424** — 418 file distribuiti e sei solo repository. L'albero completo ha
+516 file repository / 490 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -195,6 +195,7 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `classes/external/save_segment.php` | Valida e salva i segmenti visti tramite tracker, mantenendo payload e risposta del servizio AJAX. |
 | `classes/external/start_playback.php` | Servizio AJAX che apre una finestra server idempotente a credito zero. |
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
+| `classes/form/microsoft_activity_reference_form.php` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `classes/form/microsoft_probe_form.php` | Modulo POST con validazione degli ID opachi prima di OAuth o Graph. |
 | `classes/form/microsoft_search_form.php` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
@@ -223,6 +224,7 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `classes/local/instance_settings_policy.php` | Policy server sui campi e sulle dipendenze di completamento prima della persistenza. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
+| `classes/local/microsoft_activity_reference.php` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `classes/local/microsoft_graph.php` | GET metadati e POST anteprima privato verso host fisso, con diagnostica drive/video redatta. |
 | `classes/local/microsoft_graph_probe.php` | Controlli locali ed endpoint Microsoft prima del client OAuth core di sistema. |
 | `classes/local/microsoft_graph_search.php` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
@@ -285,6 +287,7 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `docs/en/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
 | `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
+| `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -297,6 +300,7 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `docs/it/38_MICROSOFT_VIDEO_REFERENCES.md` | Procedura identità riutilizzabile, confini di sicurezza, limiti e riferimenti primari. |
 | `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
+| `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -350,6 +354,7 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `tests/behat/html5_seek_policy.feature` | Regressione browser per seek avanti HTML5 consentito e bloccato senza dipendenze di rete pubblica. |
 | `tests/behat/learner_role_controls.feature` | Regressione Behat dello scope ruoli per controlli learner, docente e dual-role. |
 | `tests/behat/microsoft_account_context.feature` | Verifiche browser deterministiche sulla scelta esplicita dell’account condiviso/personale. |
+| `tests/behat/microsoft_activity_reference.feature` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `tests/behat/microsoft_preview.feature` | Contratti browser deterministici GET locale, validazione personale e configurazione assente. |
 | `tests/behat/microsoft_provider_check.feature` | Tre scenari amministrativi deterministici senza connessione Microsoft. |
 | `tests/behat/microsoft_provider_page.feature` | Tre scenari deterministici del modulo pagina provider personale senza rete reale. |
@@ -384,9 +389,11 @@ Voci: **417** — 411 file distribuiti e sei solo repository. L'albero completo 
 | `tests/lib_test.php` | Copertura PHPUnit per lib test. |
 | `tests/lifecycle_integration_test.php` | Integrazioni reali framework backup/restore/privacy, task retention registrato, reset corso standard e cancellazione sincrona attività. |
 | `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
+| `tests/microsoft_activity_reference_test.php` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `tests/microsoft_graph_test.php` | Diciannove regressioni native simulate per i confini dei metadati autenticati. |
 | `tests/microsoft_preview_test.php` | Regressioni native anteprima: URL, trasporto, account personale, conservazione e richieste. |
 | `tests/microsoft_probe_form_test.php` | Regressioni native per modulo, sessione, metodo HTTP e accesso amministrativo. |
+| `tests/microsoft_reference_restore_test.php` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `tests/microsoft_search_test.php` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `tests/microsoft_user_connection_test.php` | Regressioni native connessione/URL core/stato/permessi senza scambio provider reale. |
 | `tests/microsoft_user_probe_test.php` | Regressioni native per configurazione, accesso, login, fallback e modulo senza rete reale. |

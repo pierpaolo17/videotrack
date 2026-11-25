@@ -121,3 +121,12 @@ Microsoft selezionato con l’account personale corrente. La Privacy API dichiar
 Nomi/ID privati restano nella risposta protetta; il JSON diagnostico generale li omette.
 VideoTrack non aggiunge archiviazione query/candidati, import media o logging applicativo.
 Core gestisce i token; log provider e infrastruttura seguono le rispettive politiche.
+
+## Riferimento attività facoltativo
+
+Il docente può salvare esplicitamente gli ID drive/video e del servizio OAuth Microsoft
+locale nella configurazione. Nessun token, segreto, URL temporaneo o identità studente.
+Il backup corso esporta soltanto ID risorsa/versione/provider portabili, anche senza
+dati utente. Il ripristino richiede un’associazione esplicita al servizio locale.
+Player attivo ed export Privacy personali restano invariati. Vedere la
+[guida riferimenti](docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md).

@@ -1,4 +1,4 @@
-%% VideoTrack 1.7.270 / 2026112400 / XMLDB 2026110601
+%% VideoTrack 1.7.271 / 2026112401 / XMLDB 2026112401
 %% FK = stable XMLDB foreign key metadata; REF(C) = conditional application reference.
 %% Moodle generates backing indexes for XMLDB foreign keys but no physical database constraints.
 erDiagram
@@ -51,6 +51,7 @@ erDiagram
         bigint course FK
         bigint linkedforumid "REF(C): 0 or forum.id"
         string name
+        text microsoftreference "optional identity; local issuer binding"
         string videosource
         string videoid
         decimal durationseconds

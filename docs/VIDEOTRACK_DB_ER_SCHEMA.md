@@ -1,7 +1,7 @@
 # VideoTrack database and Entity–Relationship reference
 
-- **Current tree / albero corrente:** VideoTrack 1.7.270 / 2026112400
-- **XMLDB source / sorgente XMLDB:** `db/install.xml` (`2026110601`)
+- **Current tree / albero corrente:** VideoTrack 1.7.271 / 2026112401
+- **XMLDB source / sorgente XMLDB:** `db/install.xml` (`2026112401`)
 - **Supported Moodle / Moodle supportato:** 5.0–5.3
 
 Visual artefacts / artefatti visuali: [Mermaid source](VIDEOTRACK_DB_ER_SCHEMA.mmd) ·
@@ -76,11 +76,24 @@ CLI verifica inoltre orfani, coerenza corso/course module e riferimenti condizio
 
 ## Attention configuration / Configurazione attenzione
 
-The seven tables now contain **151 fields**, with the same 22 explicit indexes and 22 foreign keys.
+The seven tables now contain **152 fields**, with the same 22 explicit indexes and 22 foreign keys.
 `videotrack.randompauseminseconds` and `videotrack.randompausemaxseconds` are NOT NULL `int(4)`, default `0`.
 Zero means dynamic thirds of the saved activity duration, or the site fallback for duration zero; explicit
 values are whole seconds from 60 to 7200. These activity settings add no personal data or new relationships.
 
-Le sette tabelle contengono ora **151 campi**, con gli stessi 22 indici espliciti e 22 foreign key.
+Le sette tabelle contengono ora **152 campi**, con gli stessi 22 indici espliciti e 22 foreign key.
 I due campi sono interi NOT NULL con default `0`: terzi dinamici della durata salvata, oppure riserva sito con
 durata zero. I valori espliciti sono secondi interi da 60 a 7200. Nessun nuovo dato personale o relazione.
+
+## Microsoft preparation / Preparazione Microsoft
+
+`videotrack.microsoftreference` is nullable TEXT, absent by default on existing activities.
+It stores an optional versioned drive/video identity and a local service association.
+There is no new foreign key, index, token or learner identifier. Course backup omits
+the local service id; restore saves an unbound identity requiring deliberate binding.
+The active video and all learner tables remain separate.
+
+Il campo TEXT nullable conserva facoltativamente identità drive/video e associazione
+al servizio locale. Nessuna nuova foreign key o indice, token o identità studente.
+Il backup omette l’ID del servizio; il restore richiede associazione deliberata.
+Video attivo e tabelle studente restano separati.

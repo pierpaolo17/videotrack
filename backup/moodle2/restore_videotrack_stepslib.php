@@ -34,6 +34,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function define_structure() {
         $paths = [
             new restore_path_element('videotrack', '/activity/videotrack'),
+            new restore_path_element('videotrack_microsoft_identity', '/activity/videotrack/microsoft_identity'),
             new restore_path_element('videotrack_reaction', '/activity/videotrack/reactions/reaction'),
         ];
 
@@ -62,6 +63,8 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         require_once($CFG->dirroot . '/mod/videotrack/lib.php');
         $data = (object)$data;
         $oldid = $data->id;
+        // A raw parent field can never import a source site's OAuth binding.
+        $data->microsoftreference = null;
         if (isset($data->loop) && !isset($data->loopenabled)) {
             $data->loopenabled = $data->loop;
         }
@@ -84,6 +87,18 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);
         $this->set_mapping('videotrack', $oldid, $newitemid);
+    }
+
+    /**
+     * Retain the resource identity while requiring a deliberate local service binding.
+     *
+     * @param array|stdClass $data Portable scalar target fields.
+     */
+    protected function process_videotrack_microsoft_identity($data) {
+        global $DB;
+
+        $value = \mod_videotrack\local\microsoft_activity_reference::from_backup((array)$data);
+        $DB->set_field('videotrack', 'microsoftreference', $value, ['id' => $this->get_new_parentid('videotrack')]);
     }
 
     /**

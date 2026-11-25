@@ -42,6 +42,10 @@ class provider implements
      * @return collection Updated metadata collection.
      */
     public static function get_metadata(collection $collection): collection {
+        $collection->add_database_table('videotrack', [
+            'microsoftreference' => 'privacy:metadata:videotrack:microsoftreference',
+        ], 'privacy:metadata:videotrack');
+
         $collection->add_database_table('videotrack_seg', [
             'videotrackid' => 'privacy:metadata:common:videotrackid',
             'courseid' => 'privacy:metadata:common:courseid',

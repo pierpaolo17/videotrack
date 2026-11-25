@@ -90,3 +90,5 @@ poi Zoom, Google Drive e App. Il dataset demo riprende separatamente su5.3; acce
 - [Ricerca driveItem Graphv1, permessi, ambiti e continuazione](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0)
 - [Escaping stringhe OData e codifica URL Graph](https://learn.microsoft.com/en-us/graph/query-parameters)
 - [Confine anteprima privata esistente](37_MICROSOFT_PRIVATE_PREVIEW.md)
+
+[Riferimenti Microsoft facoltativi e backup portabile](41_MICROSOFT_ACTIVITY_REFERENCES.md).

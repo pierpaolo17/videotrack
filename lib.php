@@ -87,6 +87,7 @@ function videotrack_whitelist_record(stdClass $data): stdClass {
 function videotrack_add_instance($data, $mform = null) {
     global $DB;
     \mod_videotrack\local\instance_settings_policy::enforce($data);
+    \mod_videotrack\local\microsoft_activity_reference::process_form_fields($data);
     $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
     if ($data->durationseconds <= 0.0) {
         // A zero verified duration means that watched percentage is intentionally unused.
@@ -141,6 +142,7 @@ function videotrack_update_instance($data, $mform = null) {
     global $DB;
     $previous = $DB->get_record('videotrack', ['id' => $data->instance], '*', MUST_EXIST);
     \mod_videotrack\local\instance_settings_policy::enforce($data, $previous);
+    \mod_videotrack\local\microsoft_activity_reference::process_form_fields($data, $previous);
     $previouscompletionsignature = completion_config::signature($previous);
     $data->id          = $data->instance;
     $data->timemodified = time();

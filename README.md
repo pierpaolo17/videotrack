@@ -6,7 +6,7 @@ VideoTrack is a Moodle activity module for HTML5/uploaded, YouTube and Vimeo vid
 server-validated watched progress, study interactions, custom completion, gradebook integration and
 privacy-aware reporting.
 
-Current release documented by this tree: **1.7.270**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.7.271**. Supported Moodle branches: **5.0–5.3**.
 
 - Italian overview: [`README_IT.md`](README_IT.md)
 - Complete English guide: [`docs/en/funzionalita.md`](docs/en/funzionalita.md)
@@ -14,6 +14,10 @@ Current release documented by this tree: **1.7.270**. Supported Moodle branches:
 - Privacy summary: [`PRIVACY.md`](PRIVACY.md)
 - Database/ER reference: [`docs/VIDEOTRACK_DB_ER_SCHEMA.md`](docs/VIDEOTRACK_DB_ER_SCHEMA.md)
 - Release history: [`CHANGELOG.md`](CHANGELOG.md)
+
+Optional Microsoft resource references can now be prepared in activity settings and
+carried through course backup without local OAuth bindings. Microsoft tracked playback
+awaits live HTTPS/account validation. See the [reference guide](docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md).
 
 ## Feature map
 

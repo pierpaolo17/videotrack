@@ -1,5 +1,51 @@
 # VideoTrack changelog
 
+## 1.7.271 - 2026-11-24
+
+### Prepare stable Microsoft activity identities and portable backup
+
+- Add optional validated activity metadata, separate from the active video. Require
+  course activity-management permission for changes and an enabled selected local
+  Microsoft service for new bindings. Preserve sparse/unchanged edits and permit
+  authorised clearing of obsolete references. No Graph call or token acquisition.
+- Add one nullable TEXT field with an idempotent additive upgrade. Retain seven
+  tables, now 152 fields, 22 explicit indexes, 22 foreign keys and nine AJAX methods.
+  Preserve tracking hotfix/recovery and all existing learner data; no recalculation.
+- Backup only version/provider/drive/item ids, regardless of user-data inclusion.
+  Exclude the local issuer and raw JSON. Restore validates a separate portable child,
+  ignores raw parent bindings and always requires deliberate destination association.
+  No credentials, preview URLs or access grants are imported.
+- Add 20 unit methods, including four real course backup/restore tests, and two local
+  browser scenarios. Retain all 620 prior methods and 78 scenarios. Add eight strings
+  per language, activity Privacy metadata, paired guides/inventories and schema diagrams.
+- Accepted270 matches the actual uploaded ZIP (SHA256
+  3927f8ec40f199f52fe5d5f92d490f648244cdbcb59fea17569bc06e1711aa2d),
+  main63325ff0923543bda9ae3548a2f713cb80bae4b9/tree61bc6635. Corrected candidate
+  45392734528 and main45424709649 each pass six jobs: Unit620/6483, Behat78/1458
+  without retry, strict10/0/0, native Grunt and both historical lifecycle matrices.
+  Server report20261124_173403 passes canon/lint203shared, Unit620/6483 and unchanged
+  native Grunt on both50/53; both maintainer strict outputs pass10/0/0.
+- Counts: 516 repository/490 distributed files, 206 distributed PHP,
+  1582 named PHP callables, 660 named AMD, 640 unit methods,
+  80 expanded browser scenarios/1484 steps, 8x1076 keys, 48 AMD sets.
+  Native271 CI/server and live HTTPS/Microsoft acceptance are pending at delivery.
+  Microsoft remains unavailable as a tracked source; demo data stays untouched.
+
+### Initial271 CI correction
+
+- Run45485426732 on9a08e411/tree751c6824 executes640unit methods/6610assertions
+  with one existing documentation-marker failure on all six matrices. All20new
+  functional methods pass. Restore the literal VideoTrack prefix in both audit
+  headers; retain every test and assertion. Fix15reported PHPCS spacing findings
+  in the two new test files with byte-identical executable token streams.
+- All six matrices pass Behat80/1484without retries, strict10/0/0, native Grunt and
+  existing tracking JS regressions. Six embedded/native-wrapper pairs verify the
+  exact48source/96build/map bytes and source commit. Runtime/AMD/schema unchanged.
+  PHPStan clean; Psalm one guard finding plus763/791info and PHPMD40advisories remain.
+- Historical lifecycle steps are skipped after the failed gates. Corrected-candidate
+  complete CI/lifecycle and main/server checks are still required. Keep the separate
+  YouTube report-replay source fix for the next release; do not bundle it here.
+
 ## 1.7.270 - 2026-11-24
 
 ### Resume personal Microsoft video discovery on the accepted tracking hotfix

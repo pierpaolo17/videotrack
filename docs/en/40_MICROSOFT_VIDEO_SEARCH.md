@@ -89,3 +89,5 @@ remain gates. Microsoft first, then Zoom, Google Drive and App. The demo dataset
 - [Graphv1 driveItem search, permissions, scopes and continuation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0)
 - [Graph OData string escaping and URL encoding](https://learn.microsoft.com/en-us/graph/query-parameters)
 - [Existing private preview boundary](37_MICROSOFT_PRIVATE_PREVIEW.md)
+
+[Optional Microsoft activity references and portable backup](41_MICROSOFT_ACTIVITY_REFERENCES.md).

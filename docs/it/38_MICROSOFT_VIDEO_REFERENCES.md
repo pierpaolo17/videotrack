@@ -113,3 +113,5 @@ manuale5.3 **STANDBY**.
 - [Riuso OAuth core e diagnostica personale](33_MICROSOFT_USER_ACCESS.md)
 
 La [ricerca personale](40_MICROSOFT_VIDEO_SEARCH.md) trova identità provvisorie per la diagnostica esistente.
+
+[Riferimenti Microsoft facoltativi e backup portabile](41_MICROSOFT_ACTIVITY_REFERENCES.md).

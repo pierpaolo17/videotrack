@@ -36,6 +36,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         $retentioncutoff = \mod_videotrack\local\privacy_manager::retention_cutoff_timestamp();
 
         $videotrack = $this->create_activity_element();
+        $this->add_microsoft_reference($videotrack);
         [$reactions, $reaction] = $this->create_reaction_elements();
         $userelements = $this->create_user_elements();
 
@@ -80,6 +81,24 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'grade', 'gradepass', 'showgradeto',
             'timemodified', 'timecreated',
         ]);
+    }
+
+    /**
+     * Export only portable target ids, independently of the user-data setting.
+     *
+     * @param backup_nested_element $videotrack Activity root.
+     */
+    private function add_microsoft_reference(backup_nested_element $videotrack): void {
+        global $DB;
+
+        $value = $DB->get_field('videotrack', 'microsoftreference', ['id' => $this->task->get_activityid()], MUST_EXIST);
+        $identity = \mod_videotrack\local\microsoft_activity_reference::to_backup($value);
+        if (!$identity) {
+            return;
+        }
+        $reference = new backup_nested_element('microsoft_identity', [], ['version', 'provider', 'driveid', 'itemid']);
+        $reference->set_source_array([(object)$identity]);
+        $videotrack->add_child($reference);
     }
 
     /**

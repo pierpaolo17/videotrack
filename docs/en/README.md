@@ -1,7 +1,7 @@
 # VideoTrack documentation
 
 This directory contains the current English user, administrator and developer documentation for
-VideoTrack 1.7.270. Start with [`00_INDEX.md`](00_INDEX.md).
+VideoTrack 1.7.271. Start with [`00_INDEX.md`](00_INDEX.md).
 
 The documentation is deliberately version-local: it explains the code shipped in this release and
 does not embed the evolution of older releases. Use the root `CHANGELOG.md` for a concise release
@@ -16,3 +16,5 @@ Maintainers configuring or reading repository automation should use
 The maintainability exit decision and debt register are in [`25_MAINTAINABILITY_EXIT.md`](25_MAINTAINABILITY_EXIT.md).
 
 - [Security review corrections](29_SECURITY_REVIEW.md)
+
+- [Optional Microsoft activity references and portable backup](41_MICROSOFT_ACTIVITY_REFERENCES.md).
