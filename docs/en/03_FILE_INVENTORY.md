@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.271 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.272 repository tree. It lists
 sources, assets, tests and selected release guides, including six repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **424** — 418 distributed files and six repository-only files. The complete
-tree has 516 repository files / 490 distributed files, including all documentation.
+Entries: **427** — 421 distributed files and six repository-only files. The complete
+tree has 519 repository files / 493 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -288,6 +288,7 @@ tree has 516 repository files / 490 distributed files, including all documentati
 | `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
 | `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
+| `docs/en/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -301,6 +302,7 @@ tree has 516 repository files / 490 distributed files, including all documentati
 | `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Explicit historical tracking repair and its data-preservation contract. |
 | `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
+| `docs/it/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -366,6 +368,7 @@ tree has 516 repository files / 490 distributed files, including all documentati
 | `tests/behat/video_source_policy.feature` | Browser scenarios for default choices, disabled edit values, blocked playback and all-off editing. |
 | `tests/behat/vimeo_provider_contract.feature` | Public-network-independent browser contract for the unchanged production Vimeo adapter. |
 | `tests/behat/youtube_provider_contract.feature` | Public-network-independent browser contract for the unchanged production YouTube adapter. |
+| `tests/behat/youtube_report_replay.feature` | Report replay ordering regression or its technical guide. |
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |

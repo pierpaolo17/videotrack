@@ -46,7 +46,7 @@ function harness() {
     const noop = () => {};
     const log = {debug: noop, log: noop};
     const core = {parseIntervals: v => JSON.parse(v), updateIntervalBar: noop,
-        configureStatus: noop, setButtons: noop};
+        configureStatus: noop, setButtons: noop, showBlockedForwardSeekNotice: noop};
     const stubs = {
         'core/log': log,
         'mod_videotrack/core/debug': log,
@@ -78,6 +78,7 @@ function harness() {
                 testSetup: function(c, p) { config = c; player = p; },
                 testState: state, testStart: startCurrentSegment,
                 testEvent: onPlayerStateChange, testLifecycle: installGlobalListeners,
+                testReplay: replayFragment,
                 init: function (`);
         }
         context.define = (...args) => {
@@ -235,9 +236,116 @@ async function youtubeHeartbeat() {
         if (i) assert.strictEqual(s.videotimestart, segments[i - 1].videotimeend, 'coverage stays contiguous');
     });
 }
+async function programmaticSeekStateEvents() {
+    for (const event of ['playing', 'paused', 'ended', 'destroyed']) {
+        const h = harness();
+        const tracker = h.load('mod_videotrack/core/tracker');
+        const state = {playing: event !== 'playing'};
+        tracker.markProgrammaticSeek(state);
+        tracker.setTrackerState(state, event, {reason: 'later-provider-event'});
+        const token = tracker.getTransitionToken(state);
+        assert.strictEqual(tracker.consumeProgrammaticSeek(state, 25), true);
+        assert.strictEqual(tracker.getTrackerState(state), event, 'seek completion cannot replace a later ' + event + ' event');
+        assert.strictEqual(tracker.getTransitionToken(state), token, 'consumption cannot add a stale state transition');
+        assert.strictEqual(state.playing, event === 'playing');
+        assert.strictEqual(state.isSeeking, false);
+        assert.strictEqual(state.lasttime, 25);
+        assert.strictEqual(tracker.consumeProgrammaticSeek(state, 26), false, 'a seek is consumed once');
+    }
+    for (const playing of [false, true]) {
+        const h = harness();
+        const tracker = h.load('mod_videotrack/core/tracker');
+        const state = {playing};
+        tracker.markProgrammaticSeek(state);
+        assert.strictEqual(tracker.consumeProgrammaticSeek(state, 25), true);
+        assert.strictEqual(state.playing, playing, 'pending seeks retain the previous fallback without a newer provider event');
+        assert.strictEqual(state.isSeeking, false);
+    }
+}
+async function youtubeReportReplay() {
+    for (const tracking of [false, true]) {
+        for (const penalty of [50, 75, 100]) {
+            const h = harness();
+            const provider = h.load('mod_videotrack/player');
+            let current = 100;
+            let rate = 1;
+            const seeks = [], rates = [];
+            const fake = {getCurrentTime: () => current, getDuration: () => 1172,
+                getPlaybackRate: () => rate, getPlayerState: () => 1,
+                seekTo: target => {seeks.push(target); current = target;},
+                setPlaybackRate: value => {rates.push(value); rate = value;},
+                playVideo: () => provider.testEvent({data: 1}), pauseVideo: () => provider.testEvent({data: 2})};
+            provider.testSetup({cmid: 47, duration: 1172, trackingenabled: tracking,
+                allowseekforward: false, blockedseekplaybackrate: penalty, intervaljson: '[]'}, fake);
+            provider.testState.sessionid = 'report-replay-fixture';
+            provider.testReplay(100, 160, true);
+            await pause();
+            assert.strictEqual(provider.testState.playing, true);
+            const poll = h.timers.get(provider.testState.heartbeatid);
+            for (let second = 1; second <= 35; second++) {
+                current = 100 + second;
+                h.time(100000 + second * 1000);
+                poll();
+                await pause();
+                assert.strictEqual(provider.testState.playing, true, 'polling must preserve the later PLAYING event');
+            }
+            provider.testEvent({data: 2});
+            await provider.testState._segmentSaveQueue;
+            assert.deepStrictEqual(seeks, [100], 'normal fragment playback cannot bounce back to its opening seconds');
+            assert.deepStrictEqual(rates, [], 'the blocked-seek rate is irrelevant without a forbidden seek');
+            assert.strictEqual(rate, 1);
+            assert.strictEqual(provider.testState.playing, false, 'a real pause must remain effective');
+            if (tracking) {
+                const segments = h.requests.filter(x => x.method === 'mod_videotrack_save_segment').map(x => x.args);
+                assert.ok(segments.length >= 2, 'learner replay still sends heartbeats and a final pause');
+                assert.strictEqual(segments[0].videotimestart, 100);
+                assert.strictEqual(segments.at(-1).videotimeend, 135);
+                segments.forEach((segment, index) => {
+                    if (index) assert.strictEqual(segment.videotimestart, segments[index - 1].videotimeend);
+                });
+            } else {
+                assert.deepStrictEqual(h.requests, [], 'staff replay creates no learner telemetry');
+            }
+        }
+    }
+}
+async function youtubeForbiddenSeekAfterReplay() {
+    const h = harness();
+    const provider = h.load('mod_videotrack/player');
+    let current = 100, rate = 1;
+    const seeks = [], rates = [];
+    const fake = {getCurrentTime: () => current, getDuration: () => 1172,
+        getPlaybackRate: () => rate, getPlayerState: () => 1,
+        seekTo: target => {seeks.push(target); current = target;},
+        setPlaybackRate: value => {rates.push(value); rate = value;},
+        playVideo: () => provider.testEvent({data: 1})};
+    provider.testSetup({cmid: 47, duration: 1172, trackingenabled: true,
+        allowseekforward: false, blockedseekplaybackrate: 50, intervaljson: '[]'}, fake);
+    provider.testState.sessionid = 'forbidden-seek-fixture';
+    provider.testReplay(100, 160, true);
+    await pause();
+    const poll = h.timers.get(provider.testState.heartbeatid);
+    for (let second = 1; second <= 5; second++) {
+        current = 100 + second;
+        h.time(100000 + second * 1000);
+        poll();
+        await pause();
+    }
+    assert.deepStrictEqual(rates, []);
+    current = 500;
+    h.time(106000);
+    poll();
+    await provider.testState._segmentSaveQueue;
+    assert.deepStrictEqual(seeks, [100, 105], 'an actual forbidden jump still returns to the trusted frontier');
+    assert.ok(rates.length > 0 && rates.every(value => value === 0.5), 'genuine violations still apply the configured recovery');
+    const segments = h.requests.filter(x => x.method === 'mod_videotrack_save_segment').map(x => x.args);
+    assert.ok(segments.length > 0);
+    segments.forEach(segment => assert.ok(segment.videotimeend <= 105, 'the skipped gap is never credited'));
+}
 (async () => {
     for (const test of [boundaryRace, rejectionAndNewSegment, tabPauseAndScroll, randomPause,
-        durationAndStaleResponses, youtubeHeartbeat]) {
+        durationAndStaleResponses, youtubeHeartbeat, programmaticSeekStateEvents,
+        youtubeReportReplay, youtubeForbiddenSeekAfterReplay]) {
         if (process.env.VT_TRACKING_TEST && process.env.VT_TRACKING_TEST !== test.name) continue;
         await test();
         console.log('PASS ' + test.name + (built ? ' (build)' : ' (source)'));

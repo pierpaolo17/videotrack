@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.271. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.272. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi sei file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **424** — 418 file distribuiti e sei solo repository. L'albero completo ha
-516 file repository / 490 distribuiti, includendo tutta la documentazione.
+Voci: **427** — 421 file distribuiti e sei solo repository. L'albero completo ha
+519 file repository / 493 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -288,6 +288,7 @@ Voci: **424** — 418 file distribuiti e sei solo repository. L'albero completo 
 | `docs/en/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
+| `docs/en/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -301,6 +302,7 @@ Voci: **424** — 418 file distribuiti e sei solo repository. L'albero completo 
 | `docs/it/39_TRACKING_RECOVERY_HOTFIX.md` | Recupero storico esplicito e relativo contratto di conservazione dati. |
 | `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
+| `docs/it/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -366,6 +368,7 @@ Voci: **424** — 418 file distribuiti e sei solo repository. L'albero completo 
 | `tests/behat/video_source_policy.feature` | Scenari browser per scelte predefinite, sorgenti disabilitate in modifica, riproduzione bloccata e tutte le sorgenti disabilitate. |
 | `tests/behat/vimeo_provider_contract.feature` | Contratto browser senza rete pubblica per l’adapter Vimeo di produzione invariato. |
 | `tests/behat/youtube_provider_contract.feature` | Contratto browser senza rete pubblica per l’adapter YouTube di produzione invariato. |
+| `tests/behat/youtube_report_replay.feature` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `tests/cli_contract_test.php` | Contratti statici che mantengono i CLI distribuiti in sola lettura, documentati e legati ai percorsi Analytics reali. |
 | `tests/completion_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |

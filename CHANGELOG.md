@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.272 - 2026-11-25
+
+### Preserve newer provider state when a report replay seek completes
+
+- Reproduce the YouTube 270 race on source and native compiled modules: a late
+  programmatic-seek completion restores a pre-autoplay pause after PLAYING. Normal
+  playback is then treated as a forbidden forward seek, causing rewind and recovery speed.
+- Restore the captured seek fallback only while the tracker is still seeking.
+  Preserve newer play/pause/end/destroy events, normal replay speed, real pauses and
+  the existing forbidden-seek/credit rules. Shared helper only; no role bypass.
+- Add three Node groups, retaining the existing six: staff/learner replay at all
+  configured recovery rates, provider-state ordering and a genuinely blocked jump.
+  Add two Behat scenarios clicking the report link after browser-earned reactions.
+  Retain all 640 unit methods and 80 prior scenarios. Schema, privacy, credentials unchanged.
+- Accept the actual 271 ZIP SHA256
+  3bb6462e50fcfb4d59b0947322ab64a405b26c6b778f1bd8124111585b51f3f2,
+  main 99d4195f/tree ee7f092e; 490 distributed files match. Candidate 45497048064 attempt 2
+  and main 45578816355 attempt 1 pass all six jobs, Unit 640/6618, Behat 80/1484, strict 10/0/0,
+  native Grunt and both lifecycle matrices with six reconstructed preservation hashes.
+  Server 20261125_105411 passes eight outcomes: canon/lint 207 shared, both 640/6618 Unit,
+  unchanged native Grunt hashes on 50/53; user strict 10/0/0 on both sites.
+- Counts:519 repository/493 distributed files, 206 distributed PHP, 1582 named PHP, 660 named AMD,
+  640 unit methods, 82 expanded Behat scenarios/1541 steps, 8 x 1076 language keys, 48 AMD sets.
+  Include verified maintainer native Grunt outputs; archive SHA256
+  a6ce3d08275774f01fb2cd4b350c2f07c405f0336533f445705f894ff3175eb2.
+  All 48 source/96 build hashes, maps and 18 source/compiled Node group results match.
+  Only the helper and its two native outputs change; originals are restored by the
+  runner. The failed Node 26 attempt is resolved by selecting supported Node 22.
+  Native 272 CI/server and real provider acceptance remain pending. No data rewrite
+  or completion recalculation is introduced. Keep Microsoft HTTPS/account gates open.
+
 ## 1.7.271 - 2026-11-24
 
 ### Prepare stable Microsoft activity identities and portable backup
