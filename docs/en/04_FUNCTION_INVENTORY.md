@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.271 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.272 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 1582 (1575 distributed and 7 repository-only CI helpers). **Named AMD callables:** 660.
 
@@ -317,10 +317,10 @@ Generated from the VideoTrack 1.7.271 source tree. PHP entries include named fun
 | `amd/src/core/tracker/time.js:49` | `resolveCurrentTime` | Named callable `resolveCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/time.js:68` | `markProgrammaticSeek` | Named callable `markProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/time.js:83` | `consumeProgrammaticSeek` | Named callable `consumeProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/time.js:109` | `resolveSeek` | Named callable `resolveSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/time.js:147` | `blockSeek` | Named callable `blockSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/time.js:176` | `clearSeekBlock` | Named callable `clearSeekBlock` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/time.js:202` | `shouldStopReplay` | Named callable `shouldStopReplay` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/time.js:113` | `resolveSeek` | Named callable `resolveSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/time.js:151` | `blockSeek` | Named callable `blockSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/time.js:180` | `clearSeekBlock` | Named callable `clearSeekBlock` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/time.js:206` | `shouldStopReplay` | Named callable `shouldStopReplay` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/ui.js:22` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/ui.js:45` | `isSafeIconSrc` | Named callable `isSafeIconSrc` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/ui.js:80` | `isSafeIconClass` | Named callable `isSafeIconClass` in the module; see its JSDoc and callers for parameter and side-effect details. |

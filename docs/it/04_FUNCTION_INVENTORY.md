@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.271. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.272. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 1582 (1575 distribuite e 7 helper CI solo repository). **Callable AMD nominati:** 660.
 
@@ -317,10 +317,10 @@ Generato dall’albero sorgente VideoTrack 1.7.271. Le voci PHP includono funzio
 | `amd/src/core/tracker/time.js:49` | `resolveCurrentTime` | Callable `resolveCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/tracker/time.js:68` | `markProgrammaticSeek` | Callable `markProgrammaticSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/tracker/time.js:83` | `consumeProgrammaticSeek` | Callable `consumeProgrammaticSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/tracker/time.js:109` | `resolveSeek` | Callable `resolveSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/tracker/time.js:147` | `blockSeek` | Callable `blockSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/tracker/time.js:176` | `clearSeekBlock` | Callable `clearSeekBlock` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/tracker/time.js:202` | `shouldStopReplay` | Callable `shouldStopReplay` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/tracker/time.js:113` | `resolveSeek` | Callable `resolveSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/tracker/time.js:151` | `blockSeek` | Callable `blockSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/tracker/time.js:180` | `clearSeekBlock` | Callable `clearSeekBlock` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/tracker/time.js:206` | `shouldStopReplay` | Callable `shouldStopReplay` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/ui.js:22` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/ui.js:45` | `isSafeIconSrc` | Callable `isSafeIconSrc` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/ui.js:80` | `isSafeIconClass` | Callable `isSafeIconClass` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |

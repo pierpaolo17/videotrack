@@ -88,10 +88,14 @@ define([
         if (typeof currentTime !== 'undefined') {
             syncTime(state, currentTime);
         }
-        if (state.wasPlayingBeforeProgrammaticSeek) {
-            markPlaying(state, {reason: 'programmatic-seek-complete'});
-        } else {
-            markPaused(state, {reason: 'programmatic-seek-complete'});
+        // A newer provider play/pause/end event already settled the seek state.
+        // Only restore the captured state while this transition is still pending.
+        if (state.isSeeking) {
+            if (state.wasPlayingBeforeProgrammaticSeek) {
+                markPlaying(state, {reason: 'programmatic-seek-complete'});
+            } else {
+                markPaused(state, {reason: 'programmatic-seek-complete'});
+            }
         }
         delete state.wasPlayingBeforeProgrammaticSeek;
         return true;
