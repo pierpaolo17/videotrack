@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
 Questo inventario è generato sull'albero repository VideoTrack 1.7.273. Elenca
-sorgenti, asset, test e guide di release selezionate, inclusi sette file CI/tooling
+sorgenti, asset, test e guide di release selezionate, inclusi nove file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **431** — 424 file distribuiti e sette solo repository. L'albero completo ha
-523 file repository / 496 distribuiti, includendo tutta la documentazione.
+Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo ha
+525 file repository / 496 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -13,6 +13,8 @@ Voci: **431** — 424 file distribuiti e sette solo repository. L'albero complet
 | `.github/capture_native_amd.py` | Raccolta CI dell’output Grunt Moodle nativo, con controlli su sorgenti/commit e mappe. |
 | `.github/lifecycle/run.sh` | Runner solo repository: installazioni storiche reali, upgrade/ripetizione e uninstall popolato sul sito CI temporaneo. |
 | `.github/lifecycle/site.php` | Fixture protetta, asserzioni di conservazione e controlli dei residui operativi dopo uninstall, solo repository. |
+| `.github/run_behat.py` | Gestione PHP/Selenium solo CI con log conservati; mantiene il gate Behat e rileva arresti inattesi. |
+| `.github/tests/test_run_behat.py` | Nove prove con processi fittizi per esiti CI, avvio, interruzione, arresto e pulizia. |
 | `.github/static-analysis/composer.json` | Ambiente strumenti PHPStan/Psalm versionato e riservato alla CI del repository. |
 | `.github/workflows/ci.yml` | Matrice GitHub Actions del repository, esclusa dagli archivi Moodle tramite `export-ignore`. |
 | `.gitignore` | Impedisce il commit degli artifact CI e dei report server generati; è escluso dagli archivi di release. |
