@@ -3,6 +3,29 @@
 ## 1.7.273 - 2026-11-25
 
 
+### CI server diagnostics — 2026-11-26
+
+- Verify main merge 65dd8183/tree9a528128 matches the corrected candidate exactly.
+  Main run 45812588108 attempt1 passes four jobs; 51/53 MariaDB lose HTTP service
+  during Behat and automatic retries cannot connect. Attempt2 passes 51 MariaDB
+  (82/1541); 53 MariaDB loses HTTP again at a different scenario (58/82 before the
+  cascade). PHPUnit 645/6663, JS38, strict10/0/0 and native assets pass in both new
+  reports. 53 MariaDB populated lifecycle remains skipped; no release acceptance.
+- moodle-plugin-ci4.5.13 disables the PHP server's output. Run the same Behat command,
+  Chrome profile, SCSS checks, tags and automatic retry policy with CI-owned PHP and
+  Selenium processes. Retain PHP output, Selenium tail and timestamped process exit
+  status before intentional cleanup. Fail immediately when PHP exits unexpectedly,
+  including exit0; do not restart it or weaken any functional assertion.
+- Add nine local process-fixture checks: gate success/failure, classic/public layouts,
+  startup failure, signalled and zero exits, interruption cleanup, occupied listeners
+  and refusal outside Actions. These are Python fixture tests, not native PHP/Docker
+  acceptance. The native CI rerun must establish the actual server exit cause.
+- CI and documentation only; no PHP/AMD/language/schema/version changes. Both new
+  Python files are export-ignored. Counts:525 repository/496 distributed files;
+  all existing PHP/AMD, language, unit and Behat counts remain unchanged.
+
+
+
 ### Candidate correction — 2026-11-26
 
 - Correct nine PHPCS formatting errors in the duration test, preserving every

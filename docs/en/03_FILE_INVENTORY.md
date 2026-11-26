@@ -1,11 +1,11 @@
 # Distributed file inventory
 
 This inventory is generated against the VideoTrack 1.7.273 repository tree. It lists
-sources, assets, tests and selected release guides, including seven repository-only
+sources, assets, tests and selected release guides, including nine repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **431** — 424 distributed files and seven repository-only files. The complete
-tree has 523 repository files / 496 distributed files, including all documentation.
+Entries: **433** — 424 distributed files and nine repository-only files. The complete
+tree has 525 repository files / 496 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -13,6 +13,8 @@ tree has 523 repository files / 496 distributed files, including all documentati
 | `.github/capture_native_amd.py` | CI-only native Moodle Grunt output capture, guarded source/commit provenance and maps. |
 | `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
 | `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
+| `.github/run_behat.py` | CI-only observable PHP/Selenium owner; preserves the Behat gate and fails on unexpected server exits. |
+| `.github/tests/test_run_behat.py` | Nine process-fixture checks for CI gate status, startup, interruption, server exit and cleanup. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
 | `.gitignore` | Keeps generated CI and server-test evidence out of repository commits; excluded from release archives. |

@@ -387,12 +387,19 @@ jobs:
           set -o pipefail
           moodle-plugin-ci phpunit --fail-on-warning 2>&1 | tee ci-reports/phpunit.txt
 
+      - name: CI server runner failure regressions
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          python3 -B -m unittest discover -s "$GITHUB_WORKSPACE/plugin/.github/tests" -v \
+            2>&1 | tee ci-reports/behat-runner-tests.txt
+
       - name: Behat features
         id: behat
         if: ${{ !cancelled() }}
         run: |
           set -o pipefail
-          moodle-plugin-ci behat --profile chrome --scss-deprecations 2>&1 | tee ci-reports/behat.txt
+          python3 "$GITHUB_WORKSPACE/plugin/.github/run_behat.py" 2>&1 | tee ci-reports/behat.txt
 
       - name: Record Behat completion state
         if: ${{ !cancelled() && (steps.behat.outcome == 'success' || steps.behat.outcome == 'failure') }}
@@ -403,7 +410,7 @@ jobs:
             printf 'phase=after_moodle_plugin_ci_behat\n'
             printf 'behat_step_outcome=%s\n' "$BEHAT_STEP_OUTCOME"
             date -u '+utc=%Y-%m-%dT%H:%M:%SZ'
-            printf 'Servers may already be stopped by moodle-plugin-ci; this is not an in-test health check.\n'
+            printf 'Post-cleanup snapshot; in-test server status is in behat-server-state.json.\n'
             printf '\nMemory (MiB)\n'
             if ! free -m; then
               printf 'Memory snapshot unavailable.\n'
