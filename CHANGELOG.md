@@ -1,5 +1,67 @@
 # VideoTrack changelog
 
+## 1.7.274 - 2026-11-26
+
+### Correct the initial candidate's native CI findings
+
+- Review run 45866268225 on commit 1773d14b/tree a69be2cd: all six matrices
+  pass Behat 84/1571 on the first pass, JavaScript 38+harness, strict 10/0/0
+  and native Grunt. Every 48-source/96-build hash matches both uploaded artifact
+  families and the candidate. Both populated lifecycle jobs remain skipped.
+- Correct 12 Code Checker formatting errors in the two new test files. Make
+  the POST fixture use a raw ampersand separator, independently of HTML URL
+  configuration on Moodle 5.0/5.1. Explicitly overwrite its existing denied
+  capability in the full-profile fixture and assert the effective course scope.
+  The original suite runs all 656 tests: two failures on 50/51, one on 52/53;
+  these fixture failures are not reported as runtime playback regressions.
+- Load Moodle's real custom-profile API in the shared static-analysis bootstrap
+  so PHPStan/Psalm can discover its function and constant. Add no suppression
+  or synthetic definition. Qualify the global function/constant explicitly.
+- Cast both sides of the hidden-field visibility comparison: Moodle defines
+  PROFILE_VISIBLE_NONE as a string. Extend the scoped-permission test with
+  private and fully hidden fields; a course-only override must not expose the
+  latter. Preserve the documented system permission requirement.
+- Keep 274/2026112600, schema, counts, all AMD outputs, ordinary recalculation,
+  accepted recovery rows and all previous browser assertions. Corrected native
+  PHP/PHPCS/PHPUnit/static-analysis, CI and populated lifecycle gates are pending.
+
+
+### Preserve copied settings, clarify CSV permissions and retire temporary recovery
+
+- Resolve the optional Forum reference after all activity mappings exist. Same-site,
+  same-course duplication keeps the compatible existing destination; full course
+  restore can resolve a later Forum. Omitted or incompatible foreign-course targets
+  stay disabled with a warning. No raw source id is temporarily activated.
+- Use PHP-safe fractional playback checkbox names throughout the form and defaults,
+  with compatible internal dotted aliases. Preserve stored speed/control scalars
+  when a caller supplies a stored record rather than checkbox aliases.
+  Unchanged inherited playback/control choices retain site inheritance.
+- Preserve disabled CSV preferences and explicit none/inheritance across unrelated
+  saves. Apply read permissions at export. Administrators can access supported
+  fields outside Moodle's identity display list; authorised profile/email access
+  and custom visibility follow Moodle rules. Show a specific unavailability reason.
+  No global identity configuration or role capability is changed.
+- Remove the temporary historical-recovery checkbox and its browser request path.
+  Retain ordinary completion recalculation, accepted recovery269 rows and the
+  internal compatibility engine. Installation does not rewrite or recalculate data.
+- Add 11 PHPUnit methods for actual duplication/course/partial restore, PHP POST
+  parsing, CSV output, scoped permissions and preferences. Extend the recovery test
+  to check ordinary recalculation preserves accepted rows. Add 2 real browser
+  scenarios for duplication plus an unrelated save and the ordinary recalculation UI.
+- Accept the actual 273 ZIP SHA256
+  1f9f7fd2deeb01a7d374448e7fa80aabd33572229c9bee0cdb4c3d8e4327797f,
+  commit e3097257/tree e413a886:496 files match the approved Git export. Candidate
+  and main have six successful jobs, all Behat 82/1541 first pass and both populated
+  lifecycle matrices. Server report SHA256
+  126163137969f410ba105dc1e1348d0a42d3a27ede7a70bfc836458aef9262c0
+  passes canon/lint208 shared PHP, both Unit 645/6663 and unchanged native AMD hashes;
+  strict 10/0/0 on 50/53 and maintainer manual duration/banner acceptance complete 273.
+- Counts: 530 repository/501 distributed files, 209 distributed PHP, 1617 named PHP,
+  668 named AMD, 656 unit methods, 84 Behat scenarios/1571 steps, 8x1080 language keys,
+  48 unchanged AMD sets. Schema 7 tables/152 fields/22 indexes/22 foreign keys and
+  9 AJAX methods are unchanged. Native 274 PHP/CI/lifecycle/server/manual gates are
+  pending. Copies that already lost settings require manual correction.
+
 ## 1.7.273 - 2026-11-25
 
 

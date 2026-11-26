@@ -54,7 +54,6 @@ $analyticsshowreactions = optional_param('analyticsshowreactions', 1, PARAM_BOOL
 $analyticsformat = optional_param('analyticsformat', '', PARAM_ALPHA);
 $analyticsallcourses = optional_param('analyticsallcourses', 0, PARAM_BOOL);
 $recalculateuserid = optional_param('recalculateuserid', 0, PARAM_INT);
-$recoverplayback = optional_param('recoverplayback', 0, PARAM_BOOL);
 $action = optional_param('action', '', PARAM_ALPHA);
 $resetaction = optional_param('resetaction', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
@@ -1923,10 +1922,10 @@ if ($action === 'recalculate') {
     $updated = 0;
     $cminfo = cm_info::create($cm);
     if ($recalculateuserid > 0) {
-        $updated = videotrack_recalculate_all_states($videotrack->id, $cminfo, $recalculateuserid, true, (bool)$recoverplayback);
+        $updated = videotrack_recalculate_all_states($videotrack->id, $cminfo, $recalculateuserid);
     } else {
         foreach ($alluserids as $learnerid) {
-            $updated += videotrack_recalculate_all_states($videotrack->id, $cminfo, (int)$learnerid, true, (bool)$recoverplayback);
+            $updated += videotrack_recalculate_all_states($videotrack->id, $cminfo, (int)$learnerid);
         }
     }
     redirect(
@@ -2126,20 +2125,6 @@ if ($mode === 'recalculate') {
         $recalculateuserid,
         false,
         ['id' => 'id_recalculateuserid', 'class' => 'custom-select']
-    );
-    $recalculateform .= html_writer::end_div();
-    $recalculateform .= html_writer::start_div('form-group');
-    $recalculateform .= html_writer::checkbox(
-        'recoverplayback',
-        1,
-        false,
-        get_string('report:recalculate_recover', 'mod_videotrack'),
-        ['id' => 'id_recoverplayback', 'aria-describedby' => 'id_recoverplayback_help']
-    );
-    $recalculateform .= html_writer::div(
-        get_string('report:recalculate_recover_help', 'mod_videotrack'),
-        'form-text text-muted',
-        ['id' => 'id_recoverplayback_help']
     );
     $recalculateform .= html_writer::end_div();
     $recalculateform .= html_writer::tag(

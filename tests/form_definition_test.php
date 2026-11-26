@@ -410,10 +410,10 @@ final class form_definition_test extends \advanced_testcase {
         $expected = [
             'html5controlsgroup' => ['html5ctrl_play', 'html5ctrl_speed', 'html5ctrl_download'],
             'playbackspeedsgroup' => [
-                'playbackspeed_0.25', 'playbackspeed_1', 'playbackspeed_1.25', 'playbackspeed_2', 'playbackspeed_4',
+                'playbackspeed_0_25', 'playbackspeed_1', 'playbackspeed_1_25', 'playbackspeed_2', 'playbackspeed_4',
             ],
         ];
-        $form->setDefaults(['html5ctrl_download' => 'download', 'playbackspeed_1.25' => '1.25']);
+        $form->setDefaults(['html5ctrl_download' => 'download', 'playbackspeed_1_25' => '1.25']);
         foreach ($expected as $groupname => $names) {
             $group = $form->getElement($groupname);
             $elements = $group->getElements();
@@ -421,7 +421,7 @@ final class form_definition_test extends \advanced_testcase {
             $this->assertSame($names, array_map(static fn($element): string => $element->getName(), $elements));
             foreach ($elements as $element) {
                 $name = $element->getName();
-                $selected = ['html5ctrl_download' => 'download', 'playbackspeed_1.25' => '1.25'];
+                $selected = ['html5ctrl_download' => 'download', 'playbackspeed_1_25' => '1.25'];
                 $this->assertSame((string)($selected[$name] ?? 0), (string)$element->getValue());
                 $this->assertStringContainsString('name="' . $name . '"', $element->toHtml());
             }
@@ -489,7 +489,7 @@ final class form_definition_test extends \advanced_testcase {
             'html5ctrl_mute', 'html5ctrl_volume', 'html5ctrl_speed', 'html5ctrl_fullscreen',
         ], array_map(static fn($element): string => $element->getName(), $controls));
         $this->assertSame([
-            'playbackspeed_0.75', 'playbackspeed_1', 'playbackspeed_1.25', 'playbackspeed_1.5', 'playbackspeed_2',
+            'playbackspeed_0_75', 'playbackspeed_1', 'playbackspeed_1_25', 'playbackspeed_1_5', 'playbackspeed_2',
         ], array_map(static fn($element): string => $element->getName(), $speeds));
 
         set_config('html5controls', 'unsupported', 'mod_videotrack');

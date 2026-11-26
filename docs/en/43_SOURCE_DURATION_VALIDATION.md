@@ -51,9 +51,9 @@ The patch adds no schema migration, rewrites no historical watching evidence and
 does not automatically change existing durations or recalculate all activities.
 For an already incorrect saved duration, edit and correct it and use the existing
 completion recalculation tool as appropriate; retained segments remain available.
-The accepted 272 replay/tracking fix and temporary historical-recovery option remain.
+The accepted replay/tracking fix remains. Release 1.7.274 retires the historical-recovery checkbox while preserving ordinary recalculation and accepted repair rows.
 
-## Evidence and remaining gates
+## Preparation evidence for 1.7.273 (historical)
 
 Ten deterministic Node groups exercise the actual AMD source: pre-existing values,
 fresh unrelated saves, duplicated/new links, all three providers, equality/shorter
@@ -82,3 +82,5 @@ sixty-second SDK double and the real submit handler, without live YouTube reques
 Primary references: [YouTube duration](https://developers.google.com/youtube/iframe_api_reference#getDuration),
 [Vimeo Player SDK](https://github.com/vimeo/player.js/#getduration-promisenumber-error),
 [Moodle Forms API](https://moodledev.io/docs/5.0/apis/subsystems/form).
+
+Release 1.7.273 is accepted: candidate/main CI, actual ZIP, server 50/53 and maintainer manual duration/banner checks passed. Release 1.7.274 keeps this duration policy unchanged. See [copy/CSV maintenance](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).

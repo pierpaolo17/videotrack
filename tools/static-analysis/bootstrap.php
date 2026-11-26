@@ -58,6 +58,7 @@ $legacyfiles = [
     $CFG->libdir . '/adminlib.php',
     $CFG->libdir . '/formslib.php',
     $CFG->dirroot . '/group/lib.php',
+    $CFG->dirroot . '/user/profile/lib.php', // Real legacy function/constant definitions used by CSV visibility checks.
     $CFG->dirroot . '/mod/forum/externallib.php',
     $CFG->dirroot . '/course/moodleform_mod.php',
     $CFG->dirroot . '/backup/util/includes/backup_includes.php',

@@ -143,3 +143,7 @@ while VideoTrack course modules still exist. The positive registered module id s
 identity is a no-op, and foreign modules are untouched. The initial 254 CI demonstrated the orphan-completion
 residue in the full core uninstall on both branches. The failed check stays in place; corrected candidate/main CI passes all three lineages on both jobs.
 Actual254 server acceptance is blocked by helper PHPCS; the second helper/CI correction needs new evidence.
+
+## 1.7.274: copies and optional Forum references
+
+Forum resolution runs in the structure step after_restore hook after all activity mappings exist, including backups without user data. A missing mapping falls back to the existing compatible Forum only when Moodle reports the same site and original/destination course IDs match. Missing, incompatible or foreign-course targets stay disabled with a restore warning. Raw source IDs are never temporarily installed as active links. Native duplicate/course/partial restore regressions are added; execution on274 CI is pending. No schema or data migration runs. Previously misconfigured copies require manual correction from their intended original.

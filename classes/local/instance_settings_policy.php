@@ -188,7 +188,7 @@ final class instance_settings_policy {
             }
         }
         foreach (array_filter(array_map('trim', explode(',', $stored)), 'strlen') as $choice) {
-            $data->{$prefix . $choice} = $choice;
+            $data->{$prefix . str_replace('.', '_', $choice)} = $choice;
         }
     }
 

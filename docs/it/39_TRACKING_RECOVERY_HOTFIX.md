@@ -1,5 +1,8 @@
 # Correzione urgente del tracciamento e recupero storico
 
+> Procedura storica di recupero 269: dalla 1.7.274 la casella nel browser e il relativo parametro di richiesta sono ritirati. Il normale ricalcolo resta disponibile e continua a contare le righe `recovery269` già accettate. Il motore storico resta soltanto come API interna di compatibilità; il ricalcolo ordinario non lo invoca. Nessuna evidenza originale o recuperata viene cancellata.
+
+
 VideoTrack **1.7.269** (`2026112300`), basata sulla **1.7.267** accettata.
 La precedente268 dedicata alla ricerca Microsoft è esclusa e resta in pausa.
 

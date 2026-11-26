@@ -1,7 +1,7 @@
 # Documentazione VideoTrack
 
 Questa directory contiene la documentazione italiana corrente per utenti, amministratori e sviluppatori
-di VideoTrack 1.7.273. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
+di VideoTrack 1.7.274. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
 
 La documentazione è intenzionalmente legata alla versione: spiega il codice distribuito in questa release
 e non incorpora l'evoluzione delle release precedenti. Per una cronologia sintetica usare il `CHANGELOG.md`
@@ -22,3 +22,5 @@ Decisione di uscita e registro del debito di manutenibilità sono in [`25_USCITA
 - [Replay da report ed eventi autorevoli del provider](42_REPORT_REPLAY_STATE.md).
 
 - [Controllo durata a ogni salvataggio](43_SOURCE_DURATION_VALIDATION.md).
+
+- [Copie delle attività, disponibilità CSV e ricalcolo](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).

@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.273. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.274. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi nove file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo ha
-525 file repository / 496 distribuiti, includendo tutta la documentazione.
+Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo ha
+530 file repository / 501 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -14,8 +14,8 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `.github/lifecycle/run.sh` | Runner solo repository: installazioni storiche reali, upgrade/ripetizione e uninstall popolato sul sito CI temporaneo. |
 | `.github/lifecycle/site.php` | Fixture protetta, asserzioni di conservazione e controlli dei residui operativi dopo uninstall, solo repository. |
 | `.github/run_behat.py` | Gestione PHP/Selenium solo CI con log conservati; mantiene il gate Behat e rileva arresti inattesi. |
-| `.github/tests/test_run_behat.py` | Nove prove con processi fittizi per esiti CI, avvio, interruzione, arresto e pulizia. |
 | `.github/static-analysis/composer.json` | Ambiente strumenti PHPStan/Psalm versionato e riservato alla CI del repository. |
+| `.github/tests/test_run_behat.py` | Nove prove con processi fittizi per esiti CI, avvio, interruzione, arresto e pulizia. |
 | `.github/workflows/ci.yml` | Matrice GitHub Actions del repository, esclusa dagli archivi Moodle tramite `export-ignore`. |
 | `.gitignore` | Impedisce il commit degli artifact CI e dei report server generati; è escluso dagli archivi di release. |
 | `.moodleignore` | File esclusi dal pacchetto Moodle, inclusa l'evidenza CI/server generata. |
@@ -292,6 +292,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
+| `docs/en/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -307,6 +308,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
+| `docs/it/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -337,6 +339,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `styles.css` | Stili responsivi e accessibili per player, report, trascrizione, Analytics e controlli. |
 | `tests/accessibility_contract_test.php` | Contratti statici di accessibilità per i controlli capitolo del timed text. |
 | `tests/acknowledgement_test.php` | Copertura PHPUnit per acknowledgement test. |
+| `tests/activity_settings_restore_test.php` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
 | `tests/admin_settings_test.php` | Copertura PHPUnit per admin settings test. |
 | `tests/ajax_contract_test.php` | Copertura PHPUnit per i contratti AJAX browser e degli endpoint di mutazione. |
 | `tests/analytics_performance_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
@@ -344,6 +347,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
 | `tests/backup_structure_contract_test.php` | Contratti sorgente per ordine delle fasi di backup, filtri privacy, identificatori e aree file. |
+| `tests/behat/activity_settings_copy.feature` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
 | `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, controlli, timestamp, rollback e watched evidence dei player HTML5 e provider. |
 | `tests/behat/browser_allowed_seek_tracking.feature` | Casi browser di seek consentito senza seed: intervalli validati separati e nessun completamento dai gap saltati. |
 | `tests/behat/browser_ended_replay_rate.feature` | Fine naturale, replay già visto, 2x autorizzato e riserva oltre tetto senza seed su HTML5/YouTube/Vimeo. |
@@ -378,6 +382,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |
 | `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
+| `tests/csv_field_access_test.php` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
 | `tests/fixtures/behat-video.mp4.b64` | Fixture video locale di 60 secondi codificata Base64 e decodificata esclusivamente dai test browser HTML5. |
 | `tests/fixtures/behat-vimeo-player.js` | Doppio deterministico test-only dell’SDK Vimeo caricato esclusivamente dal fixture Behat riservato. |
 | `tests/fixtures/behat-youtube-player.js` | Doppio deterministico test-only dell’SDK YouTube caricato esclusivamente dal fixture Behat riservato. |
@@ -438,7 +443,7 @@ Voci: **433** — 424 file distribuiti e nove solo repository. L'albero completo
 | `tests/video_source_policy_test.php` | Regressioni native per sorgenti predefinite, scritture alterate, tracciamento residuo, conservazione file/stati e cancellazioni personali. |
 | `tests/vimeo_seek_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/xmldb_relationship_contract_test.php` | Contratti XMLDB per foreign key, riferimenti-sentinella e indici generati. |
-| `tools/static-analysis/bootstrap.php` | Bootstrap comune che carica il Moodle selezionato e le API parent legacy stabili richieste dal perimetro di produzione. |
+| `tools/static-analysis/bootstrap.php` | Bootstrap Moodle per analisi statica, incluse vere funzioni e costanti legacy dei profili. |
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Dichiarazione statica riservata a Psalm del nome globale di compatibilità `renderable` di Moodle 5.0. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |

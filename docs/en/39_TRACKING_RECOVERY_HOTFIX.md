@@ -1,5 +1,8 @@
 # Tracking continuity and historical recovery hotfix
 
+> Historical 269recovery procedure: from 1.7.274 the browser checkbox and request path are retired. Ordinary completion recalculation remains available and continues to count accepted `recovery269` rows. The legacy repair engine remains only as an internal compatibility API; ordinary recalculation does not invoke it. No original or repaired evidence is erased.
+
+
 VideoTrack **1.7.269** (`2026112300`), built from accepted **1.7.267**.
 The abandoned Microsoft-search268 patch is excluded. Its work remains paused.
 

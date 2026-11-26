@@ -179,7 +179,7 @@ final class form_preprocessing {
             $activespeeds = array_map('strval', videotrack_get_site_playback_speeds());
         }
         foreach (['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '3', '4'] as $v) {
-            $defaultvalues["playbackspeed_{$v}"] = in_array($v, $activespeeds) ? $v : 0;
+            $defaultvalues[videotrack_playback_speed_field_name($v)] = in_array($v, $activespeeds) ? $v : 0;
         }
 
         // Pre-populate the HTML5 control checkboxes.

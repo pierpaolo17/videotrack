@@ -64,9 +64,9 @@ final class csv_export_fields {
             'videolink' => get_string('report:csvfield_videolink', 'mod_videotrack'),
         ];
 
-        $allowedidentity = $context === null ? null : fields::get_identity_fields($context, true);
+        $unavailable = $context === null ? [] : self::unavailable_reasons($context);
         foreach (self::STANDARD_USER_FIELDS as $field) {
-            if ($allowedidentity !== null && !in_array($field, $allowedidentity, true)) {
+            if (isset($unavailable[$field])) {
                 continue;
             }
             $options[$field] = get_string('report:csvfield_' . $field, 'mod_videotrack');
@@ -80,15 +80,107 @@ final class csv_export_fields {
                 $options[$key] = format_string($customfield->name, true, ['context' => $formatcontext]);
             }
         } else {
-            foreach ($allowedidentity as $field) {
-                if (strpos($field, 'profile_field_') !== 0) {
-                    continue;
+            foreach (self::form_field_options($context) as $field => $label) {
+                if (str_starts_with($field, 'profile_field_') && !isset($unavailable[$field])) {
+                    $options[$field] = $label;
                 }
-                $options[$field] = fields::get_display_name($field);
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Explain actual field restrictions without treating Moodle's identity display list as an admin permission.
+     *
+     * @param context $context Effective activity or course context.
+     * @return array Field keys mapped to translatable reason keys; available fields are absent.
+     */
+    public static function unavailable_reasons(context $context): array {
+        global $CFG;
+
+        $identity = fields::get_identity_fields($context, true);
+        $permissions = [
+            'admin' => is_siteadmin(),
+            'identity' => has_capability('moodle/site:viewuseridentity', $context),
+            'all' => has_capability('moodle/user:viewalldetails', $context),
+            'profile' => has_capability('moodle/user:viewdetails', $context),
+            'email' => has_capability('moodle/course:useremail', $context),
+            'hidden' => has_capability(
+                $context->get_course_context(false) ? 'moodle/course:viewhiddenuserfields' : 'moodle/user:viewhiddendetails',
+                $context
+            ),
+        ];
+        $hidden = array_filter(explode(',', (string)($CFG->hiddenuserfields ?? '')));
+        $reasons = [];
+        foreach (self::STANDARD_USER_FIELDS as $field) {
+            $reason = self::standard_field_reason($field, $identity, $permissions, $hidden);
+            if ($reason !== null) {
+                $reasons[$field] = $reason;
+            }
+        }
+        return $reasons + self::profile_field_reasons($context, $permissions);
+    }
+
+    /**
+     * Apply the standard-profile read rules used by Moodle's user details API.
+     *
+     * @param string $field Standard user field key.
+     * @param array $identity Identity fields authorised by Moodle.
+     * @param array $permissions Current actor permissions in the effective context.
+     * @param array $hidden Site-hidden profile fields.
+     * @return string|null Unavailability reason key, or null when accessible.
+     */
+    private static function standard_field_reason(string $field, array $identity, array $permissions, array $hidden): ?string {
+        if ($permissions['admin']) {
+            return null;
+        }
+        if (in_array($field, $hidden, true) && !$permissions['hidden']) {
+            return 'report:csvfield_unavailable_hidden';
+        }
+        if (in_array($field, $identity, true)) {
+            return null;
+        }
+        if ($permissions['all'] && in_array($field, ['username', 'idnumber', 'institution', 'department'], true)) {
+            return null;
+        }
+        if ($permissions['profile'] && in_array($field, ['city', 'country'], true)) {
+            return null;
+        }
+        if ($field === 'email' && $permissions['email']) {
+            return null;
+        }
+        return $permissions['identity']
+            ? 'report:csvfield_unavailable_configuration'
+            : 'report:csvfield_unavailable_permission';
+    }
+
+    /**
+     * Reuse custom-profile visibility, using the explicit course rather than the global course fallback.
+     *
+     * @param context $context Effective context.
+     * @param array $permissions Current actor permissions.
+     * @return array Unavailable profile-field keys and reason keys.
+     */
+    private static function profile_field_reasons(context $context, array $permissions): array {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot . '/user/profile/lib.php');
+        $coursecontext = $context->get_course_context(false);
+        $visibilitycontext = $coursecontext ?: $context;
+        $canviewprofile = $permissions['admin'] || $permissions['all'] || $permissions['identity'] || $permissions['profile'];
+        $reasons = [];
+        foreach ($DB->get_records('user_info_field', null, 'sortorder ASC, id ASC') as $field) {
+            $key = 'profile_field_' . \core_text::strtolower((string)$field->shortname);
+            $instance = \profile_get_user_field($field->datatype, (int)$field->id, 0, $field);
+            // A completely hidden field requires system permission, even if an actor has a local override.
+            $hidden = (int)$field->visible === (int)\PROFILE_VISIBLE_NONE;
+            $fieldcontext = $hidden ? context_system::instance() : $visibilitycontext;
+            if (!$canviewprofile || !$instance->is_visible($fieldcontext)) {
+                $reasons[$key] = 'report:csvfield_unavailable_profile';
+            }
+        }
+        return $reasons;
     }
 
     /**
@@ -166,21 +258,51 @@ final class csv_export_fields {
      * Aggregates submitted export-field checkboxes and removes helper fields.
      *
      * @param stdClass $data Submitted activity data.
-     * @param context|null $context Context used to restrict identity fields, or null for trusted site-level processing.
+     * @param context|null $context Effective field permission context.
+     * @param stdClass|null $previous Stored activity, used to preserve disabled choices and inheritance.
      * @return void
      */
-    public static function process_form_fields(stdClass $data, ?context $context = null): void {
-        $selected = [];
+    public static function process_form_fields(stdClass $data, ?context $context = null, ?stdClass $previous = null): void {
         $allowed = array_keys(self::field_options($context));
         $formoptions = $context === null ? self::field_options(null) : self::form_field_options($context);
-        foreach (array_keys($formoptions) as $field) {
+        $oldraw = trim((string)($previous->csvexportfields ?? $data->csvexportfields ?? ''));
+        $oldfields = $oldraw === '' ? self::site_default_fields() : self::normalise_field_list($oldraw);
+        [$selected, $submitted] = self::submitted_fields($data, array_keys($formoptions), $allowed, $oldfields);
+        if (!$submitted) {
+            $raw = trim((string)($data->csvexportfields ?? $previous->csvexportfields ?? ''));
+            $data->csvexportfields = in_array($raw, ['', 'none'], true)
+                ? $raw : implode(',', self::normalise_field_list($raw, array_keys($formoptions)));
+            return;
+        }
+        $selected = array_values(array_unique(array_merge(array_intersect($oldfields, $selected), $selected)));
+        $inherits = $oldraw === '' && !array_diff($oldfields, $selected) && !array_diff($selected, $oldfields);
+        $data->csvexportfields = $inherits ? '' : ($selected ? implode(',', $selected) : 'none');
+    }
+
+    /**
+     * Collect editable checkboxes while keeping an unavailable stored preference locked.
+     *
+     * @param stdClass $data Form data; helper properties are removed in place.
+     * @param array $formfields Configurable field keys.
+     * @param array $allowed Read-permitted field keys.
+     * @param array $oldfields Previously selected field keys.
+     * @return array{0: string[], 1: bool} Selected keys and whether checkboxes were submitted.
+     */
+    private static function submitted_fields(stdClass $data, array $formfields, array $allowed, array $oldfields): array {
+        $selected = [];
+        $submitted = false;
+        foreach ($formfields as $field) {
             $elementname = self::form_element_name($field);
-            if (!empty($data->{$elementname}) && in_array($field, $allowed, true)) {
+            $submitted = $submitted || property_exists($data, $elementname);
+            if (!in_array($field, $allowed, true) && in_array($field, $oldfields, true)) {
+                // A disabled checkbox is absent from POST; it must not erase the stored preference.
+                $selected[] = $field;
+            } else if (!empty($data->{$elementname}) && in_array($field, $allowed, true)) {
                 $selected[] = $field;
             }
             unset($data->{$elementname});
         }
-        $data->csvexportfields = $selected ? implode(',', $selected) : 'none';
+        return [$selected, $submitted];
     }
 
     /**

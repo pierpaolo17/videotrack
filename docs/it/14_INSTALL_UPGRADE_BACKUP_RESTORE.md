@@ -145,3 +145,7 @@ module VideoTrack esistono ancora. La cancellazione usa l’identificatore posit
 senza identità non agisce e non tocca altri moduli. La CI254 iniziale ha dimostrato il residuo di completion
 nell’uninstall core completo sui due rami. Il controllo fallito resta attivo; CI candidata/main corretta supera le tre storie su entrambi i job.
 L’accettazione server254 è bloccata da PHPCS sull’helper; la seconda correzione helper/CI richiede nuove prove.
+
+## 1.7.274: copie e riferimenti facoltativi al Forum
+
+Il riferimento viene risolto nell’hook after_restore dello step dopo la disponibilità delle mappature di tutte le attività, anche senza dati utente. Se manca una mappatura si conserva il Forum compatibile esistente soltanto quando Moodle riconosce lo stesso sito e coincidono gli ID dei corsi originale/destinazione. Destinazioni mancanti, incompatibili o di altri corsi restano disabilitate con avviso. Gli ID originali non sono mai attivati temporaneamente come link. Aggiunte regressioni native per duplicazione/ripristino corso/parziale; esecuzione CI 274 ancora da effettuare. Nessuna migrazione di schema o dati. Le copie già configurate male richiedono correzione manuale rispetto all’originale desiderato.

@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.273 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.274 repository tree. It lists
 sources, assets, tests and selected release guides, including nine repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **433** — 424 distributed files and nine repository-only files. The complete
-tree has 525 repository files / 496 distributed files, including all documentation.
+Entries: **438** — 429 distributed files and nine repository-only files. The complete
+tree has 530 repository files / 501 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -14,8 +14,8 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `.github/lifecycle/run.sh` | Repository-only lifecycle runner: real historical installs, upgrade/repeat and populated uninstall on the disposable CI site. |
 | `.github/lifecycle/site.php` | Repository-only guarded fixture, preservation assertions and operational uninstall-residue checks. |
 | `.github/run_behat.py` | CI-only observable PHP/Selenium owner; preserves the Behat gate and fails on unexpected server exits. |
-| `.github/tests/test_run_behat.py` | Nine process-fixture checks for CI gate status, startup, interruption, server exit and cleanup. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
+| `.github/tests/test_run_behat.py` | Nine process-fixture checks for CI gate status, startup, interruption, server exit and cleanup. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
 | `.gitignore` | Keeps generated CI and server-test evidence out of repository commits; excluded from release archives. |
 | `.moodleignore` | Files excluded by Moodle packaging, including generated CI/server evidence. |
@@ -292,6 +292,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
+| `docs/en/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Activity copy, CSV access and retired-repair UI policy/regressions. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -307,6 +308,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
+| `docs/it/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Activity copy, CSV access and retired-repair UI policy/regressions. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -337,6 +339,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `styles.css` | Accessible responsive styling for player, reports, transcript, analytics and controls. |
 | `tests/accessibility_contract_test.php` | Static accessibility contracts for timed-text chapter controls. |
 | `tests/acknowledgement_test.php` | PHPUnit coverage for acknowledgement test. |
+| `tests/activity_settings_restore_test.php` | Activity copy, CSV access and retired-repair UI policy/regressions. |
 | `tests/admin_settings_test.php` | PHPUnit coverage for admin settings test. |
 | `tests/ajax_contract_test.php` | PHPUnit coverage for browser AJAX and mutation-endpoint contracts. |
 | `tests/analytics_performance_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
@@ -344,6 +347,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
 | `tests/backup_structure_contract_test.php` | Source contracts for backup-stage order, privacy filters, identifiers and file areas. |
+| `tests/behat/activity_settings_copy.feature` | Activity copy, CSV access and retired-repair UI policy/regressions. |
 | `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 and provider readiness, controls, timestamps, rollback and bounded watched-evidence assertions. |
 | `tests/behat/browser_allowed_seek_tracking.feature` | Unseeded allowed-seek browser cases requiring separate validated playback intervals and no completion from skipped gaps. |
 | `tests/behat/browser_ended_replay_rate.feature` | Unseeded natural end, watched replay, authorised 2x and above-cap fallback for HTML5/YouTube/Vimeo. |
@@ -378,6 +382,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
+| `tests/csv_field_access_test.php` | Activity copy, CSV access and retired-repair UI policy/regressions. |
 | `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
 | `tests/fixtures/behat-vimeo-player.js` | Test-only deterministic Vimeo SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/fixtures/behat-youtube-player.js` | Test-only deterministic YouTube SDK double loaded exclusively for the reserved Behat fixture. |
@@ -438,7 +443,7 @@ tree has 525 repository files / 496 distributed files, including all documentati
 | `tests/video_source_policy_test.php` | Native regressions for source defaults, forged writes, stale tracking, retained files/state and personal erasure. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |
-| `tools/static-analysis/bootstrap.php` | Shared analyser bootstrap loading the selected Moodle and the stable legacy parent APIs required by the production scope. |
+| `tools/static-analysis/bootstrap.php` | Moodle bootstrap for static analysis, including the real legacy custom-profile function and constants. |
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only static declaration of Moodle 5.0's global `renderable` compatibility name. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |

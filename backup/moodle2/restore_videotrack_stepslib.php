@@ -26,6 +26,9 @@
  * Restores VideoTrack activity data and related user records.
  */
 class restore_videotrack_activity_structure_step extends restore_activity_structure_step {
+    /** @var int Original optional Forum reference, resolved after every activity is restored. */
+    private int $linkedforumid = 0;
+
     /**
      * Define the restore structure for configuration, viewing, interaction, integrity and acknowledgement records.
      *
@@ -70,23 +73,42 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
         unset($data->loop);
         $data->course = $this->get_courseid();
-        if (!empty($data->forumpostingenabled) && !empty($data->linkedforumid)) {
-            $mappedforumid = (int)$this->get_mappingid('forum', (int)$data->linkedforumid, 0);
-            if ($mappedforumid > 0) {
-                $data->linkedforumid = $mappedforumid;
-            } else {
-                $data->forumpostingenabled = 0;
-                $data->linkedforumid = 0;
-                $this->log(get_string('forum:restorelinkmissing', 'mod_videotrack'), backup::LOG_WARNING);
-            }
-        } else {
-            $data->forumpostingenabled = 0;
-            $data->linkedforumid = 0;
-        }
+        $this->linkedforumid = !empty($data->forumpostingenabled) ? (int)($data->linkedforumid ?? 0) : 0;
+        // A Forum later in the course has no mapping yet. Never store an old site's raw id.
+        $data->forumpostingenabled = 0;
+        $data->linkedforumid = 0;
         \mod_videotrack\local\random_pause_policy::normalise_overrides($data);
         $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);
         $this->set_mapping('videotrack', $oldid, $newitemid);
+    }
+
+    /**
+     * Resolve the optional Forum after all activity mappings exist, including configuration-only copies.
+     */
+    protected function after_restore() {
+        global $DB;
+
+        if ($this->linkedforumid <= 0) {
+            return;
+        }
+        $forumid = (int)$this->get_mappingid('forum', $this->linkedforumid, 0);
+        if (
+            $forumid <= 0 && $this->get_task()->is_samesite()
+            && (int)$this->get_task()->get_old_courseid() === (int)$this->get_courseid()
+        ) {
+            // Duplicating only VideoTrack keeps the existing destination in the same course.
+            $forumid = $this->linkedforumid;
+        }
+        if ($forumid > 0 && videotrack_is_compatible_forum((int)$this->get_courseid(), $forumid)) {
+            $DB->update_record('videotrack', (object)[
+                'id' => $this->get_new_parentid('videotrack'),
+                'linkedforumid' => $forumid,
+                'forumpostingenabled' => 1,
+            ]);
+        } else {
+            $this->log(get_string('forum:restorelinkmissing', 'mod_videotrack'), backup::LOG_WARNING);
+        }
     }
 
     /**

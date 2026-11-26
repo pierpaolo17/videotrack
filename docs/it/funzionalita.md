@@ -1,5 +1,10 @@
 # Guida per utenti e amministratori
 
+## 1.7.274: impostazioni riutilizzabili e scelte CSV più chiare
+
+Le copie conservano velocità di riproduzione, preferenze CSV e Forum collegato, anche dopo il salvataggio di una modifica estranea. Le scelte CSV rispettano i permessi di lettura Moodle e mostrano una motivazione specifica quando non disponibili. L’amministratore del sito non è più limitato all’elenco di visualizzazione dei campi identificativi. Il normale ricalcolo resta; viene ritirata la casella temporanea di riparazione dello storico. [Regole e test](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).
+
+
 La266 aggiunge un’[anteprima diagnostica privata](37_MICROSOFT_PRIVATE_PREVIEW.md) con l’account aziendale/scolastico collegato dell’amministratore corrente.
 CLI metadati e azione pagina originale conservano i propri contratti; player studente tracciato
 e validazione Microsoft reale con browser restano gate distinti.
