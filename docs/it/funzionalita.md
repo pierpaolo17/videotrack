@@ -150,10 +150,14 @@ abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni 
 | YouTube | URL pubblico o identificatore YouTube | YouTube IFrame API | Durata proposta da un probe limitato, muto e usato soltanto nel form. |
 | Vimeo | URL pubblico o identificatore Vimeo | Vimeo Player SDK | Durata proposta in modo asincrono; restano i limiti di rete e privacy del provider. |
 
-La durata salvata dal docente è autorevole per le percentuali. Il rilevamento automatico è soltanto una
-proposta: va verificato prima del salvataggio, inserito manualmente se non disponibile oppure lasciato a `0`
-per disabilitare il calcolo percentuale. Gli adapter condividono un contratto ma hanno implementazioni e limiti
-del provider distinti.
+La durata salvata dal docente è autorevole per le percentuali. Dalla 1.7.273, quando disponibile, il metadato
+della sorgente costituisce anche il limite massimo: una durata impostata maggiore impedisce il salvataggio;
+valori uguali o inferiori restano consentiti. La verifica avviene aprendo le impostazioni e al clic su Salva e
+visualizza, Salva e torna al corso e Annulla, qualsiasi campo sia stato modificato. Annulla mostra l’eventuale
+avviso e scarta le modifiche senza salvare. Se il metadato non è disponibile, un avviso consente di salvare
+esplicitamente il valore manuale. `0` disabilita il calcolo percentuale, ferme le dipendenze del completamento.
+Vedere la [validazione durata](43_SOURCE_DURATION_VALIDATION.md). Gli adapter condividono un contratto ma hanno
+implementazioni e limiti del provider distinti.
 Il form mostra lo stesso valore anche come `HH:MM:SS` e aggiorna l'equivalente dopo il rilevamento automatico o
 l'inserimento manuale.
 

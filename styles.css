@@ -38,7 +38,14 @@
 /* ─── Player shell ──────────────────────────────────────────────────────── */
 
 .videotrack-player-shell {
-    max-width: 960px;
+    --videotrack-player-width: 960px;
+    max-width: 100%;
+}
+
+/* Player notices share the full content width with the provider privacy banner.
+ * Keep the configured width on the media/layout and study tools, not the notices. */
+.videotrack-player-shell > :not(.videotrack-inline-notice) {
+    max-width: var(--videotrack-player-width);
 }
 
 /* Moodle 5.0 renders incomplete automatic-completion conditions as
@@ -737,22 +744,29 @@
     padding-left: 6px;
 }
 
-/* ── Compact in-flow player notices ───────────────────────────────────────── */
-.videotrack-resume-notice {
-    font-size: 0.875rem;
-}
+/* ── Shared in-flow player notices ────────────────────────────────────────── */
 .videotrack-inline-notice {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     gap: 0.75rem;
     padding: 0.4rem 0.75rem;
+    font-size: inherit;
+    line-height: 1.5;
+}
+/* JS notices carry mt-* utilities; match the provider banner's top spacing. */
+.path-mod-videotrack .videotrack-inline-notice {
+    margin-top: 0 !important;
 }
 .videotrack-inline-notice .videotrack-inline-notice-close {
     position: static;
     flex: 0 0 auto;
     width: 0.75rem;
     height: 0.75rem;
+    min-width: 0;
+    min-height: 0;
     padding: 0.2rem;
     margin: 0 !important;
     background-size: 0.65rem;

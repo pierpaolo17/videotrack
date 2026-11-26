@@ -114,3 +114,10 @@ scompare all’avvio, anche automatico. Queste correzioni testuali non cambiano 
 L’estensione concordata dei sottotitoli VTT multilingua segue lavoro web e decisione App, prima delle
 integrazioni autenticate. Ciclo file, scelta lingua e limiti provider/fullscreen devono essere implementati
 e provati separatamente; i testi correnti non annunciano tale estensione.
+
+## 1.7.273: limite durata a ogni salvataggio
+
+I metadati disponibili limitano anche la durata impostata dal docente, compresi
+valori preesistenti e salvataggi di sole altre impostazioni. Valori manuali inferiori
+restano validi; un dato non disponibile attiva un avviso con possibilità di salvare
+manualmente. Vedere la [policy di validazione](43_SOURCE_DURATION_VALIDATION.md).

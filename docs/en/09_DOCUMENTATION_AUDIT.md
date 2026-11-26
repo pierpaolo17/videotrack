@@ -1,53 +1,52 @@
 # Documentation audit
 
-Current candidate: VideoTrack **1.7.272** (`2026112500`), based on the actual accepted 271 ZIP.
+Current candidate: VideoTrack **1.7.273** (`2026112501`), incremental correction
+on published commit `ca91e4a0ce64e6b5f49954b355096cbf66c32c76`,
+tree `5ced30d5fd65d29341304517531f7d3dc9d05c12`.
 
-## Accepted baseline
+## Initial 273 CI evidence
 
-Actual 271 ZIP SHA256 3bb6462e50fcfb4d59b0947322ab64a405b26c6b778f1bd8124111585b51f3f2,
-490 distributed files match main 99d4195f1202cf630102c252841b0ed75372b6b3,
-tree ee7f092ed9f8e75460060f8e8d7e386b16e832e4. Candidate 45497048064 attempt 2 and
-main 45578816355 attempt 1 pass six jobs each. Unit 640/6618, Behat 80/1484 without inner
-reruns in the accepted reports, strict 10/0/0, native Grunt and both 50/53 historical
-upgrade/repeat/populated-uninstall matrices pass. Six snapshot hashes per accepted
-run are independently reconstructed. The initial candidate's 5.3 MariaDB server failure
-was not reproduced on identical code in the fresh accepted attempt; its initiating
-cause remains unproven and is not called an application fix.
+Run 45778182389 attempt 1 has five successful jobs. The sole failed step is Moodle
+Code Checker in 50 MariaDB: 9 PHPCS formatting errors on 6 lines in
+tests/form_duration_validation_test.php. The correction changes whitespace only
+in that test; its executable tokens and all assertions are preserved.
 
-Server report 20261125_105411 passes eight outcomes: canon/lint 207 shared clean,
-Unit 640/6618 separately on 50/53, and native Grunt without build changes on both.
-Both user strict outputs pass 10/0/0. PHPMD 40 advisories, Psalm one standard guard
-finding plus 763/791 information entries remain visible; PHPStan is clean.
+All six matrices pass PHPUnit 645/6663, Behat 82/1541 without inner retries,
+38 JavaScript groups plus the tracker harness, strict 10/0/0 and native Grunt.
+All six native manifests identify ca91e4a0; 48 source and 96 build/map hashes match
+the delivered code, maps match sources, and wrapper payloads match report payloads.
+53 MariaDB passes historical/partial/previous upgrade, repeat and populated uninstall;
+three preserved snapshot hashes were independently reconstructed. 50 MariaDB lifecycle
+did not run after the quality failure and remains a gate for the correction.
 
-## Current fix and gates
+PHPStan is clean in the reported 50/53 jobs. The two Psalm annotations are the same
+ParadoxicalCondition at db/services.php:25, with 765/793 information entries.
+PHPMD reports 43 advisories in this initial 273 scan; these are not called zero or
+unchanged from 272. The corrected static-analysis results remain pending.
 
-The [replay guide](42_REPORT_REPLAY_STATE.md) traces report URL→programmatic seek→
-new provider PLAYING→late seek consumption→false rollback/recovery speed.
-A single guard in the shared time helper preserves a settled newer provider state.
-Database/upgrade, privacy, capabilities, source policy, server tracking and all PHP except
-the release metadata remain byte-identical to accepted 271. All 640 unit methods and
-80 old browser scenarios remain. Existing Node assertions remain, with three groups
-added and two actual report-link browser scenarios using browser-earned reactions.
+## Corrective scope
 
-Counts:519 repository/493 distributed files, 206 distributed PHP, 1582 named PHP, 660 named AMD,
-640 unit methods, 82 expanded Behat scenarios/1541 steps, 8 x 1076 keys and 48 AMD sets.
-Schema stays 7 tables/152 fields/22 explicit indexes/22 foreign keys; 9 AJAX methods unchanged.
-Inventories use actual positions. Source Node regressions pass all nine groups and
-the tracker harness; accepted old source/build reproduces all three new failures.
+- Fix the 9 reported formatting violations in the duration test.
+- Keep the mandatory MOODLE_INTERNAL guard and the complete service registry
+  byte-identical. Psalm configuration narrowly suppresses ParadoxicalCondition
+  only in db/services.php, whose bootstrap-known guard triggers the false positive.
+  No global suppression or runtime guard removal is introduced.
+- Clarify ALL / AT LEAST ONE completion instructions in all 8 language packs and
+  update the existing completion-layout browser assertion to the new label.
+- Make dismissible player notices match the provider privacy banner in width,
+  typography and spacing. Keep media/layout/study-tool width via the existing
+  configured width passed as a CSS custom property. ARIA, dismissal and timeouts stay.
 
-Native AMD outputs are verified from the maintainer Moodle 5.0 test server, archive
-SHA256 a6ce3d08275774f01fb2cd4b350c2f07c405f0336533f445705f894ff3175eb2.
-Actual npx --no-install grunt amd exits 0. The exact source/fixture, 48 source/96 build
-hashes, canonical maps, log digest and original-tree restoration marker match.
-Only the helper and its two native outputs change; 47 sources/94 outputs are identical
-to 271. All nine Node groups pass on source and compiled modules in the artifact and
-after local incorporation, plus the unchanged tracker harness. No GitHub provenance
-or exact Node patch version is invented for this maintainer-origin build.
+No AMD source, build or map changes; no native rebuild is needed. Schema, upgrade,
+privacy, backup, credentials, retained evidence, tracking/replay and duration policy
+remain unchanged. Version/release stay 273/2026112501 while the candidate is pending.
+Counts remain 523 repository / 496 distributed files, 207 distributed PHP, 1591 named PHP,
+668 named AMD, 645 unit methods, 82 Behat / 1541 steps, 8×1078 keys and 48 AMD sets;
+7 tables / 152 fields / 22 indexes / 22 foreign keys and 9 AJAX methods.
 
-The initial builder attempt used unsupported Node 26 and stopped before compilation;
-its 144 file backup matches accepted 271. The supported Node 22 environment satisfies
-Moodle 5.0 Grunt's >=22.11/<23 requirement. Original-site restoration is verified by the
-runner. No DB/bootstrap/credential operation is introduced. PHPMD/Psalm debt stays
-visible. Native 272 PHP/PHPCS/PHPUnit/Behat, full CI/lifecycle and test-server checks
-remain pending; no new PHP/Moodle execution is claimed locally. Live YouTube review
-and Microsoft HTTPS/account/provider/App roadmap gates retain their previous state.
+## Gates
+
+Local token/asset/language/XML/patch checks are distinct from native CI. Corrected
+PHPCS, Psalm, all six CI jobs, both lifecycle matrices, server checks and visual
+acceptance remain pending. The initial functional passes do not replace these gates.
+Microsoft HTTPS/account acceptance and the provider/App roadmap remain separate.

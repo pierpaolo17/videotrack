@@ -602,7 +602,7 @@ if ($showstudentreactions) {
 
 echo html_writer::start_div(
     'videotrack-player-shell',
-    ['style' => 'max-width:' . (int)$playerwidth . 'px']
+    ['style' => '--videotrack-player-width:' . (int)$playerwidth . 'px']
 ) . html_writer::tag(
     'div',
     '',

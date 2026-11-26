@@ -1,5 +1,59 @@
 # VideoTrack changelog
 
+## 1.7.273 - 2026-11-25
+
+
+### Candidate correction — 2026-11-26
+
+- Correct nine PHPCS formatting errors in the duration test, preserving every
+  executable token and assertion. Initial run 45778182389 passes all six functional
+  matrices (Unit 645/6663, Behat 82/1541, 38 JavaScript groups, strict 10/0/0 and native
+  assets); 50 MariaDB fails only Code Checker. 53 MariaDB lifecycle passes three lineages;
+  50 MariaDB lifecycle remains unexecuted after the quality failure.
+- Keep the mandatory Moodle guard intact and scope the known Psalm
+  ParadoxicalCondition false-positive exception to db/services.php in psalm.xml.
+- Make ALL / AT LEAST ONE completion instructions explicit in all eight languages.
+  Update the existing completion-layout assertion without changing AND/OR semantics.
+- Match dismissible player notices to the provider privacy banner's typography,
+  spacing and content width. Preserve configured media/study-tool width, ARIA,
+  dismissal, timeouts, data and tracking. PHP/CSS/text only; all AMD assets unchanged.
+- Keep 273/2026112501 and all counts. Corrected quality checks, full CI/lifecycle,
+  server and visual acceptance remain pending; no premature native pass is claimed.
+
+### Check source duration whenever activity settings are submitted
+
+- Enforce configured duration <= available source duration for YouTube, Vimeo and
+  uploaded HTML5 media. Keep deliberately shorter values and never silently
+  truncate a positive duration copied from another activity when its link changes.
+- Probe positive existing values when opening settings and fetch current metadata
+  for Save and display, Save and return to course, and Cancel, regardless of the
+  fields edited. Cancel checks and warns, then discards changes without saving.
+  requestSubmit preserves normal Moodle validation and the original button.
+- Discard stale results, bound provider waits, clean up temporary players and guard
+  duplicate submission. Intermediate repeat-field actions remain immediate.
+  Missing/invalid metadata warns and permits an explicit manual save without resetting it.
+- Validate a small source-bound transient browser report in PHP, with an explicit
+  hidden-input id and matching form-config coverage. It is not a persisted setting
+  or an authenticated metadata service. Schema, retained watching evidence, source
+  availability and accepted tracking/replay semantics are unchanged.
+- Add 10 source/compiled Node groups to CI and five PHP unit methods. Preserve all
+  82 Behat scenarios. Adapt two existing settings-save steps to a reserved sixty-second
+  SDK fixture and the real form submit handler; no live YouTube metadata in those tests.
+  Include actual maintainer Grunt outputs, archive SHA256
+  b5c4292a4d9362e4ec95ad3e009273de75d1503c6853c67272351926cb650fb3.
+  All 48 source / 96 build hashes and maps match; 10 source + 10 compiled duration
+  groups pass in the native log and after incorporation. Only the form module and
+  its two outputs change. The runner reports original-tree restoration.
+- Accept the actual 272 ZIP SHA256
+  4776fb1dda089a8e1ed701a477c751d44d5b78b5f4ba0c47399671879a5a2e64,
+  matching main 18305f5e / tree 789f590d. All six main CI jobs and server 50/53
+  canon/lint, native Grunt, PHPUnit 640/6618 and strict 10/0/0 pass; the maintainer
+  confirms real YouTube report replay works. These are 272 acceptance results.
+- Counts: 523 repository / 496 distributed files, 207 distributed PHP, 1591 named PHP,
+  668 named AMD, 645 unit methods, 82 Behat / 1541 steps, 8×1078 language keys, 48 AMD sets.
+  Schema: 7 tables / 152 fields / 22 indexes / 22 foreign keys; 9 AJAX methods.
+  PHP/Moodle, PHPCS/PHPUnit, 273 CI/lifecycle/server and live duration UI remain pending.
+
 ## 1.7.272 - 2026-11-25
 
 ### Preserve newer provider state when a report replay seek completes

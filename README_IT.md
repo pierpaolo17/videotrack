@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.272**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.273**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -23,7 +23,7 @@ attende le prove reali HTTPS/account. Vedere la [guida riferimenti](docs/it/41_M
 
 | Area | Funzionalità disponibili |
 |---|---|
-| Media | Video caricati/HTML5, YouTube e Vimeo; proposta durata nel form con equivalente `HH:MM:SS`; poster; download opzionale dei file caricati. |
+| Media | Video caricati/HTML5, YouTube e Vimeo; proposta durata e controllo del limite della sorgente nelle impostazioni, con equivalente `HH:MM:SS`; poster; download opzionale dei file caricati. |
 | Player | Autoplay, loop, avvio muto, larghezza responsiva, controlli configurabili, policy tastiera/fullscreen, passi avanti/indietro. |
 | Navigazione | Policy seek avanti/indietro indipendenti, resume attendibile, replay limitato dai report e recupero dai salti bloccati. |
 | Velocità | Elenco velocità, modifica learner, limite massimo e velocità di fallback dopo un salto bloccato. |
@@ -218,3 +218,12 @@ Conservate tutte le correzioni di tracciamento269 e il recupero storico esplicit
 
 Questa release corregge una race del replay da report che poteva riavvolgere frammenti
 YouTube e applicare la velocità di recupero durante la riproduzione normale. Vedere la [guida replay](docs/it/42_REPORT_REPLAY_STATE.md).
+
+La durata viene verificata all’apertura delle impostazioni e prima di ogni salvataggio.
+Una durata impostata maggiore di quella rilevata blocca il salvataggio; valori più brevi
+restano consentiti. Se il dato non è disponibile, un avviso consente di salvare il valore
+manuale. Vedere la [guida durata](docs/it/43_SOURCE_DURATION_VALIDATION.md).
+
+La correzione della candidata 273 rende esplicite le istruzioni di completamento
+(TUTTE / ALMENO UNA) e uniforma tipografia, spaziatura e larghezza degli avvisi
+richiudibili al banner privacy. Video e strumenti mantengono la larghezza configurata.

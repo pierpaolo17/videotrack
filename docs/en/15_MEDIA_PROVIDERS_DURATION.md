@@ -111,3 +111,10 @@ when playback starts, including autoplay. These wording corrections change no ru
 The agreed multilingual VTT subtitle extension follows existing web work and the App decision, before
 authenticated provider integrations. Its file lifecycle, language selection and provider/fullscreen limits
 must be implemented and tested separately; the current wording does not announce that extension.
+
+## 1.7.273: every-save duration limit
+
+Known source metadata now also limits the teacher-configured duration, including
+pre-existing values and saves changing only unrelated settings. A shorter manual
+value remains valid; unavailable metadata follows an explicit manual-save warning.
+See the [validation policy](43_SOURCE_DURATION_VALIDATION.md).

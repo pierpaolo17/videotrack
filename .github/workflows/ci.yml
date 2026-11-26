@@ -272,8 +272,11 @@ jobs:
           {
             node "$GITHUB_WORKSPACE/plugin/tests/tracker_segment_test.js"
             node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js"
+            node "$GITHUB_WORKSPACE/plugin/tests/form_duration_test.js"
             VT_TRACKING_BASELINE_ROOT="$VIDEOTRACK_ROOT" \
               node "$GITHUB_WORKSPACE/plugin/tests/tracking_lifecycle_test.js" --build
+            VT_DURATION_PLUGIN_ROOT="$VIDEOTRACK_ROOT" \
+              node "$GITHUB_WORKSPACE/plugin/tests/form_duration_test.js" --build
           } 2>&1 | tee ci-reports/tracking-javascript.txt
 
       - name: Install standard Moodle database for VideoTrack validator

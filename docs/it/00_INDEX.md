@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.272** (`2026112500`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.273** (`2026112501`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -86,3 +86,5 @@ finché entrambi gli alberi e le README principali non concordano con il codice 
 - [Riferimenti Microsoft facoltativi e backup portabile](41_MICROSOFT_ACTIVITY_REFERENCES.md).
 
 - [Replay da report ed eventi autorevoli del provider](42_REPORT_REPLAY_STATE.md).
+
+- [Controllo durata a ogni salvataggio](43_SOURCE_DURATION_VALIDATION.md).

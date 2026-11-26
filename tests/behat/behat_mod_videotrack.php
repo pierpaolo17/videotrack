@@ -1846,4 +1846,36 @@ JS;
             );
         }
     }
+
+    /**
+     * Submit the reserved sixty-second fixture through the real settings-form handler.
+     *
+     * Install the SDK double and click in the same browser task, so a pending live
+     * SDK load cannot replace the fixture before the submit microtasks execute.
+     * This Behat context never changes application code, DB evidence or real video ids.
+     *
+     * @When /^I submit VideoTrack settings with deterministic YouTube duration metadata$/
+     */
+    public function i_submit_videotrack_settings_with_fixture_duration(): void {
+        $script = "(function() {var field = document.getElementById('id_youtubeurl');"
+            . "var source = document.getElementById('id_videosource');"
+            . "var button = document.querySelector('[name=submitbutton2]');"
+            . "if (!field || !source || source.value !== 'youtube' || !button"
+            . " || field.value !== 'https://www.youtube.com/watch?v=VTBehat0001') {"
+            . "throw new Error('Duration fixture requires the reserved YouTube settings form.');}"
+            . "window.YT = window.YT || {}; window.YT.Player = function(id, options) {"
+            . "if (options.videoId !== 'VTBehat0001') {throw new Error('Unexpected duration fixture video.');}"
+            . "var player = {getDuration: function() {return 60;}, mute: function() {},"
+            . "playVideo: function() {}, destroy: function() {}};"
+            . "Promise.resolve().then(function() {options.events.onReady({target: player});});"
+            . "return player;}; window.__videotrackBehatDurationSubmission = true; button.click();}());";
+        $this->getSession()->executeScript($script);
+        $condition = "!window.__videotrackBehatDurationSubmission && document.readyState === 'complete'";
+        if (!$this->getSession()->wait(20000, $condition)) {
+            throw new ExpectationException(
+                'Fixture duration validation did not reach an ordinary server form response.',
+                $this->getSession()
+            );
+        }
+    }
 }

@@ -292,6 +292,70 @@ final class form_validation {
             $errors['durationseconds'] = get_string('durationseconds_required', 'mod_videotrack');
         }
 
+        $detected = self::detected_duration($data);
+        if (!$errors && $detected > 0 && round($durationseconds * 1000) > round($detected * 1000)) {
+            $errors['durationseconds'] = get_string('durationseconds_exceeds_source', 'mod_videotrack', (object)[
+                'configured' => (string)round($durationseconds, 3),
+                'detected' => (string)round($detected, 3),
+            ]);
+        }
+
         return $errors;
+    }
+
+    /**
+     * Read optional browser metadata only when it belongs to the submitted source.
+     *
+     * This is form validation, not an authenticated server API response. Missing,
+     * malformed or stale metadata follows the existing manual-duration path.
+     * The JSON is transient and must never update activity or learner records.
+     *
+     * @param array $data Submitted form data.
+     * @return float Positive duration, or zero when no matching metadata is available.
+     */
+    private static function detected_duration(array $data): float {
+        $probe = self::duration_probe($data);
+        if (!self::probe_matches_source($probe, $data)) {
+            return 0.0;
+        }
+        $seconds = $probe['seconds'] ?? null;
+        if (!is_int($seconds) && !is_float($seconds)) {
+            return 0.0;
+        }
+        $seconds = (float)$seconds;
+        return is_finite($seconds) && $seconds > 0 && $seconds <= 86400 ? $seconds : 0.0;
+    }
+
+    /**
+     * Decode only a small, flat duration report with the three expected entries.
+     *
+     * @param array $data Submitted form data.
+     * @return array Decoded report, or an empty array for unavailable metadata.
+     */
+    private static function duration_probe(array $data): array {
+        $json = $data['durationprobe'] ?? '';
+        if (!is_string($json) || $json === '' || strlen($json) > 8192) {
+            return [];
+        }
+        $probe = json_decode($json, true, 4);
+        return is_array($probe) && count($probe) === 3 ? $probe : [];
+    }
+
+    /**
+     * Reject metadata from a different provider, URL or uploaded-file draft.
+     *
+     * @param array $probe Decoded transient metadata.
+     * @param array $data Submitted form data.
+     * @return bool Whether metadata belongs to the selected source input.
+     */
+    private static function probe_matches_source(array $probe, array $data): bool {
+        $source = (string)($data['videosource'] ?? '');
+        $fields = ['youtube' => 'youtubeurl', 'vimeo' => 'vimeourl', 'upload' => 'videofile'];
+        $field = $fields[$source] ?? '';
+        if ($field === '' || ($probe['source'] ?? null) !== $source) {
+            return false;
+        }
+        $input = $probe['input'] ?? null;
+        return is_string($input) && $input !== '' && $input === trim((string)($data[$field] ?? ''));
     }
 }

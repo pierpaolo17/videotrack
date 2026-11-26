@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.272 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.273 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1582 (1575 distributed and 7 repository-only CI helpers). **Named AMD callables:** 660.
+**PHP functions/methods:** 1591 (1584 distributed and 7 repository-only CI helpers). **Named AMD callables:** 668.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -338,45 +338,53 @@ Generated from the VideoTrack 1.7.272 source tree. PHP entries include named fun
 | `amd/src/core/utils.js:255` | `fetchTextWithTimeout` | Named callable `fetchTextWithTimeout` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:335` | `sessionSet` | Named callable `sessionSet` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:354` | `sessionGet` | Named callable `sessionGet` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:36` | `normaliseDuration` | Named callable `normaliseDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:45` | `formatDuration` | Named callable `formatDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:49` | `formatHumanDuration` | Formats the authoritative duration as `HH:MM:SS` for the activity form. |
-| `amd/src/form/duration.js:60` | `setHumanDuration` | Updates the accessible human-readable duration status. |
-| `amd/src/form/duration.js:66` | `renderMessage` | Named callable `renderMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:70` | `setStatus` | Named callable `setStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:80` | `parseHttpsUrl` | Named callable `parseHttpsUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:89` | `extractYouTubeId` | Named callable `extractYouTubeId` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:110` | `extractVimeoSource` | Named callable `extractVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:138` | `getProbeHost` | Named callable `getProbeHost` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:158` | `loadYouTubeApi` | Named callable `loadYouTubeApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:172` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:186` | `fail` | Named AMD callable `fail`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:194` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:202` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:217` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:229` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:240` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:255` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:283` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:296` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:316` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:326` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:362` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:378` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:409` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:426` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:436` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:443` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:480` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:486` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:495` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:504` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:512` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:527` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:543` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:548` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:612` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:650` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:37` | `normaliseDuration` | Named callable `normaliseDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:46` | `formatDuration` | Named callable `formatDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:50` | `formatHumanDuration` | Formats the authoritative duration as `HH:MM:SS` for the activity form. |
+| `amd/src/form/duration.js:61` | `setHumanDuration` | Updates the accessible human-readable duration status. |
+| `amd/src/form/duration.js:67` | `renderMessage` | Named callable `renderMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:71` | `exceedsDuration` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:77` | `setStatus` | Named callable `setStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:87` | `parseHttpsUrl` | Named callable `parseHttpsUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:96` | `extractYouTubeId` | Named callable `extractYouTubeId` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:117` | `extractVimeoSource` | Named callable `extractVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:145` | `getProbeHost` | Named callable `getProbeHost` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:165` | `loadYouTubeApi` | Named callable `loadYouTubeApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:179` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:193` | `fail` | Named AMD callable `fail`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:201` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:209` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:224` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:236` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:247` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:262` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:290` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:303` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:323` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:333` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:369` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:386` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:418` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:435` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:445` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:452` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:489` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:496` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:506` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:516` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:524` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:541` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:559` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:564` | `clearProbe` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:569` | `matches` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:575` | `showResult` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:587` | `detect` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:630` | `release` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:635` | `focusDuration` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:639` | `resume` | Source-bound duration checking, save coordination or its regression coverage. |
+| `amd/src/form/duration.js:728` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:741` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:786` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -987,16 +995,16 @@ Generated from the VideoTrack 1.7.272 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:139` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
 | `classes/local/form_definition.php:35` | `add_source_elements` | Build the source selector with enabled defaults and an explicit disabled edit value. |
 | `classes/local/form_definition.php:49` | `add_duration_elements` | Builds duration input/status fields and hex-escaped DOM configuration, registering AMD init on the supplied page. |
-| `classes/local/form_definition.php:146` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
-| `classes/local/form_definition.php:226` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
-| `classes/local/form_definition.php:308` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
-| `classes/local/form_definition.php:400` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
-| `classes/local/form_definition.php:478` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
-| `classes/local/form_definition.php:538` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
-| `classes/local/form_definition.php:603` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
-| `classes/local/form_definition.php:672` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
-| `classes/local/form_definition.php:744` | `add_random_pause_override_elements` | Add optional whole-second bounds using the existing site-setting labels. |
-| `classes/local/form_definition.php:774` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
+| `classes/local/form_definition.php:158` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
+| `classes/local/form_definition.php:238` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
+| `classes/local/form_definition.php:320` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
+| `classes/local/form_definition.php:412` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
+| `classes/local/form_definition.php:490` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
+| `classes/local/form_definition.php:550` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
+| `classes/local/form_definition.php:615` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
+| `classes/local/form_definition.php:684` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
+| `classes/local/form_definition.php:756` | `add_random_pause_override_elements` | Add optional whole-second bounds using the existing site-setting labels. |
+| `classes/local/form_definition.php:786` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
 | `classes/local/form_playback_settings.php:35` | `add_elements` | Builds site-controlled playback defaults with the original course lock notice and seven-field freeze mask. |
 | `classes/local/form_playback_settings.php:118` | `add_rate_limit_elements` | Builds maximum-rate and blocked-seek-rate choices with their original hundredths-based values. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | PHP callable `reaction_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1023,6 +1031,9 @@ Generated from the VideoTrack 1.7.272 source tree. PHP entries include named fun
 | `classes/local/form_validation.php:251` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
 | `classes/local/form_validation.php:269` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
 | `classes/local/form_validation.php:282` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:316` | `detected_duration` | Source-bound duration checking, save coordination or its regression coverage. |
+| `classes/local/form_validation.php:335` | `duration_probe` | Source-bound duration checking, save coordination or its regression coverage. |
+| `classes/local/form_validation.php:351` | `probe_matches_source` | Source-bound duration checking, save coordination or its regression coverage. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1571,6 +1582,7 @@ Generated from the VideoTrack 1.7.272 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:1754` | `videotrack_reset_snapshot` | Reads target and other-learner plugin/native grade/completion records for reset assertions without normalising mutations. |
 | `tests/behat/behat_mod_videotrack.php:1800` | `watched_progress_is_contiguous_and_retained` | Tracking continuity/recovery callable; see source contract and regression tests. |
 | `tests/behat/behat_mod_videotrack.php:1830` | `i_watch_the_videotrack_player_through_seconds` | Bounded real-play browser wait; no seek or fabricated credit. |
+| `tests/behat/behat_mod_videotrack.php:1859` | `i_submit_videotrack_settings_with_fixture_duration` | Uses fixed 60-second metadata for the reserved YouTube fixture and clicks the real settings save button in the same task. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1628,25 +1640,30 @@ Generated from the VideoTrack 1.7.272 source tree. PHP entries include named fun
 | `tests/focus_policy_test.php:123` | `test_activity_lifecycle_and_view_are_wired_to_focus_policy` | Verifies add, update, restore and view integration contracts. |
 | `tests/form_definition_test.php:36` | `setUp` | Loads Moodle QuickForm and the shared Forum and HTML5-control APIs. |
 | `tests/form_definition_test.php:48` | `test_duration_fields_keep_defaults_decimal_values_and_status_descriptions` | Checks zero/manual decimal duration, editable input and accessible live status descriptions. |
-| `tests/form_definition_test.php:86` | `test_duration_dom_config_matches_the_supplied_page_amd_init` | Checks the decoded DOM JSON, message/field contracts and matching AMD init only on the supplied page. |
-| `tests/form_definition_test.php:144` | `test_caption_defaults_and_provider_dependencies_are_preserved` | Checks missing/empty/zero/configured caption defaults and exact provider visibility/dependency contracts. |
-| `tests/form_definition_test.php:195` | `test_caption_file_options_keep_webvtt_limits_for_a_normal_user` | Checks real QuickForm WebVTT types, transcript count, internal picker files and effective size limits for an ordinary user. |
-| `tests/form_definition_test.php:232` | `test_caption_override_permissions_are_course_scoped` | Checks actual course permissions freeze only captions/language and retain independent timed-text tools. |
-| `tests/form_definition_test.php:273` | `test_player_behavior_keeps_defaults_inheritance_and_editable_values` | Checks mixed site defaults, zero numeric inheritance, saved editable values, width description and upload-only download visibility. |
-| `tests/form_definition_test.php:316` | `test_player_behavior_defaults_preserve_missing_empty_and_zero` | Checks disabled boolean defaults for missing, empty and explicit zero site values. |
-| `tests/form_definition_test.php:343` | `test_player_behavior_respects_course_override_permissions` | Checks all seven fields and the width-description association under actual cross-course permissions. |
-| `tests/form_definition_test.php:388` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Checks site-choice filtering, canonical order, flat checkbox values and upload-only visibility. |
-| `tests/form_definition_test.php:429` | `test_playback_choices_respect_course_override_permissions` | Checks actual course-scoped override permissions and frozen groups/children in an unauthorised course. |
-| `tests/form_definition_test.php:463` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Checks default site choices and omission of unsupported empty control and speed groups. |
-| `tests/form_definition_test.php:502` | `test_empty_course_disables_posting_and_freezes_destination` | Checks the disabled empty-course state and destination freeze. |
-| `tests/form_definition_test.php:520` | `test_choices_keep_course_scope_and_module_status` | Checks course, type and deletion filters, choice order and hidden status. |
-| `tests/form_definition_test.php:561` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Checks the saved unavailable placeholder without exposing another course’s label. |
-| `tests/form_definition_test.php:587` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Checks acknowledgement timing choices and the original context and editor safety options. |
-| `tests/form_definition_test.php:624` | `test_csv_fields_keep_delimiters_names_and_order` | Checks delimiter inheritance, available options and stable flat checkbox names/order. |
-| `tests/form_definition_test.php:656` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Checks context-scoped identity access and disabled hidden or unconfigured fields. |
-| `tests/form_definition_test.php:700` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Checks disabled integrity defaults and the default accessible policy summary. |
-| `tests/form_definition_test.php:727` | `test_integrity_summary_uses_effective_site_settings` | Checks strict/fallback labels and normalised bounds and grace in the displayed site policy. |
-| `tests/form_definition_test.php:755` | `test_random_pause_overrides_keep_optional_defaults_and_reused_labels` | Teacher bounds reuse site labels and preserve automatic or explicit form values. |
+| `tests/form_definition_test.php:87` | `test_duration_dom_config_matches_the_supplied_page_amd_init` | Checks the decoded DOM JSON, message/field contracts and matching AMD init only on the supplied page. |
+| `tests/form_definition_test.php:154` | `test_caption_defaults_and_provider_dependencies_are_preserved` | Checks missing/empty/zero/configured caption defaults and exact provider visibility/dependency contracts. |
+| `tests/form_definition_test.php:205` | `test_caption_file_options_keep_webvtt_limits_for_a_normal_user` | Checks real QuickForm WebVTT types, transcript count, internal picker files and effective size limits for an ordinary user. |
+| `tests/form_definition_test.php:242` | `test_caption_override_permissions_are_course_scoped` | Checks actual course permissions freeze only captions/language and retain independent timed-text tools. |
+| `tests/form_definition_test.php:283` | `test_player_behavior_keeps_defaults_inheritance_and_editable_values` | Checks mixed site defaults, zero numeric inheritance, saved editable values, width description and upload-only download visibility. |
+| `tests/form_definition_test.php:326` | `test_player_behavior_defaults_preserve_missing_empty_and_zero` | Checks disabled boolean defaults for missing, empty and explicit zero site values. |
+| `tests/form_definition_test.php:353` | `test_player_behavior_respects_course_override_permissions` | Checks all seven fields and the width-description association under actual cross-course permissions. |
+| `tests/form_definition_test.php:398` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Checks site-choice filtering, canonical order, flat checkbox values and upload-only visibility. |
+| `tests/form_definition_test.php:439` | `test_playback_choices_respect_course_override_permissions` | Checks actual course-scoped override permissions and frozen groups/children in an unauthorised course. |
+| `tests/form_definition_test.php:473` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Checks default site choices and omission of unsupported empty control and speed groups. |
+| `tests/form_definition_test.php:512` | `test_empty_course_disables_posting_and_freezes_destination` | Checks the disabled empty-course state and destination freeze. |
+| `tests/form_definition_test.php:530` | `test_choices_keep_course_scope_and_module_status` | Checks course, type and deletion filters, choice order and hidden status. |
+| `tests/form_definition_test.php:571` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Checks the saved unavailable placeholder without exposing another course’s label. |
+| `tests/form_definition_test.php:597` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Checks acknowledgement timing choices and the original context and editor safety options. |
+| `tests/form_definition_test.php:634` | `test_csv_fields_keep_delimiters_names_and_order` | Checks delimiter inheritance, available options and stable flat checkbox names/order. |
+| `tests/form_definition_test.php:666` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Checks context-scoped identity access and disabled hidden or unconfigured fields. |
+| `tests/form_definition_test.php:710` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Checks disabled integrity defaults and the default accessible policy summary. |
+| `tests/form_definition_test.php:737` | `test_integrity_summary_uses_effective_site_settings` | Checks strict/fallback labels and normalised bounds and grace in the displayed site policy. |
+| `tests/form_definition_test.php:765` | `test_random_pause_overrides_keep_optional_defaults_and_reused_labels` | Teacher bounds reuse site labels and preserve automatic or explicit form values. |
+| `tests/form_duration_validation_test.php:35` | `test_detected_upper_bound_applies_to_all_sources` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:54` | `test_reaction_and_bookmark_edits_do_not_skip_duration_validation` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:66` | `test_stale_metadata_is_ignored_after_source_or_link_changes` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:86` | `test_unavailable_metadata_preserves_manual_duration` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:103` | `test_decimal_precision_and_existing_required_duration_rules` | Source-bound duration checking, save coordination or its regression coverage. |
 | `tests/form_playback_settings_test.php:35` | `setUp` | Loads the real Moodle QuickForm implementation. |
 | `tests/form_playback_settings_test.php:45` | `test_site_defaults_preserve_missing_empty_zero_and_one` | Checks missing/empty fallback and explicit zero/one site defaults on real checkbox fields. |
 | `tests/form_playback_settings_test.php:88` | `test_course_override_lock_preserves_defaults_and_unlocked_fields` | Checks actual course permissions, the lock notice, exactly seven frozen fields and the original unlocked controls. |

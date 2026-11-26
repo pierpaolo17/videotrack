@@ -488,3 +488,8 @@ L’elemento script JSON creato da `view.php` è il contratto unico server→pla
 ## 1.7.258: completamento delle correzioni di sicurezza
 
 `resumestoragekey` è identità browser opaca, non progresso. `personal_item` mantiene il lock fino al commit evento. `legacyremoved` esiste solo nei test temporanei; nessun nuovo campo DB.
+
+## Metadato temporaneo del modulo (1.7.273)
+
+`durationprobe` è un input JSON facoltativo del modulo (source/input/seconds), legato
+alla sorgente inviata. Non è un campo DB né un valore del tracciamento studente.
