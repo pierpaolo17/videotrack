@@ -20,9 +20,9 @@ Feature: VideoTrack composite completion requirements remain visually grouped
 
   Scenario: The composite logic label is outside the list while its conditions retain one status item
     Given I am on the "Grouped completion requirements" "videotrack activity" page logged in as student1
-    Then "//p[contains(concat(' ', normalize-space(@class), ' '), ' videotrack-completion-logic ') and normalize-space(.) = 'All of the following VideoTrack conditions:' and following-sibling::*[1][self::ul or self::ol or @role='list']]" "xpath_element" should exist
+    Then "//p[contains(concat(' ', normalize-space(@class), ' '), ' videotrack-completion-logic ') and normalize-space(.) = 'To complete this activity, you must meet ALL of the following conditions:' and following-sibling::*[1][self::ul or self::ol or @role='list']]" "xpath_element" should exist
     And I should see "Require viewing at least 90% of the video" in the "[data-region='completionrequirements']" "css_element"
     And I should see "Receive a grade" in the "[data-region='completionrequirements']" "css_element"
     And I should see "Receive a passing grade" in the "[data-region='completionrequirements']" "css_element"
-    And I should not see "All of the following VideoTrack conditions: Require viewing" in the "[data-region='completionrequirements']" "css_element"
+    And I should not see "To complete this activity, you must meet ALL of the following conditions: Require viewing" in the "[data-region='completionrequirements']" "css_element"
     And the VideoTrack completion requirements are stacked vertically

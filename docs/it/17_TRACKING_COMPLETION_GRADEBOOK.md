@@ -79,3 +79,12 @@ partecipa alla combinazione AND/OR configurata nell’attività e il docente pu�
 aggiornato non modifica valori predefiniti salvati o codice di completamento.
 
 Per la perdita di progresso dopo pausa/cambio scheda, installa [hotfix269e recupero esplicito](39_TRACKING_RECOVERY_HOTFIX.md) dopo backup. Le prove mai registrate non possono essere inventate.
+
+## Istruzioni di completamento esplicite (candidata 1.7.273)
+
+L’intestazione indica ora: «Per completare questa attività devi soddisfare TUTTE
+le seguenti condizioni» oppure «Per completare questa attività devi soddisfare
+ALMENO UNA delle seguenti condizioni». Gli otto pacchetti lingua sono allineati.
+I due punti sono aggiunti dal renderer, senza duplicazioni. Cambia soltanto il
+testo: condizioni attive, valutazione AND/OR e ulteriori requisiti di completamento
+Moodle mantengono il comportamento precedente.

@@ -41,4 +41,14 @@
         <file name="version.php" />
         <file name="view.php" />
     </projectFiles>
+    <issueHandlers>
+        <!-- The Moodle bootstrap already defines MOODLE_INTERNAL during analysis.
+             This file contains only the mandatory runtime guard and the service map.
+             Keep that guard; scope this false-positive exception to its registry. -->
+        <ParadoxicalCondition>
+            <errorLevel type="suppress">
+                <file name="db/services.php" />
+            </errorLevel>
+        </ParadoxicalCondition>
+    </issueHandlers>
 </psalm>

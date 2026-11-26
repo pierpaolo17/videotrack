@@ -1,52 +1,52 @@
 # Documentation audit
 
-Current candidate: VideoTrack **1.7.273** (`2026112501`).
+Current candidate: VideoTrack **1.7.273** (`2026112501`), incremental correction
+on published commit `ca91e4a0ce64e6b5f49954b355096cbf66c32c76`,
+tree `5ced30d5fd65d29341304517531f7d3dc9d05c12`.
 
-## Accepted baseline
+## Initial 273 CI evidence
 
-Actual 272 ZIP SHA256 `4776fb1dda089a8e1ed701a477c751d44d5b78b5f4ba0c47399671879a5a2e64`.
-All 493 distributed files match main `18305f5e3c62fdd25a128d9bc99c421323658767`,
-tree `789f590de9d0f90a3a21eee1135d0704881b6d0b`. Main run 45658185075 attempt 1
-passes six jobs, PHPUnit 640/6618, Behat 82/1541, strict 10/0/0, native builds and
-six independently reconstructed lifecycle snapshot hashes. Server report 20261125_184426
-passes canon/lint 207 shared PHP and native Grunt/Unit 640/6618 on 50/53. User strict
-passes 10/0/0 on both sites; real YouTube report replay is accepted. Existing PHPMD 40
-advisories and Psalm one standard-guard finding plus 763/791 info remain visible;
-PHPStan is clean. No 273 static-analysis outcome is inferred from 272.
+Run 45778182389 attempt 1 has five successful jobs. The sole failed step is Moodle
+Code Checker in 50 MariaDB: 9 PHPCS formatting errors on 6 lines in
+tests/form_duration_validation_test.php. The correction changes whitespace only
+in that test; its executable tokens and all assertions are preserved.
 
-## Current change
+All six matrices pass PHPUnit 645/6663, Behat 82/1541 without inner retries,
+38 JavaScript groups plus the tracker harness, strict 10/0/0 and native Grunt.
+All six native manifests identify ca91e4a0; 48 source and 96 build/map hashes match
+the delivered code, maps match sources, and wrapper payloads match report payloads.
+53 MariaDB passes historical/partial/previous upgrade, repeat and populated uninstall;
+three preserved snapshot hashes were independently reconstructed. 50 MariaDB lifecycle
+did not run after the quality failure and remains a gate for the correction.
 
-The [duration guide](43_SOURCE_DURATION_VALIDATION.md) covers opening settings and
-both save buttons plus Cancel, regardless of which fields changed. Excessive
-known durations block saves; equal/shorter values remain valid. Unavailable
-metadata permits an explicit manual save. Cancel checks and warns, then discards
-without saving. Repeat-field actions remain immediate. Source-stale results and
-duplicate submissions are guarded. requestSubmit preserves normal Moodle handling.
+PHPStan is clean in the reported 50/53 jobs. The two Psalm annotations are the same
+ParadoxicalCondition at db/services.php:25, with 765/793 information entries.
+PHPMD reports 43 advisories in this initial 273 scan; these are not called zero or
+unchanged from 272. The corrected static-analysis results remain pending.
 
-The transient metadata input has an explicit id and a matching form-config test.
-PHP validates only a small report matching the submitted source. Browser-reported
-metadata is not presented as authenticated server metadata. There is no persisted
-setting, DB migration, tracking rewrite, API credential or automatic recalculation.
-The accepted tracking/replay fixes, demo data and historical recovery option remain.
+## Corrective scope
 
-Counts: 523 repository / 496 distributed files, 207 distributed PHP, 1591 named PHP,
-668 named AMD, 645 unit methods, 82 Behat scenarios / 1541 steps, 8×1078 keys and 48 AMD sets.
-Schema stays 7 tables / 152 fields / 22 explicit indexes / 22 foreign keys; 9 AJAX services.
-Inventories preserve actual locations, including duplicate AMD callable names.
+- Fix the 9 reported formatting violations in the duration test.
+- Keep the mandatory MOODLE_INTERNAL guard and the complete service registry
+  byte-identical. Psalm configuration narrowly suppresses ParadoxicalCondition
+  only in db/services.php, whose bootstrap-known guard triggers the false positive.
+  No global suppression or runtime guard removal is introduced.
+- Clarify ALL / AT LEAST ONE completion instructions in all 8 language packs and
+  update the existing completion-layout browser assertion to the new label.
+- Make dismissible player notices match the provider privacy banner in width,
+  typography and spacing. Keep media/layout/study-tool width via the existing
+  configured width passed as a CSS custom property. ARIA, dismissal and timeouts stay.
 
-## Native build and remaining gates
+No AMD source, build or map changes; no native rebuild is needed. Schema, upgrade,
+privacy, backup, credentials, retained evidence, tracking/replay and duration policy
+remain unchanged. Version/release stay 273/2026112501 while the candidate is pending.
+Counts remain 523 repository / 496 distributed files, 207 distributed PHP, 1591 named PHP,
+668 named AMD, 645 unit methods, 82 Behat / 1541 steps, 8×1078 keys and 48 AMD sets;
+7 tables / 152 fields / 22 indexes / 22 foreign keys and 9 AJAX methods.
 
-Verified maintainer Moodle 5.0 archive SHA256 `b5c4292a4d9362e4ec95ad3e009273de75d1503c6853c67272351926cb650fb3`.
-Node 22.23.4 / npm 10.9.9; npx --no-install grunt amd exits 0. Exact 48 source / 96 build
-hashes, maps, fixture and log match. Only the form module and its two outputs change.
-All 10 source + 10 compiled duration groups pass in the actual log and after incorporation.
-Accepted 272 source/build fail all 10 groups as expected. Existing tracker harness and
-9 source + 9 compiled tracking groups pass. The runner reports verified restoration.
-The two existing settings-save browser steps use a fixed-duration SDK double
-restricted to the reserved video id, then click the real form button in the same
-JavaScript task. Existing 82 scenarios / 1541 steps remain; no live metadata is needed.
+## Gates
 
-PHP/Moodle execution, PHPCS, PHPUnit, 273 CI/lifecycle/server and live duration UI
-remain pending. Five new PHP unit methods and updated form-config assertions are
-prepared; no new PHP/Moodle or real browser/provider execution is claimed here.
-Microsoft HTTPS/personal-account validation and the provider/App roadmap stay open.
+Local token/asset/language/XML/patch checks are distinct from native CI. Corrected
+PHPCS, Psalm, all six CI jobs, both lifecycle matrices, server checks and visual
+acceptance remain pending. The initial functional passes do not replace these gates.
+Microsoft HTTPS/account acceptance and the provider/App roadmap remain separate.

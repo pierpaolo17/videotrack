@@ -1662,8 +1662,8 @@ Generated from the VideoTrack 1.7.273 source tree. PHP entries include named fun
 | `tests/form_duration_validation_test.php:35` | `test_detected_upper_bound_applies_to_all_sources` | Source-bound duration checking, save coordination or its regression coverage. |
 | `tests/form_duration_validation_test.php:54` | `test_reaction_and_bookmark_edits_do_not_skip_duration_validation` | Source-bound duration checking, save coordination or its regression coverage. |
 | `tests/form_duration_validation_test.php:66` | `test_stale_metadata_is_ignored_after_source_or_link_changes` | Source-bound duration checking, save coordination or its regression coverage. |
-| `tests/form_duration_validation_test.php:84` | `test_unavailable_metadata_preserves_manual_duration` | Source-bound duration checking, save coordination or its regression coverage. |
-| `tests/form_duration_validation_test.php:101` | `test_decimal_precision_and_existing_required_duration_rules` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:86` | `test_unavailable_metadata_preserves_manual_duration` | Source-bound duration checking, save coordination or its regression coverage. |
+| `tests/form_duration_validation_test.php:103` | `test_decimal_precision_and_existing_required_duration_rules` | Source-bound duration checking, save coordination or its regression coverage. |
 | `tests/form_playback_settings_test.php:35` | `setUp` | Loads the real Moodle QuickForm implementation. |
 | `tests/form_playback_settings_test.php:45` | `test_site_defaults_preserve_missing_empty_zero_and_one` | Checks missing/empty fallback and explicit zero/one site defaults on real checkbox fields. |
 | `tests/form_playback_settings_test.php:88` | `test_course_override_lock_preserves_defaults_and_unlocked_fields` | Checks actual course permissions, the lock notice, exactly seven frozen fields and the original unlocked controls. |

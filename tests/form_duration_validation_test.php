@@ -65,11 +65,13 @@ final class form_duration_validation_test extends \advanced_testcase {
      */
     public function test_stale_metadata_is_ignored_after_source_or_link_changes(): void {
         $data = ['videosource' => 'youtube', 'youtubeurl' => 'https://youtu.be/VTForm00002', 'durationseconds' => 180];
-        foreach ([
-            ['source' => 'youtube', 'input' => 'https://youtu.be/VTForm00001', 'seconds' => 60],
-            ['source' => 'vimeo', 'input' => $data['youtubeurl'], 'seconds' => 60],
-            ['source' => 'upload', 'input' => '137', 'seconds' => 60],
-        ] as $probe) {
+        foreach (
+            [
+                ['source' => 'youtube', 'input' => 'https://youtu.be/VTForm00001', 'seconds' => 60],
+                ['source' => 'vimeo', 'input' => $data['youtubeurl'], 'seconds' => 60],
+                ['source' => 'upload', 'input' => '137', 'seconds' => 60],
+            ] as $probe
+        ) {
             $data['durationprobe'] = json_encode($probe);
             $this->assertSame([], form_validation::duration_errors($data));
         }
@@ -106,12 +108,16 @@ final class form_duration_validation_test extends \advanced_testcase {
         $data['durationseconds'] = 60.001;
         $this->assertArrayHasKey('durationseconds', form_validation::duration_errors($data));
         $data['durationseconds'] = 86401;
-        $this->assertSame(['durationseconds' => get_string('durationseconds_invalid', 'mod_videotrack')],
-            form_validation::duration_errors($data));
+        $this->assertSame(
+            ['durationseconds' => get_string('durationseconds_invalid', 'mod_videotrack')],
+            form_validation::duration_errors($data)
+        );
         $data['durationseconds'] = 0;
         $data['acknowledgementenabled'] = 1;
         $data['acknowledgementtiming'] = \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END;
-        $this->assertSame(['durationseconds' => get_string('durationseconds_required', 'mod_videotrack')],
-            form_validation::duration_errors($data));
+        $this->assertSame(
+            ['durationseconds' => get_string('durationseconds_required', 'mod_videotrack')],
+            form_validation::duration_errors($data)
+        );
     }
 }

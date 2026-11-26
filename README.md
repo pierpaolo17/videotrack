@@ -223,3 +223,7 @@ Source duration is checked when opening settings and before each save. A detecte
 shorter source blocks an excessive setting; shorter manual values stay valid. If
 metadata is unavailable, a warning permits an explicit manual save. See the
 [duration validation guide](docs/en/43_SOURCE_DURATION_VALIDATION.md).
+
+The pending 273 candidate correction clarifies completion instructions (ALL / AT LEAST ONE)
+and gives dismissible player notices the provider privacy banner’s typography, spacing
+and full content width, while media and study tools retain their configured width.

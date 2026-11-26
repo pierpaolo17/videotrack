@@ -223,3 +223,7 @@ La durata viene verificata all’apertura delle impostazioni e prima di ogni sal
 Una durata impostata maggiore di quella rilevata blocca il salvataggio; valori più brevi
 restano consentiti. Se il dato non è disponibile, un avviso consente di salvare il valore
 manuale. Vedere la [guida durata](docs/it/43_SOURCE_DURATION_VALIDATION.md).
+
+La correzione della candidata 273 rende esplicite le istruzioni di completamento
+(TUTTE / ALMENO UNA) e uniforma tipografia, spaziatura e larghezza degli avvisi
+richiudibili al banner privacy. Video e strumenti mantengono la larghezza configurata.

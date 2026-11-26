@@ -113,3 +113,14 @@ observations. A wholly green audit needs its evidence record, not an automatic f
 finding warrants a focused correction and the matching static/build/browser/manual recheck.
 
 Moodle 5.3 and any unlisted environment remain outside the recorded manual scope. For a new environment, copy the protocol and record its own results; do not carry over PASS automatically.
+
+## Candidate 1.7.273: consistent player notices
+
+The provider/privacy banner, persistent seek policy, resume notice and transient
+status notices share typography, padding, gap, close control and available content
+width. The player shell now carries the configured media width as a custom property;
+its non-notice children retain that maximum while notices span the full shell.
+Media sizing and tracking rules are not changed. Existing info/error colour roles,
+ARIA announcements, keyboard dismissal and notice lifetimes remain intact.
+The change is PHP markup and CSS only; all AMD source/build/map bytes are unchanged.
+Browser/theme acceptance of the new layout remains pending the corrected release.

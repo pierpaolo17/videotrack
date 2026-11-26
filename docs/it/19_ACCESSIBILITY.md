@@ -114,3 +114,14 @@ Un audit interamente verde richiede il verbale, non una release funzionale autom
 richiede correzione mirata e relativi nuovi controlli statici/build/browser/manuali.
 
 Moodle 5.3 e gli ambienti non elencati restano fuori dallo scope manuale registrato. Per un nuovo ambiente copiare il protocollo e registrare esiti propri, senza trasferire automaticamente i PASS.
+
+## Candidata 1.7.273: avvisi del player uniformi
+
+Banner privacy, policy di avanzamento, avviso di ripresa e messaggi transitori
+condividono tipografia, padding, spaziatura, chiusura e larghezza disponibile.
+Il contenitore usa una proprietà CSS per la larghezza configurata: i figli diversi
+dagli avvisi mantengono quel limite, mentre gli avvisi occupano l’intero contenitore.
+Restano dimensionamento del video, regole di tracking, colori informazione/errore,
+annunci ARIA, chiusura da tastiera e durata degli avvisi.
+Cambiano soltanto markup PHP e CSS; sorgenti, compilati e mappe AMD sono identici.
+La verifica visiva su browser e tema resta da effettuare sulla release corretta.

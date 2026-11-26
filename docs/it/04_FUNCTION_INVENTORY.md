@@ -1662,8 +1662,8 @@ Generato dall’albero sorgente VideoTrack 1.7.273. Le voci PHP includono funzio
 | `tests/form_duration_validation_test.php:35` | `test_detected_upper_bound_applies_to_all_sources` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
 | `tests/form_duration_validation_test.php:54` | `test_reaction_and_bookmark_edits_do_not_skip_duration_validation` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
 | `tests/form_duration_validation_test.php:66` | `test_stale_metadata_is_ignored_after_source_or_link_changes` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
-| `tests/form_duration_validation_test.php:84` | `test_unavailable_metadata_preserves_manual_duration` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
-| `tests/form_duration_validation_test.php:101` | `test_decimal_precision_and_existing_required_duration_rules` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
+| `tests/form_duration_validation_test.php:86` | `test_unavailable_metadata_preserves_manual_duration` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
+| `tests/form_duration_validation_test.php:103` | `test_decimal_precision_and_existing_required_duration_rules` | Controllo durata legato alla sorgente, coordinamento salvataggio o relativa regressione. |
 | `tests/form_playback_settings_test.php:35` | `setUp` | Carica l'implementazione reale Moodle QuickForm. |
 | `tests/form_playback_settings_test.php:45` | `test_site_defaults_preserve_missing_empty_zero_and_one` | Verifica fallback assente/vuoto e default sito zero/uno espliciti su checkbox reali. |
 | `tests/form_playback_settings_test.php:88` | `test_course_override_lock_preserves_defaults_and_unlocked_fields` | Verifica permessi reali per corso, avviso, esattamente sette campi congelati e controlli originali modificabili. |

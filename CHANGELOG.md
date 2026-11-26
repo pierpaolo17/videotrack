@@ -2,6 +2,24 @@
 
 ## 1.7.273 - 2026-11-25
 
+
+### Candidate correction — 2026-11-26
+
+- Correct nine PHPCS formatting errors in the duration test, preserving every
+  executable token and assertion. Initial run 45778182389 passes all six functional
+  matrices (Unit 645/6663, Behat 82/1541, 38 JavaScript groups, strict 10/0/0 and native
+  assets); 50 MariaDB fails only Code Checker. 53 MariaDB lifecycle passes three lineages;
+  50 MariaDB lifecycle remains unexecuted after the quality failure.
+- Keep the mandatory Moodle guard intact and scope the known Psalm
+  ParadoxicalCondition false-positive exception to db/services.php in psalm.xml.
+- Make ALL / AT LEAST ONE completion instructions explicit in all eight languages.
+  Update the existing completion-layout assertion without changing AND/OR semantics.
+- Match dismissible player notices to the provider privacy banner's typography,
+  spacing and content width. Preserve configured media/study-tool width, ARIA,
+  dismissal, timeouts, data and tracking. PHP/CSS/text only; all AMD assets unchanged.
+- Keep 273/2026112501 and all counts. Corrected quality checks, full CI/lifecycle,
+  server and visual acceptance remain pending; no premature native pass is claimed.
+
 ### Check source duration whenever activity settings are submitted
 
 - Enforce configured duration <= available source duration for YouTube, Vimeo and

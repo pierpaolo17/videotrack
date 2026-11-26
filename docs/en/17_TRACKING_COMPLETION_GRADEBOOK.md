@@ -77,3 +77,11 @@ percentage condition participates in the activity’s configured AND/OR combinat
 the threshold per activity. Updating this description does not modify stored defaults or completion code.
 
 For lost progress after pause/tab changes, install the [269hotfix and use explicit evidence-based repair](39_TRACKING_RECOVERY_HOTFIX.md) after backup. Missing raw evidence cannot be invented.
+
+## Explicit completion instructions (candidate 1.7.273)
+
+The activity header now explicitly tells learners whether ALL or AT LEAST ONE of
+the listed custom conditions must be met. Both labels are updated in all eight
+language packs. The renderer supplies the trailing colon, so labels do not repeat
+it. Only wording changes: enabled conditions, AND/OR evaluation and additional
+Moodle completion requirements keep their existing semantics.
