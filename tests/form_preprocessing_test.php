@@ -31,6 +31,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(form_preprocessing::class)]
 final class form_preprocessing_test extends \advanced_testcase {
     /**
+     * Load the shared form field names and stored playback defaults explicitly.
+     */
+    protected function setUp(): void {
+        parent::setUp();
+        require_once(__DIR__ . '/../locallib.php');
+    }
+
+    /**
      * Completion suffixes, acknowledgement editor and Vimeo URL retain their defaults.
      */
     public function test_completion_defaults_preserve_edit_values(): void {
@@ -86,7 +94,7 @@ final class form_preprocessing_test extends \advanced_testcase {
         $values = ['playbackspeeds' => '0.25,1,2', 'html5controls' => 'play,download'];
         form_preprocessing::playback_defaults($values);
 
-        $this->assertSame('0.25', $values['playbackspeed_0.25']);
+        $this->assertSame('0.25', $values['playbackspeed_0_25']);
         $this->assertSame('2', $values['playbackspeed_2']);
         $this->assertSame(0, $values['playbackspeed_3']);
         $this->assertSame('play', $values['html5ctrl_play']);

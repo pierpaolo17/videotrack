@@ -107,6 +107,16 @@ final class csv_export {
     }
 
     /**
+     * Return the specific permission, visibility or identity-configuration reason for each unavailable field.
+     *
+     * @param context $context Effective activity or course context.
+     * @return array Unavailable field keys mapped to language keys.
+     */
+    public static function unavailable_reasons(context $context): array {
+        return csv_export_fields::unavailable_reasons($context);
+    }
+
+    /**
      * Returns the export-field choices shown in an activity form.
      *
      * Course/activity fields and all standard user fields are always shown so
@@ -155,11 +165,12 @@ final class csv_export {
      * Aggregates submitted export-field checkboxes and removes helper fields.
      *
      * @param stdClass $data Submitted activity data.
-     * @param context|null $context Context used to restrict identity fields, or null for trusted site-level processing.
+     * @param context|null $context Effective field permission context.
+     * @param stdClass|null $previous Stored activity settings.
      * @return void
      */
-    public static function process_form_fields(stdClass $data, ?context $context = null): void {
-        csv_export_fields::process_form_fields($data, $context);
+    public static function process_form_fields(stdClass $data, ?context $context = null, ?stdClass $previous = null): void {
+        csv_export_fields::process_form_fields($data, $context, $previous);
     }
 
     /**

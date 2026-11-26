@@ -1,5 +1,10 @@
 # User and administrator guide
 
+## 1.7.274: reusable activity settings and clearer CSV choices
+
+Activity copies retain playback speeds, CSV preferences and the linked Forum, including an unrelated later save. CSV choices reflect Moodle read permissions and display a specific reason when unavailable. Site administrators are no longer limited to the identity display list. Ordinary completion recalculation remains; the temporary historical repair checkbox is retired. [Policy and tests](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).
+
+
 Release266 adds a [private diagnostic preview](37_MICROSOFT_PRIVATE_PREVIEW.md) for the current administrator’s connected work/school account.
 The metadata CLI and original-page action retain their own contracts; tracked learner playback
 and live Microsoft browser validation remain separate gates.

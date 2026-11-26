@@ -141,6 +141,13 @@ function videotrack_add_instance($data, $mform = null) {
 function videotrack_update_instance($data, $mform = null) {
     global $DB;
     $previous = $DB->get_record('videotrack', ['id' => $data->instance], '*', MUST_EXIST);
+    // These stored settings are represented by separate checkboxes in the edit form.
+    // Preserve their scalar values when trusted callers submit a stored record instead.
+    foreach (['playbackspeeds', 'html5controls'] as $field) {
+        if (!property_exists($data, $field)) {
+            $data->{$field} = $previous->{$field};
+        }
+    }
     \mod_videotrack\local\instance_settings_policy::enforce($data, $previous);
     \mod_videotrack\local\microsoft_activity_reference::process_form_fields($data, $previous);
     $previouscompletionsignature = completion_config::signature($previous);
@@ -164,7 +171,7 @@ function videotrack_update_instance($data, $mform = null) {
     $csvcontext = !empty($data->coursemodule)
         ? context_module::instance((int)$data->coursemodule)
         : context_course::instance((int)$data->course);
-    \mod_videotrack\local\csv_export::process_form_fields($data, $csvcontext);
+    \mod_videotrack\local\csv_export::process_form_fields($data, $csvcontext, $previous);
 
     if (!empty($data->reactionnotice_editor) && is_array($data->reactionnotice_editor)) {
         $data->reactionnotice       = $data->reactionnotice_editor['text'] ?? '';
@@ -289,7 +296,7 @@ function videotrack_process_video_fields(stdClass $data, $mform = null): void {
 /**
  * Normalises the playbackspeeds field submitted from mod_form checkboxes.
  *
- * The form creates individual fields named playbackspeed_0.75, playbackspeed_1, etc.
+ * The form creates individual fields named playbackspeed_0_75, playbackspeed_1, etc.
  * (not a single array field) because advcheckbox inside a group works that way.
  * This function aggregates those individual values into a comma-separated string
  * stored in $data->playbackspeeds.
@@ -300,14 +307,27 @@ function videotrack_process_playbackspeeds_field(stdClass $data): void {
     // Collect individual playbackspeed_N checkbox values.
     $allpossible = ['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '3', '4'];
     $selected = [];
+    $submitted = false;
     foreach ($allpossible as $v) {
-        $key = 'playbackspeed_' . $v;
+        $key = videotrack_playback_speed_field_name($v);
+        $legacykey = 'playbackspeed_' . $v;
+        $submitted = $submitted || property_exists($data, $key) || property_exists($data, $legacykey);
         // Advcheckbox returns the unchecked value (0) or the checked value ($v).
-        if (isset($data->{$key}) && (float)$data->{$key} > 0) {
+        if ((float)($data->{$key} ?? $data->{$legacykey} ?? 0) > 0) {
             $selected[] = (float)$v;
         }
         // Clean up individual fields so they don't pollute the DB record.
-        unset($data->{$key});
+        unset($data->{$key}, $data->{$legacykey});
+    }
+
+    if (!$submitted && isset($data->playbackspeeds)) {
+        return;
+    }
+    if (isset($data->playbackspeeds) && $data->playbackspeeds === '') {
+        $defaults = videotrack_get_site_playback_speeds();
+        if (!array_diff($selected, $defaults) && !array_diff($defaults, $selected)) {
+            return;
+        }
     }
 
     if (!empty($selected)) {
@@ -847,12 +867,23 @@ function videotrack_process_html5controls_field(stdClass $data): void {
         'download',
     ];
     $selected = [];
+    $submitted = false;
     foreach ($allpossible as $ctrl) {
         $key = 'html5ctrl_' . $ctrl;
+        $submitted = $submitted || property_exists($data, $key);
         if (!empty($data->{$key})) {
             $selected[] = $ctrl;
         }
         unset($data->{$key});
+    }
+    if (!$submitted && isset($data->html5controls)) {
+        return;
+    }
+    if (isset($data->html5controls) && $data->html5controls === '') {
+        $defaults = videotrack_get_html5controls((object)['html5controls' => '']);
+        if (!array_diff($selected, $defaults) && !array_diff($defaults, $selected)) {
+            return;
+        }
     }
     $data->html5controls = $selected ? implode(',', $selected) : '';
 }
@@ -1883,7 +1914,7 @@ function videotrack_recalculation_userids(int $videotrackid, int $userid = 0): a
  * @param  cm_info  $cm             Course module info.
  * @param  int      $userid          Optional user id; zero recalculates every tracked user.
  * @param  bool     $synchronisemoodle Whether to ask Moodle to re-evaluate native completion too.
- * @param  bool     $recoverplayback Explicit teacher opt-in for historical missed-heartbeat recovery.
+ * @param  bool     $recoverplayback Legacy internal repair opt-in; never read from the browser report request.
  * @return int                      Number of updated state records.
  */
 function videotrack_recalculate_all_states(

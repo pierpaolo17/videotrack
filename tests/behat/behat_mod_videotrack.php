@@ -1878,4 +1878,26 @@ JS;
             );
         }
     }
+
+    /**
+     * Compare saved settings after real Moodle duplication or a browser form submission.
+     *
+     * @Then /^the VideoTrack settings in "([^"]+)" match "([^"]+)"$/
+     * @param string $copyname Activity copy name.
+     * @param string $sourcename Original activity name.
+     */
+    public function the_videotrack_settings_match(string $copyname, string $sourcename): void {
+        global $DB;
+
+        $source = $DB->get_record('videotrack', ['name' => $sourcename], '*', MUST_EXIST);
+        $copy = $DB->get_record('videotrack', ['name' => $copyname, 'course' => $source->course], '*', MUST_EXIST);
+        foreach (get_object_vars($source) as $field => $value) {
+            if (in_array($field, ['id', 'name', 'timemodified', 'timecreated'], true)) {
+                continue;
+            }
+            if ($value != $copy->{$field}) {
+                throw new ExpectationException('The copied activity lost setting: ' . $field, $this->getSession());
+            }
+        }
+    }
 }

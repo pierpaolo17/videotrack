@@ -517,15 +517,16 @@ final class form_definition {
             );
             $checkboxgroup = [];
             foreach ($availablespeeds as $val => $label) {
+                $fieldname = videotrack_playback_speed_field_name((string)$val);
                 $checkboxgroup[] = $mform->createElement(
                     'advcheckbox',
-                    "playbackspeed_{$val}",
+                    $fieldname,
                     '',
                     $label,
                     [],
                     [0, $val]
                 );
-                $mform->setType("playbackspeed_{$val}", PARAM_TEXT);
+                $mform->setType($fieldname, PARAM_TEXT);
             }
             $mform->addGroup(
                 $checkboxgroup,
@@ -575,13 +576,16 @@ final class form_definition {
         );
         $csvfieldoptions = \mod_videotrack\local\csv_export::form_field_options($csvcontext);
         $allowedcsvfields = array_keys(\mod_videotrack\local\csv_export::field_options($csvcontext));
+        $unavailablereasons = \mod_videotrack\local\csv_export::unavailable_reasons($csvcontext);
         $csvfieldcheckboxes = [];
         foreach ($csvfieldoptions as $field => $label) {
             $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
             $isallowedcsvfield = in_array($field, $allowedcsvfields, true);
             $attributes = [];
             if (!$isallowedcsvfield) {
-                $label .= ' (' . get_string('notavailable') . ')';
+                $reasonkey = $unavailablereasons[$field] ?? 'report:csvfield_unavailable_profile';
+                $reason = get_string($reasonkey, 'mod_videotrack');
+                $label .= ' (' . get_string('notavailable') . ': ' . $reason . ')';
                 $attributes['disabled'] = 'disabled';
             }
             $csvfieldcheckboxes[] = $mform->createElement(

@@ -493,3 +493,7 @@ The JSON script element created by `view.php` is the single server-to-player con
 
 `durationprobe` is an optional JSON form input (source/input/seconds), bound to
 the current submitted source. It is never a DB field or a learner tracking value.
+
+## Activity form preferences and retired repair input (1.7.274)
+
+Fractional playback controls use PHP-safe names such as playbackspeed_0_5. Stored playbackspeeds remains the same comma-separated scalar; legacy dotted aliases are accepted by internal normalisation. CSV unavailable choices retain their stored preferences but are filtered at runtime. Empty CSV configuration inherits site defaults; none still selects no optional fields. Per-field reason labels are derived, not database columns. The browser recoverplayback request/checkbox is removed; ordinary recalculation does not repair history. Existing `recovery269` segment rows keep their meaning.

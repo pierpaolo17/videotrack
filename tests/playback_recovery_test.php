@@ -167,6 +167,13 @@ final class playback_recovery_test extends \advanced_testcase {
         $this->assertSame(440.0, (float)$again->uniquecoveredseconds);
         $this->assertSame(3, $DB->count_records('videotrack_seg', $where));
         $this->assertSame($logcount, $DB->count_records('logstore_standard_log'));
+        // Retiring the web repair checkbox must not invalidate previously accepted repair rows.
+        require_once(__DIR__ . '/../lib.php');
+        $acceptedrows = $DB->get_records('videotrack_seg', $where, 'id');
+        $this->assertSame(1, videotrack_recalculate_all_states((int)$activity->id, $cm, (int)$user->id, false));
+        $ordinary = $DB->get_record('videotrack_state', $where, '*', MUST_EXIST);
+        $this->assertSame(440.0, (float)$ordinary->uniquecoveredseconds);
+        $this->assertEquals($acceptedrows, $DB->get_records('videotrack_seg', $where, 'id'));
     }
 
     /**

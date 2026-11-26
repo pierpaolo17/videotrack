@@ -297,6 +297,16 @@ function videotrack_get_max_playback_rate(): float {
 }
 
 /**
+ * Returns a playback checkbox name that PHP preserves when parsing a browser POST.
+ *
+ * @param string $rate Canonical decimal playback rate.
+ * @return string Stable flat form element name.
+ */
+function videotrack_playback_speed_field_name(string $rate): string {
+    return 'playbackspeed_' . str_replace('.', '_', $rate);
+}
+
+/**
  * Returns the site-wide available playback speeds as configured by the admin.
  *
  * @return float[]

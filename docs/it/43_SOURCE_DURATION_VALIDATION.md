@@ -53,9 +53,9 @@ di esportazione studente. Non ci sono migrazioni, riscritture delle evidenze di
 visione, modifiche automatiche delle durate esistenti o ricalcoli globali.
 Per una durata già salvata errata, correggerla nelle impostazioni e utilizzare
 il ricalcolo del completamento esistente quando necessario: i segmenti restano.
-Sono conservati fix replay/tracking 272 e opzione temporanea di recupero storico.
+Restano i fix replay/tracking. La 1.7.274 ritira la casella di recupero storico, conservando ricalcolo ordinario e righe di recupero già accettate.
 
-## Verifiche e gate ancora aperti
+## Verifiche di preparazione della 1.7.273 (storiche)
 
 Dieci gruppi Node deterministici esercitano il modulo AMD reale: valori preesistenti,
 salvataggi dopo modifiche estranee, duplicazione/cambio link, tre sorgenti, uguaglianza
@@ -84,3 +84,5 @@ di 60 secondi e il vero handler del modulo, senza interrogare YouTube dal test.
 Fonti primarie: [durata YouTube](https://developers.google.com/youtube/iframe_api_reference#getDuration),
 [Vimeo Player SDK](https://github.com/vimeo/player.js/#getduration-promisenumber-error),
 [Moodle Forms API](https://moodledev.io/docs/5.0/apis/subsystems/form).
+
+La 1.7.273 è accettata: CI candidata/main, ZIP effettivo, server 50/53 e prove manuali durata/banner del maintainer superati. La 1.7.274 conserva la stessa policy durata. Vedere [manutenzione copie/CSV](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).
