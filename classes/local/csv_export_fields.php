@@ -172,9 +172,10 @@ final class csv_export_fields {
         $reasons = [];
         foreach ($DB->get_records('user_info_field', null, 'sortorder ASC, id ASC') as $field) {
             $key = 'profile_field_' . \core_text::strtolower((string)$field->shortname);
-            $instance = profile_get_user_field($field->datatype, (int)$field->id, 0, $field);
+            $instance = \profile_get_user_field($field->datatype, (int)$field->id, 0, $field);
             // A completely hidden field requires system permission, even if an actor has a local override.
-            $fieldcontext = (int)$field->visible === PROFILE_VISIBLE_NONE ? context_system::instance() : $visibilitycontext;
+            $hidden = (int)$field->visible === (int)\PROFILE_VISIBLE_NONE;
+            $fieldcontext = $hidden ? context_system::instance() : $visibilitycontext;
             if (!$canviewprofile || !$instance->is_visible($fieldcontext)) {
                 $reasons[$key] = 'report:csvfield_unavailable_profile';
             }

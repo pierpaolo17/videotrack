@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack;
 
@@ -108,18 +108,32 @@ final class csv_field_access_test extends \advanced_testcase {
     public function test_full_profile_permission_is_effective_only_in_its_course(): void {
         set_config('showuseridentity', 'email');
         set_config('hiddenuserfields', '');
+        $this->getDataGenerator()->create_custom_profile_field([
+            'shortname' => 'vtfullprivate', 'name' => 'Private profile field', 'datatype' => 'text',
+            'visible' => PROFILE_VISIBLE_PRIVATE,
+        ]);
+        $this->getDataGenerator()->create_custom_profile_field([
+            'shortname' => 'vtfullhidden', 'name' => 'System-hidden profile field', 'datatype' => 'text',
+            'visible' => PROFILE_VISIBLE_NONE,
+        ]);
         $course = $this->getDataGenerator()->create_course();
         $other = $this->getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
         $role = $this->viewer($context);
-        assign_capability('moodle/user:viewalldetails', CAP_ALLOW, $role, $context->id);
+        $this->assertFalse(has_capability('moodle/user:viewalldetails', $context));
+        assign_capability('moodle/user:viewalldetails', CAP_ALLOW, $role, $context->id, true);
         accesslib_clear_all_caches_for_unit_testing();
+        $othercontext = \context_course::instance($other->id);
+        $this->assertTrue(has_capability('moodle/user:viewalldetails', $context));
+        $this->assertFalse(has_capability('moodle/user:viewalldetails', $othercontext));
         $allowed = csv_export::field_options($context);
-        $outside = csv_export::field_options(\context_course::instance($other->id));
-        foreach (['username', 'department', 'institution', 'idnumber'] as $field) {
+        $outside = csv_export::field_options($othercontext);
+        foreach (['username', 'department', 'institution', 'idnumber', 'profile_field_vtfullprivate'] as $field) {
             $this->assertArrayHasKey($field, $allowed);
             $this->assertArrayNotHasKey($field, $outside);
         }
+        $this->assertArrayNotHasKey('profile_field_vtfullhidden', $allowed);
+        $this->assertArrayNotHasKey('profile_field_vtfullhidden', $outside);
     }
 
     /**

@@ -47,3 +47,22 @@ espansi/1571 passi, 8 lingue x 1080 chiavi, 48 set AMD. Schema 7 tabelle/152 cam
 22 chiavi esterne e 9 metodi AJAX invariati. Prima dell’accettazione della 274 servono
 esiti effettivi CI, entrambi i lifecycle, server e prove manuali. HTTPS/Microsoft
 restano un percorso separato.
+
+## Prima CI 274 e candidata correttiva
+
+Il [run 45866268225](https://github.com/pierpaolo17/videotrack/actions/runs/45866268225) verifica commit 1773d14b, albero a69be2cd.
+Tutte le sei matrici superano Behat 84/1571 senza retry, JavaScript 38+harness,
+strict 10/0/0 e Grunt nativo. Gli hash sorgenti/build coincidono con la candidata
+e i sei artefatti nativi separati abbinati. Il server PHP resta attivo fino alla
+pulizia voluta. La suite di 656 test ha due failure su 50/51 e una su 52/53.
+Code Checker segnala 12 errori di formattazione nei due nuovi file di test.
+Entrambi i lifecycle sono saltati. PHPStan/Psalm non risolvono i due simboli legacy.
+
+La correzione usa il separatore POST esplicito, sovrascrive il permesso già negato
+nella fixture, corregge la formattazione e carica la vera API profili per entrambi
+gli analizzatori. Nessuna soppressione aggiunta. La revisione del sorgente corregge
+anche il confronto stretto intero/stringa dei campi completamente nascosti; il
+test esteso verifica che un permesso sul solo corso non li renda disponibili.
+Questa correzione non cambia tracciamento, completamento, recupero o UI browser.
+Conteggi e versione invariati. Disponibili i controlli locali su token, inventari
+e patch; risultati nativi corretti ed entrambi i lifecycle popolati ancora attesi.

@@ -46,3 +46,22 @@ Counts: 530 repository/501 distributed files, 210 repository PHP/209 distributed
 7 tables/152 fields/22 indexes/22 foreign keys;9 AJAX methods. Current evidence must be
 updated from actual 274 CI, both lifecycle matrices, server and manual reports before
 release acceptance. HTTPS/Microsoft provider acceptance stays separate.
+
+## Initial 274 CI and corrective candidate
+
+[Run 45866268225](https://github.com/pierpaolo17/videotrack/actions/runs/45866268225) tests commit 1773d14b, tree a69be2cd.
+All six matrices pass Behat 84/1571 without retries, JavaScript 38+harness,
+strict 10/0/0 and native Grunt; all source/build hashes match the candidate and
+the six paired standalone artifacts. PHP remains alive until intentional cleanup.
+The 656-test suite has two failures on 50/51 and one on 52/53. Code Checker
+reports 12 formatting errors in the two new test files. Both lifecycle matrices
+are skipped. PHPStan/Psalm report the two unresolved legacy profile symbols.
+
+The correction explicitly uses a raw POST separator, overwrites the fixture's
+existing denied permission, fixes the reported formatting and loads the real
+profile API for both analysers. It adds no suppression. Source review also fixes
+the strict integer/string comparison for fully hidden fields; the extended test
+keeps these unavailable with a course-only profile permission. No watching,
+completion, recovery or browser-UI behavior is changed by this correction.
+Counts and version remain unchanged. Local token/inventory/patch checks are
+available; corrected native results and both populated lifecycles remain pending.

@@ -443,7 +443,7 @@ tree has 530 repository files / 501 distributed files, including all documentati
 | `tests/video_source_policy_test.php` | Native regressions for source defaults, forged writes, stale tracking, retained files/state and personal erasure. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |
-| `tools/static-analysis/bootstrap.php` | Shared analyser bootstrap loading the selected Moodle and the stable legacy parent APIs required by the production scope. |
+| `tools/static-analysis/bootstrap.php` | Moodle bootstrap for static analysis, including the real legacy custom-profile function and constants. |
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only static declaration of Moodle 5.0's global `renderable` compatibility name. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |

@@ -2,6 +2,30 @@
 
 ## 1.7.274 - 2026-11-26
 
+### Correct the initial candidate's native CI findings
+
+- Review run 45866268225 on commit 1773d14b/tree a69be2cd: all six matrices
+  pass Behat 84/1571 on the first pass, JavaScript 38+harness, strict 10/0/0
+  and native Grunt. Every 48-source/96-build hash matches both uploaded artifact
+  families and the candidate. Both populated lifecycle jobs remain skipped.
+- Correct 12 Code Checker formatting errors in the two new test files. Make
+  the POST fixture use a raw ampersand separator, independently of HTML URL
+  configuration on Moodle 5.0/5.1. Explicitly overwrite its existing denied
+  capability in the full-profile fixture and assert the effective course scope.
+  The original suite runs all 656 tests: two failures on 50/51, one on 52/53;
+  these fixture failures are not reported as runtime playback regressions.
+- Load Moodle's real custom-profile API in the shared static-analysis bootstrap
+  so PHPStan/Psalm can discover its function and constant. Add no suppression
+  or synthetic definition. Qualify the global function/constant explicitly.
+- Cast both sides of the hidden-field visibility comparison: Moodle defines
+  PROFILE_VISIBLE_NONE as a string. Extend the scoped-permission test with
+  private and fully hidden fields; a course-only override must not expose the
+  latter. Preserve the documented system permission requirement.
+- Keep 274/2026112600, schema, counts, all AMD outputs, ordinary recalculation,
+  accepted recovery rows and all previous browser assertions. Corrected native
+  PHP/PHPCS/PHPUnit/static-analysis, CI and populated lifecycle gates are pending.
+
+
 ### Preserve copied settings, clarify CSV permissions and retire temporary recovery
 
 - Resolve the optional Forum reference after all activity mappings exist. Same-site,

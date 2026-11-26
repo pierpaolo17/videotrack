@@ -979,15 +979,15 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `classes/local/csv_export_fields.php:99` | `unavailable_reasons` | Explain actual field restrictions without treating Moodle's identity display list as an admin permission. |
 | `classes/local/csv_export_fields.php:134` | `standard_field_reason` | Apply the standard-profile read rules used by Moodle's user details API. |
 | `classes/local/csv_export_fields.php:165` | `profile_field_reasons` | Reuse custom-profile visibility, using the explicit course rather than the global course fallback. |
-| `classes/local/csv_export_fields.php:196` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:222` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:237` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:252` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:264` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:290` | `submitted_fields` | Collects submitted CSV choices while keeping unavailable stored preferences locked. |
-| `classes/local/csv_export_fields.php:313` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:326` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export_fields.php:361` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:197` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:223` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:238` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:253` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:265` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:291` | `submitted_fields` | Collects submitted CSV choices while keeping unavailable stored preferences locked. |
+| `classes/local/csv_export_fields.php:314` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:327` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:362` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export_identity.php:46` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export_identity.php:76` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export_identity.php:113` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1488,9 +1488,9 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `tests/activity_settings_restore_test.php:95` | `test_activity_restore_into_another_course_disables_an_omitted_forum` | An omitted Forum from another course cannot be rebound by its original numeric id. |
 | `tests/activity_settings_restore_test.php:104` | `test_record_update_preserves_playback_csv_and_control_preferences` | Saving a stored activity record does not erase scalar checkbox preferences. |
 | `tests/activity_settings_restore_test.php:124` | `test_fractional_speed_names_survive_php_post_parsing_and_quickform_export` | Real PHP query parsing and QuickForm must agree on fractional-rate field names and unchecked values. |
-| `tests/activity_settings_restore_test.php:162` | `fixture` | Create an already configured activity, followed by its linked Forum. |
-| `tests/activity_settings_restore_test.php:190` | `roundtrip` | Execute native backup/restore controllers with configuration-only activity or course backups. |
-| `tests/activity_settings_restore_test.php:228` | `assert_settings` | Compare every saved scalar except the fields Moodle deliberately assigns to the copy. |
+| `tests/activity_settings_restore_test.php:163` | `fixture` | Create an already configured activity, followed by its linked Forum. |
+| `tests/activity_settings_restore_test.php:191` | `roundtrip` | Execute native backup/restore controllers with configuration-only activity or course backups. |
+| `tests/activity_settings_restore_test.php:237` | `assert_settings` | Compare every saved scalar except the fields Moodle deliberately assigns to the copy. |
 | `tests/admin_settings_test.php:40` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:50` | `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | PHP callable `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:63` | `test_int_range_validation_enforces_configured_bounds` | PHP callable `test_int_range_validation_enforces_configured_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1654,10 +1654,10 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `tests/csv_field_access_test.php:48` | `test_admin_exports_standard_and_custom_values_outside_identity_display_list` | An administrator can export populated fields outside the identity display list. |
 | `tests/csv_field_access_test.php:81` | `test_scoped_viewer_gets_precise_reasons_and_only_visible_profile_fields` | A scoped viewer keeps hidden/custom restrictions even when the site preselects them. |
 | `tests/csv_field_access_test.php:108` | `test_full_profile_permission_is_effective_only_in_its_course` | Full-profile permission grants the administrative scalar fields without changing global identity settings. |
-| `tests/csv_field_access_test.php:128` | `test_unavailable_stored_preferences_survive_but_do_not_authorise_export` | Disabled selections survive an unrelated save while runtime CSV still omits their values. |
-| `tests/csv_field_access_test.php:146` | `test_forged_unavailable_checkbox_does_not_add_a_new_preference` | An attacker cannot add a newly selected unavailable field through a forged checkbox. |
-| `tests/csv_field_access_test.php:159` | `test_scalar_preferences_inheritance_and_explicit_none_remain_distinct` | Stored records, explicit none and inherited selections retain their distinct meaning. |
-| `tests/csv_field_access_test.php:185` | `viewer` | Create a viewer with explicit field permissions, independent of archetype defaults. |
+| `tests/csv_field_access_test.php:142` | `test_unavailable_stored_preferences_survive_but_do_not_authorise_export` | Disabled selections survive an unrelated save while runtime CSV still omits their values. |
+| `tests/csv_field_access_test.php:160` | `test_forged_unavailable_checkbox_does_not_add_a_new_preference` | An attacker cannot add a newly selected unavailable field through a forged checkbox. |
+| `tests/csv_field_access_test.php:173` | `test_scalar_preferences_inheritance_and_explicit_none_remain_distinct` | Stored records, explicit none and inherited selections retain their distinct meaning. |
+| `tests/csv_field_access_test.php:199` | `viewer` | Create a viewer with explicit field permissions, independent of archetype defaults. |
 | `tests/focus_policy_test.php:37` | `test_exception_group_is_idempotent_hidden_and_non_participating` | Verifies stable hidden/non-participating group creation. |
 | `tests/focus_policy_test.php:58` | `test_member_receives_hidden_only_policy_when_site_is_strict` | Verifies the strict-focus exception for an authorised member. |
 | `tests/focus_policy_test.php:83` | `test_non_member_keeps_strict_policy` | Verifies strict policy remains effective outside the exception group. |

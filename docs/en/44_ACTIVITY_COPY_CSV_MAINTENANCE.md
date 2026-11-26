@@ -88,3 +88,17 @@ Primary references: [PHP incoming variable-name conversion](https://github.com/p
 [Moodle user-detail permissions](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/user/lib.php),
 [custom-profile visibility](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/user/profile/lib.php),
 [deferred restore hook](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/backup/util/plan/restore_structure_step.class.php).
+
+## Initial CI correction
+
+The initial native run passes all 84 browser scenarios and 1571 steps on six
+matrices, but blocks on test-fixture failures and Code Checker formatting.
+POST serialization now supplies a raw ampersand independently of PHP's HTML URL
+separator. The permission fixture explicitly replaces its existing CAP_PREVENT
+and asserts both effective contexts before inspecting CSV choices. The shared
+analysis bootstrap loads the real Moodle profile library without suppressions.
+Moodle's hidden-visibility constant is a string; both sides are cast to integers
+before selecting the mandatory system context. The extended test includes a
+private field and a completely hidden field with a course-only permission.
+These corrections retain all prior assertions, counts, data and ordinary
+recalculation. Corrected native results and populated lifecycle gates are pending.

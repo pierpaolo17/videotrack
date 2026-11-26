@@ -443,7 +443,7 @@ Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo
 | `tests/video_source_policy_test.php` | Regressioni native per sorgenti predefinite, scritture alterate, tracciamento residuo, conservazione file/stati e cancellazioni personali. |
 | `tests/vimeo_seek_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/xmldb_relationship_contract_test.php` | Contratti XMLDB per foreign key, riferimenti-sentinella e indici generati. |
-| `tools/static-analysis/bootstrap.php` | Bootstrap comune che carica il Moodle selezionato e le API parent legacy stabili richieste dal perimetro di produzione. |
+| `tools/static-analysis/bootstrap.php` | Bootstrap Moodle per analisi statica, incluse vere funzioni e costanti legacy dei profili. |
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Dichiarazione statica riservata a Psalm del nome globale di compatibilità `renderable` di Moodle 5.0. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |

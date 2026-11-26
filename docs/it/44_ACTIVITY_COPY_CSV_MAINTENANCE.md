@@ -89,3 +89,17 @@ Fonti primarie: [conversione nomi PHP](https://github.com/php/php-src/blob/PHP-8
 [permessi dettagli utente](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/user/lib.php),
 [visibilità profili](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/user/profile/lib.php),
 [hook ripristino differito](https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/backup/util/plan/restore_structure_step.class.php).
+
+## Correzione dopo la prima CI
+
+La prima esecuzione nativa supera tutti gli 84 scenari browser e 1571 passi su
+sei matrici, ma si ferma per fixture dei test e formattazione Code Checker.
+La serializzazione POST passa ora un ampersand esplicito, indipendente dal
+separatore URL HTML di PHP. La fixture dei permessi sostituisce il CAP_PREVENT
+già presente e verifica i due contesti prima di leggere le opzioni CSV. Il
+bootstrap degli analizzatori carica la vera libreria Moodle dei profili senza
+soppressioni. La costante di visibilità nascosta è una stringa: entrambi i lati
+sono convertiti in interi prima di scegliere il contesto di sistema richiesto.
+Il test esteso include un campo privato e uno completamente nascosto con un
+permesso limitato al corso. Restano asserzioni precedenti, conteggi, dati e
+ricalcolo ordinario. Attesi i nuovi esiti nativi e i lifecycle popolati.

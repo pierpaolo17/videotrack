@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack;
 
@@ -132,7 +132,8 @@ final class activity_settings_restore_test extends \advanced_testcase {
             $rate = str_replace('_', '.', substr($name, strlen('playbackspeed_')));
             $values[$name] = in_array($rate, ['0.25', '1', '1.5'], true) ? $rate : 0;
         }
-        parse_str(http_build_query($values), $post);
+        // A raw POST body uses ampersands, independently of HTML link output configuration.
+        parse_str(http_build_query($values, '', '&'), $post);
         $this->assertSame(array_keys($values), array_keys($post));
         $form->updateSubmission($post, []);
         $data = (object)$form->exportValues();
@@ -193,7 +194,10 @@ final class activity_settings_restore_test extends \advanced_testcase {
         $backup = new \backup_controller(
             $wholecourse ? \backup::TYPE_1COURSE : \backup::TYPE_1ACTIVITY,
             $wholecourse ? $course->id : $activity->cmid,
-            \backup::FORMAT_MOODLE, \backup::INTERACTIVE_NO, \backup::MODE_IMPORT, $USER->id
+            \backup::FORMAT_MOODLE,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_IMPORT,
+            $USER->id
         );
         try {
             $backup->get_plan()->get_setting('users')->set_status(\backup_setting::NOT_LOCKED);
@@ -205,7 +209,12 @@ final class activity_settings_restore_test extends \advanced_testcase {
         }
         $courseid = \restore_dbops::create_new_course('Restored settings', 'restored_settings', $course->category);
         $restore = new \restore_controller(
-            $backupid, $courseid, \backup::INTERACTIVE_NO, \backup::MODE_GENERAL, $USER->id, \backup::TARGET_NEW_COURSE
+            $backupid,
+            $courseid,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_GENERAL,
+            $USER->id,
+            \backup::TARGET_NEW_COURSE
         );
         try {
             $restore->get_plan()->get_setting('users')->set_status(\backup_setting::NOT_LOCKED);
