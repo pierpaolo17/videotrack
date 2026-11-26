@@ -56,6 +56,9 @@ final class form_definition {
         $mform->setType('durationseconds', PARAM_FLOAT);
         $mform->setDefault('durationseconds', 0);
         $mform->addHelpButton('durationseconds', 'durationseconds', 'mod_videotrack');
+        // Ephemeral browser metadata, bound to the submitted source; never an activity field.
+        $mform->addElement('hidden', 'durationprobe', '', ['id' => 'id_durationprobe']);
+        $mform->setType('durationprobe', PARAM_RAW_TRIMMED);
         $mform->addElement(
             'static',
             'durationseconds_auto_note',
@@ -100,6 +103,7 @@ final class form_definition {
             'vimeoid' => 'id_vimeourl',
             'fileid' => 'id_videofile',
             'durationid' => 'id_durationseconds',
+            'probeid' => 'id_durationprobe',
             'noteid' => 'videotrack-durationseconds-auto-note',
             'humanid' => 'videotrack-durationseconds-human',
             'maximum' => 86400,
@@ -110,6 +114,14 @@ final class form_definition {
                 'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', $durationtoken),
                 'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
                 'human' => get_string('durationseconds_human', 'mod_videotrack', $durationhumantoken),
+                'exceeds' => get_string('durationseconds_exceeds_source', 'mod_videotrack', (object)[
+                    'configured' => '__VIDEOTRACK_CONFIGURED_DURATION__',
+                    'detected' => $durationtoken,
+                ]),
+                'title' => get_string('durationseconds', 'mod_videotrack'),
+                'close' => get_string('closebuttontitle'),
+                'save' => get_string('savechanges'),
+                'cancelnotice' => get_string('durationseconds_cancel_notice', 'mod_videotrack'),
             ],
         ];
         $durationconfigjson = json_encode(

@@ -147,9 +147,13 @@ explicitly. Site policy can restrict which settings a teacher may override.
 | YouTube | Public YouTube URL or identifier | YouTube IFrame API | Duration is proposed by a bounded, muted form-only probe. Provider availability still applies. |
 | Vimeo | Public Vimeo URL or identifier | Vimeo Player SDK | Duration is proposed asynchronously. Provider privacy/network policy still applies. |
 
-The duration stored by the teacher is authoritative for percentages. Automatic detection is only a proposal:
-review it before saving, enter it manually when detection is unavailable, or use `0` to disable percentage
-calculation. Player adapters share a contract but have separate implementations and external-provider limits.
+The duration stored by the teacher is authoritative for percentages. From 1.7.273, available source metadata
+also supplies an upper bound: a greater configured duration blocks saving; equal or shorter values remain
+allowed. The source is checked when opening settings and again on Save and display, Save and return to course,
+and Cancel, regardless of which settings changed. Cancel warns if necessary and discards changes without saving.
+If metadata is unavailable, a warning permits an explicit manual save. Use `0` to disable percentage calculation,
+subject to the existing completion dependencies. See [duration validation](43_SOURCE_DURATION_VALIDATION.md).
+Player adapters share a contract but have separate implementations and external-provider limits.
 The form displays the same value as `HH:MM:SS` and updates that equivalent after automatic detection or manual input.
 
 ## Activity configuration

@@ -6,7 +6,7 @@ VideoTrack is a Moodle activity module for HTML5/uploaded, YouTube and Vimeo vid
 server-validated watched progress, study interactions, custom completion, gradebook integration and
 privacy-aware reporting.
 
-Current release documented by this tree: **1.7.272**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.7.273**. Supported Moodle branches: **5.0–5.3**.
 
 - Italian overview: [`README_IT.md`](README_IT.md)
 - Complete English guide: [`docs/en/funzionalita.md`](docs/en/funzionalita.md)
@@ -23,7 +23,7 @@ awaits live HTTPS/account validation. See the [reference guide](docs/en/41_MICRO
 
 | Area | Available functionality |
 |---|---|
-| Media | Uploaded/HTML5 video, YouTube and Vimeo; form-only duration suggestion with `HH:MM:SS` equivalent; poster; optional uploaded-file download. |
+| Media | Uploaded/HTML5 video, YouTube and Vimeo; duration suggestion and source upper-bound checks on settings actions, with `HH:MM:SS` equivalent; poster; optional uploaded-file download. |
 | Player | Autoplay, loop, initial mute, responsive width, configurable controls, keyboard/fullscreen policy, rewind/forward steps. |
 | Navigation | Independent forward/backward seek policy, trusted resume, bounded report replay and blocked-seek recovery. |
 | Speed | Configurable speed list, learner rate-change policy, maximum rate and fallback rate after a blocked seek. |
@@ -218,3 +218,8 @@ All269 tracking fixes and explicit historical recovery are retained.
 
 This release corrects a report-replay state race that could rewind YouTube fragments
 and apply the blocked-seek speed during normal playback. See the [replay guide](docs/en/42_REPORT_REPLAY_STATE.md).
+
+Source duration is checked when opening settings and before each save. A detected
+shorter source blocks an excessive setting; shorter manual values stay valid. If
+metadata is unavailable, a warning permits an explicit manual save. See the
+[duration validation guide](docs/en/43_SOURCE_DURATION_VALIDATION.md).

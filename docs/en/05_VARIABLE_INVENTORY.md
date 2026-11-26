@@ -488,3 +488,8 @@ The JSON script element created by `view.php` is the single server-to-player con
 ## 1.7.258: security follow-up
 
 `resumestoragekey` is opaque browser identity, not progress. `personal_item` keeps the lock through event commit. `legacyremoved` exists only in disposable backup tests; no new DB field.
+
+## Transient form metadata (1.7.273)
+
+`durationprobe` is an optional JSON form input (source/input/seconds), bound to
+the current submitted source. It is never a DB field or a learner tracking value.

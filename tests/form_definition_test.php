@@ -59,6 +59,7 @@ final class form_definition_test extends \advanced_testcase {
         $duration = $form->getElement('durationseconds');
         $this->assertSame(0.0, (float)$duration->getValue());
         $this->assertFalse($duration->isFrozen());
+        $this->assertSame('id_durationprobe', $form->getElement('durationprobe')->getAttribute('id'));
         $this->assertSame(
             'videotrack-durationseconds-auto-note videotrack-durationseconds-human',
             $duration->getAttribute('aria-describedby')
@@ -117,6 +118,7 @@ final class form_definition_test extends \advanced_testcase {
             'vimeoid' => 'id_vimeourl',
             'fileid' => 'id_videofile',
             'durationid' => 'id_durationseconds',
+            'probeid' => 'id_durationprobe',
             'noteid' => 'videotrack-durationseconds-auto-note',
             'humanid' => 'videotrack-durationseconds-human',
             'maximum' => 86400,
@@ -127,6 +129,14 @@ final class form_definition_test extends \advanced_testcase {
                 'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', '__VIDEOTRACK_DURATION__'),
                 'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
                 'human' => get_string('durationseconds_human', 'mod_videotrack', '__VIDEOTRACK_DURATION_HUMAN__'),
+                'exceeds' => get_string('durationseconds_exceeds_source', 'mod_videotrack', (object)[
+                    'configured' => '__VIDEOTRACK_CONFIGURED_DURATION__',
+                    'detected' => '__VIDEOTRACK_DURATION__',
+                ]),
+                'title' => get_string('durationseconds', 'mod_videotrack'),
+                'close' => get_string('closebuttontitle'),
+                'save' => get_string('savechanges'),
+                'cancelnotice' => get_string('durationseconds_cancel_notice', 'mod_videotrack'),
             ],
         ], $config);
         $endcode = $page->requires->get_end_code();

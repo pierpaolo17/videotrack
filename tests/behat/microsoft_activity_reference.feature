@@ -24,7 +24,7 @@ Feature: Optional Microsoft reference preparation keeps the active player unchan
   Scenario: Saving an empty prepared reference retains the selected playable source
     Then the field "microsoftreference" matches value ""
     And the "videosource" select box should not contain "microsoft"
-    When I press "Save and return to course"
+    When I submit VideoTrack settings with deterministic YouTube duration metadata
     And I am on the "Prepared video" "videotrack activity editing" page
     And I expand all fieldsets
     Then the field "videosource" matches value "youtube"
@@ -32,7 +32,7 @@ Feature: Optional Microsoft reference preparation keeps the active player unchan
 
   Scenario: URLs and credentials cannot be saved as a prepared reference
     When I set the field "microsoftreference" to "https://example.org/private-marker"
-    And I press "Save and return to course"
+    And I submit VideoTrack settings with deterministic YouTube duration metadata
     Then I should see "Enter a valid Microsoft reference and match or explicitly bind it to the selected enabled Microsoft service."
     And the field "videosource" matches value "youtube"
     And I should not see "Exception"

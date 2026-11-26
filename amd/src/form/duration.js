@@ -14,17 +14,17 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Suggests a video duration in the activity form from provider or file metadata.
+ * Checks the teacher's video duration against provider or file metadata.
  *
- * The detected value is only a form suggestion. It becomes authoritative after
- * the teacher saves the activity and remains editable on later form visits.
+ * Metadata supplies an upper bound, including a fresh check before each save.
+ * Shorter manual values remain valid; unavailable metadata permits a manual save.
  *
  * @module     mod_videotrack/form/duration
  * @copyright  2026 VideoTrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, promise/always-return, promise/no-nesting, promise/catch-or-return, complexity */
-define(['core/log'], function(Log) {
+define(['core/log', 'core/notification', 'core/modal_events'], function(Log, Notification, ModalEvents) {
     'use strict';
 
     var youtubeApiPromise = null;
@@ -32,6 +32,7 @@ define(['core/log'], function(Log) {
     var probeSequence = 0;
     var DURATION_TOKEN = '__VIDEOTRACK_DURATION__';
     var HUMAN_DURATION_TOKEN = '__VIDEOTRACK_DURATION_HUMAN__';
+    var CONFIGURED_DURATION_TOKEN = '__VIDEOTRACK_CONFIGURED_DURATION__';
 
     function normaliseDuration(value, maximum) {
         value = Number(value);
@@ -65,6 +66,12 @@ define(['core/log'], function(Log) {
 
     function renderMessage(template, duration) {
         return String(template || '').split(DURATION_TOKEN).join(formatDuration(duration));
+    }
+
+    function exceedsDuration(configured, detected, maximum) {
+        configured = normaliseDuration(configured, maximum);
+        detected = normaliseDuration(detected, maximum);
+        return detected > 0 && Math.round(configured * 1000) > Math.round(detected * 1000);
     }
 
     function setStatus(note, message, state) {
@@ -375,7 +382,9 @@ define(['core/log'], function(Log) {
             iframe.setAttribute('title', '');
             host.appendChild(iframe);
             var player = new Player(iframe);
+            var timeout = null;
             var cleanup = function() {
+                window.clearTimeout(timeout);
                 var result = player && typeof player.destroy === 'function' ? player.destroy() : null;
                 if (result && typeof result.catch === 'function') {
                     result.catch(function() {
@@ -389,7 +398,7 @@ define(['core/log'], function(Log) {
             return Promise.race([
                 player.getDuration(),
                 new Promise(function(resolve, reject) {
-                    window.setTimeout(function() {
+                    timeout = window.setTimeout(function() {
                         reject(new Error('Vimeo duration probe timeout'));
                     }, 20000);
                 })
@@ -483,6 +492,7 @@ define(['core/log'], function(Log) {
             var youtubeId = extractYouTubeId(elements.youtube.value);
             return youtubeId ? {
                 fingerprint: 'youtube:' + youtubeId,
+                input: String(elements.youtube.value).trim(),
                 detect: function() {
                     return detectYouTubeDuration(youtubeId);
                 }
@@ -492,6 +502,7 @@ define(['core/log'], function(Log) {
             var vimeo = extractVimeoSource(elements.vimeo.value);
             return vimeo ? {
                 fingerprint: 'vimeo:' + vimeo.id + ':' + vimeo.hash,
+                input: String(elements.vimeo.value).trim(),
                 detect: function() {
                     return detectVimeoDuration(vimeo);
                 }
@@ -501,6 +512,7 @@ define(['core/log'], function(Log) {
             var fileUrl = findLocalFileUrl(elements.file.id);
             return fileUrl ? {
                 fingerprint: 'upload:' + fileUrl,
+                input: String(elements.file.value).trim(),
                 detect: function() {
                     return detectLocalDuration(fileUrl);
                 }
@@ -516,10 +528,12 @@ define(['core/log'], function(Log) {
             vimeo: document.getElementById(config.vimeoid),
             file: document.getElementById(config.fileid),
             duration: document.getElementById(config.durationid),
+            probe: document.getElementById(config.probeid),
             note: document.getElementById(config.noteid),
             human: document.getElementById(config.humanid)
         };
         return elements.source && elements.youtube && elements.vimeo && elements.file && elements.duration && elements.human
+            && elements.probe && elements.duration.form
             ? elements
             : null;
     }
@@ -529,15 +543,17 @@ define(['core/log'], function(Log) {
         if (!elements) {
             return;
         }
+        var form = elements.duration.form;
         var state = {
             timer: null,
             sourceRevision: 0,
             durationRevision: 0,
             programmatic: false,
-            initialFingerprint: null,
-            lastFingerprint: null,
             lastAutomaticValue: null,
-            cache: Object.create(null)
+            probeRevision: 0,
+            detected: 0,
+            busy: false,
+            permit: false
         };
 
         var schedule = function(delay) {
@@ -545,51 +561,49 @@ define(['core/log'], function(Log) {
             state.timer = window.setTimeout(run, typeof delay === 'number' ? delay : 700);
         };
 
-        var run = function() {
-            var source = resolveSource(elements);
-            if (!source) {
-                setStatus(elements.note, config.messages.idle, 'idle');
-                return;
+        var clearProbe = function() {
+            elements.probe.value = '';
+            state.detected = 0;
+        };
+
+        var matches = function(source, revision) {
+            var current = resolveSource(elements);
+            return revision === state.sourceRevision && current
+                && current.fingerprint === source.fingerprint && current.input === source.input;
+        };
+
+        var showResult = function(value) {
+            var current = normaliseDuration(elements.duration.value, config.maximum);
+            if (exceedsDuration(current, value, config.maximum)) {
+                var message = renderMessage(config.messages.exceeds, value)
+                    .split(CONFIGURED_DURATION_TOKEN).join(formatDuration(current));
+                setStatus(elements.note, message, 'error');
+                return message;
             }
-            var previousFingerprint = state.lastFingerprint;
-            var sourceChanged = previousFingerprint !== null && previousFingerprint !== source.fingerprint;
-            if (state.initialFingerprint === null) {
-                state.initialFingerprint = source.fingerprint;
-            }
-            state.lastFingerprint = source.fingerprint;
-            var currentValue = normaliseDuration(elements.duration.value, config.maximum);
-            if (!sourceChanged && source.fingerprint === state.initialFingerprint && currentValue > 0
-                    && state.lastAutomaticValue === null) {
-                setStatus(elements.note, config.messages.idle, 'idle');
-                return;
-            }
-            var sourceRevision = state.sourceRevision;
+            setStatus(elements.note, renderMessage(config.messages.manual, value), 'success');
+            return '';
+        };
+
+        var detect = function(source, revision, automatic) {
+            var probeRevision = ++state.probeRevision;
             var durationRevision = state.durationRevision;
-            var promise = state.cache[source.fingerprint];
-            if (!promise) {
-                promise = source.detect().then(function(value) {
-                    return normaliseDuration(value, config.maximum);
-                }).catch(function(error) {
-                    delete state.cache[source.fingerprint];
-                    throw error;
-                });
-                state.cache[source.fingerprint] = promise;
-            }
+            clearProbe();
             setStatus(elements.note, config.messages.detecting, 'idle');
-            promise.then(function(value) {
+            // Every attempt calls the selected provider. No settled duration is reused on save.
+            return Promise.resolve().then(source.detect).then(function(value) {
                 value = normaliseDuration(value, config.maximum);
-                if (!value || sourceRevision !== state.sourceRevision) {
-                    throw new Error('Duration response is no longer current');
+                if (!matches(source, revision) || probeRevision !== state.probeRevision) {
+                    return null;
                 }
-                var latestSource = resolveSource(elements);
-                if (!latestSource || latestSource.fingerprint !== source.fingerprint) {
-                    return;
+                if (!value) {
+                    throw new Error('Duration metadata is unavailable');
                 }
                 var latestValue = normaliseDuration(elements.duration.value, config.maximum);
                 var unchangedByTeacher = durationRevision === state.durationRevision;
                 var previousWasAutomatic = state.lastAutomaticValue !== null
                     && Math.abs(latestValue - state.lastAutomaticValue) < 0.001;
-                var replace = unchangedByTeacher && (latestValue <= 0 || previousWasAutomatic || sourceChanged);
+                var replace = automatic && unchangedByTeacher && state.durationRevision === 0
+                    && (latestValue <= 0 || previousWasAutomatic);
                 if (replace) {
                     state.programmatic = true;
                     elements.duration.value = formatDuration(value);
@@ -597,20 +611,136 @@ define(['core/log'], function(Log) {
                     elements.duration.dispatchEvent(new Event('change', {bubbles: true}));
                     state.programmatic = false;
                     state.lastAutomaticValue = value;
-                    setStatus(elements.note, renderMessage(config.messages.success, value), 'success');
-                } else {
-                    setStatus(elements.note, renderMessage(config.messages.manual, value), 'success');
                 }
+                state.detected = value;
+                elements.probe.value = JSON.stringify({source: elements.source.value, input: source.input, seconds: value});
+                var errorMessage = showResult(value);
+                return {value: value, error: errorMessage};
             }).catch(function(error) {
-                if (sourceRevision === state.sourceRevision) {
-                    setStatus(elements.note, config.messages.unavailable, 'error');
+                if (!matches(source, revision) || probeRevision !== state.probeRevision) {
+                    return null;
                 }
+                clearProbe();
+                setStatus(elements.note, config.messages.unavailable, 'error');
                 Log.debug('VideoTrack duration detection: ' + error.message);
+                return {value: 0, error: ''};
             });
+        };
+
+        var release = function() {
+            state.busy = false;
+            form.removeAttribute('aria-busy');
+        };
+
+        var focusDuration = function() {
+            elements.duration.focus();
+        };
+
+        var resume = function(submitter, source, revision, duration, cancelling) {
+            release();
+            if (!cancelling && (!matches(source, revision) || elements.duration.value !== duration)) {
+                schedule(0);
+                return;
+            }
+            // requestSubmit preserves Moodle validation and the original save button's name/value.
+            state.permit = true;
+            try {
+                form.requestSubmit(submitter || undefined);
+            } finally {
+                state.permit = false;
+            }
+        };
+
+        form.addEventListener('submit', function(event) {
+            var submitter = event.submitter;
+            var cancelling = submitter && submitter.name === 'cancel';
+            if (submitter && ['submitbutton', 'submitbutton2', 'cancel'].indexOf(submitter.name) === -1) {
+                return;
+            }
+            if (state.permit) {
+                state.permit = false;
+                return;
+            }
+            var source = resolveSource(elements);
+            if (!source) {
+                clearProbe();
+                return;
+            }
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            if (state.busy) {
+                return;
+            }
+            state.busy = true;
+            form.setAttribute('aria-busy', 'true');
+            window.clearTimeout(state.timer);
+            var revision = state.sourceRevision;
+            detect(source, revision, false).then(function(result) {
+                if (!result) {
+                    if (cancelling) {
+                        resume(submitter, source, revision, elements.duration.value, true);
+                        return;
+                    }
+                    release();
+                    schedule(0);
+                    return;
+                }
+                var duration = elements.duration.value;
+                if (result.error || (cancelling && result.value <= 0)) {
+                    var message = result.error || config.messages.unavailable;
+                    if (cancelling) {
+                        message += ' ' + config.messages.cancelnotice;
+                    }
+                    return Notification.alert(config.messages.title, message, config.messages.close).then(function(modal) {
+                        modal.getRoot().one(ModalEvents.hidden, function() {
+                            if (cancelling) {
+                                resume(submitter, source, revision, duration, true);
+                                return;
+                            }
+                            release();
+                            focusDuration();
+                        });
+                    });
+                }
+                if (result.value > 0) {
+                    resume(submitter, source, revision, duration, cancelling);
+                    return;
+                }
+                // A provider outage must not force zero or prevent an explicit manual save.
+                return Notification.confirm(config.messages.title, config.messages.unavailable, config.messages.save,
+                    config.messages.close, function() {
+                        resume(submitter, source, revision, duration);
+                    }, release).then(function(modal) {
+                        modal.getRoot().one(ModalEvents.hidden, release);
+                    });
+            }).catch(function(error) {
+                release();
+                setStatus(elements.note, config.messages.unavailable, 'error');
+                Log.debug('VideoTrack duration save check: ' + error.message);
+                if (cancelling) {
+                    resume(submitter, source, revision, elements.duration.value, true);
+                    return;
+                }
+                focusDuration();
+            });
+        }, true);
+
+        var run = function() {
+            if (state.busy) {
+                return;
+            }
+            var source = resolveSource(elements);
+            if (!source) {
+                clearProbe();
+                setStatus(elements.note, config.messages.idle, 'idle');
+                return;
+            }
+            detect(source, state.sourceRevision, true);
         };
 
         var sourceChanged = function() {
             state.sourceRevision++;
+            clearProbe();
             schedule();
         };
         elements.source.addEventListener('change', sourceChanged);
@@ -623,13 +753,18 @@ define(['core/log'], function(Log) {
         });
         elements.file.addEventListener('change', function() {
             state.sourceRevision++;
+            clearProbe();
             schedule(150);
         });
         elements.duration.addEventListener('input', function() {
             setHumanDuration(elements.human, config.messages.human, elements.duration.value);
             if (!state.programmatic) {
                 state.durationRevision++;
-                setStatus(elements.note, config.messages.idle, 'idle');
+                if (state.detected > 0) {
+                    showResult(state.detected);
+                } else {
+                    setStatus(elements.note, config.messages.idle, 'idle');
+                }
             }
         });
         var fileFieldset = document.getElementById(elements.file.id + '_fieldset');
@@ -637,6 +772,7 @@ define(['core/log'], function(Log) {
             new MutationObserver(function() {
                 if (elements.source.value === 'upload') {
                     state.sourceRevision++;
+                    clearProbe();
                     schedule(150);
                 }
             }).observe(fileFieldset, {childList: true, subtree: true});
@@ -669,6 +805,7 @@ define(['core/log'], function(Log) {
         extractYouTubeId: extractYouTubeId,
         extractVimeoSource: extractVimeoSource,
         normaliseDuration: normaliseDuration,
-        formatHumanDuration: formatHumanDuration
+        formatHumanDuration: formatHumanDuration,
+        exceedsDuration: exceedsDuration
     };
 });

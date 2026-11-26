@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.272 repository tree. It lists
-sources, assets, tests and selected release guides, including six repository-only
+This inventory is generated against the VideoTrack 1.7.273 repository tree. It lists
+sources, assets, tests and selected release guides, including seven repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **427** — 421 distributed files and six repository-only files. The complete
-tree has 519 repository files / 493 distributed files, including all documentation.
+Entries: **431** — 424 distributed files and seven repository-only files. The complete
+tree has 523 repository files / 496 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -289,6 +289,7 @@ tree has 519 repository files / 493 distributed files, including all documentati
 | `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
+| `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -303,6 +304,7 @@ tree has 519 repository files / 493 distributed files, including all documentati
 | `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
+| `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -379,6 +381,8 @@ tree has 519 repository files / 493 distributed files, including all documentati
 | `tests/fixtures/behat-youtube-player.js` | Test-only deterministic YouTube SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/focus_policy_test.php` | PHPUnit coverage for hidden-group creation, membership and effective focus policy. |
 | `tests/form_definition_test.php` | Runtime QuickForm tests for duration DOM/AMD, player/timed-text defaults, file options and permissions, CSV, Forum, integrity and acknowledgement. |
+| `tests/form_duration_test.js` | Source-duration validation or regression coverage. |
+| `tests/form_duration_validation_test.php` | Source-duration validation or regression coverage. |
 | `tests/form_playback_settings_test.php` | Runtime QuickForm tests for missing/empty/zero defaults, course override locks, unlocked controls and saved rate selections. |
 | `tests/form_preprocessing_test.php` | Runtime tests for completion, playback and CSV edit-form defaults. |
 | `tests/form_reaction_settings_test.php` | Runtime QuickForm tests for reaction defaults/editor/presets, row/picker/upload contracts, dependencies, saved values, form counts and course locks. |

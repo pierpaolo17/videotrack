@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.272. Elenca
-sorgenti, asset, test e guide di release selezionate, inclusi sei file CI/tooling
+Questo inventario è generato sull'albero repository VideoTrack 1.7.273. Elenca
+sorgenti, asset, test e guide di release selezionate, inclusi sette file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **427** — 421 file distribuiti e sei solo repository. L'albero completo ha
-519 file repository / 493 distribuiti, includendo tutta la documentazione.
+Voci: **431** — 424 file distribuiti e sette solo repository. L'albero completo ha
+523 file repository / 496 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -289,6 +289,7 @@ Voci: **427** — 421 file distribuiti e sei solo repository. L'albero completo 
 | `docs/en/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `docs/en/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
+| `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -303,6 +304,7 @@ Voci: **427** — 421 file distribuiti e sei solo repository. L'albero completo 
 | `docs/it/40_MICROSOFT_VIDEO_SEARCH.md` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `docs/it/41_MICROSOFT_ACTIVITY_REFERENCES.md` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
+| `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -379,6 +381,8 @@ Voci: **427** — 421 file distribuiti e sei solo repository. L'albero completo 
 | `tests/fixtures/behat-youtube-player.js` | Doppio deterministico test-only dell’SDK YouTube caricato esclusivamente dal fixture Behat riservato. |
 | `tests/focus_policy_test.php` | Copertura PHPUnit per creazione gruppo nascosto, membership e policy focus effettiva. |
 | `tests/form_definition_test.php` | Test runtime QuickForm su DOM/AMD durata, default player/testo temporizzato, opzioni file e permessi, CSV, Forum, integrità e presa visione. |
+| `tests/form_duration_test.js` | Validazione durata sorgente o relativa copertura di regressione. |
+| `tests/form_duration_validation_test.php` | Validazione durata sorgente o relativa copertura di regressione. |
 | `tests/form_playback_settings_test.php` | Test runtime QuickForm per default assenti/vuoti/zero, blocchi per corso, controlli modificabili e selezioni di velocità salvate. |
 | `tests/form_preprocessing_test.php` | Test runtime dei default del form per completamento, playback e CSV. |
 | `tests/form_reaction_settings_test.php` | Test runtime QuickForm per default/editor/preset reaction, righe/selettore/upload, dipendenze, valori salvati, conteggi del form e blocchi per corso. |

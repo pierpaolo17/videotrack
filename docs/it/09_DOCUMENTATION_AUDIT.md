@@ -1,53 +1,54 @@
 # Audit della documentazione
 
-Candidata corrente: VideoTrack **1.7.272** (`2026112500`), basata sullo ZIP 271 effettivo accettato.
+Candidata corrente: VideoTrack **1.7.273** (`2026112501`).
 
 ## Baseline accettata
 
-ZIP 271 SHA256 3bb6462e50fcfb4d59b0947322ab64a405b26c6b778f1bd8124111585b51f3f2:
-490 file distribuiti corrispondono a main 99d4195f1202cf630102c252841b0ed75372b6b3,
-albero ee7f092ed9f8e75460060f8e8d7e386b16e832e4. Candidato 45497048064 tentativo 2 e
-main 45578816355 tentativo 1 superano sei job ciascuno: Unit 640/6618, Behat 80/1484 senza
-retry interni nei report accettati, strict 10/0/0, Grunt nativo e matrici lifecycle 50/53
-con aggiornamento/ripetizione/disinstallazione popolata. Sei hash di conservazione
-per run accettato sono ricostruiti indipendentemente. L’indisponibilità iniziale del
-server 5.3 MariaDBnon si riproduce sullo stesso codice nel tentativo accettato; la causa
-iniziale resta non provata e non viene dichiarata come correzione applicativa.
+ZIP 272 effettivo SHA256 `4776fb1dda089a8e1ed701a477c751d44d5b78b5f4ba0c47399671879a5a2e64`.
+I 493 file distribuiti coincidono con main `18305f5e3c62fdd25a128d9bc99c421323658767`,
+albero `789f590de9d0f90a3a21eee1135d0704881b6d0b`. La run main 45658185075, tentativo 1,
+supera sei job, PHPUnit 640/6618, Behat 82/1541, strict 10/0/0, build nativi e sei hash
+di conservazione lifecycle ricostruiti indipendentemente. Il report server 20261125_184426
+supera canon/lint 207 PHP condivisi, Grunt nativo e PHPUnit 640/6618 su 50/53. Entrambi
+gli strict dell’utente sono 10/0/0 e il replay YouTube reale da reazioni è confermato.
+Restano visibili 40 rilievi PHPMD e una segnalazione Psalm sulla guardia standard,
+oltre a 763/791 informazioni. PHPStan è pulito. Non si attribuiscono alla 273 gli esiti 272.
 
-Report server 20261125_105411: otto esiti superati, canonici/lint 207 condivisi puliti,
-Unit 640/6618 separati su 50/53 e Grunt nativi con build invariati. Entrambi i validator
-utente superano 10/0/0. Restano PHPMD 40 avvisi, Psalm un rilievo sulla guardia standard
-più 763/791 informazioni; PHPStan è pulito.
+## Modifica corrente
 
-## Correzione corrente e gate
+La [guida durata](43_SOURCE_DURATION_VALIDATION.md) documenta apertura impostazioni,
+due pulsanti di salvataggio e Annulla, qualsiasi campo sia stato modificato. Una
+durata superiore a quella nota blocca il salvataggio; durate uguali o inferiori
+restano valide. Il metadato non disponibile consente un salvataggio manuale esplicito.
+Annulla controlla e avvisa, poi scarta senza salvare. Le azioni intermedie che
+aggiungono campi restano immediate. Sono gestiti risposte superate e doppi invii;
+requestSubmit conserva il normale trattamento del modulo Moodle.
 
-La [guida replay](42_REPORT_REPLAY_STATE.md) segue URL report→seek programmatico→nuovo
-PLAYING→consumo tardivo→falso riavvolgimento/velocità di recupero. Un solo controllo
-nel tracker comune conserva gli eventi provider successivi già consolidati.
-DB/upgrade, privacy, capability, sorgenti, tracking server e tutti i PHP salvo metadati
-release restano identici alla 271. Conservati 640 metodi unitari e 80 scenari precedenti.
-Restano tutte le asserzioni Node; aggiunti tre gruppi e due scenari con link reale
-del report dopo reazioni ottenute tramite effettiva riproduzione della fixture.
+L’input temporaneo ha id esplicito e un test coerente con la configurazione AMD.
+PHP accetta solo un piccolo rapporto corrispondente alla sorgente inviata; il
+metadato del browser non viene dichiarato come una risposta API autenticata dal server.
+Non si aggiungono impostazioni salvate, migrazioni, riscritture di tracking,
+credenziali API o ricalcoli automatici. Restano fix tracking/replay, dati demo e
+opzione straordinaria di recupero storico già accettati.
 
-Conteggi:519 file repository/493 distribuiti, 206 PHP distribuiti, 1582 callable PHP, 660 AMD,
-640 metodi unitari, 82 scenari espansi/1541 passi, 8 lingue con 1076 chiavi e 48 gruppi AMD.
-Schema 7 tabelle/152 campi/22 indici/22 foreign key e 9 AJAX invariati. Inventari aggiornati
-alle posizioni effettive. I nove gruppi Node sui sorgenti e il tracker harness passano;
-sorgenti/build precedenti riproducono i tre nuovi fallimenti.
+Conteggi: 523 file repository / 496 distribuiti, 207 PHP distribuiti, 1591 callable PHP,
+668 callable AMD, 645 metodi unitari, 82 scenari Behat / 1541 passi, 8×1078 chiavi e 48 set AMD.
+Schema invariato: 7 tabelle / 152 campi / 22 indici espliciti / 22 chiavi esterne; 9 servizi AJAX.
+Gli inventari mantengono posizioni effettive e nomi AMD ripetuti in punti distinti.
 
-Output AMD nativi verificati dal server test Moodle 5.0 del manutentore, archivio SHA256
-a6ce3d08275774f01fb2cd4b350c2f07c405f0336533f445705f894ff3175eb2.
-Il vero npx --no-install grunt amd termina con 0. Coincidono sorgente/fixture esatti,
-48 hash sorgenti, 96 hash build, mappe canoniche, digest log e indicazione di ripristino
-degli originali. Cambiano l’helper e due output; 47 sorgenti/94 output restano identici
-alla 271. I nove gruppi Node passano sui sorgenti e sui compilati nell’artefatto e
-dopo l’incorporazione locale, insieme al tracker harness invariato. Non vengono
-inventati provenienza GitHub o versione patch Node esatta per il build del manutentore.
+## Build nativo e gate restanti
 
-Il primo runner si ferma con Node 26 non supportato prima di compilare; il backup 144 file
-coincide con la 271 accettata. Node 22 soddisfa il requisito >=22.11/<23 di Grunt Moodle 5.0.
-Il runner verifica il ripristino del sito originale. Non vengono introdotti accessi
-DB/bootstrap/credenziali. Il debito PHPMD/Psalm resta visibile. Restano PHP/PHPCS/PHPUnit/
-Behat nativi 272, CI/lifecycle completi e server; non si dichiara esecuzione PHP/Moodle
-locale nuova. Prove YouTube reali, HTTPS/account Microsoft e roadmap provider/App
-mantengono i gate precedenti.
+Verificato l’archivio del manutentore Moodle 5.0, SHA256 `b5c4292a4d9362e4ec95ad3e009273de75d1503c6853c67272351926cb650fb3`.
+Node 22.23.4 / npm 10.9.9; npx --no-install grunt amd termina con 0. Coincidono 48 hash
+sorgenti e 96 hash build, mappe, fixture e log. Cambiano solo modulo del form e due
+output. Passano 10 gruppi sui sorgenti e 10 sui compilati, nel log effettivo e dopo
+l’incorporazione. I sorgenti/build 272 falliscono tutti i 10 gruppi come previsto.
+Passano tracker harness e 9 gruppi tracking sia sorgenti sia compilati. Il runner
+indica il ripristino verificato degli originali. I due step browser di salvataggio
+usano un SDK a durata fissa limitato al video riservato e cliccano il vero pulsante
+nello stesso task JavaScript. Restano 82 scenari/1541passi, senza metadati esterni live.
+
+Restano PHP/Moodle, PHPCS, PHPUnit, CI/lifecycle/server 273 e prova reale del modulo
+durata. Sono preparati cinque metodi unitari PHP e le asserzioni sulla configurazione;
+non si dichiarano nuove esecuzioni PHP/Moodle né prove browser/provider reali.
+Restano aperti HTTPS/account Microsoft e roadmap provider/App.

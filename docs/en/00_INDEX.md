@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.272** (`2026112500`),
+This is the authoritative English documentation for VideoTrack **1.7.273** (`2026112501`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -86,3 +86,5 @@ trees and the root README pair agree with the current code.
 - [Optional Microsoft activity references and portable backup](41_MICROSOFT_ACTIVITY_REFERENCES.md).
 
 - [Report replay and authoritative provider events](42_REPORT_REPLAY_STATE.md).
+
+- [Every-save source duration validation](43_SOURCE_DURATION_VALIDATION.md).
