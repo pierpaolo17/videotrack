@@ -497,3 +497,7 @@ alla sorgente inviata. Non è un campo DB né un valore del tracciamento student
 ## Preferenze del modulo e input di riparazione ritirato (1.7.274)
 
 Le velocità decimali usano nomi sicuri per PHP come playbackspeed_0_5. Il campo playbackspeeds resta una stringa separata da virgole; gli alias storici con punto sono accettati dalla normalizzazione interna. Le scelte CSV non disponibili conservano la preferenza salvata, applicando i filtri al momento dell’esportazione. Il valore vuoto eredita i predefiniti; none esclude tutte le colonne facoltative. Le motivazioni dei campi sono derivate e non diventano colonne DB. Casella e parametro browser recoverplayback sono rimossi; il ricalcolo ordinario non ripara lo storico. Le righe `recovery269` conservano il significato precedente.
+
+## Verifica Microsoft salvata (275)
+
+`activitycmid` è soltanto un ID modulo nella richiesta. Il contesto modulo server `activityname`/`activityreference` è riletto dopo i controlli sito/corso e non è una nuova impostazione. Le richieste vincolate usano identità personale e risorsa salvata; soltanto l’operazione è modificabile. Schema, servizi e ruoli restano invariati.

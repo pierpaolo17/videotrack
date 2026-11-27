@@ -30,6 +30,28 @@ use core\oauth2\api;
  */
 final class microsoft_activity_reference {
     /**
+     * Read the current saved identity only after site and owning-course permissions are checked.
+     *
+     * The returned fields are trusted form context, never request-selected resource ids.
+     * No OAuth client, provider request, configuration write or data repair is started.
+     *
+     * @param int $cmid VideoTrack course-module id, not an activity instance id.
+     * @return array Current activity name and possibly empty or stale saved reference.
+     */
+    public static function diagnostic_context(int $cmid): array {
+        global $DB;
+
+        require_capability('moodle/site:config', \context_system::instance());
+        if ($cmid <= 0) {
+            throw new \invalid_parameter_exception('A VideoTrack course module is required.');
+        }
+        $cm = get_coursemodule_from_id('videotrack', $cmid, 0, false, MUST_EXIST);
+        require_capability('moodle/course:manageactivities', \context_course::instance((int)$cm->course));
+        $activity = $DB->get_record('videotrack', ['id' => $cm->instance, 'course' => $cm->course], '*', MUST_EXIST);
+        return ['activityname' => (string)$activity->name, 'activityreference' => (string)($activity->microsoftreference ?? '')];
+    }
+
+    /**
      * Canonicalise a bounded stored identity; empty and null mean no reference.
      *
      * @param mixed $value Stored or submitted JSON.

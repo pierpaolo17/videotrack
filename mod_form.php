@@ -204,7 +204,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $this->context
         );
 
-        \mod_videotrack\form\microsoft_activity_reference_form::add_elements($mform);
+        \mod_videotrack\form\microsoft_activity_reference_form::add_elements($mform, (int)($this->_cm->id ?? 0));
 
         // Grading section using standard Moodle grading elements.
         $this->standard_grading_coursemodule_elements();

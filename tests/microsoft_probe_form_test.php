@@ -142,7 +142,8 @@ final class microsoft_probe_form_test extends \advanced_testcase {
         $source = file_get_contents(__DIR__ . '/../provider_check.php');
         $this->assertStringContainsString("require_capability('moodle/site:config', context_system::instance());", $source);
         $this->assertLessThan(strpos($source, 'configuration_status('), strpos($source, 'require_capability('));
-        $this->assertStringContainsString("microsoft_probe_form(\$PAGE->url, null, 'post')", $source);
+        $this->assertStringContainsString("microsoft_probe_form(\$PAGE->url, \$activitycontext, 'post')", $source);
+        $this->assertLessThan(strpos($source, '$form->get_data()'), strpos($source, '::diagnostic_context('));
         $this->assertLessThan(strpos($source, 'require_sesskey();'), strpos($source, '$form->get_data()'));
         $this->assertLessThan(strpos($source, '$probe->run('), strpos($source, 'require_sesskey();'));
         $this->assertStringContainsString("s(json_encode(\$result,", $source);

@@ -79,3 +79,5 @@ eseguire CI 271 e installazioni sui due server test. Non si dichiarano prove rea
 OAuth, riproduzione o telemetria Microsoft. Il prossimo passaggio richiede HTTPS e
 account Microsoft personale configurato; gli eventi dell’iframe devono consentire
 tracciamento attendibile prima di rendere selezionabile il player Microsoft.
+
+Il riferimento salvato può essere verificato dal collegamento amministrativo: vedere il [flusso diagnostico 275](45_MICROSOFT_ACTIVITY_CHECK.md). Il player studente resta subordinato alle prove reali.

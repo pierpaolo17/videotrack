@@ -497,3 +497,7 @@ the current submitted source. It is never a DB field or a learner tracking value
 ## Activity form preferences and retired repair input (1.7.274)
 
 Fractional playback controls use PHP-safe names such as playbackspeed_0_5. Stored playbackspeeds remains the same comma-separated scalar; legacy dotted aliases are accepted by internal normalisation. CSV unavailable choices retain their stored preferences but are filtered at runtime. Empty CSV configuration inherits site defaults; none still selects no optional fields. Per-field reason labels are derived, not database columns. The browser recoverplayback request/checkbox is removed; ordinary recalculation does not repair history. Existing `recovery269` segment rows keep their meaning.
+
+## Saved Microsoft activity check (275)
+
+`activitycmid` is a request-only course-module id. Server form context `activityname`/`activityreference` is reloaded after site/course checks and is not a new stored setting. Bound requests fix current-user identity and the saved resource; only the operation is editable. Schema/services/roles remain unchanged.

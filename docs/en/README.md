@@ -1,7 +1,7 @@
 # VideoTrack documentation
 
 This directory contains the current English user, administrator and developer documentation for
-VideoTrack 1.7.274. Start with [`00_INDEX.md`](00_INDEX.md).
+VideoTrack 1.7.275. Start with [`00_INDEX.md`](00_INDEX.md).
 
 The documentation is deliberately version-local: it explains the code shipped in this release and
 does not embed the evolution of older releases. Use the root `CHANGELOG.md` for a concise release
@@ -24,3 +24,5 @@ The maintainability exit decision and debt register are in [`25_MAINTAINABILITY_
 - [Every-save source duration validation](43_SOURCE_DURATION_VALIDATION.md).
 
 - [Activity copies, CSV availability and recalculation](44_ACTIVITY_COPY_CSV_MAINTENANCE.md).
+
+[Administrator check of the saved Microsoft activity reference](45_MICROSOFT_ACTIVITY_CHECK.md).

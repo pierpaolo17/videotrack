@@ -76,3 +76,5 @@ server installations are pending when the patch is delivered. No live Microsoft
 OAuth, playback or telemetry result is claimed. The next step requires HTTPS and the
 configured personal Microsoft account; provider iframe events must support trusted
 tracking before any Microsoft player source can be enabled.
+
+The saved reference can now be checked directly through the administrator shortcut; see the [275 diagnostic workflow](45_MICROSOFT_ACTIVITY_CHECK.md). Student playback remains gated.

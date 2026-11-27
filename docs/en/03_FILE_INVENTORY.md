@@ -1,11 +1,11 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.274 repository tree. It lists
+This inventory is generated against the VideoTrack 1.7.275 repository tree. It lists
 sources, assets, tests and selected release guides, including nine repository-only
 CI/tooling files. Canonical JavaScript is in `amd/src`; `amd/build` is generated.
 
-Entries: **438** — 429 distributed files and nine repository-only files. The complete
-tree has 530 repository files / 501 distributed files, including all documentation.
+Entries: **442** — 433 distributed files and nine repository-only files. The complete
+tree has 534 repository files / 505 distributed files, including all documentation.
 
 | File | Responsibility |
 |---|---|
@@ -293,6 +293,7 @@ tree has 530 repository files / 501 distributed files, including all documentati
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
 | `docs/en/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Activity copy, CSV access and retired-repair UI policy/regressions. |
+| `docs/en/45_MICROSOFT_ACTIVITY_CHECK.md` | Saved Microsoft activity check workflow, evidence, permission boundaries and real-provider gates. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Italian security-review implementation and remaining work. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Italian Microsoft OAuth/Graph diagnostic protocol and real-tenant gate. |
 | `docs/it/31_SOURCE_POLICY.md` | Italian source-policy guide and optional Zoom repository assessment. |
@@ -309,6 +310,7 @@ tree has 530 repository files / 501 distributed files, including all documentati
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Report replay ordering regression or its technical guide. |
 | `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Source-duration validation or regression coverage. |
 | `docs/it/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Activity copy, CSV access and retired-repair UI policy/regressions. |
+| `docs/it/45_MICROSOFT_ACTIVITY_CHECK.md` | Procedura italiana della verifica Microsoft salvata, permessi, evidenze e gate reali. |
 | `environment.xml` | Environment requirements checked by Moodle. |
 | `forum_post.php` | Timestamped Forum composer bridge; delegates final storage to mod_forum. |
 | `index.php` | Course activity index page. |
@@ -368,6 +370,7 @@ tree has 530 repository files / 501 distributed files, including all documentati
 | `tests/behat/microsoft_preview.feature` | Deterministic local GET, personal preview validation and missing-configuration browser contracts. |
 | `tests/behat/microsoft_provider_check.feature` | Three deterministic administration scenarios without a Microsoft connection. |
 | `tests/behat/microsoft_provider_page.feature` | Three deterministic personal provider-page form scenarios without live network. |
+| `tests/behat/microsoft_saved_activity_check.feature` | Real administrator shortcut/new-tab/local rejection and teacher-exclusion browser scenarios. |
 | `tests/behat/microsoft_search.feature` | Protected Microsoft metadata discovery, validation or regression coverage. |
 | `tests/behat/microsoft_user_connection.feature` | One local-readiness browser scenario without external authentication. |
 | `tests/behat/microsoft_video_reference.feature` | Local browser reference defaults and invalid URL/service/shared-account rejection. |
@@ -403,6 +406,7 @@ tree has 530 repository files / 501 distributed files, including all documentati
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
 | `tests/lifecycle_integration_test.php` | Real framework backup/restore/privacy, registered retention-task, standard course-reset and synchronous activity-deletion integration tests. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
+| `tests/microsoft_activity_probe_test.php` | Native saved-reference diagnostic permissions, form, CSRF, identity, freshness and transport regressions. |
 | `tests/microsoft_activity_reference_test.php` | Optional Microsoft reference persistence, portable backup or its verification guide/coverage. |
 | `tests/microsoft_graph_test.php` | Nineteen mocked native regressions for authenticated metadata boundaries. |
 | `tests/microsoft_preview_test.php` | Native preview URL, transport, personal-account, preservation and request-boundary regressions. |

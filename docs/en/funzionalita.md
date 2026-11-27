@@ -351,3 +351,7 @@ covers all 997 keys in eight packs; it is not native sign-off. Eight manual PASS
 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; 5.3 manual coverage remains unrecorded. Candidate gates
 are pending, with expected PHPUnit 379/4076 and Behat 52/1154. Existing web/App work precedes the agreed
 multilingual VTT subtitle phase, then authenticated foundation and OneDrive/SharePoint, Zoom and Google Drive.
+
+## Saved Microsoft reference check (275)
+
+Site administrators can open the existing diagnostic from a saved activity without copying ids. Only saved settings are used; personal identity and site/course permission checks remain. [Workflow and limits](45_MICROSOFT_ACTIVITY_CHECK.md).
