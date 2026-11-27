@@ -1,5 +1,39 @@
 # VideoTrack changelog
 
+## 1.7.275 - 2026-11-27
+
+### Inspect a saved Microsoft activity reference through the existing administrator diagnostic
+
+- Add a saved-activity shortcut in the optional Microsoft preparation group for
+  site administrators. Open another tab and explain that unsaved edits are excluded.
+  The URL carries only the course-module id, never a resource identity or credential.
+- Require site configuration and owning-course activity management before reading
+  the current saved identity. The bound POST form accepts only an allowlisted
+  operation and uses the current user's core OAuth account. Forged ids, references
+  and shared-account fields cannot replace the saved target. Each request reloads it.
+- Keep GET local and reuse metadata/page/private-preview guards and personal
+  transport on explicit POST. Empty/unbound/invalid/mismatched references stop locally.
+  Keep the general diagnostic and fixed core OAuth return. No player source, viewing
+  credit, data write, token copy, media import/proxy, schema or AMD change is added.
+- Add 15 native PHPUnit methods and 2 browser scenarios, including fresh personal HTTP
+  responses and denial after success with exact evidence/grade/completion snapshots.
+  Existing controller guard assertions remain, with its trusted optional form context.
+- Accept actual 274 ZIP SHA256
+  31f6f085edfe3f1c82f4a6eb418bb3ce08c26b3ed934047741e9e61435bdb220:
+  main 5e939e64/tree ec807599, 501 exact files. Candidate/main six jobs, Unit 656/6922,
+  Behat 84/1571 first pass, both populated lifecycle matrices and all strict checks
+  pass. Actual server canon/lint 210 shared, native builds and Unit 656/6922 pass both.
+  Maintainer confirms all three manual checks on 2026-11-27. Ordinary recalculation
+  and previously recovered evidence remain accepted. Retain actual Browserslist
+  advisory and Psalm informational debt; do not claim them zero.
+- Counts: 534 repository/505 distributed files; 211 repository/210 distributed PHP;
+  1639 named PHP (1632 distributed), 668 AMD; 671 unit methods;
+  86 expanded Behat scenarios/1600 steps; 8x1083 keys; 48 AMD sets.
+  Schema 7/152/22/22 and 9 AJAX unchanged. Native 275 CI/lifecycle/server/manual reports
+  remain pending; no local PHP runtime. HTTPS/Microsoft unavailable; live delegated
+  access, iframe authentication and supported telemetry remain required before playback.
+
+
 ## 1.7.274 - 2026-11-26
 
 ### Correct the initial candidate's native CI findings

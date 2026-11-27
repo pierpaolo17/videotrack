@@ -58,6 +58,17 @@ final class microsoft_probe_form extends \moodleform {
         );
         $form->setDefault('operation', 'metadata');
         $form->setType('operation', PARAM_RAW);
+        if ($this->bound_reference() !== null) {
+            $form->addElement(
+                'static',
+                'activitytarget',
+                get_string('providercheck:activitytarget', 'mod_videotrack'),
+                s((string)($this->_customdata['activityname'] ?? ''))
+            );
+            $form->addElement('static', 'activitynotice', '', get_string('providercheck:activitynotice', 'mod_videotrack'));
+            $this->add_action_buttons(false, get_string('providercheck:submit', 'mod_videotrack'));
+            return;
+        }
         $form->addElement(
             'select',
             'accountcontext',
@@ -102,6 +113,13 @@ final class microsoft_probe_form extends \moodleform {
         $operation = $data['operation'] ?? 'metadata';
         if (!in_array($operation, ['metadata', 'provider_link', 'provider_preview'], true)) {
             $errors['operation'] = get_string('invaliddata', 'error');
+        }
+        $bound = $this->bound_reference();
+        if ($bound !== null) {
+            if ($this->reference_errors(['reference' => $bound, 'accountcontext' => 'current_user'])) {
+                $errors['operation'] = get_string('microsoftreference:invalid', 'mod_videotrack');
+            }
+            return $errors;
         }
         if (!in_array($data['accountcontext'] ?? 'system', ['system', 'current_user'], true)) {
             $errors['accountcontext'] = get_string('invaliddata', 'error');
@@ -175,19 +193,30 @@ final class microsoft_probe_form extends \moodleform {
      * @return \stdClass Probe fields with the same explicit operation and personal identity.
      */
     public function resolve_target(\stdClass $data): \stdClass {
-        if (($data->targetmode ?? 'manual') === 'manual') {
+        $bound = $this->bound_reference();
+        if ($bound === null && ($data->targetmode ?? 'manual') === 'manual') {
             return $data;
         }
-        if ($data->targetmode !== 'reference' || ($data->accountcontext ?? '') !== 'current_user') {
+        if ($bound === null && ($data->targetmode !== 'reference' || ($data->accountcontext ?? '') !== 'current_user')) {
             throw new \invalid_parameter_exception('Invalid Microsoft reference target.');
         }
-        $reference = microsoft_video_reference::from_json($data->reference ?? null);
+        $reference = microsoft_video_reference::from_json($bound ?? $data->reference ?? null);
         $reference->assert_issuer((int)get_config('mod_videotrack', 'microsoftissuerid'));
-        $target = clone $data;
+        $target = $bound === null ? clone $data : (object)['operation' => $data->operation, 'targetmode' => 'reference'];
         foreach ($reference->target() as $field => $value) {
             $target->{$field} = $value;
         }
         return $target;
+    }
+
+    /**
+     * Distinguish a server-bound saved reference (including empty) from the ordinary editable diagnostic.
+     *
+     * @return string|null Saved identity supplied by the authorised controller, or null for a general probe.
+     */
+    private function bound_reference(): ?string {
+        return is_array($this->_customdata) && array_key_exists('activityreference', $this->_customdata)
+            ? (string)$this->_customdata['activityreference'] : null;
     }
 
     /**

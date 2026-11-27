@@ -1,11 +1,11 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.274. Elenca
+Questo inventario è generato sull'albero repository VideoTrack 1.7.275. Elenca
 sorgenti, asset, test e guide di release selezionate, inclusi nove file CI/tooling
 solo repository. Il JavaScript canonico è in `amd/src`; `amd/build` è generato.
 
-Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo ha
-530 file repository / 501 distribuiti, includendo tutta la documentazione.
+Voci: **442** — 433 file distribuiti e nove solo repository. L'albero completo ha
+534 file repository / 505 distribuiti, includendo tutta la documentazione.
 
 | File | Responsabilità |
 |---|---|
@@ -293,6 +293,7 @@ Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo
 | `docs/en/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `docs/en/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
 | `docs/en/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
+| `docs/en/45_MICROSOFT_ACTIVITY_CHECK.md` | Saved Microsoft activity check workflow, evidence, permission boundaries and real-provider gates. |
 | `docs/it/29_REVISIONE_SICUREZZA.md` | Implementazione delle revisioni di sicurezza e lavoro residuo in italiano. |
 | `docs/it/30_MICROSOFT_GRAPH.md` | Protocollo italiano OAuth/Graph e gate su tenant reale. |
 | `docs/it/31_SOURCE_POLICY.md` | Guida italiana alla policy sorgenti e valutazione del repository Zoom opzionale. |
@@ -309,6 +310,7 @@ Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo
 | `docs/it/42_REPORT_REPLAY_STATE.md` | Regressione dell’ordine degli eventi nel replay o relativa guida tecnica. |
 | `docs/it/43_SOURCE_DURATION_VALIDATION.md` | Validazione durata sorgente o relativa copertura di regressione. |
 | `docs/it/44_ACTIVITY_COPY_CSV_MAINTENANCE.md` | Regole e regressioni copie attività, accesso CSV e ritiro casella di riparazione. |
+| `docs/it/45_MICROSOFT_ACTIVITY_CHECK.md` | Procedura italiana della verifica Microsoft salvata, permessi, evidenze e gate reali. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
 | `index.php` | Indice delle attività del corso. |
@@ -368,6 +370,7 @@ Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo
 | `tests/behat/microsoft_preview.feature` | Contratti browser deterministici GET locale, validazione personale e configurazione assente. |
 | `tests/behat/microsoft_provider_check.feature` | Tre scenari amministrativi deterministici senza connessione Microsoft. |
 | `tests/behat/microsoft_provider_page.feature` | Tre scenari deterministici del modulo pagina provider personale senza rete reale. |
+| `tests/behat/microsoft_saved_activity_check.feature` | Real administrator shortcut/new-tab/local rejection and teacher-exclusion browser scenarios. |
 | `tests/behat/microsoft_search.feature` | Ricerca metadati Microsoft protetta, validazione o relative regressioni. |
 | `tests/behat/microsoft_user_connection.feature` | Uno scenario browser di configurazione locale senza autenticazione esterna. |
 | `tests/behat/microsoft_video_reference.feature` | Browser locale: default riferimento e rifiuto URL, servizio diverso e account condiviso. |
@@ -403,6 +406,7 @@ Voci: **438** — 429 file distribuiti e nove solo repository. L'albero completo
 | `tests/lib_test.php` | Copertura PHPUnit per lib test. |
 | `tests/lifecycle_integration_test.php` | Integrazioni reali framework backup/restore/privacy, task retention registrato, reset corso standard e cancellazione sincrona attività. |
 | `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
+| `tests/microsoft_activity_probe_test.php` | Native saved-reference diagnostic permissions, form, CSRF, identity, freshness and transport regressions. |
 | `tests/microsoft_activity_reference_test.php` | Persistenza Microsoft facoltativa, backup portabile e relative guide/verifiche. |
 | `tests/microsoft_graph_test.php` | Diciannove regressioni native simulate per i confini dei metadati autenticati. |
 | `tests/microsoft_preview_test.php` | Regressioni native anteprima: URL, trasporto, account personale, conservazione e richieste. |

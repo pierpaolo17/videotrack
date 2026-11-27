@@ -30,8 +30,9 @@ final class microsoft_activity_reference_form {
      * Add a collapsed metadata group without adding a player source option.
      *
      * @param \MoodleQuickForm $form Activity settings form.
+     * @param int $cmid Existing course-module id, or zero when creating an activity.
      */
-    public static function add_elements(\MoodleQuickForm $form): void {
+    public static function add_elements(\MoodleQuickForm $form, int $cmid = 0): void {
         $form->addElement('header', 'microsoftreferenceheader', get_string('microsoftreferenceheader', 'mod_videotrack'));
         $form->addElement('textarea', 'microsoftreference', get_string('microsoftreference', 'mod_videotrack'), [
             'rows' => 5, 'cols' => 70, 'maxlength' => 4096,
@@ -43,6 +44,25 @@ final class microsoft_activity_reference_form {
         $form->setType('microsoftreferencebind', PARAM_BOOL);
         $form->setDefault('microsoftreferencebind', 0);
         $form->addHelpButton('microsoftreferencebind', 'microsoftreferencebind', 'mod_videotrack');
+        if ($cmid > 0 && has_capability('moodle/site:config', \context_system::instance())) {
+            $url = new \moodle_url('/mod/videotrack/provider_check.php', ['activitycmid' => $cmid]);
+            $form->addElement(
+                'static',
+                'microsoftreferencecheck',
+                '',
+                \html_writer::link(
+                    $url,
+                    get_string('providercheck:activityopen', 'mod_videotrack'),
+                    ['target' => '_blank', 'rel' => 'noopener noreferrer', 'referrerpolicy' => 'no-referrer']
+                )
+            );
+            $form->addElement(
+                'static',
+                'microsoftreferencechecknotice',
+                '',
+                get_string('providercheck:activitynotice', 'mod_videotrack')
+            );
+        }
         $form->setExpanded('microsoftreferenceheader', false);
     }
 

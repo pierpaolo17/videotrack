@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.274 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.275 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1617 (1610 distributed and 7 repository-only CI helpers). **Named AMD callables:** 668.
+**PHP functions/methods:** 1639 (1632 distributed and 7 repository-only CI helpers). **Named AMD callables:** 668.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -853,14 +853,15 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/form/microsoft_activity_reference_form.php:34` | `add_elements` | Add a collapsed metadata group without adding a player source option. |
-| `classes/form/microsoft_activity_reference_form.php:56` | `errors` | Report local field errors using the same validator as the save callbacks. |
+| `classes/form/microsoft_activity_reference_form.php:35` | `add_elements` | Add a collapsed metadata group without adding a player source option. |
+| `classes/form/microsoft_activity_reference_form.php:76` | `errors` | Report local field errors using the same validator as the save callbacks. |
 | `classes/form/microsoft_probe_form.php:47` | `definition` | Define identifiers without silently stripping invalid target characters. |
-| `classes/form/microsoft_probe_form.php:100` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
-| `classes/form/microsoft_probe_form.php:130` | `identifier_errors` | Reusable Microsoft identity contract `identifier_errors`; see its DocBlock and native regression coverage. |
-| `classes/form/microsoft_probe_form.php:152` | `reference_errors` | Reusable Microsoft identity contract `reference_errors`; see its DocBlock and native regression coverage. |
-| `classes/form/microsoft_probe_form.php:177` | `resolve_target` | Reusable Microsoft identity contract `resolve_target`; see its DocBlock and native regression coverage. |
-| `classes/form/microsoft_probe_form.php:199` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
+| `classes/form/microsoft_probe_form.php:111` | `validation` | Reject paths, URLs and oversized ids before any OAuth or network operation. |
+| `classes/form/microsoft_probe_form.php:148` | `identifier_errors` | Reusable Microsoft identity contract `identifier_errors`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:170` | `reference_errors` | Reusable Microsoft identity contract `reference_errors`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:195` | `resolve_target` | Reusable Microsoft identity contract `resolve_target`; see its DocBlock and native regression coverage. |
+| `classes/form/microsoft_probe_form.php:217` | `bound_reference` | Distinguishes trusted saved activity context, including empty references, from an editable general probe. |
+| `classes/form/microsoft_probe_form.php:228` | `provider_link_errors` | Requires a personal account and video item for the original-page action. |
 | `classes/form/microsoft_search_form.php:47` | `definition` | Personal Microsoft search callable `definition`; see DocBlock and native regression coverage. |
 | `classes/form/microsoft_search_form.php:63` | `validation` | Personal Microsoft search callable `validation`; see DocBlock and native regression coverage. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1063,13 +1064,14 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `classes/local/learner_scope.php:120` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/learner_scope.php:146` | `can_participate` | Named PHP function/method `can_participate`; see source DocBlock and callers for the current contract. |
 | `classes/local/learner_scope.php:160` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/microsoft_activity_reference.php:38` | `canonical` | Canonicalise a bounded stored identity; empty and null mean no reference. |
-| `classes/local/microsoft_activity_reference.php:51` | `decode` | Validate exact scalar fields before using the existing opaque-id grammar. |
-| `classes/local/microsoft_activity_reference.php:86` | `encode` | Encode only fields produced by the local validators. |
-| `classes/local/microsoft_activity_reference.php:96` | `to_backup` | Export resource ids while discarding every local OAuth binding. |
-| `classes/local/microsoft_activity_reference.php:111` | `from_backup` | Restore a portable identity without guessing the destination OAuth service. |
-| `classes/local/microsoft_activity_reference.php:131` | `process_form_fields` | Preserve sparse updates and require deliberate authorised changes or binding. |
-| `classes/local/microsoft_activity_reference.php:174` | `selected_issuer` | Inspect the configured service locally without asking for consent or tokens. |
+| `classes/local/microsoft_activity_reference.php:41` | `diagnostic_context` | Checks site/course permissions and reads the current saved activity reference without OAuth or writes. |
+| `classes/local/microsoft_activity_reference.php:60` | `canonical` | Canonicalise a bounded stored identity; empty and null mean no reference. |
+| `classes/local/microsoft_activity_reference.php:73` | `decode` | Validate exact scalar fields before using the existing opaque-id grammar. |
+| `classes/local/microsoft_activity_reference.php:108` | `encode` | Encode only fields produced by the local validators. |
+| `classes/local/microsoft_activity_reference.php:118` | `to_backup` | Export resource ids while discarding every local OAuth binding. |
+| `classes/local/microsoft_activity_reference.php:133` | `from_backup` | Restore a portable identity without guessing the destination OAuth service. |
+| `classes/local/microsoft_activity_reference.php:153` | `process_form_fields` | Preserve sparse updates and require deliberate authorised changes or binding. |
+| `classes/local/microsoft_activity_reference.php:196` | `selected_issuer` | Inspect the configured service locally without asking for consent or tokens. |
 | `classes/local/microsoft_graph.php:44` | `__construct` | Provider diagnostic callable `__construct`; its DocBlock defines inputs, output and side effects. |
 | `classes/local/microsoft_graph.php:58` | `resource_url` | Provider diagnostic callable `resource_url`; its DocBlock defines inputs, output and side effects. |
 | `classes/local/microsoft_graph.php:81` | `inspect` | Provider diagnostic callable `inspect`; its DocBlock defines inputs, output and side effects. |
@@ -1786,6 +1788,26 @@ Generated from the VideoTrack 1.7.274 source tree. PHP entries include named fun
 | `tests/locallib_test.php:308` | `test_build_forum_subject_uses_default_template` | PHP callable `test_build_forum_subject_uses_default_template`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:319` | `test_render_reaction_icon_includes_visible_label` | Verifies that reaction icons always include their visible accessible label. |
 | `tests/locallib_test.php:336` | `test_reaction_collections_use_explicit_deletion_scopes` | Verifies the distinct active-only and complete-lifecycle reaction collections. |
+| `tests/microsoft_activity_probe_test.php:45` | `setUp` | Native activity-bound diagnostic regression or isolated fixture: setUp. |
+| `tests/microsoft_activity_probe_test.php:57` | `test_context_reads_saved_identity_without_writing_data` | Native activity-bound diagnostic regression or isolated fixture: test context reads saved identity without writing data. |
+| `tests/microsoft_activity_probe_test.php:72` | `test_teacher_is_denied_before_module_lookup` | Native activity-bound diagnostic regression or isolated fixture: test teacher is denied before module lookup. |
+| `tests/microsoft_activity_probe_test.php:84` | `test_guest_is_denied_before_module_lookup` | Native activity-bound diagnostic regression or isolated fixture: test guest is denied before module lookup. |
+| `tests/microsoft_activity_probe_test.php:93` | `test_site_configuration_permission_does_not_bypass_course_permission` | Native activity-bound diagnostic regression or isolated fixture: test site configuration permission does not bypass course permission. |
+| `tests/microsoft_activity_probe_test.php:112` | `test_nonpositive_module_ids_are_rejected` | Native activity-bound diagnostic regression or isolated fixture: test nonpositive module ids are rejected. |
+| `tests/microsoft_activity_probe_test.php:126` | `test_other_module_type_is_rejected` | Native activity-bound diagnostic regression or isolated fixture: test other module type is rejected. |
+| `tests/microsoft_activity_probe_test.php:136` | `test_bound_form_has_no_editable_identity_or_account` | Native activity-bound diagnostic regression or isolated fixture: test bound form has no editable identity or account. |
+| `tests/microsoft_activity_probe_test.php:153` | `test_get_does_not_submit_a_bound_probe` | Native activity-bound diagnostic regression or isolated fixture: test get does not submit a bound probe. |
+| `tests/microsoft_activity_probe_test.php:163` | `test_bound_form_rejects_invalid_sesskey` | Native activity-bound diagnostic regression or isolated fixture: test bound form rejects invalid sesskey. |
+| `tests/microsoft_activity_probe_test.php:175` | `test_invalid_or_stale_saved_references_are_rejected` | Native activity-bound diagnostic regression or isolated fixture: test invalid or stale saved references are rejected. |
+| `tests/microsoft_activity_probe_test.php:187` | `test_valid_post_ignores_forged_target_and_system_account` | Native activity-bound diagnostic regression or isolated fixture: test valid post ignores forged target and system account. |
+| `tests/microsoft_activity_probe_test.php:209` | `test_new_request_uses_the_latest_saved_reference` | Native activity-bound diagnostic regression or isolated fixture: test new request uses the latest saved reference. |
+| `tests/microsoft_activity_probe_test.php:232` | `test_bound_operation_is_allowlisted` | Native activity-bound diagnostic regression or isolated fixture: test bound operation is allowlisted. |
+| `tests/microsoft_activity_probe_test.php:248` | `test_shortcut_is_admin_only_and_contains_no_resource_identity` | Native activity-bound diagnostic regression or isolated fixture: test shortcut is admin only and contains no resource identity. |
+| `tests/microsoft_activity_probe_test.php:272` | `test_saved_identity_reuses_personal_transport_and_preserves_data` | Native activity-bound diagnostic regression or isolated fixture: test saved identity reuses personal transport and preserves data. |
+| `tests/microsoft_activity_probe_test.php:314` | `activity` | Native activity-bound diagnostic regression or isolated fixture: activity. |
+| `tests/microsoft_activity_probe_test.php:325` | `service` | Native activity-bound diagnostic regression or isolated fixture: service. |
+| `tests/microsoft_activity_probe_test.php:349` | `reference` | Native activity-bound diagnostic regression or isolated fixture: reference. |
+| `tests/microsoft_activity_probe_test.php:361` | `snapshot` | Native activity-bound diagnostic regression or isolated fixture: snapshot. |
 | `tests/microsoft_activity_reference_test.php:39` | `setUp` | Keep all identities and service settings isolated without a tenant connection. |
 | `tests/microsoft_activity_reference_test.php:48` | `test_diagnostic_reference_is_canonicalised` | The existing diagnostic output is accepted without copying transient URLs. |
 | `tests/microsoft_activity_reference_test.php:60` | `test_malformed_or_private_payloads_are_rejected` | Scalar grammar rejects credentials, malformed shapes and ambiguous versions. |

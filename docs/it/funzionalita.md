@@ -356,3 +356,7 @@ assistita copre tutte le 997 chiavi negli otto pacchetti, senza equivalere ad ap
 Sono dichiarati otto PASS manuali su 1.7.248/Moodle 5.0/Academi/Windows 11/Chrome/NVDA; manca copertura 5.3.
 Gate candidata pendenti: attesi PHPUnit 379/4076 e Behat 52/1154. Lavoro web/App prima della fase concordata
 VTT multilingua, poi base autenticata e OneDrive/SharePoint, Zoom e Google Drive.
+
+## Verifica riferimento Microsoft salvato (275)
+
+L’amministratore apre la diagnostica dall’attività salvata senza ricopiare ID. Si usano solo impostazioni salvate, identità personale e permessi sito/corso. [Procedura e limiti](45_MICROSOFT_ACTIVITY_CHECK.md).

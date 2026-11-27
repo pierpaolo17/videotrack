@@ -54,9 +54,16 @@ if ($connectpersonal || $oauthreturn) {
     redirect(new moodle_url('/mod/videotrack/provider_check.php'));
 }
 
+$activitycmid = optional_param('activitycmid', 0, PARAM_INT);
+$activitycontext = $activitycmid !== 0
+    ? \mod_videotrack\local\microsoft_activity_reference::diagnostic_context($activitycmid) : null;
+$PAGE->set_url(new moodle_url(
+    '/mod/videotrack/provider_check.php',
+    $activitycontext ? ['activitycmid' => $activitycmid] : []
+));
 $configuration = \mod_videotrack\local\provider_connection::configuration_status('microsoft');
 $userconfiguration = \mod_videotrack\local\provider_connection::user_configuration_status('microsoft');
-$form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, null, 'post');
+$form = new \mod_videotrack\form\microsoft_probe_form($PAGE->url, $activitycontext, 'post');
 $result = null;
 $providerlink = null;
 $previewurl = null;
